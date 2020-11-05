@@ -3,23 +3,10 @@
   "version": "1.0.0",
   "description": "Custom theme for Purple Turtle Creative WordPress website.",
   "author": "Michelle Blanchette",
-  "license": "GPL-2.0-or-later",
-  "keywords": [
-    "WordPress",
-    "Theme"
-  ],
-  "homepage": "https://github.com/PurpleTurtleCreative/purple-turtle-creative#readme",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/PurpleTurtleCreative/purple-turtle-creative.git"
-  },
-  "bugs": {
-    "url": "https://github.com/PurpleTurtleCreative/purple-turtle-creative/issues"
-  },
   "devDependencies": {
     "@wordpress/scripts": "^12.1.0",
     "dir-archiver": "^1.1.1",
-    "node-sass": "^4.14.1"
+    "node-sass": "^5.0.0"
   },
   "scripts": {
     "watch": "node-sass sass/ -o ./ --source-map true --output-style expanded --indent-type tab --indent-width 1 -w",

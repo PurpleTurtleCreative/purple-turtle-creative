@@ -22,14 +22,14 @@
 			?>
 			<div class="entry-meta">
 				<?php
-				purple_turtle_creative_posted_on();
-				purple_turtle_creative_posted_by();
+				// purple_turtle_creative_posted_on();
+				// purple_turtle_creative_posted_by();
 				?>
 			</div><!-- .entry-meta -->
 		<?php endif; ?>
 	</header><!-- .entry-header -->
 
-	<?php purple_turtle_creative_post_thumbnail(); ?>
+	<?php // purple_turtle_creative_post_thumbnail(); ?>
 
 	<div class="entry-content">
 		<?php

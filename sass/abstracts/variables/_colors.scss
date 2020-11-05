@@ -1,20 +1,31 @@
-$color__background-body: #fff;
-$color__background-screen: #f1f1f1;
-$color__background-hr: #ccc;
-$color__background-button: #e6e6e6;
-$color__background-pre: #eee;
-$color__background-ins: #fff9c0;
+$colors: (
+	// branding
+	primary: #3c56f5,
+	primary-dark: #1123b0,
+	//neutrals
+	true-white: #fff,
+	grey-lightest: #f6f7fd,
+	grey-light: #dee0ed,
+	grey: #8c92b1,
+	black: #08082b,
+	true-black: #000,
+	//statuses
+	warning-light: #fff3c4,
+	warning: #fadb5f,
+	warning-dark: #cb6e17,
+	//
+	info-light: #e6f6ff,
+	info: #7cc4fa,
+	info-dark: #2680c2
+);
 
-$color__text-screen: #21759b;
-$color__text-input: #666;
-$color__text-input-focus: #111;
-$color__link: #4169e1; //royalblue
-$color__link-visited: #800080; //purple
-$color__link-hover: #191970; //midnightblue
-$color__text-main: #404040;
+@function color($key) {
 
-$color__border-button: #ccc #ccc #bbb;
-$color__border-button-hover: #ccc #bbb #aaa;
-$color__border-button-focus: #aaa #bbb #bbb;
-$color__border-input: #ccc;
-$color__border-abbr: #666;
+	@if map-has-key($colors, $key) {
+
+		@return map-get($colors, $key);
+	}
+
+	@warn "Unknown `#{$key}` in $colors.";
+	@return null;
+}

@@ -14,7 +14,7 @@
 		<?php the_title( '<h1 class="entry-title">', '</h1>' ); ?>
 	</header><!-- .entry-header -->
 
-	<?php purple_turtle_creative_post_thumbnail(); ?>
+	<?php // purple_turtle_creative_post_thumbnail(); ?>
 
 	<div class="entry-content">
 		<?php
