@@ -2,7 +2,7 @@
 
 Custom WordPress theme built from [Automattic's Underscores](https://github.com/Automattic/_s) starter theme template, custom generated at https://underscores.me/
 
-(C) [Michelle Blanchette](https://github.com/MichelleBlanchette). All Rights Reserved.
+©[Michelle Blanchette](https://github.com/MichelleBlanchette). All Rights Reserved.
 
 Installation
 ---------------
