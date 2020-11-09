@@ -1,0 +1,57 @@
+p {
+	margin-bottom: 1.5em;
+}
+
+dfn,
+cite,
+em,
+i {
+	font-style: italic;
+}
+
+blockquote {
+	margin: 0 1.5em;
+}
+
+address {
+	margin: 0 0 1.5em;
+}
+
+pre,
+samp {
+	@include font(code);
+	display: block;
+  border: 1px solid color(grey-light);
+  background: color(grey-lightest);
+  border-radius: 5px;
+  padding: 1em 1.5em;
+  white-space: pre;
+  overflow-x: auto;
+  line-height: 1em;
+  font-size: .9em;
+  margin: 0 0 1em;
+  font-variant-ligatures: none;
+}
+
+code,
+kbd,
+tt,
+var {
+	@include font(code);
+}
+
+abbr,
+acronym {
+	border-bottom: 1px dotted color(grey-light);
+	cursor: help;
+}
+
+mark,
+ins {
+	background: color(grey-lightest);
+	text-decoration: none;
+}
+
+big {
+	font-size: 1.3em;
+}
