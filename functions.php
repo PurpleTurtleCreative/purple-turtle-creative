@@ -85,11 +85,13 @@ add_action( 'after_setup_theme', 'purple_turtle_creative_content_width', 0 );
  */
 function purple_turtle_creative_scripts() {
 
-	wp_enqueue_style( 'purple-turtle-creative-style', get_stylesheet_uri(), [], '1.0.0' );
+	$styles_uri = get_template_directory_uri() . '/assets/styles';
 
-	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
-		wp_enqueue_script( 'comment-reply' );
-	}
+	wp_enqueue_style( 'purple-turtle-creative-style', $styles_uri . '/style.css', [], '1.0.0' );
+
+	// if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
+	// 	wp_enqueue_script( 'comment-reply' );
+	// }
 
 }
 add_action( 'wp_enqueue_scripts', 'purple_turtle_creative_scripts' );
