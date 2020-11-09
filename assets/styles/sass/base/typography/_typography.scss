@@ -6,6 +6,7 @@ optgroup,
 textarea {
 	@include font(body);
 	color: color(black);
+	letter-spacing: 0.03em;
 	font-size: 1rem;
 	line-height: 1.3;
 }

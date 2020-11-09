@@ -284,6 +284,12 @@ template {
 html {
   box-sizing: border-box; }
 
+.content-width {
+  max-width: 64rem;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0.625rem; }
+
 /* Typography
 --------------------------------------------- */
 body,
@@ -295,6 +301,7 @@ textarea {
   font-family: "Roboto", sans-serif;
   font-weight: 300;
   color: #08082b;
+  letter-spacing: 0.03em;
   font-size: 1rem;
   line-height: 1.3; }
 
@@ -510,12 +517,6 @@ textarea {
 .main-navigation.toggled ul {
   display: block; }
 
-@media screen and (min-width: 37.5em) {
-  .menu-toggle {
-    display: none; }
-  .main-navigation ul {
-    display: flex; } }
-
 .site-main .comment-navigation, .site-main
 .posts-navigation, .site-main
 .post-navigation {
@@ -583,3 +584,76 @@ textarea {
 .wp-caption-text {
   color: #8c92b1;
   text-align: center; }
+
+#header {
+  background-color: #3c56f5;
+  position: relative; }
+  #header .content-width {
+    display: flex;
+    align-items: center;
+    flex-direction: row-reverse; }
+    @media (min-width: 768px) {
+      #header .content-width {
+        flex-direction: row; } }
+    #header .content-width .site-branding {
+      flex: 1;
+      margin-left: -4.375rem; }
+      @media (min-width: 768px) {
+        #header .content-width .site-branding {
+          justify-content: flex-start;
+          margin: 0; } }
+      #header .content-width .site-branding a {
+        display: flex;
+        align-items: center;
+        justify-content: center; }
+        @media (min-width: 768px) {
+          #header .content-width .site-branding a {
+            justify-content: flex-start; } }
+        #header .content-width .site-branding a svg {
+          width: auto; }
+          #header .content-width .site-branding a svg.ptc-decal {
+            height: 3.125rem;
+            display: none; }
+            @media (min-width: 768px) {
+              #header .content-width .site-branding a svg.ptc-decal {
+                display: block; } }
+          #header .content-width .site-branding a svg.ptc-type {
+            height: 1.875rem;
+            margin: 0 0.3125rem 0; }
+    #header .content-width .main-navigation {
+      display: flex;
+      justify-content: flex-start;
+      width: auto; }
+      @media (min-width: 768px) {
+        #header .content-width .main-navigation {
+          flex: 1;
+          justify-content: flex-end; } }
+      #header .content-width .main-navigation button.menu-toggle {
+        font-family: "Roboto", sans-serif;
+        font-weight: 500;
+        letter-spacing: .06em;
+        color: #f6f7fd;
+        border-radius: 0.3125rem;
+        padding: 0.625rem;
+        background-color: #1123b0; }
+        @media (min-width: 768px) {
+          #header .content-width .main-navigation button.menu-toggle {
+            display: none; } }
+      #header .content-width .main-navigation ul.menu {
+        display: none; }
+        @media (min-width: 768px) {
+          #header .content-width .main-navigation ul.menu {
+            display: flex; } }
+        #header .content-width .main-navigation ul.menu li {
+          margin-right: 0.4375rem; }
+          #header .content-width .main-navigation ul.menu li:last-of-type {
+            margin-right: 0; }
+          #header .content-width .main-navigation ul.menu li a {
+            font-family: "Roboto", sans-serif;
+            font-weight: 500;
+            letter-spacing: .06em;
+            color: #f6f7fd;
+            border-radius: 0.3125rem;
+            padding: 0.8125rem 1.25rem; }
+            #header .content-width .main-navigation ul.menu li a:hover, #header .content-width .main-navigation ul.menu li a[aria-current] {
+              background-color: #1123b0; }

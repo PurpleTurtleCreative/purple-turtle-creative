@@ -1,0 +1,105 @@
+#header {
+	background-color: color(primary);
+	position: relative;
+
+	.content-width {
+		display: flex;
+		align-items: center;
+		flex-direction: row-reverse;
+
+		@include breakpoint(medium) {
+			flex-direction: row;
+		}
+
+		.site-branding {
+			flex: 1;
+			margin-left: rem-calc(-70);
+
+			@include breakpoint(medium) {
+				justify-content: flex-start;
+				margin: 0;
+			}
+
+			a {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+
+				@include breakpoint(medium) {
+					justify-content: flex-start;
+				}
+
+				svg {
+					width: auto;
+
+					&.ptc-decal {
+						height: rem-calc(50);
+						display: none;
+
+						@include breakpoint(medium) {
+							display: block;
+						}
+					}
+
+					&.ptc-type {
+						height: rem-calc(30);
+						margin: rem-calc(0 5 0);
+					}
+				}
+			}
+		}
+
+		.main-navigation {
+			display: flex;
+			justify-content: flex-start;
+			width: auto;
+
+			@include breakpoint(medium) {
+				flex: 1;
+				justify-content: flex-end;
+			}
+
+			button.menu-toggle {
+				@include font(body, body-bold);
+				letter-spacing: .06em;
+				color: color(grey-lightest);
+				border-radius: rem-calc(5);
+			  padding: rem-calc(10);
+				background-color: color(primary-dark);
+
+				@include breakpoint(medium) {
+					display: none;
+				}
+			}
+
+			ul.menu {
+				display: none;
+
+				@include breakpoint(medium) {
+					display: flex;
+				}
+
+				li {
+					margin-right: rem-calc(7);
+
+					&:last-of-type {
+						margin-right: 0;
+					}
+
+					a {
+						@include font(body, body-bold);
+						letter-spacing: .06em;
+						color: color(grey-lightest);
+						border-radius: rem-calc(5);
+					  padding: rem-calc(13 20);
+
+						&:hover,
+						&[aria-current] {
+							background-color: color(primary-dark);
+						}
+					}
+				}
+			}
+		}
+	}
+}
