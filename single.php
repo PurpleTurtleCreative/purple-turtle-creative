@@ -7,10 +7,16 @@
  * @package Purple_Turtle_Creative
  */
 
+namespace PTC_Theme;
+
 get_header();
 ?>
 
 	<main id="primary" <?php post_class( 'site-main' ); ?>>
+
+		<div class="wave-bg-third">
+			<div class="wave-trim" style="background-image: url(<?php echo get_svg_uri( 'wave-transparent.svg' ); ?>)"></div>
+		</div>
 
 		<?php
 		while ( have_posts() ) :

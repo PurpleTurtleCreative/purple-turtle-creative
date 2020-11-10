@@ -1,0 +1,32 @@
+.wave-header {
+	height: rem-calc(50);
+	background-position: left bottom;
+	background-size: rem-calc(90 50);
+	background-repeat: repeat-x;
+	position: relative;
+	top: rem-calc(-20);
+	z-index: 1;
+}
+
+.wave-bg-third {
+	position: absolute;
+	z-index: -100;
+	top: 0;
+	width: 100%;
+
+	&:before {
+		content: '';
+		display: block;
+		height: 33vh;
+		background-color: color(primary);
+	}
+
+	.wave-trim {
+		height: rem-calc(200);
+		background-position: left bottom;
+		background-size: rem-calc(250 200);
+		background-repeat: repeat-x;
+		position: relative;
+		z-index: 0;
+	}
+}

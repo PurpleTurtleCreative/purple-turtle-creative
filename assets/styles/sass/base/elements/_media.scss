@@ -5,11 +5,24 @@ object {
 	max-width: 100%;
 }
 
+.wp-block-image img,
 img {
 	height: auto; // Make sure images are scaled correctly.
 	max-width: 100%; // Adhere to container width.
+	border: 2px solid color(grey-lightest);
 }
 
+.wp-block-image figure,
 figure {
 	margin: 1em 0; // Extra wide images within figure tags don't overflow the content area.
+}
+
+.wp-block-image figcaption,
+figcaption {
+	font-size: rem-calc(16);
+	color: color(grey);
+	text-align: center;
+	margin-top: 0;
+	margin-bottom: 0.5em;
+	font-style: italic;
 }

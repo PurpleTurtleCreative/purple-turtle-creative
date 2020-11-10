@@ -1,6 +1,7 @@
 #header {
 	background-color: color(primary);
 	position: relative;
+	z-index: 100;
 
 	.content-width {
 		display: flex;
@@ -62,7 +63,7 @@
 			button.menu-toggle {
 				@include font(body, body-bold);
 				letter-spacing: .06em;
-				color: color(grey-lightest);
+				color: color(white);
 				border-radius: rem-calc(5);
 			  padding: rem-calc(10);
 				background-color: color(primary-dark);
@@ -89,12 +90,13 @@
 					a {
 						@include font(body, body-bold);
 						letter-spacing: .06em;
-						color: color(grey-lightest);
+						color: color(white);
 						border-radius: rem-calc(5);
 					  padding: rem-calc(13 20);
 
 						&:hover,
 						&[aria-current] {
+							color: color(true-white);
 							background-color: color(primary-dark);
 						}
 					}

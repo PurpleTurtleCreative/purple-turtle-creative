@@ -1,4 +1,5 @@
 p {
+	margin-top: 0.5em;
 	margin-bottom: 1.5em;
 }
 
@@ -10,7 +11,45 @@ i {
 }
 
 blockquote {
-	margin: 0 1.5em;
+	text-align: center;
+	position: relative;
+	margin: 3em;
+
+	&:before,
+	&:after {
+		color: color(primary);
+		position: absolute;
+		vertical-align: top;
+		display: block;
+		font-size: 5em;
+		top: -0.35em;
+	}
+
+	&:before {
+		content: '\00201C';
+		left: -0.6em;
+	}
+
+	&:after {
+		content: '\00201D';
+		right: -0.6em;
+	}
+
+	p {
+		color: color(primary);
+		font-size: 1.3em;
+		font-weight: font-weight(body-bold);
+		margin: 0 0 .3em;
+		font-style: italic;
+
+	}
+
+	cite {
+		color: color(grey);
+		text-align: center;
+		font-style: italic;
+		font-weight: 300
+	}
 }
 
 address {
@@ -21,16 +60,16 @@ pre,
 samp {
 	@include font(code);
 	display: block;
-  border: 1px solid color(grey-light);
-  background: color(grey-lightest);
-  border-radius: 5px;
-  padding: 1em 1.5em;
-  white-space: pre;
-  overflow-x: auto;
-  line-height: 1em;
-  font-size: .9em;
-  margin: 0 0 1em;
-  font-variant-ligatures: none;
+	border: 1px solid color(grey-light);
+	background: color(grey-lightest);
+	border-radius: 5px;
+	padding: 1em 1.5em;
+	white-space: pre;
+	overflow-x: auto;
+	line-height: 1em;
+	font-size: .9em;
+	margin: 0 0 1em;
+	font-variant-ligatures: none;
 }
 
 code,

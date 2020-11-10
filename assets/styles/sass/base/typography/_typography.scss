@@ -7,8 +7,9 @@ textarea {
 	@include font(body);
 	color: color(black);
 	letter-spacing: 0.03em;
-	font-size: 1rem;
-	line-height: 1.3;
+	font-size: rem-calc(18);
+	line-height: 1.5;
+	text-rendering: optimizeLegibility;
 }
 
 @import "headings";
