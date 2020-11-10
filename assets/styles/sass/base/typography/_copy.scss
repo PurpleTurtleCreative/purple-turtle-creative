@@ -61,8 +61,8 @@ samp {
 	@include font(code);
 	display: block;
 	border: 1px solid color(grey-light);
-	background: color(grey-lightest);
-	border-radius: 5px;
+	background: color(white);
+	border-radius: rem-calc(5);
 	padding: 1em 1.5em;
 	white-space: pre;
 	overflow-x: auto;
@@ -77,6 +77,14 @@ kbd,
 tt,
 var {
 	@include font(code);
+	border: 1px solid color(grey-light);
+	background: color(white);
+	font-size: .9em;
+	padding: .2em .3em .1em;
+	margin: 0 .2em;
+	border-radius: rem-calc(5);
+	font-variant-ligatures: none;
+	word-break: break-word;
 }
 
 abbr,

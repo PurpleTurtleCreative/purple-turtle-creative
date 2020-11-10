@@ -13,26 +13,74 @@ h6 {
 }
 
 h1 {
-	font-size: rem-calc(48);
+	font-size: rem-calc(27);
+
+	@include breakpoint(medium) {
+		font-size: rem-calc(48);
+	}
 }
 
 h2 {
-	margin-top: 4em;
-	font-size: rem-calc(30);
+	margin-top: 2em;
+	font-size: rem-calc(25);
+
+	@include breakpoint(medium) {
+		margin-top: 4em;
+		font-size: rem-calc(30);
+	}
 }
 
 h3 {
-	font-size: rem-calc(27);
+	font-size: rem-calc(24);
+
+	@include breakpoint(medium) {
+		font-size: rem-calc(27);
+	}
 }
 
 h4 {
-	font-size: rem-calc(24);
+	font-size: rem-calc(20);
+
+	@include breakpoint(medium) {
+		font-size: rem-calc(24);
+	}
 }
 
 h5 {
-	font-size: rem-calc(20);
+	font-size: rem-calc(18);
+
+	@include breakpoint(medium) {
+		font-size: rem-calc(20);
+	}
 }
 
 h6 {
-	font-size: rem-calc(18);
+	font-size: rem-calc(16);
+
+	@include breakpoint(medium) {
+		font-size: rem-calc(18);
+	}
+}
+
+// nested element styles
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+
+	code,
+	kbd,
+	tt,
+	var {
+		background: none;
+		border: none;
+		margin: 0;
+		padding: 0 .1em;
+		font-weight: font-weight(heading);
+		font-size: 1.1em;
+		word-break: break-word;
+	}
 }

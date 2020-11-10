@@ -1,3 +1,7 @@
+html {
+	font-size: 16px;
+}
+
 body,
 button,
 input,
@@ -7,9 +11,13 @@ textarea {
 	@include font(body);
 	color: color(black);
 	letter-spacing: 0.03em;
-	font-size: rem-calc(18);
+	font-size: rem-calc(16);
 	line-height: 1.5;
 	text-rendering: optimizeLegibility;
+
+	@include breakpoint(medium) {
+		font-size: rem-calc(18);
+	}
 }
 
 @import "headings";

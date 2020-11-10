@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css2?family=Courier+Prime&family=Poppins:wght@700&family=Roboto:wght@300;500&display=swap);
+@import url(https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Poppins:wght@700&family=Roboto:wght@300;500&display=swap);
 
 $rem-base: 16px;
 
@@ -12,7 +12,8 @@ $font-weights: (
 	heading: 700,
 	body: 300,
 	body-bold: 500,
-	code: 400
+	code: 400,
+	code-bold: 700,
 );
 
 // Font family getter

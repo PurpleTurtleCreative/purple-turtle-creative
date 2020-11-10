@@ -22,9 +22,17 @@
 	article {
 
 		.entry-header {
-			padding: rem-calc(0 60);
 			color: color(true-white);
 			text-shadow: rem-calc(1 3 5) #{color(primary-dark)}80;
+			padding: rem-calc(0 15);
+
+			@include breakpoint(small) {
+				padding: rem-calc(0 30);
+			}
+
+			@include breakpoint(medium) {
+				padding: rem-calc(0 60);
+			}
 
 			h1 {
 				margin-top: 0.5em;
@@ -35,7 +43,15 @@
 			background-color: color(true-white);
 			border-radius: rem-calc(10);
 			border: 2px solid color(grey-lightest);
-			padding: rem-calc(45 60 90);
+			padding: rem-calc(10 15 30);
+
+			@include breakpoint(small) {
+				padding: rem-calc(30 30 60);
+			}
+
+			@include breakpoint(medium) {
+				padding: rem-calc(45 60 90);
+			}
 		}
 	}
 }
