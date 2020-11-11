@@ -13,9 +13,14 @@
 
 	<footer id="footer" class="site-footer">
 		<div class="site-info">
-			<a href="https://purpleturtlecreative.com/">&copy; 2020 Michelle Blanchette.</a>
-			<span class="sep"> | </span>
-			<p>Made with &#10084; in New York, USA</p>
+			<div class="content-width">
+				<div class="left">
+					<a href="https://purpleturtlecreative.com/">&copy; Michelle Blanchette. All rights reserved.</a>
+				</div>
+				<div class="right">
+					<p>Made with &#10084; in New York, USA</p>
+				</div>
+			</div>
 		</div><!-- .site-info -->
 	</footer><!-- #footer -->
 </div><!-- #page -->

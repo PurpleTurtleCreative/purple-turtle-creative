@@ -19,42 +19,20 @@
 		endif;
 
 		if ( 'post' === get_post_type() ) :
+			$published_date = get_the_date();
+			$modified_date = get_the_modified_date();
+			$entry_date = ( $modified_date !== $published_date ) ?
+				"Updated <strong>{$modified_date}</strong>" : "Published <strong>{$published_date}</strong>";
 			?>
-			<div class="entry-meta">
-				<?php
-				// purple_turtle_creative_posted_on();
-				// purple_turtle_creative_posted_by();
-				?>
-			</div><!-- .entry-meta -->
+			<ul class="entry-meta">
+				<li class="entry-date"><?php echo wp_kses( $entry_date, 'strong' ); ?></li>
+				<li class="entry-categories"><?php the_category( ' ' ); ?></li>
+			</ul><!-- .entry-meta -->
 		<?php endif; ?>
 	</header><!-- .entry-header -->
 
-	<?php // purple_turtle_creative_post_thumbnail(); ?>
-
 	<div class="entry-content">
-		<?php
-		the_content(
-			sprintf(
-				wp_kses(
-					/* translators: %s: Name of current post. Only visible to screen readers */
-					__( 'Continue reading<span class="screen-reader-text"> "%s"</span>', 'purple-turtle-creative' ),
-					array(
-						'span' => array(
-							'class' => array(),
-						),
-					)
-				),
-				wp_kses_post( get_the_title() )
-			)
-		);
-
-		wp_link_pages(
-			array(
-				'before' => '<div class="page-links">' . esc_html__( 'Pages:', 'purple-turtle-creative' ),
-				'after'  => '</div>',
-			)
-		);
-		?>
+		<?php the_content(); ?>
 	</div><!-- .entry-content -->
 
 	<footer class="entry-footer">
