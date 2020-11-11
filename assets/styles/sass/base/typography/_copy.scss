@@ -85,6 +85,10 @@ var {
 	border-radius: rem-calc(5);
 	font-variant-ligatures: none;
 	word-break: break-word;
+
+	a & {
+		font-weight: font-weight(code-bold);
+	}
 }
 
 abbr,

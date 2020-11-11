@@ -26,8 +26,8 @@ get_header();
 
 			the_post_navigation(
 				[
-					'prev_text' => '<span class="nav-subtitle">Previous:</span> <span class="nav-title">%title</span>',
-					'next_text' => '<span class="nav-subtitle">Next:</span> <span class="nav-title">%title</span>',
+					'prev_text' => '<div class="nav-icon">&lsaquo;</div><div class="nav-label" title="%title"><span class="nav-subtitle">Prev:</span> %title</div>',
+					'next_text' => '<div class="nav-label" title="%title"><span class="nav-subtitle">Next:</span> %title</div><div class="nav-icon">&rsaquo;</div>',
 					'class' => 'content-width',
 				]
 			);
