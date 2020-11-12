@@ -1,0 +1,30 @@
+#footer {
+
+	.site-info {
+		background: color(primary);
+		padding: .3em 0;
+
+		.content-width {
+			display: flex;
+			align-items: center;
+			font-size: .9em;
+			color: color(white);
+
+			a {
+				color: inherit;
+				font-weight: inherit;
+			}
+
+			.left {
+				flex: 1;
+				text-align: left;
+
+			}
+
+			.right {
+				flex: 1;
+				text-align: right;
+			}
+		}
+	}
+}

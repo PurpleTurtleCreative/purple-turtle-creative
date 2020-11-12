@@ -9,16 +9,18 @@
  * @package Purple_Turtle_Creative
  */
 
+namespace PTC_Theme;
+
 ?>
 
 	<footer id="footer" class="site-footer">
 		<div class="site-info">
 			<div class="content-width">
 				<div class="left">
-					<a href="https://purpleturtlecreative.com/">&copy; Michelle Blanchette. All rights reserved.</a>
+					<span>&copy; <a href="https://www.linkedin.com/in/michelle-blanchette/">Michelle Blanchette</a>. All rights reserved.</span>
 				</div>
 				<div class="right">
-					<p>Made with &#10084; in New York, USA</p>
+					<span title="Made with love in New York, USA">Made with <?php fa( 'heart' ); ?> in New York, USA</span>
 				</div>
 			</div>
 		</div><!-- .site-info -->

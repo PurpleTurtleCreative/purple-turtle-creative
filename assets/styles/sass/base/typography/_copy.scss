@@ -3,6 +3,17 @@ p {
 	margin-bottom: 1.5em;
 }
 
+svg {
+	fill: currentColor;
+	height: .9em;
+
+	span > &,
+	p > & {
+		position: relative;
+		top: .1em;
+	}
+}
+
 dfn,
 cite,
 em,
