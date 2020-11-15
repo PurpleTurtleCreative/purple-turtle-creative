@@ -93,7 +93,12 @@ add_action( 'after_setup_theme', function() {
  *
  * @param $template The full path to the current template
  */
-add_action( 'template_include', function( $template ) {
+add_filter( 'template_include', function( $template ) {
+
+	if ( is_privacy_policy() ) {
+		$template = locate_template( 'single.php' );
+	}
+
 	$GLOBALS['current_theme_template'] = basename( $template );
 	return $template;
 }, 1000);

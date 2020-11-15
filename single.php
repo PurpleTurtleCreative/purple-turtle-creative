@@ -22,15 +22,17 @@ get_header();
 		while ( have_posts() ) :
 			the_post();
 
-			get_template_part( 'template-parts/content', get_post_type() );
+			get_template_part( 'template-parts/content', 'post' );
 
-			the_post_navigation(
-				[
-					'prev_text' => '<div class="nav-icon">&lsaquo;</div><div class="nav-label" title="%title"><span class="nav-subtitle">Prev:</span> %title</div>',
-					'next_text' => '<div class="nav-label" title="%title"><span class="nav-subtitle">Next:</span> %title</div><div class="nav-icon">&rsaquo;</div>',
-					'class' => 'content-width',
-				]
-			);
+			if ( 'page' != get_post_type() ) {
+				the_post_navigation(
+					[
+						'prev_text' => '<div class="nav-icon">&lsaquo;</div><div class="nav-label" title="%title"><span class="nav-subtitle">Prev:</span> %title</div>',
+						'next_text' => '<div class="nav-label" title="%title"><span class="nav-subtitle">Next:</span> %title</div><div class="nav-icon">&rsaquo;</div>',
+						'class' => 'content-width',
+					]
+				);
+			}
 
 			// If comments are open or we have at least one comment, load up the comment template.
 			if ( comments_open() || get_comments_number() ) :
