@@ -33,9 +33,14 @@ function the_published_or_modified_date( string $format = '%1$s <strong>%2$s</st
 }
 
 /**
+ * Outputs all categories for the site.
  *
- *
- *
+ * @param string $category_template Optional. Template to format each category.
+ * Translators:
+ * * %1$s - category archive url
+ * * %2$s - category name
+ * * %3$s - category post count
+ * * %4$s - category active class
  */
 function all_categories( string $category_template = '<a href="%1$s" class="%4$s badge-dark">%2$s (%3$s)</a>' ) {
 
