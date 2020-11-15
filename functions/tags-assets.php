@@ -55,6 +55,16 @@ function get_svg_uri( string $asset_image_filename ) {
 }
 
 /**
+ * Outputs an SVG asset's URI.
+ *
+ * @param string $asset_image_filename The SVG filename in the theme's
+ * /assets/images/ folder.
+ */
+function svg_uri( string $asset_image_filename ) {
+	echo get_svg_uri( $asset_image_filename );
+}
+
+/**
  * Outputs a FontAwesome icon SVG.
  *
  * @param string $icon_name The name of the icon.

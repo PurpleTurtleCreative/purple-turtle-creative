@@ -1,0 +1,14 @@
+{
+	"version": 3,
+	"file": "template_index.css",
+	"sources": [
+		"sass/template_index.scss",
+		"sass/abstracts/_abstracts.scss",
+		"sass/abstracts/variables/_colors.scss",
+		"sass/abstracts/variables/_typography.scss",
+		"sass/abstracts/mixins/_responsive.scss",
+		"sass/templates/_index.scss"
+	],
+	"names": [],
+	"mappings": "AGAA,OAAO,CAAC,wIAAI,CEAZ,AAEC,eAFc,CAEd,YAAY,AAAC,CACZ,OAAO,CFqDA,QAAmD,CAGlD,CAAC,CAHF,QAAmD,CEpD1D,KAAK,CHGC,OAAO,CGKb,AAZF,AAME,eANa,CAEd,YAAY,CAIX,WAAW,AAAC,CACX,UAAU,CAAE,MAAM,CAClB,UAAU,CAAE,CAAC,CACb,aAAa,CAAE,CAAC,CAChB,KAAK,CAAE,OAAO,CACd,AAXH,AAcC,eAdc,CAcd,WAAW,AAAC,CACX,OAAO,CAAE,IAAI,CACb,SAAS,CAAE,IAAI,CACf,eAAe,CAAE,aAAa,CAK9B,AAtBF,AAmBE,eAnBa,CAcd,WAAW,CAKV,OAAO,AAAC,CACP,UAAU,CAAE,GAAG,CACf"
+}

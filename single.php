@@ -12,10 +12,10 @@ namespace PTC_Theme;
 get_header();
 ?>
 
-	<main id="primary" <?php post_class( 'site-main' ); ?>>
+	<main id="primary" <?php post_class( 'site-main template-single' ); ?>>
 
 		<div class="wave-bg-third">
-			<div class="wave-trim" style="background-image: url(<?php echo get_svg_uri( 'wave-transparent.svg' ); ?>)"></div>
+			<div class="wave-trim"></div>
 		</div>
 
 		<?php

@@ -88,7 +88,13 @@ add_action( 'wp_enqueue_scripts', function() {
 
 	$styles_uri = get_template_directory_uri() . '/assets/styles';
 
+	/* Global Styles */
 	wp_enqueue_style( 'purple-turtle-creative-style', $styles_uri . '/style.css', [], '1.0.0' );
+
+	/* Index.php */
+	if ( is_home() || is_archive() ) {
+		wp_enqueue_style( 'purple-turtle-creative-style_index', $styles_uri . '/template_index.css', [ 'purple-turtle-creative-style' ], '1.0.0' );
+	}
 
 	// if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 	// 	wp_enqueue_script( 'comment-reply' );

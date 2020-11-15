@@ -1,11 +1,30 @@
-.wave-header {
-	height: rem-calc(50);
+$wave_trim_height: 50;
+$wave_trim_width: 90;
+
+.wave-trim {
+	background-image: url('../images/wave-transparent.svg');
+	height: rem-calc($wave_trim_height);
 	background-position: left bottom;
-	background-size: rem-calc(90 50);
+	background-size: rem-calc($wave_trim_width $wave_trim_height);
 	background-repeat: repeat-x;
 	position: relative;
 	top: rem-calc(-20);
 	z-index: 1;
+
+	&-bottom {
+		position: relative;
+		background-color: color(primary);
+		margin-bottom: rem-calc($wave_trim_height + 50);
+
+		&:after {
+			@extend .wave-trim;
+			content: '';
+			display: block;
+			position: absolute;
+			width: 100%;
+			top: 100%;
+		}
+	}
 }
 
 .wave-bg-third {

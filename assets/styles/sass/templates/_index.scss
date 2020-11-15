@@ -1,0 +1,24 @@
+.template-index {
+
+	.page-header {
+		padding: rem-calc(15 0 30);
+		color: color(white);
+
+		.page-title {
+			text-align: center;
+			margin-top: 0;
+			margin-bottom: 0;
+			color: inherit;
+		}
+	}
+
+	.posts-loop {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+
+		article {
+			flex-basis: 33%;
+		}
+	}
+}
