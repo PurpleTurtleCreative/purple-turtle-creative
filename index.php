@@ -33,7 +33,9 @@ get_header();
 					}
 					?>
 
-					<?php all_categories(); ?>
+					<div class="all-categories">
+						<?php all_categories(); ?>
+					</div>
 
 				</div>
 			</header><!-- .page-header -->

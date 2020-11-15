@@ -34,11 +34,14 @@ input[type="submit"] {
 }
 
 a.badge {
+	color: color(true-white);
 	text-decoration: none;
 
 	&:hover,
 	&:focus,
-	&:active {
+	&:active,
+	&.active {
+		color: color(true-white);
 		background-color: color(primary-dark);
 	}
 
@@ -46,7 +49,9 @@ a.badge {
 
 		&:hover,
 		&:focus,
-		&:active {
+		&:active,
+		&.active {
+			color: color(true-white);
 			background-color: color(black);
 		}
 	}

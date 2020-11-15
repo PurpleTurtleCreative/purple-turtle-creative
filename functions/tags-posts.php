@@ -50,23 +50,45 @@ function all_categories( string $category_template = '<a href="%1$s" class="%4$s
 		return;
 	}
 
-	$category_links_html = '';
-	foreach ( $categories as $cat ) {
-		$category_links_html .= sprintf(
-			$category_template,
-			get_category_link( $cat ),
-			$cat->name,
-			$cat->count,
-			( $cat->term_id ) ? 'active' : ''
-		);
+	/* Start with All Posts link */
+	$category_links = sprintf(
+		$category_template,
+		get_post_type_archive_link( 'post' ),
+		'All Posts',
+		wp_count_posts( 'post' )->publish,
+		( is_home() ) ? 'active' : ''
+	);
+
+	/*
+	 * Apply an active class only when viewing a category archive.
+	 * Otherwise, there is no 'active category' to bother testing against.
+	 */
+	if ( is_category() ) {
+		global $cat;
+		foreach ( $categories as $c ) {
+			$category_links .= sprintf(
+				$category_template,
+				get_category_link( $c ),
+				$c->name,
+				$c->count,
+				( $cat == $c->term_id ) ? 'active' : ''
+			);
+		}
+	} else {
+		foreach ( $categories as $c ) {
+			$category_links .= sprintf(
+				$category_template,
+				get_category_link( $c ),
+				$c->name,
+				$c->count,
+				''
+			);
+		}
 	}
 
-	if ( $category_links_html ) {
-		echo '<div class="all-categories">' . wp_kses_post( $category_links_html ) . '</div>';
+	if ( $category_links ) {
+		echo wp_kses_post( $category_links );
 	}
-
-	echo '<pre class="content-width" style="color:black;">' . print_r( $categories, true ) . '</pre>';
-
 }
 
 /**

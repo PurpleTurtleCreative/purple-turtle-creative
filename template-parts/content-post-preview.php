@@ -13,7 +13,7 @@ namespace PTC_Theme;
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 	<header class="entry-header">
-		<a href="<?php echo esc_url( get_permalink() ); ?>">
+		<a href="<?php echo esc_url( get_permalink() ); ?>" tabindex="-1">
 			<?php the_post_thumbnail( 'large' ); ?>
 		</a>
 	</header><!-- .entry-header -->

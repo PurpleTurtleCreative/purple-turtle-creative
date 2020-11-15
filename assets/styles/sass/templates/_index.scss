@@ -4,12 +4,22 @@
 	.page-header {
 		padding: rem-calc(15 0 30);
 		color: color(white);
+		text-align: center;
 
 		.page-title {
-			text-align: center;
 			margin-top: 0;
 			margin-bottom: 0;
 			color: inherit;
+		}
+
+		.all-categories {
+			margin-top: rem-calc(30);
+
+			a {
+				display: inline-block;
+				word-wrap: none;
+				margin: .2em;
+			}
 		}
 	}
 
@@ -17,6 +27,7 @@
 		display: flex;
 		flex-wrap: wrap;
 		align-items: stretch;
+		justify-content: center;
 
 		$article_spacing: rem-calc(20);
 

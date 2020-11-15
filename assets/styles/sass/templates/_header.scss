@@ -103,6 +103,10 @@
 					  padding: rem-calc(13 20);
 
 						&:hover,
+						&:focus,
+						&:active,
+						&.active,
+						&.current,
 						&[aria-current] {
 							color: color(true-white);
 							background-color: color(primary-dark);
