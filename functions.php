@@ -9,6 +9,8 @@
 
 namespace PTC_Theme;
 
+define( __NAMESPACE__ . '\VERSION', '1.0.0' );
+
 /**
  * Require all custom theme functions.
  */
@@ -82,18 +84,40 @@ add_action( 'after_setup_theme', function() {
 }, 0 );
 
 /**
+ * Define current template file
+ *
+ * Create a global variable with the name of the current
+ * theme template file being used.
+ *
+ * @link https://www.kevinleary.net/get-current-theme-template-filename-wordpress/
+ *
+ * @param $template The full path to the current template
+ */
+add_action( 'template_include', function( $template ) {
+	$GLOBALS['current_theme_template'] = basename( $template );
+	return $template;
+}, 1000);
+
+/**
  * Enqueue scripts and styles.
  */
 add_action( 'wp_enqueue_scripts', function() {
 
+	$current_template = $GLOBALS['current_theme_template'] ?? '';
 	$styles_uri = get_template_directory_uri() . '/assets/styles';
 
-	/* Global Styles */
-	wp_enqueue_style( 'purple-turtle-creative-style', $styles_uri . '/style.css', [], '1.0.0' );
+	switch ( $current_template ) {
+		case 'index.php':
+			wp_enqueue_style( 'purple-turtle-creative-style_index', $styles_uri . '/template_index.css', [], VERSION );
+			break;
 
-	/* Index.php */
-	if ( is_home() || is_archive() ) {
-		wp_enqueue_style( 'purple-turtle-creative-style_index', $styles_uri . '/template_index.css', [ 'purple-turtle-creative-style' ], '1.0.0' );
+		case 'single.php':
+			wp_enqueue_style( 'purple-turtle-creative-style_single', $styles_uri . '/template_single.css', [], VERSION );
+			break;
+
+		default:
+			wp_enqueue_style( 'purple-turtle-creative-style', $styles_uri . '/style.css', [], VERSION );
+			break;
 	}
 
 	// if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {

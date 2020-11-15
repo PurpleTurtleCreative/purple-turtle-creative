@@ -18,3 +18,37 @@ input[type="submit"] {
 		background: color(primary-dark);
 	}
 }
+
+.badge {
+	@include font(body, body-bold);
+	font-size: .9em;
+	color: color(true-white);
+	background-color: color(primary);
+	padding: .3em .5em;
+	border-radius: rem-calc(5);
+
+	&-dark {
+		@extend .badge;
+		background-color: color(primary-dark);
+	}
+}
+
+a.badge {
+	text-decoration: none;
+
+	&:hover,
+	&:focus,
+	&:active {
+		background-color: color(primary-dark);
+	}
+
+	&-dark {
+
+		&:hover,
+		&:focus,
+		&:active {
+			background-color: color(black);
+		}
+	}
+
+}

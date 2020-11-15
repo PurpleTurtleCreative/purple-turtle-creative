@@ -11,23 +11,26 @@ namespace PTC_Theme;
 
 ?>
 
-<article id="post-<?php the_ID(); ?>" <?php post_class( 'content-width' ); ?>>
+<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 	<header class="entry-header">
-		<?php the_post_thumbnail( 'large' ); ?>
-		<?php the_primary_category(); ?>
+		<a href="<?php echo esc_url( get_permalink() ); ?>">
+			<?php the_post_thumbnail( 'large' ); ?>
+		</a>
 	</header><!-- .entry-header -->
 
 	<div class="entry-content">
 
+		<?php the_primary_category(); ?>
+
 		<?php the_title( '<h2 class="entry-title"><a href="' . esc_url( get_permalink() ) . '" rel="bookmark">', '</a></h2>' ); ?>
 
-		<?php the_short_description(); ?>
+		<p class="entry-date"><?php the_published_or_modified_date(); ?></p>
 
-		<p class="entry-readmore"><a href="<?php echo esc_url( get_permalink() ); ?>">Read More <?php fa( 'angle-double-right' ); ?></a></p>
+		<?php the_short_description(); ?>
 
 	</div><!-- .entry-content -->
 
 	<footer class="entry-footer">
-		<p class="entry-date"><?php the_published_or_modified_date(); ?></p>
+		<p class="entry-readmore"><a href="<?php echo esc_url( get_permalink() ); ?>">Read More <?php fa( 'angle-double-right' ); ?></a></p>
 	</footer><!-- .entry-footer -->
 </article><!-- #post-<?php the_ID(); ?> -->

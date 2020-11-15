@@ -1,0 +1,61 @@
+.template-single {
+
+	article {
+
+		.entry-header {
+			color: color(true-white);
+			padding: rem-calc(0 15);
+
+			@include breakpoint(small) {
+				padding: rem-calc(0 30);
+			}
+
+			@include breakpoint(medium) {
+				padding: rem-calc(0 60);
+			}
+
+			h1 {
+				margin: 0.5em 0 .3em;
+				text-shadow: rem-calc(1 3 5) #{color(primary-dark)}80;
+			}
+
+			ul.entry-meta {
+				list-style: none;
+				margin: 0;
+				padding: 0;
+
+				li {
+					display: inline-block;
+
+					&.entry-date {
+						margin-right: .3em;
+					}
+
+					&.entry-categories {
+						position: relative;
+						bottom: rem-calc(2);
+
+						a {
+							@extend .badge-dark;
+						}
+					}
+				}
+			}
+		}
+
+		.entry-content {
+			background-color: color(true-white);
+			border-radius: rem-calc(10);
+			border: 2px solid color(grey-lightest);
+			padding: rem-calc(10 15 30);
+
+			@include breakpoint(small) {
+				padding: rem-calc(30 30 60);
+			}
+
+			@include breakpoint(medium) {
+				padding: rem-calc(45 60 90);
+			}
+		}
+	}
+}

@@ -22,10 +22,20 @@ get_header();
 		<?php if ( have_posts() ) : ?>
 
 			<header class="page-header wave-trim-bottom">
-				<?php
-				the_archive_title( '<h1 class="page-title content-width">', '</h1>' );
-				the_archive_description( '<div class="archive-description">', '</div>' );
-				?>
+				<div class="content-width">
+
+					<?php
+					if ( is_home() ) {
+						echo '<h1 class="page-title">' . single_post_title( '', false ) . '</h1>';
+					} else {
+						the_archive_title( '<h1 class="page-title">', '</h1>' );
+						the_archive_description( '<div class="archive-description">', '</div>' );
+					}
+					?>
+
+					<?php all_categories(); ?>
+
+				</div>
 			</header><!-- .page-header -->
 
 			<div class="posts-loop content-width">

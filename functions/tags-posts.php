@@ -22,14 +22,50 @@ add_filter( 'navigation_markup_template', function( $template, $class ) {
 /**
  * Outputs the published or modified date.
  */
-function the_published_or_modified_date() {
+function the_published_or_modified_date( string $format = '%1$s <strong>%2$s</strong>' ) {
 
 	$published_date = get_the_date();
 	$modified_date = get_the_modified_date();
-	$entry_date = ( $modified_date !== $published_date ) ?
-		"Updated <strong>{$modified_date}</strong>" : "Published <strong>{$published_date}</strong>";
+	[ $label, $date ] = ( $modified_date !== $published_date ) ? [ 'Updated', $modified_date ] : [ 'Published', $published_date ];
 
-	echo wp_kses( $entry_date, 'strong' );
+	echo wp_kses_post( sprintf( $format, $label, $date ) );
+
+}
+
+/**
+ *
+ *
+ *
+ */
+function all_categories( string $category_template = '<a href="%1$s" class="%4$s badge-dark">%2$s (%3$s)</a>' ) {
+
+	$categories = get_categories(
+		[
+			'fields' => 'all',
+			'hide_empty' => true,
+		]
+	);
+
+	if ( ! $categories || ! is_array( $categories ) ) {
+		return;
+	}
+
+	$category_links_html = '';
+	foreach ( $categories as $cat ) {
+		$category_links_html .= sprintf(
+			$category_template,
+			get_category_link( $cat ),
+			$cat->name,
+			$cat->count,
+			( $cat->term_id ) ? 'active' : ''
+		);
+	}
+
+	if ( $category_links_html ) {
+		echo '<div class="all-categories">' . wp_kses_post( $category_links_html ) . '</div>';
+	}
+
+	echo '<pre class="content-width" style="color:black;">' . print_r( $categories, true ) . '</pre>';
 
 }
 
