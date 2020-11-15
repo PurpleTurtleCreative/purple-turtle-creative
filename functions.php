@@ -95,7 +95,7 @@ add_action( 'after_setup_theme', function() {
  */
 add_filter( 'template_include', function( $template ) {
 
-	if ( is_privacy_policy() ) {
+	if ( is_privacy_policy() || is_page( 'terms-conditions' ) ) {
 		$template = locate_template( 'single.php' );
 	}
 
