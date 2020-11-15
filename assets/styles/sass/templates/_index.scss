@@ -9,7 +9,11 @@
 		.page-title {
 			margin-top: 0;
 			margin-bottom: 0;
-			color: inherit;
+			color: color(primary-light);
+
+			span {
+				color: color(white);
+			}
 		}
 
 		.all-categories {

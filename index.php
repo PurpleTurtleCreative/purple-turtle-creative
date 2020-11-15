@@ -29,7 +29,7 @@ get_header();
 					$after_page_title = '</h1>';
 
 					if ( is_home() ) {
-						echo wp_kses_post( $before_page_title . single_post_title( '', false ) . $after_page_title );
+						echo wp_kses_post( $before_page_title . '<span>' . single_post_title( '', false ) . '</span>' . $after_page_title );
 					} elseif ( is_search() ) {
 						echo wp_kses_post( $before_page_title . 'Search Results for:<br /><span>' . get_search_query() . '</span>' . $after_page_title );
 					} else {
