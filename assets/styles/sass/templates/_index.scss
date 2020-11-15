@@ -32,8 +32,8 @@
 		$article_spacing: rem-calc(20);
 
 		article {
-			flex-basis: calc( 50% - #{$article_spacing} );
-			width: calc( 50% - #{$article_spacing} ); // legacy support
+			flex-basis: calc( 100% - #{$article_spacing} );
+			width: calc( 100% - #{$article_spacing} ); // legacy support
 			margin: $article_spacing/2;
 			background-color: color(true-white);
 			border: 2px solid color(grey-lightest);
@@ -43,6 +43,11 @@
 
 			display: flex;
 			flex-direction: column;
+
+			@include breakpoint( medium ) {
+				flex-basis: calc( 50% - #{$article_spacing} );
+				width: calc( 50% - #{$article_spacing} ); // legacy support
+			}
 
 			&:hover {
 				border-color: color(primary);
