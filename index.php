@@ -25,10 +25,15 @@ get_header();
 				<div class="content-width">
 
 					<?php
+					$before_page_title = '<h1 class="page-title">';
+					$after_page_title = '</h1>';
+
 					if ( is_home() ) {
-						echo '<h1 class="page-title">' . single_post_title( '', false ) . '</h1>';
+						echo wp_kses_post( $before_page_title . single_post_title( '', false ) . $after_page_title );
+					} elseif ( is_search() ) {
+						echo wp_kses_post( $before_page_title . 'Search Results for:<br /><span>' . get_search_query() . '</span>' . $after_page_title );
 					} else {
-						the_archive_title( '<h1 class="page-title">', '</h1>' );
+						the_archive_title( $before_page_title, $after_page_title );
 						the_archive_description( '<div class="archive-description">', '</div>' );
 					}
 					?>

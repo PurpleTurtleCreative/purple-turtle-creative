@@ -95,13 +95,24 @@ add_action( 'after_setup_theme', function() {
  */
 add_filter( 'template_include', function( $template ) {
 
-	if ( is_privacy_policy() || is_page( 'terms-conditions' ) ) {
+	if ( is_search() ) {
+		$template = locate_template( 'index.php' );
+	} elseif ( is_privacy_policy() || is_page( 'terms-conditions' ) ) {
 		$template = locate_template( 'single.php' );
 	}
 
 	$GLOBALS['current_theme_template'] = basename( $template );
 	return $template;
-}, 1000);
+}, 1000 );
+
+/**
+ * Filter the site search query.
+ */
+add_action( 'pre_get_posts', function( $query ) {
+	if ( $query->is_search ) {
+		$query->set( 'post_type', [ 'post' ] );
+	}
+}, 10 );
 
 /**
  * Enqueue scripts and styles.

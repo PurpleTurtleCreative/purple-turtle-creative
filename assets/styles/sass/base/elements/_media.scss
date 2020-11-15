@@ -9,7 +9,14 @@ object {
 img {
 	height: auto; // Make sure images are scaled correctly.
 	max-width: 100%; // Adhere to container width.
-	border: 2px solid color(grey-lightest);
+}
+
+article:not(.page) { // Post articles only
+
+	.wp-block-image img,
+	img {
+		border: 2px solid color(grey-lightest);
+	}
 }
 
 .wp-block-image figure,
