@@ -97,6 +97,97 @@ function all_categories( string $category_template = '<a href="%1$s" class="%4$s
 }
 
 /**
+ * Output the network sites.
+ *
+ *
+ *
+ */
+function the_sites( bool $include_current_site = false, string $format = '<p class="network-site"><a href="%1$s" class="network-site_link">%2$s</a></p>' ) {
+
+	if ( ! function_exists( '\get_sites' ) || ! function_exists( '\get_current_site' ) ) {
+		return;
+	}
+
+	$site_args = [
+		'fields' => '',
+		'public' => 1,
+		'orderby' => 'path',
+		'order' => 'ASC',
+	];
+
+	if ( false === $include_current_site ) {
+		$site_args['site__not_in'] = \get_current_site()->id;
+	}
+
+	$sites = \get_sites( $site_args );
+
+	if ( ! $sites || ! is_array( $sites ) ) {
+		return;
+	}
+
+	$sites_html = '';
+	foreach ( $sites as $s ) {
+		$sites_html .= sprintf(
+			$format,
+			esc_url( get_site_url( $s->blog_id, '/' ) ),
+			esc_html( get_blog_option( $s->blog_id, 'blogname', '' ) )
+		);
+	}
+
+	if ( ! $sites_html ) {
+		return;
+	}
+
+	echo wp_kses_post( $sites_html );
+
+}
+
+/**
+ * Output the recent posts.
+ *
+ * @param int $numberposts Optional. The number of most recent posts to display.
+ * Default 3.
+ *
+ * @param string $format Optional. Template to format each post.
+ * Translators:
+ * * %1$s - post permalink
+ * * %2$s - post title
+ * * %3$s - post date
+ */
+function the_recent_posts( int $numberposts = 3, string $format = '<p class="recent-post"><a href="%1$s" class="recent-post_link">%2$s</a><span class="recent-post_date">%3$s</span></p>' ) {
+
+	$recent_posts = wp_get_recent_posts(
+		[
+			'numberposts' => $numberposts,
+			'post_status' => 'publish',
+			'post_type' => 'post',
+		],
+		OBJECT
+	);
+
+	if ( ! $recent_posts || ! is_array( $recent_posts ) ) {
+		return;
+	}
+
+	$recent_posts_html = '';
+	foreach ( $recent_posts as $p ) {
+		$recent_posts_html .= sprintf(
+			$format,
+			esc_url( get_the_permalink( $p ) ),
+			esc_html( get_the_title( $p ) ),
+			esc_html( get_the_date( '', $p ) )
+		);
+	}
+
+	if ( ! $recent_posts_html ) {
+		return;
+	}
+
+	echo wp_kses_post( $recent_posts_html );
+
+}
+
+/**
  * Get the Yoast SEO primary category or first category \WP_Term object.
  *
  * @return \WP_Term|bool The category. Default FALSE.
