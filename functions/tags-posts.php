@@ -97,14 +97,24 @@ function all_categories( string $category_template = '<a href="%1$s" class="%4$s
 }
 
 /**
- * Output the network sites.
+ * Outputs the network sites.
  *
+ * @param bool $include_current_site Optional. If the current site should
+ * be included. Default false.
  *
- *
+ * @param string $format Optional. The format for each site. Translators:
+ * * %1$s - site url
+ * * %2$s - site name
  */
-function the_sites( bool $include_current_site = false, string $format = '<p class="network-site"><a href="%1$s" class="network-site_link">%2$s</a></p>' ) {
+function the_sites( bool $include_current_site = false, string $format = '<a href="%1$s" class="network-site">%2$s</a>' ) {
 
-	if ( ! function_exists( '\get_sites' ) || ! function_exists( '\get_current_site' ) ) {
+	if (
+		! function_exists( '\get_sites' ) ||
+		! function_exists( '\get_current_site' ) ||
+		! function_exists( '\get_site_url' ) ||
+		! function_exists( '\get_blog_option' )
+	) {
+		error_log( 'Missing necessary multisite functions to display the network sites.' );
 		return;
 	}
 
@@ -129,8 +139,8 @@ function the_sites( bool $include_current_site = false, string $format = '<p cla
 	foreach ( $sites as $s ) {
 		$sites_html .= sprintf(
 			$format,
-			esc_url( get_site_url( $s->blog_id, '/' ) ),
-			esc_html( get_blog_option( $s->blog_id, 'blogname', '' ) )
+			esc_url( \get_site_url( $s->blog_id, '/' ) ),
+			esc_html( \get_blog_option( $s->blog_id, 'blogname', '' ) )
 		);
 	}
 
@@ -143,7 +153,7 @@ function the_sites( bool $include_current_site = false, string $format = '<p cla
 }
 
 /**
- * Output the recent posts.
+ * Outputs the recent posts.
  *
  * @param int $numberposts Optional. The number of most recent posts to display.
  * Default 3.
