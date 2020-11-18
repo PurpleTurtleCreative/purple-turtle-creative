@@ -18,27 +18,35 @@ namespace PTC_Theme;
 		<div class="footer-main">
 			<div class="content-width">
 
-				<section class="col-identity">
-					<div class="site-logo">
-						<?php svg( 'decal-duo-opacity.svg' ); ?>
-						<?php svg( 'type-duo-opacity.svg' ); ?>
-					</div>
-					<div class="site-description">
-						<p></p>
-					</div>
-					<div class="site-social">
-						<p><span class="fa-linkedin-in"><?php fa( 'linkedin-in', 'brands' ); ?></span>Follow for Updates</p>
-					</div>
-				</section>
+				<div class="left">
+					<section class="col-identity">
+						<div class="site-logo">
+							<?php svg( 'decal-duo-opacity.svg' ); ?>
+							<?php svg( 'type-duo-opacity.svg' ); ?>
+						</div>
+						<div class="site-description">
+							<p>Welcome to my oasis! This is my little island in the great wide Web where I come to document and craft new things, espcially related to WordPress. As a full-stack web developer, there's always more to learn and create. So come relax a while. Maybe you'll learn a new skill, find a useful tool, or refresh your inspiration.</p>
+						</div>
+						<div class="site-social">
+							<a href="https://www.linkedin.com/company/purple-turtle-creative"><span class="fa-linkedin-in"><?php fa( 'linkedin-in', 'brands' ); ?></span>Follow for Updates</a>
+						</div>
+					</section>
+				</div>
 
-				<section class="col-recent">
-					<h5>Recent</h5>
-					<?php the_recent_posts(); ?>
-				</section>
+				<div class="right">
+					<section class="col-recent">
+						<h6>Recent</h6>
+						<?php the_recent_posts(); ?>
+					</section>
 
-				<section class="col-links">
-					<?php the_sites(); ?>
-				</section>
+					<section class="col-links">
+						<h6>Plugins</h6>
+						<?php the_sites(); ?>
+						<h6>Legal</h6>
+						<?php a_link_to( 'terms-conditions' ); ?>
+						<?php a_link_to( 'privacy-policy' ); ?>
+					</section>
+				</div>
 
 			</div>
 		</div><!-- .footer-main -->

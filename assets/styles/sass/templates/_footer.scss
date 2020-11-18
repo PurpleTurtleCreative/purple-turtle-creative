@@ -1,7 +1,42 @@
 #footer {
 
+	.footer-main {
+		background-color: color(black);
+		color: color(grey-light);
+
+		.content-width {
+			display: flex;
+			flex-wrap: wrap;
+			align-items: stretch;
+			justify-content: space-between;
+
+			$article_spacing: rem-calc(10);
+
+			.left,
+			.right {
+				flex-basis: calc( 100% - #{$article_spacing} );
+				width: calc( 100% - #{$article_spacing} ); // legacy support
+				margin: rem-calc(60 0);
+				padding: $article_spacing*2;
+
+				@include breakpoint( medium ) {
+					flex-basis: calc( 50% - #{$article_spacing} );
+					width: calc( 50% - #{$article_spacing} ); // legacy support
+				}
+			}
+
+			.right {
+				display: flex;
+
+				> section {
+					flex: 1;
+				}
+			}
+		}
+	}
+
 	.site-info {
-		background: color(primary);
+		background-color: color(primary);
 		padding: .3em 0;
 
 		.content-width {

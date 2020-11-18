@@ -288,3 +288,48 @@ function the_short_description( string $before = '<p class="entry-metadesc">', s
 	echo wp_kses_post( $before . $the_short_description . $after );
 
 }
+
+/**
+ * Outputs a post link.
+ *
+ * @see https://developer.wordpress.org/reference/functions/get_page_by_path/
+ * @see https://developer.wordpress.org/reference/functions/get_post/
+ *
+ * @param string|int|WP_Post|null $post_identity The post for which to link.
+ * If type string, get_page_by_path() will be used to retrieve by slug. If type
+ * int, \WP_Post, or null, then get_post() will be used.
+ *
+ * @param string[] $post_types Optional. Array of expected content type for
+ * query filtering and validation. Default 'page'.
+ */
+function a_link_to( $post_identity, array $post_types = [ 'page' ] ) {
+
+	$p = null;
+
+	if ( is_string( $post_identity ) ) {
+		$p = get_page_by_path( $post_identity, OBJECT, $post_types );
+	} else {
+		$p = get_post( $post_identity );
+	}
+
+	/* Validate type */
+	if ( isset( $p->post_type ) ) {
+		if ( ! in_array( $p->post_type, $post_types ) ) {
+			$p = null;
+		}
+	} else {
+		$p = null;
+	}
+
+	if ( ! $p || ! is_a( $p, '\WP_Post' ) ) {
+		error_log( 'Failed to identify any ' . implode( ',', $post_types ) . ' with identity: ' . $post_identity );
+		return;
+	}
+
+	printf(
+		'<a href="%1$s" class="post-link">%2$s</a>',
+		esc_url( get_permalink( $p ) ),
+		esc_html( get_the_title( $p ) )
+	);
+
+}
