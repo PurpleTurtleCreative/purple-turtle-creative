@@ -31,17 +31,17 @@
 		display: flex;
 		flex-wrap: wrap;
 		align-items: stretch;
-		justify-content: center;
+		justify-content: space-between;
 
-		$article_spacing: rem-calc(20);
+		$article_spacing: rem-calc(10);
 
 		article {
 			flex-basis: calc( 100% - #{$article_spacing} );
 			width: calc( 100% - #{$article_spacing} ); // legacy support
-			margin: $article_spacing/2;
+			margin: $article_spacing 0;
 			background-color: color(true-white);
 			border: 2px solid color(grey-lightest);
-			border-radius: $article_spacing/2;
+			border-radius: $article_spacing;
 			overflow: hidden; // ensure border-radius clips children
 			transition: all 100ms ease-out;
 
@@ -55,8 +55,8 @@
 
 			&:hover {
 				border-color: color(primary);
-				transform: translateY( -$article_spacing/3 );
-				box-shadow: 0 $article_spacing/3 $article_spacing/2 color(grey-light);
+				transform: translateY( -$article_spacing/2 );
+				box-shadow: 0 $article_spacing/2 $article_spacing/2 color(grey-light);
 			}
 
 			.entry-header {
@@ -76,7 +76,7 @@
 				flex: 1;
 				position: relative;
 				margin: 0;
-				padding: $article_spacing;
+				padding: $article_spacing*2;
 
 				.entry-primary-category {
 					margin: 0;
@@ -98,7 +98,7 @@
 			} // end .entry-content
 
 			.entry-footer {
-				padding: $article_spacing;
+				padding: $article_spacing*2;
 
 				.entry-readmore {
 					margin: 0;
