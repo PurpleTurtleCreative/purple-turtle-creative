@@ -164,7 +164,7 @@ function the_sites( bool $include_current_site = false, string $format = '<a hre
  * * %2$s - post title
  * * %3$s - post date
  */
-function the_recent_posts( int $numberposts = 3, string $format = '<p class="recent-post"><a href="%1$s" class="recent-post_link">%2$s</a><span class="recent-post_date">%3$s</span></p>' ) {
+function the_recent_posts( int $numberposts = 3, string $format = '<p class="recent-post"><a href="%1$s" class="recent-post_link">%2$s</a> <span class="recent-post_date">%3$s</span></p>' ) {
 
 	$recent_posts = wp_get_recent_posts(
 		[
