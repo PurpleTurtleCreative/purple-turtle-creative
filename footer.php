@@ -25,10 +25,10 @@ namespace PTC_Theme;
 							<?php svg( 'type-duo-opacity.svg' ); ?>
 						</div>
 						<div class="site-description">
-							<p>Welcome to my oasis! This is my little island in the great wide Web where I come to document and craft new things, espcially related to WordPress. As a full-stack web developer, there's always more to learn and create. So come relax a while. Maybe you'll learn a new skill, find a useful tool, or refresh your inspiration.</p>
+							<p>Welcome to my oasis! This is my little island in the great wide Web where I come to document and craft new things, especially WordPress things. As a full-stack web developer, there's always more to learn and create. So come relax a while. Maybe you'll learn a new skill, find a useful tool, or refresh your inspiration.</p>
 						</div>
 						<div class="site-social">
-							<a href="https://www.linkedin.com/company/purple-turtle-creative"><span class="fa-linkedin-in"><?php fa( 'linkedin-in', 'brands' ); ?></span>Follow for Updates</a>
+							<a href="https://www.linkedin.com/company/purple-turtle-creative" target="_blank"><span class="fa-linkedin-in"><?php fa( 'linkedin-in', 'brands' ); ?></span>Follow for Updates</a>
 						</div>
 					</section>
 				</div>
@@ -55,7 +55,7 @@ namespace PTC_Theme;
 			<div class="content-width">
 
 				<div class="left">
-					<span>&copy; <a href="https://www.linkedin.com/in/michelle-blanchette/">Michelle Blanchette</a>. All rights reserved.</span>
+					<span>&copy; <a href="https://www.linkedin.com/in/michelle-blanchette/" target="_blank">Michelle Blanchette</a>. All rights reserved.</span>
 				</div>
 
 				<div class="right">
