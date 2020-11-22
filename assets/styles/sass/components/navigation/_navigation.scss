@@ -4,11 +4,16 @@
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
+		flex-wrap: wrap;
 
 		> * {
-			flex: 1;
-			width: calc( 50% - .5em ); // for space-between margin
-			max-width: calc( 50% - .5em ); // for space-between margin
+			display: block;
+			width: 100%;
+			margin: .3em 0;
+
+			@include breakpoint( medium ) {
+				width: calc( 50% - .5em ); // for space-between margin
+			}
 
 			a {
 				cursor: pointer;
@@ -65,6 +70,14 @@
 		.nav-next {
 			text-align: right;
 			margin-left: auto; // justify right when no nav-previous
+
+			@include breakpoint-down( medium ) {
+				text-align: left;
+
+				a {
+					flex-direction: row-reverse;
+				}
+			}
 
 			.nav-icon {
 				padding-left: rem-calc(12);

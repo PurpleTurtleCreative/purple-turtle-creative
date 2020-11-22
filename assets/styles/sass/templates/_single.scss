@@ -35,9 +35,20 @@
 					&.entry-categories {
 						position: relative;
 						bottom: rem-calc(2);
+						margin-top: .35em;
+
+						@include breakpoint( medium ) {
+							margin-top: 0;
+						}
 
 						a {
 							@extend .badge-dark;
+							display: inline-block;
+							margin: .15em 0;
+
+							@include breakpoint( medium ) {
+								margin: 0;
+							}
 						}
 					}
 				}

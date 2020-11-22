@@ -1,6 +1,11 @@
 ul,
 ol {
-	margin: 0 0 1.5em 1.5em;
+	margin: 0 0 2em 1.5em;
+
+	@include breakpoint-down( medium ) {
+		margin-left: 0;
+		padding-left: rem-calc(20);
+	}
 }
 
 ul {
