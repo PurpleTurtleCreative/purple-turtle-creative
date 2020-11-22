@@ -14,10 +14,13 @@
 
 		.site-branding {
 			flex: 1;
-			margin-left: rem-calc(-70);
 			display: flex;
 			align-items: center;
 			justify-content: safe center;
+
+			@include breakpoint(xsmall) {
+				margin-left: rem-calc(-70);
+			}
 
 			@include breakpoint(medium) {
 				justify-content: flex-start;

@@ -3,7 +3,11 @@
 	.footer-main {
 		background-color: color(black);
 		color: color(grey-light);
-		padding: rem-calc(45 0 60);
+		padding: rem-calc(20 0 30);
+
+		@include breakpoint( medium ) {
+			padding: rem-calc(45 0 60);
+		}
 
 		.content-width {
 			@extend %parent-col-2;
@@ -20,8 +24,12 @@
 					.site-logo {
 						display: flex;
 						align-items: center;
-						font-size: rem-calc(80);
+						font-size: rem-calc(60);
 						margin-bottom: rem-calc(15);
+
+						@include breakpoint( medium ) {
+							font-size: rem-calc(80);
+						}
 
 						svg.ptc-type {
 							font-size: .6em;
@@ -56,7 +64,11 @@
 			}
 
 			.right {
-				display: flex;
+				display: block;
+
+				@include breakpoint( medium ) {
+					display: flex;
+				}
 
 				h6 {
 					margin: rem-calc(30 0 15);
@@ -93,6 +105,21 @@
 					a.recent-post_link {
 						display: inline;
 					}
+
+					.recent-post_date {
+						white-space: nowrap;
+					}
+				}
+
+				.col-links {
+
+					h6:first-child {
+						margin-top: rem-calc(30);
+
+						@include breakpoint( medium ) {
+							margin-top: 0;
+						}
+					}
 				}
 			}
 		}
@@ -122,10 +149,19 @@
 			.left {
 				text-align: left;
 
+				@include breakpoint-down(medium) {
+					padding-bottom: rem-calc(5);
+					text-align: center;
+				}
 			}
 
 			.right {
 				text-align: right;
+
+				@include breakpoint-down(medium) {
+					padding-top: 0;
+					text-align: center;
+				}
 			}
 		}
 	} // .site-info
