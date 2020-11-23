@@ -21,6 +21,8 @@ $colors: (
 	info-dark: #2680c2
 );
 
+// Getter function
+
 @function color($key) {
 
 	@if map-has-key($colors, $key) {
@@ -30,4 +32,15 @@ $colors: (
 
 	@warn "Unknown `#{$key}` in $colors.";
 	@return null;
+}
+
+// Gutenberg color classes
+
+@each $slug, $color in $colors {
+	.has-#{$slug}-background-color {
+		background-color: $color;
+	}
+	.has-#{$slug}-color {
+		color: $color;
+	}
 }
