@@ -14,17 +14,35 @@ namespace PTC_Theme;
  */
 add_action( 'after_setup_theme', function() {
 
-	/*
-	 * Disable theme overrides from being applied.
-	 */
+	// Disable theme overrides from being applied.
 	add_theme_support( 'disable-custom-gradients' );
 	add_theme_support( 'disable-custom-colors' );
 	add_theme_support( 'disable-custom-font-sizes' );
 
-	/*
-	 * Define color palette.
-	 */
+	// Define color palette.
 	add_theme_support( 'editor-color-palette', get_custom_colors() );
+
+}, 10 );
+
+/**
+ * Enqueue Gutenberg Editor styles.
+ */
+add_action( 'enqueue_block_editor_assets', function() {
+
+	$editor_stylesheet = get_template_directory() . '/assets/styles/style-editor.css';
+	$editor_stylesheet_uri = get_template_directory_uri() . '/assets/styles/style-editor.css';
+
+	if ( ! is_file( $editor_stylesheet ) ) {
+		error_log( 'Gutenberg editor stylesheet does not exist: ' . $editor_stylesheet );
+		return;
+	}
+
+	wp_enqueue_style(
+		'ptc-gutenberg-css',
+		$editor_stylesheet_uri,
+		[],
+		'1.0'
+	);
 
 }, 10 );
 
@@ -63,7 +81,7 @@ function get_custom_colors() {
 
 					foreach ( $color_matches['slug'] as $i => $slug ) {
 						$colors[] = [
-							'name' => $slug,
+							'name' => ucwords( str_replace( '-', ' ', $slug ) ),
 							'slug' => $slug,
 							'color' => $color_matches['color'][ $i ],
 						];

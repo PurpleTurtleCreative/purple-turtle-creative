@@ -106,6 +106,21 @@ add_filter( 'template_include', function( $template ) {
 }, 1000 );
 
 /**
+ * Add template class to body.
+ */
+add_filter( 'body_class', function( $classes ) {
+
+	$current_template = $GLOBALS['current_theme_template'] ?? '';
+
+	if ( $current_template ) {
+		$classes[] = 'file-' . str_replace( '.', '-', $current_template );
+	}
+
+	return $classes;
+
+}, 10 );
+
+/**
  * Filter the site search query.
  */
 add_action( 'pre_get_posts', function( $query ) {

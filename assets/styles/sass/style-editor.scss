@@ -1,0 +1,23 @@
+@import "generic/normalize";
+
+/* Editor main column width */
+.wp-block {
+	max-width: 100%;
+}
+
+/* WYSIWYG Styles */
+.edit-post-visual-editor {
+	@import "abstracts/abstracts";
+	@import "generic/box-sizing";
+	@import "generic/layout";
+	@import "base/typography/typography";
+	@import "components/components";
+
+	p {
+		@include font(body);
+	}
+
+	svg {
+		height: fit-content;
+	}
+}

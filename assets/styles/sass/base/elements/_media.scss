@@ -26,6 +26,7 @@ figure {
 
 .wp-block-image figcaption,
 figcaption {
+	@include font(body);
 	font-size: rem-calc(16);
 	color: color(grey);
 	text-align: center;
