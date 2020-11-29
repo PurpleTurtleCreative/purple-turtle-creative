@@ -1,5 +1,5 @@
-$wave_trim_height: 50;
-$wave_trim_width: 90;
+$wave_trim_height: 50*1.5;
+$wave_trim_width: 90*1.5;
 
 .wave-trim {
 	background-image: url('../images/wave-transparent.svg');
@@ -14,8 +14,8 @@ $wave_trim_width: 90;
 	&-bottom {
 		position: relative;
 		background-color: color(primary);
-		color: color(white);
-		margin-bottom: rem-calc($wave_trim_height + 50);
+		color: color(off-white);
+		margin-bottom: rem-calc($wave_trim_height);
 
 		&:after {
 			@extend .wave-trim;

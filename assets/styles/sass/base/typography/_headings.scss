@@ -16,7 +16,8 @@ h6 {
 	}
 }
 
-h1 {
+h1,
+.h1 {
 	font-size: rem-calc(27);
 
 	@include breakpoint(medium) {
@@ -24,7 +25,8 @@ h1 {
 	}
 }
 
-h2 {
+h2,
+.h2 {
 	margin-top: 2em;
 	font-size: rem-calc(25);
 
@@ -34,7 +36,8 @@ h2 {
 	}
 }
 
-h3 {
+h3,
+.h3 {
 	font-size: rem-calc(24);
 
 	@include breakpoint(medium) {
@@ -42,7 +45,8 @@ h3 {
 	}
 }
 
-h4 {
+h4,
+.h4 {
 	font-size: rem-calc(20);
 
 	@include breakpoint(medium) {
@@ -50,7 +54,8 @@ h4 {
 	}
 }
 
-h5 {
+h5,
+.h5 {
 	font-size: rem-calc(18);
 
 	@include breakpoint(medium) {
@@ -58,7 +63,8 @@ h5 {
 	}
 }
 
-h6 {
+h6,
+.h6 {
 	font-size: rem-calc(16);
 
 	@include breakpoint(medium) {

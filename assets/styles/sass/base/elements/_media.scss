@@ -34,3 +34,15 @@ figcaption {
 	margin-bottom: 0.5em;
 	font-style: italic;
 }
+
+.blocks-gallery-grid {
+
+	.blocks-gallery-item {
+
+		img {
+			border-radius: rem-calc(20);
+			border: 2px solid color(grey-lightest);
+			pointer-events: none;
+		}
+	}
+}

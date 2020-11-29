@@ -1,3 +1,9 @@
+/*
+ * Gutenberg Note:
+ * Using basic color names like "white" collide with included
+ * style rules such that we'd need to use !important flags to override.
+ * Let's avoid basic color names to avoid unnecessary use of !important here.
+ */
 $colors: (
 	// branding
 	primary-light: #7285f8,
@@ -5,7 +11,7 @@ $colors: (
 	primary-dark: #1123b0,
 	//neutrals
 	true-white: #fff,
-	white: #f6f7fd,
+	off-white: #f6f7fd,
 	grey-lightest: #e4e6fd,
 	grey-light: #dee0ed,
 	grey: #8c92b1,

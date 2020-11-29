@@ -35,14 +35,14 @@ namespace PTC_Theme;
 
 				<div class="right">
 					<section class="col-recent">
-						<h6>Recent</h6>
+						<h2 class="h6">Recent</h2>
 						<?php the_recent_posts(); ?>
 					</section>
 
 					<section class="col-links">
-						<h6>Plugins</h6>
+						<h2 class="h6">Plugins</h2>
 						<?php the_sites(); ?>
-						<h6>Legal</h6>
+						<h2 class="h6">Legal</h2>
 						<?php a_link_to( 'terms-conditions' ); ?>
 						<?php a_link_to( 'privacy-policy' ); ?>
 					</section>

@@ -47,7 +47,7 @@
 					.site-social {
 
 						a {
-							color: color(white);
+							color: color(off-white);
 
 							span.fa-linkedin-in {
 								display: inline-block;
@@ -70,7 +70,7 @@
 					display: flex;
 				}
 
-				h6 {
+				.h6 {
 					margin: rem-calc(30 0 15);
 
 					&:first-child {
@@ -94,7 +94,10 @@
 					margin: rem-calc(15 0);
 
 					&:last-child {
-						margin-bottom: 0;
+
+						@include breakpoint(medium) {
+							margin-bottom: 0;
+						}
 					}
 				}
 
@@ -113,7 +116,7 @@
 
 				.col-links {
 
-					h6:first-child {
+					.h6:first-child {
 						margin-top: rem-calc(30);
 
 						@include breakpoint( medium ) {
@@ -134,7 +137,7 @@
 			padding-top: 0;
 			padding-bottom: 0;
 			font-size: .9em;
-			color: color(white);
+			color: color(off-white);
 
 			.left,
 			.right {

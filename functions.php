@@ -84,21 +84,19 @@ add_action( 'after_setup_theme', function() {
 }, 0 );
 
 /**
- * Define current template file
+ * Define current template file.
  *
  * Create a global variable with the name of the current
  * theme template file being used.
  *
  * @link https://www.kevinleary.net/get-current-theme-template-filename-wordpress/
  *
- * @param $template The full path to the current template
+ * @param $template The full path to the current template.
  */
 add_filter( 'template_include', function( $template ) {
 
 	if ( is_search() ) {
 		$template = locate_template( 'index.php' );
-	} elseif ( is_privacy_policy() || is_page( 'terms-conditions' ) ) {
-		$template = locate_template( 'single.php' );
 	}
 
 	$GLOBALS['current_theme_template'] = basename( $template );
@@ -106,7 +104,7 @@ add_filter( 'template_include', function( $template ) {
 }, 1000 );
 
 /**
- * Add template class to body.
+ * Add template file class to body.
  */
 add_filter( 'body_class', function( $classes ) {
 
@@ -139,15 +137,19 @@ add_action( 'wp_enqueue_scripts', function() {
 
 	switch ( $current_template ) {
 		case 'index.php':
-			wp_enqueue_style( 'purple-turtle-creative-style_index', $styles_uri . '/template_index.css', [], VERSION );
+			wp_enqueue_style( 'ptc-theme_index', $styles_uri . '/template_index.css', [], VERSION );
 			break;
 
-		case 'single.php':
-			wp_enqueue_style( 'purple-turtle-creative-style_single', $styles_uri . '/template_single.css', [], VERSION );
+		case 'singular.php':
+			wp_enqueue_style( 'ptc-theme_singular', $styles_uri . '/template_singular.css', [], VERSION );
+			break;
+
+		case 'custom-page-full-width.php':
+			wp_enqueue_style( 'ptc-theme_page-full-width', $styles_uri . '/template_page-full-width.css', [], VERSION );
 			break;
 
 		default:
-			wp_enqueue_style( 'purple-turtle-creative-style', $styles_uri . '/style.css', [], VERSION );
+			wp_enqueue_style( 'ptc-theme-style', $styles_uri . '/style.css', [], VERSION );
 			break;
 	}
 

@@ -1,10 +1,13 @@
+body { background-color: color(off-white); }
+
 .template-index {
 	margin-bottom: rem-calc(120);
 
 	.page-header {
-		padding: rem-calc(15 0 30);
-		color: color(white);
+		padding: rem-calc(15 0);
+		color: color(off-white);
 		text-align: center;
+		margin-bottom: rem-calc($wave_trim_height*1.5);
 
 		.page-title {
 			margin-top: 0;
@@ -12,7 +15,7 @@
 			color: color(primary-light);
 
 			span {
-				color: color(white);
+				color: color(off-white);
 			}
 		}
 

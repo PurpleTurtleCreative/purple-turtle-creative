@@ -1,0 +1,13 @@
+body {
+	background-color: color(true-white);
+
+	.entry-content {
+
+		> .wp-block-group {
+
+			> .wp-block-group__inner-container {
+				padding: rem-calc(60 0);
+			}
+		}
+	}
+}
