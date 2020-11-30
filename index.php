@@ -17,7 +17,7 @@ namespace PTC_Theme;
 get_header();
 ?>
 
-	<main id="primary" <?php post_class( 'site-main template-index' ); ?>>
+	<main id="primary" <?php post_class( 'site-main' ); ?>>
 
 		<header class="page-header wave-trim-bottom">
 			<div class="content-width">

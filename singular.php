@@ -12,7 +12,7 @@ namespace PTC_Theme;
 get_header();
 ?>
 
-	<main id="primary" <?php post_class( 'site-main template-single' ); ?>>
+	<main id="primary" <?php post_class( 'site-main' ); ?>>
 
 		<div class="wave-bg-third">
 			<div class="wave-trim"></div>
