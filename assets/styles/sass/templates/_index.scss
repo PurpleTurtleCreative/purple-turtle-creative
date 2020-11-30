@@ -1,4 +1,11 @@
-body { background-color: color(off-white); }
+body {
+	background-color: color(off-white);
+}
+
+.no-results,
+.not-found {
+	text-align: center;
+}
 
 .template-index {
 	margin-bottom: rem-calc(120);
