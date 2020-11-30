@@ -21,14 +21,22 @@ add_filter( 'navigation_markup_template', function( $template, $class ) {
 
 /**
  * Outputs the published or modified date.
+ *
+ * @param string $format Optional. Template to format the date.
+ * Translators:
+ * * %1$s - date label, 'Updated' or 'Published'
+ * * %2$s - the date
+ * * %3$s - info icon
  */
-function the_published_or_modified_date( string $format = '%1$s <strong>%2$s</strong>' ) {
+function the_published_or_modified_date( string $format = '%1$s <strong>%2$s</strong>%3$s' ) {
 
 	$published_date = get_the_date();
 	$modified_date = get_the_modified_date();
-	[ $label, $date ] = ( $modified_date !== $published_date ) ? [ 'Updated', $modified_date ] : [ 'Published', $published_date ];
+	[ $label, $date, $info ] = ( $modified_date !== $published_date ) ?
+		[ 'Updated', $modified_date, " <span class='fa-info-circle' title='Originally published on {$published_date}'>" . get_fa( 'info-circle' ) . '</span>' ] :
+		[ 'Published', $published_date, '' ];
 
-	echo wp_kses_post( sprintf( $format, $label, $date ) );
+	echo wp_kses_post( sprintf( $format, $label, $date, $info ) );
 
 }
 
