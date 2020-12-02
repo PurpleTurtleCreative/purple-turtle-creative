@@ -9,6 +9,7 @@
 .entry-date {
 
 	.fa-info-circle {
+		display: none;
 		opacity: .4;
 		font-size: 1.2em;
 		line-height: 1em;
@@ -17,6 +18,10 @@
 		&:hover,
 		&:focus {
 			opacity: 1;
+		}
+
+		@include breakpoint(large) {
+			display: inline;
 		}
 	}
 }

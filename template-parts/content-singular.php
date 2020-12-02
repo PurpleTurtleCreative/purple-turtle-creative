@@ -19,7 +19,9 @@ namespace PTC_Theme;
 
 		<ul class="entry-meta">
 			<li class="entry-date"><?php the_published_or_modified_date(); ?></li>
+			<?php if ( 'page' != get_post_type() ) : ?>
 			<li class="entry-categories"><?php the_category( ' ' ); ?></li>
+			<?php endif; ?>
 		</ul><!-- .entry-meta -->
 
 	</header><!-- .entry-header -->
@@ -28,7 +30,4 @@ namespace PTC_Theme;
 		<?php the_content(); ?>
 	</div><!-- .entry-content -->
 
-	<footer class="entry-footer">
-		<?php // purple_turtle_creative_entry_footer(); ?>
-	</footer><!-- .entry-footer -->
 </article><!-- #post-<?php the_ID(); ?> -->

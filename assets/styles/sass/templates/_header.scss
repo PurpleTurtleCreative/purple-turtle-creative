@@ -12,7 +12,7 @@
 			flex-direction: row;
 		}
 
-		.site-branding {
+		.site-logo {
 			flex: 1;
 			display: flex;
 			align-items: center;
@@ -31,30 +31,14 @@
 				display: inline-flex;
 				align-items: center;
 				justify-content: center;
+				margin-bottom: 0;
+				font-size: rem-calc(60);
 
 				@include breakpoint(medium) {
 					justify-content: flex-start;
 				}
-
-				svg {
-					width: auto;
-
-					&.ptc-decal {
-						height: rem-calc(50);
-						display: none;
-
-						@include breakpoint(medium) {
-							display: block;
-						}
-					}
-
-					&.ptc-type {
-						height: rem-calc(30);
-						margin: rem-calc(0 5 0);
-					}
-				}
 			}
-		}
+		}//.site-logo
 
 		.main-navigation {
 			display: flex;
@@ -90,30 +74,10 @@
 				}
 
 				li {
-					margin-right: rem-calc(7);
-
-					&:last-of-type {
-						margin-right: 0;
-					}
+					@extend .button;
 
 					a {
-						display: block;
-						text-decoration: none;
-						@include font(body, body-bold);
-						letter-spacing: .06em;
-						color: color(off-white);
-						border-radius: rem-calc(5);
-					  padding: rem-calc(13 20);
-
-						&:hover,
-						&:focus,
-						&:active,
-						&.active,
-						&.current,
-						&[aria-current] {
-							color: color(true-white);
-							background-color: color(primary-dark);
-						}
+						@extend .button__link;
 					}
 				}
 			}

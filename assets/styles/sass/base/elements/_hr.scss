@@ -1,6 +1,9 @@
 hr {
 	background-color: color(primary);
 	border: 0;
-	height: 1px;
-	margin-bottom: 1.5em;
+	height: rem-calc(2);
+}
+
+.wp-block-separator {
+	height: rem-calc(2);
 }

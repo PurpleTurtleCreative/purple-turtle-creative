@@ -21,8 +21,10 @@ namespace PTC_Theme;
 				<div class="left">
 					<section class="col-identity">
 						<div class="site-logo">
-							<?php svg( 'decal-duo-opacity.svg' ); ?>
-							<?php svg( 'type-duo-opacity.svg' ); ?>
+							<a href="<?php echo esc_url( home_url() ); ?>" aria-label="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>">
+								<?php svg( 'decal-duo-opacity.svg' ); ?>
+								<?php svg( 'type-duo-opacity.svg' ); ?>
+							</a>
 						</div>
 						<div class="site-description">
 							<p>Welcome to my little oasis in the great wide Web where I come to document and craft new things&mdash;especially WordPress things. As a full-stack web developer, there's always more to learn and create. So come relax a while. Maybe you'll learn a new skill, find a useful tool, or refresh your inspiration.</p>

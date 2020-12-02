@@ -22,7 +22,7 @@ $breakpoints: (
 	}
 }
 
-// mobile-first breakpoint, content for breakpoint and up
+// desktop-first breakpoint, content for breakpoint and up
 @mixin breakpoint-down($breakpoint) {
 
 	@if map-has-key($breakpoints, $breakpoint) {

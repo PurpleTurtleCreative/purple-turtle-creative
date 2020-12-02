@@ -31,6 +31,6 @@ namespace PTC_Theme;
 	</div><!-- .entry-content -->
 
 	<footer class="entry-footer">
-		<p class="entry-readmore"><a href="<?php echo esc_url( get_permalink() ); ?>">Read More <?php fa( 'angle-double-right' ); ?></a></p>
+		<p class="entry-readmore"><a href="<?php echo esc_url( get_permalink() ); ?>" aria-label="<?php echo esc_attr( 'Read more about ' . get_the_title() ); ?>">Read More <?php fa( 'angle-double-right' ); ?></a></p>
 	</footer><!-- .entry-footer -->
 </article><!-- #post-<?php the_ID(); ?> -->

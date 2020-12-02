@@ -19,6 +19,35 @@ input[type="submit"] {
 	}
 }
 
+.button {
+	margin-right: rem-calc(7);
+
+	&:last-of-type {
+		margin-right: 0;
+	}
+
+	&__link {
+		display: block;
+		text-decoration: none;
+		@include font(body, body-bold);
+		letter-spacing: .06em;
+		color: color(off-white);
+		background-color: color(primary);
+		border-radius: rem-calc(5);
+	  padding: rem-calc(13 20);
+
+		&:hover,
+		&:focus,
+		&:active,
+		&.active,
+		&.current,
+		&[aria-current] {
+			color: color(true-white);
+			background-color: color(primary-dark);
+		}
+	}
+}
+
 .badge {
 	@include font(body, body-bold);
 	font-size: .9em;
@@ -55,5 +84,17 @@ a.badge {
 			background-color: color(black);
 		}
 	}
+}
 
+.wp-block-buttons {
+	margin-top: 3em;
+	margin-bottom: 1em;
+
+	.wp-block-button {
+		@extend .button;
+
+		&__link {
+			@extend .button__link;
+		}
+	}
 }
