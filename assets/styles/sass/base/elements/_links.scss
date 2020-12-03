@@ -3,6 +3,31 @@ a {
 	font-weight: font-weight(body-bold);
 	text-decoration: none;
 
+	&[rel*='sponsored'] {
+
+		&:after {
+			content: "$";
+			display: inline-block;
+			font-size: .8em;
+			padding: .1em .3em 0;
+			background-color: color(primary);
+			border-radius: 5px;
+			color: white;
+			vertical-align: text-bottom;
+			margin: 0 .2em;
+		}
+
+		&:visited,
+		&:hover,
+		&:focus,
+		&:active {
+
+			&:after {
+				background-color: color(primary-dark);
+			}
+		}
+	} // sponsored
+
 	&:visited,
 	&:hover,
 	&:focus,
