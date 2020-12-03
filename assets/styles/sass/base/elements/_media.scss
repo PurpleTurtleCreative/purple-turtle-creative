@@ -37,6 +37,12 @@ figcaption {
 	font-style: italic;
 }
 
+%style-default-image,
+.wp-block-image.is-style-default img {
+	border-radius: rem-calc(20);
+	border: 2px solid color(grey-lightest);
+}
+
 /* Gallery */
 
 .wp-block-gallery {
@@ -46,8 +52,7 @@ figcaption {
 		.blocks-gallery-item {
 
 			img {
-				border-radius: rem-calc(20);
-				border: 2px solid color(grey-lightest);
+				@extend %style-default-image;
 				pointer-events: none;
 			}
 		}
