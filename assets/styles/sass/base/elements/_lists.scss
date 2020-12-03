@@ -7,6 +7,7 @@ h6 {
 
 	+ ul,
 	+ ol {
+		// Left-align with heading when immediately after
 		margin: 0;
 		padding-left: 1.1em;
 	}
@@ -19,6 +20,13 @@ ol {
 	@include breakpoint-down( medium ) {
 		margin-left: 0;
 		padding-left: rem-calc(20);
+	}
+
+	&.item-spacing-wide {
+
+		li {
+			margin-top: 1.5em;
+		}
 	}
 }
 
