@@ -137,6 +137,7 @@ add_action( 'wp_enqueue_scripts', function() {
 
 	switch ( $current_template ) {
 		case 'index.php':
+		case '404.php':
 			wp_enqueue_style( 'ptc-theme_index', $styles_uri . '/template_index.css', [], VERSION );
 			break;
 

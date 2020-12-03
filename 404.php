@@ -7,52 +7,58 @@
  * @package Purple_Turtle_Creative
  */
 
+namespace PTC_Theme;
+
 get_header();
 ?>
 
 	<main id="primary" <?php post_class( 'site-main' ); ?>>
 
-		<section class="error-404 not-found">
-			<header class="page-header">
-				<h1 class="page-title">Oops! That page can't be found.</h1>
-			</header><!-- .page-header -->
+		<header class="page-header wave-trim-bottom">
+			<div class="content-width">
 
-			<div class="page-content">
-				<p>It looks like nothing was found at this location. Maybe try one of the links below or a search?</p>
+				<h1 class="page-title"><span>Error 404</span> Not Found</h1>
 
-					<?php
-					get_search_form();
+				<div class="archive-description">
+					<p>Dang it! I couldn't find what you were looking for, but maybe browsing the categories below with help you find it!</p>
+				</div>
 
-					the_widget( 'WP_Widget_Recent_Posts' );
-					?>
+				<div class="all-categories">
+					<?php all_categories(); ?>
+				</div>
 
-					<div class="widget widget_categories">
-						<h2 class="widget-title">Most Used Categories</h2>
-						<ul>
-							<?php
-							wp_list_categories(
-								array(
-									'orderby'    => 'count',
-									'order'      => 'DESC',
-									'show_count' => 1,
-									'title_li'   => '',
-									'number'     => 10,
-								)
-							);
-							?>
-						</ul>
-					</div><!-- .widget -->
+			</div><!-- .content-width -->
+		</header><!-- .page-header -->
 
-					<?php
-					/* translators: %1$s: smiley */
-					$purple_turtle_creative_archive_content = '<p>Try looking in the monthly archives.</p>';
-					the_widget( 'WP_Widget_Archives', 'dropdown=1', "after_title=</h2>$purple_turtle_creative_archive_content" );
+		<?php if ( have_posts() ) : ?>
 
-					the_widget( 'WP_Widget_Tag_Cloud' );
-					?>
+			<div class="posts-loop content-width">
+				<?php
+				/* Start the Loop */
+				while ( have_posts() ) :
+					the_post();
+
+					get_template_part( 'template-parts/content', 'post-preview' );
+
+				endwhile;
+				?>
+			</div>
+
+		<?php else : ?>
+
+			<div class="no-results not-found content-width">
+
+			<?php if ( is_search() ) : ?>
+				<p>No posts were found to include your search terms. Try again with some different keywords!</p>
+			<?php else : ?>
+				<p>No posts were found. Try using the search form below or the category buttons above!</p>
+			<?php endif; ?>
+
+			<?php get_search_form(); ?>
 
 			</div><!-- .page-content -->
-		</section><!-- .error-404 -->
+
+		<?php endif; ?>
 
 	</main><!-- #main -->
 

@@ -1,4 +1,5 @@
-body.file-index-php {
+body.file-index-php,
+body.file-404-php {
 	background-color: color(off-white);
 
 	.no-results,
@@ -22,6 +23,18 @@ body.file-index-php {
 
 				span {
 					color: color(off-white);
+				}
+			}
+
+			.archive-description {
+				@extend .content-width-slim;
+
+				p {
+					margin-bottom: 0;
+				}
+
+				+ .all-categories {
+					margin-top: 1em;
 				}
 			}
 
