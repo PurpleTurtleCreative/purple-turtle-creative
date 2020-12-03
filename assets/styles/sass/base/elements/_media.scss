@@ -5,6 +5,8 @@ object {
 	max-width: 100%;
 }
 
+/* Images */
+
 .wp-block-image img,
 img {
 	height: auto; // Make sure images are scaled correctly.
@@ -35,14 +37,44 @@ figcaption {
 	font-style: italic;
 }
 
-.blocks-gallery-grid {
+/* Gallery */
 
-	.blocks-gallery-item {
+.wp-block-gallery {
 
-		img {
-			border-radius: rem-calc(20);
-			border: 2px solid color(grey-lightest);
-			pointer-events: none;
+	.blocks-gallery-grid {
+
+		.blocks-gallery-item {
+
+			img {
+				border-radius: rem-calc(20);
+				border: 2px solid color(grey-lightest);
+				pointer-events: none;
+			}
 		}
 	}
-}
+
+	@include breakpoint-between( medium, xsmall ) {
+
+		@for $i from 1 through 8 {
+			&.mobile-columns-#{$i} {
+
+				.blocks-gallery-grid {
+
+					.blocks-gallery-item,
+					.blocks-gallery-image {
+					  width: calc( #{100% / $i} - #{rem-calc(5)} );
+					  margin: rem-calc(0 5 5 0);
+
+						&:nth-of-type(#{$i}n) {
+						  margin-right: 0;
+						}
+
+						img {
+							border-radius: rem-calc(10);
+						}
+					}
+				}
+			}
+		} // for
+	}
+} // .wp-block-gallery
