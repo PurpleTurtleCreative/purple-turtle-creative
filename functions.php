@@ -68,7 +68,7 @@ add_action( 'after_setup_theme', function() {
 	 *
 	 * @link https://developer.wordpress.org/reference/functions/add_theme_support/#post-formats
 	 */
-	add_theme_support( 'post-formats', [ 'aside', 'status' ] );
+	add_theme_support( 'post-formats', [ 'status' ] );
 
 }, 0, 1 );
 
@@ -101,6 +101,7 @@ add_filter( 'template_include', function( $template ) {
 
 	$GLOBALS['current_theme_template'] = basename( $template );
 	return $template;
+
 }, 1000 );
 
 /**

@@ -44,7 +44,7 @@ add_action( 'enqueue_block_editor_assets', function() {
 		'1.0'
 	);
 
-}, 10 );
+}, 999 );
 
 /**
  * Get color values defined in _colors.scss
