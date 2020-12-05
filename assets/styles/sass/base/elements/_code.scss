@@ -3,7 +3,7 @@ samp {
 	font-family: font-family(code) !important;
 	border: 1px solid color(grey-light);
 	background: color(off-white);
-	padding: 1em 1.5em .8em;
+	padding: 1em 1em .8em;
 	overflow-x: auto;
 	display: block;
 	border-radius: rem-calc(5);
@@ -15,6 +15,10 @@ samp {
 	position: relative;
 	tab-size: 2;
 	hyphens: none;
+
+	@include breakpoint(medium) {
+		padding: 1em 1.5em .8em;
+	}
 
 	&[class*="language-"] {
 		overflow: hidden;
@@ -45,7 +49,11 @@ var {
 		@include font(code);
 		overflow-x: auto;
 		display: block;
-		padding: 1em 1.5em .8em;
+		padding: 1em 1em .8em;
+
+		@include breakpoint(medium) {
+			padding: 1em 1.5em .8em;
+		}
 	}
 
 	a & {

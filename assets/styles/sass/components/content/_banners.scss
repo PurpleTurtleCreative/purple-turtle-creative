@@ -1,5 +1,5 @@
 .banner {
-  padding: 1em 1.5em;
+  padding: 1em;
   border-radius: 5px;
   position: relative;
   background-color: color(off-white);
@@ -13,5 +13,9 @@
 			border-color: color(#{$status});
 			color: color(#{$status}-dark);
 		}
+	}
+
+	@include breakpoint(medium) {
+		padding: 1em 1.5em;
 	}
 }
