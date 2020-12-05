@@ -24,6 +24,9 @@ namespace PTC_Theme;
 
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
+
+<div id="overlay"></div>
+
 <div id="page" class="site">
 	<header id="header" class="site-header">
 		<div class="content-width">

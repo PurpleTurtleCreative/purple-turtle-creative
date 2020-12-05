@@ -1,0 +1,9 @@
+{
+	"mangle": {
+		"reserved": [ "$" ]
+	},
+	"compress": true,
+	"sourceMap": {
+		"url": "{file}.map"
+	}
+}

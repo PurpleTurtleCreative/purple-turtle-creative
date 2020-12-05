@@ -6,13 +6,15 @@
   "devDependencies": {
     "@wordpress/scripts": "^12.1.0",
     "dir-archiver": "^1.1.1",
-    "node-sass": "^5.0.0"
+    "node-sass": "^5.0.0",
+    "terser-folder": "^2.0.0"
   },
   "scripts": {
     "watch": "node-sass assets/styles/sass/ -o assets/styles/ --source-map true --output-style compressed --indent-type tab --indent-width 1 -wr",
     "compile:css": "node-sass assets/styles/sass/ -o assets/styles/ && stylelint '*.css' --fix || true && stylelint '*.css' --fix",
+    "compile:js": "terser-folder assets/scripts/js/ --each --output=assets/scripts/ --config-file=./terser.json",
     "lint:scss": "wp-scripts lint-style 'assets/styles/sass/**/*.scss'",
-    "lint:js": "wp-scripts lint-js 'js/*.js'",
-    "bundle": "dir-archiver --src . --dest ../purple-turtle-creative.zip --exclude .DS_Store .stylelintrc.json .eslintrc .git .gitattributes .github .gitignore README.md composer.json composer.lock node_modules vendor package-lock.json package.json .travis.yml phpcs.xml.dist sass style.css.map"
+    "lint:js": "wp-scripts lint-js 'assets/scripts/js/*.js'",
+    "bundle": "dir-archiver --src . --dest ../purple-turtle-creative.zip --exclude .DS_Store .stylelintrc.json .eslintrc .git .gitattributes .github .gitignore README.md composer.json composer.lock node_modules vendor package-lock.json package.json .travis.yml phpcs.xml.dist sass terser.json style.css.map"
   }
 }

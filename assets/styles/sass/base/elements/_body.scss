@@ -1,5 +1,20 @@
+html {
+	overflow-x: hidden !important;
+}
+
 body {
 	background: color(true-white); // Fallback for when there is no custom background color defined.
+
+	#overlay {
+		position: fixed;
+		display: none;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		z-index: 150;
+		background: rgba(color(black), .8);
+	}
 }
 
 /* Ensure footer reaches bottom on short pages */

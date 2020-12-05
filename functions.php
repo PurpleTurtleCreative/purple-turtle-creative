@@ -135,6 +135,7 @@ add_action( 'wp_enqueue_scripts', function() {
 
 	$current_template = $GLOBALS['current_theme_template'] ?? '';
 	$styles_uri = get_template_directory_uri() . '/assets/styles';
+	$scripts_uri = get_template_directory_uri() . '/assets/scripts';
 
 	switch ( $current_template ) {
 		case 'index.php':
@@ -155,9 +156,7 @@ add_action( 'wp_enqueue_scripts', function() {
 			break;
 	}
 
-	// if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
-	// 	wp_enqueue_script( 'comment-reply' );
-	// }
+	wp_enqueue_script( 'ptc-theme-script', $scripts_uri . '/frontend.min.js', [ 'jquery' ], VERSION );
 
 }, 10 );
 

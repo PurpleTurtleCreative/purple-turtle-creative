@@ -22,7 +22,7 @@ body {
 	/* WYSIWYG Styles */
 	.editor-styles-wrapper {
 		@import "generic/layout";
-		@import "base/typography/typography";
+		@import "base/base";
 		@import "components/components";
 		font-size: rem-calc(18) !important;
 
