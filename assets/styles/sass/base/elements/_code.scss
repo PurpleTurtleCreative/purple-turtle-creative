@@ -1,0 +1,87 @@
+pre,
+samp {
+	font-family: font-family(code) !important;
+	border: 1px solid color(grey-light);
+	background: color(off-white);
+	padding: 1em 1.5em;
+	overflow-x: auto;
+	display: block;
+	border-radius: rem-calc(5);
+	white-space: pre;
+	line-height: 1.5em;
+	font-size: .9em;
+	margin: 0 0 1.7em;
+	font-variant-ligatures: none;
+	position: relative;
+	tab-size: 2;
+	hyphens: none;
+
+	&[class*="language-"] {
+		overflow: hidden;
+		padding: 0;
+	}
+}
+
+code,
+kbd,
+tt,
+var {
+	@include font(code);
+	border: 1px solid color(grey-light);
+	background: color(off-white);
+	font-size: .9em;
+	padding: .2em .3em .1em;
+	margin: 0 .2em;
+	border-radius: rem-calc(5);
+	font-variant-ligatures: none;
+	word-break: break-word;
+	hyphens: none;
+
+	&[class*="language-"] {
+		@include font(code);
+		overflow-x: auto;
+		display: block;
+		padding: 1em 1.5em;
+	}
+
+	a & {
+		font-weight: font-weight(code-bold);
+	}
+
+	pre > &,
+	samp > & {
+		font-size: 1em;
+		margin: 0;
+		padding: 0;
+	}
+}
+
+.wp-block-code code {
+	border: none;
+}
+
+/* PLUGIN: Code Syntax Block */
+
+pre[class*="language-"] {
+	position: relative;
+
+	&[class*="language-"]:before {
+		@include font(body, body-bold);
+		content: 'code';
+		text-transform: uppercase;
+		display: block;
+		text-align: right;
+		color: color(off-white);
+		position: absolute;
+		right: .4rem;
+		top: 0;
+		font-size: .7em;
+		letter-spacing: .1em;
+	}
+
+	@each $lang in (bash, css, javascript, php) {
+		&.language-#{$lang}:before {
+			content: '#{$lang}';
+		}
+	}
+}

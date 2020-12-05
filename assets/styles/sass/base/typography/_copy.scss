@@ -69,18 +69,22 @@ address {
 
 pre,
 samp {
-	@include font(code);
-	display: block;
 	border: 1px solid color(grey-light);
 	background: color(off-white);
-	border-radius: rem-calc(5);
-	padding: 1em 1.5em;
-	white-space: pre;
-	overflow-x: auto;
-	line-height: 1em;
-	font-size: .9em;
-	margin: 0 0 1em;
-	font-variant-ligatures: none;
+
+	&,
+	&[class*="language-"] {
+		@include font(code);
+		display: block;
+		border-radius: rem-calc(5);
+		padding: 1em 1.5em;
+		white-space: pre;
+		overflow-x: auto;
+		line-height: 1.5em;
+		font-size: .9em;
+		margin: 0 0 1.7em;
+		font-variant-ligatures: none;
+	}
 }
 
 code,
@@ -97,8 +101,19 @@ var {
 	font-variant-ligatures: none;
 	word-break: break-word;
 
+	&[class*="language-"] {
+		@include font(code);
+	}
+
 	a & {
 		font-weight: font-weight(code-bold);
+	}
+
+	pre > &,
+	samp > & {
+		font-size: 1em;
+		margin: 0;
+		padding: 0;
 	}
 }
 
