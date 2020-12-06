@@ -1,0 +1,74 @@
+// global
+@import "abstracts/abstracts";
+@import "generic/normalize";
+@import "generic/box-sizing";
+@import "generic/layout";
+@import "base/base";
+
+body.login {
+	background-color: color(primary);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	#login {
+		padding: 0 0 1%;
+
+		a {
+			color: color(true-white) !important;
+		}
+
+		h1 {
+
+			a {
+				background-size: contain;
+				background-image: url('../images/type-duo-opacity.svg');
+				height: 3rem;
+				width: 13rem;
+			}
+		}
+
+		form {
+			@include font(body);
+			color: color(black);
+			border-radius: rem-calc(5);
+
+			.forgetmenot {
+				display: none;
+			}
+
+			.submit {
+
+				input {
+					@extend .button__link;
+					font-size: 0.9rem;
+					padding: 0.3em 1.3em;
+					width: 100%;
+					margin: 0.5rem 0 0;
+				}
+			}
+		}
+
+		#nav {
+			display: none;
+		}
+
+		#backtoblog {
+			text-align: center;
+			margin: 2rem 0 1rem;
+			@extend .button-dark;
+
+			a {
+				display: inline-block;
+			}
+		}
+
+		.privacy-policy-page-link {
+
+			a {
+				@include font(body);
+				font-size: .9rem;
+			}
+		}
+	}// #login
+}// body.login

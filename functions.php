@@ -161,6 +161,17 @@ add_action( 'wp_enqueue_scripts', function() {
 }, 10 );
 
 /**
+ * Customize login screen.
+ */
+add_action( 'login_enqueue_scripts', function() {
+	$styles_uri = get_template_directory_uri() . '/assets/styles';
+	wp_enqueue_style( 'ptc-theme_login', $styles_uri . '/login.css', [], VERSION );
+}, 10 );
+
+add_filter( 'login_headerurl', function() { return home_url(); } );
+add_filter( 'login_headertitle', function() { return get_bloginfo( 'name' ); } );
+
+/**
  * Allow SVG tags in HTML content.
  */
 add_filter( 'wp_kses_allowed_html', function( $tags ) {

@@ -26,7 +26,8 @@ input[type="submit"] {
 		margin-right: 0;
 	}
 
-	&__link {
+	&__link,
+	a {
 		display: block;
 		text-decoration: none;
 		@include font(body, body-bold);
@@ -44,6 +45,24 @@ input[type="submit"] {
 		&[aria-current] {
 			color: color(true-white);
 			background-color: color(primary-dark);
+		}
+	}
+
+	&-dark {
+		@extend .button;
+
+		&__link,
+		a {
+			background-color: color(primary-dark);
+
+			&:hover,
+			&:focus,
+			&:active,
+			&.active,
+			&.current,
+			&[aria-current] {
+				background-color: color(black);
+			}
 		}
 	}
 }
