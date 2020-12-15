@@ -10,6 +10,8 @@
 namespace PTC_Theme;
 
 define( __NAMESPACE__ . '\VERSION', '1.0.0' );
+define( __NAMESPACE__ . '\STYLES_URI', get_template_directory_uri() . '/assets/styles' );
+define( __NAMESPACE__ . '\SCRIPTS_URI', get_template_directory_uri() . '/assets/scripts' );
 
 /**
  * Require all custom theme functions.
@@ -134,38 +136,54 @@ add_action( 'pre_get_posts', function( $query ) {
 add_action( 'wp_enqueue_scripts', function() {
 
 	$current_template = $GLOBALS['current_theme_template'] ?? '';
-	$styles_uri = get_template_directory_uri() . '/assets/styles';
-	$scripts_uri = get_template_directory_uri() . '/assets/scripts';
 
 	switch ( $current_template ) {
 		case 'index.php':
 		case '404.php':
-			wp_enqueue_style( 'ptc-theme_index', $styles_uri . '/template_index.css', [], VERSION );
+			wp_enqueue_style( 'ptc-theme_index', STYLES_URI . '/template_index.css', [], VERSION );
 			break;
 
 		case 'singular.php':
-			wp_enqueue_style( 'ptc-theme_singular', $styles_uri . '/template_singular.css', [], VERSION );
+			wp_enqueue_style( 'ptc-theme_singular', STYLES_URI . '/template_singular.css', [], VERSION );
 			break;
 
 		case 'custom-page-full-width.php':
-			wp_enqueue_style( 'ptc-theme_page-full-width', $styles_uri . '/template_page-full-width.css', [], VERSION );
+			wp_enqueue_style( 'ptc-theme_page-full-width', STYLES_URI . '/template_page-full-width.css', [], VERSION );
 			break;
 
 		default:
-			wp_enqueue_style( 'ptc-theme-style', $styles_uri . '/style.css', [], VERSION );
+			wp_enqueue_style( 'ptc-theme-style', STYLES_URI . '/style.css', [], VERSION );
 			break;
 	}
 
-	wp_enqueue_script( 'ptc-theme-script', $scripts_uri . '/frontend.min.js', [ 'jquery' ], VERSION );
+	wp_enqueue_script( 'ptc-theme-script', SCRIPTS_URI . '/frontend.min.js', [ 'jquery' ], VERSION, true );
 
 }, 10 );
+
+/**
+ * Dequeue unused styles and scripts.
+ */
+add_action( 'wp_print_styles', function() {
+
+	$current_template = $GLOBALS['current_theme_template'] ?? '';
+
+	if ( in_array( $current_template, [ 'index.php', '404.php', 'singular.php' ] ) ) {
+		wp_dequeue_style( 'wp-block-library' );
+	}
+
+	if ( 'singular.php' !== $current_template ) {
+		wp_dequeue_style( 'mkaz-code-syntax-prism-css' );
+		wp_dequeue_style( 'mkaz-code-syntax-css' );
+		wp_dequeue_script( 'mkaz-code-syntax-prism-js' );
+	}
+
+}, 100 );
 
 /**
  * Customize login screen.
  */
 add_action( 'login_enqueue_scripts', function() {
-	$styles_uri = get_template_directory_uri() . '/assets/styles';
-	wp_enqueue_style( 'ptc-theme_login', $styles_uri . '/login.css', [], VERSION );
+	wp_enqueue_style( 'ptc-theme_login', STYLES_URI . '/login.css', [], VERSION );
 }, 10 );
 
 add_filter( 'login_headerurl', function() { return home_url(); } );
