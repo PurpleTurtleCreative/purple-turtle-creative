@@ -188,6 +188,10 @@ add_action( 'wp_print_styles', function() {
  */
 add_filter( 'script_loader_tag', function( $tag, $handle, $src ) {
 
+	if ( is_admin() ) {
+		return $tag;
+	}
+
 	if ( in_array( $handle, DEFER_SCRIPTS ) ) {
 		if ( false === stripos( $tag, 'defer' ) ) {
 			$tag = str_replace( '<script ', '<script defer ', $tag );
