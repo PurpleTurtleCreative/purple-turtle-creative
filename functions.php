@@ -13,6 +13,9 @@ define( __NAMESPACE__ . '\VERSION', '1.0.0' );
 define( __NAMESPACE__ . '\STYLES_URI', get_template_directory_uri() . '/assets/styles' );
 define( __NAMESPACE__ . '\SCRIPTS_URI', get_template_directory_uri() . '/assets/scripts' );
 
+define( __NAMESPACE__ . '\DEFER_SCRIPTS', [ 'jquery-core', 'jquery-migrate', 'wp-embed', 'ptc-theme-script' ] );
+define( __NAMESPACE__ . '\ASYNC_SCRIPTS', [ 'mkaz-code-syntax-prism-js' ] );
+
 /**
  * Require all custom theme functions.
  */
@@ -140,22 +143,23 @@ add_action( 'wp_enqueue_scripts', function() {
 	switch ( $current_template ) {
 		case 'index.php':
 		case '404.php':
-			wp_enqueue_style( 'ptc-theme_index', STYLES_URI . '/template_index.css', [], VERSION );
+			$theme_stylesheet = '/template_index.css';
 			break;
 
 		case 'singular.php':
-			wp_enqueue_style( 'ptc-theme_singular', STYLES_URI . '/template_singular.css', [], VERSION );
+			$theme_stylesheet = '/template_singular.css';
 			break;
 
 		case 'custom-page-full-width.php':
-			wp_enqueue_style( 'ptc-theme_page-full-width', STYLES_URI . '/template_page-full-width.css', [], VERSION );
+			$theme_stylesheet = '/template_page-full-width.css';
 			break;
 
 		default:
-			wp_enqueue_style( 'ptc-theme-style', STYLES_URI . '/style.css', [], VERSION );
+			$theme_stylesheet = '/style.css';
 			break;
 	}
 
+	wp_enqueue_style( 'ptc-theme-style', STYLES_URI . $theme_stylesheet, [], VERSION );
 	wp_enqueue_script( 'ptc-theme-script', SCRIPTS_URI . '/frontend.min.js', [ 'jquery' ], VERSION, true );
 
 }, 10 );
@@ -178,6 +182,27 @@ add_action( 'wp_print_styles', function() {
 	}
 
 }, 100 );
+
+/**
+ * Optimize critical path latency for scripts.
+ */
+add_filter( 'script_loader_tag', function( $tag, $handle, $src ) {
+
+	if ( in_array( $handle, DEFER_SCRIPTS ) ) {
+		if ( false === stripos( $tag, 'defer' ) ) {
+			$tag = str_replace( '<script ', '<script defer ', $tag );
+		}
+	}
+
+	if ( in_array( $handle, ASYNC_SCRIPTS ) ) {
+		if ( false === stripos( $tag, 'async' ) ) {
+			$tag = str_replace( ' src', ' async="async" src', $tag );
+		}
+	}
+
+	return $tag;
+
+}, 10, 3 );
 
 /**
  * Customize login screen.
