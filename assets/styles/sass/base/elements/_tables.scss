@@ -1,4 +1,35 @@
 table {
-	margin: 0 0 1.5em;
 	width: 100%;
+	border-color: color(grey);
+	border-spacing: 0;
+	margin: 1em 0 1.5em;
+
+	~ figcaption {
+		margin-top: -1em;
+	}
+
+	th {
+		@include font(body, body-bold);
+	}
+
+	th,
+	td {
+		padding: 0.2em .5em;
+	}
+}
+
+.wp-block-table.is-style-stripes {
+	border-bottom: none;
+
+	tbody tr:nth-child(odd) {
+		background-color: lighten(color(grey-lightest), 3.3%);
+	}
+
+	tr:last-child {
+
+		th,
+		td {
+			border-bottom: 2px solid color(grey-lightest) !important;
+		}
+	}
 }
