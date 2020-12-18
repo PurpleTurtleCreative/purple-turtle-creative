@@ -188,7 +188,7 @@ add_action( 'wp_print_styles', function() {
  */
 add_filter( 'script_loader_tag', function( $tag, $handle, $src ) {
 
-	if ( is_admin() ) {
+	if ( is_admin() || current_user_can( 'edit_posts' ) ) {
 		return $tag;
 	}
 
