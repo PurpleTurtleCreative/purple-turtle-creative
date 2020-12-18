@@ -19,12 +19,20 @@ $colors: (
 	true-black: #000,
 	//statuses
 	warning-light: #fff3c4,
-	warning: #fadb5f,
+	warning: #f7c948,
 	warning-dark: #cb6e17,
 	//
 	info-light: #e6f6ff,
 	info: #7cc4fa,
-	info-dark: #2680c2
+	info-dark: #2680c2,
+	//
+	danger-light: #ffeeee,
+	danger: #f86a6a,
+	danger-dark: #cf1124,
+	//
+	success-light: #f2fde0,
+	success: #6cd410,
+	success-dark: #399709
 );
 
 // Getter function

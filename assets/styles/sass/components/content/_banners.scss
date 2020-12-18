@@ -6,7 +6,7 @@
   border: 1px solid color(grey-light);
   color: color(grey);
 
-	@each $status in (warning, info) {
+	@each $status in (warning, info, danger, success) {
 
 		&-#{$status} {
 			background-color: color(#{$status}-light);
