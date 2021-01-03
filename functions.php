@@ -185,6 +185,9 @@ add_action( 'wp_print_styles', function() {
 
 /**
  * Optimize critical path latency for scripts.
+ *
+ * Scripts are only optimized on frontend screens that are controlled by the
+ * theme. (ie. NOT wp-login.php)
  */
 add_filter( 'script_loader_tag', function( $tag, $handle, $src ) {
 
@@ -192,15 +195,18 @@ add_filter( 'script_loader_tag', function( $tag, $handle, $src ) {
 		return $tag;
 	}
 
-	if ( in_array( $handle, DEFER_SCRIPTS ) ) {
-		if ( false === stripos( $tag, 'defer' ) ) {
-			$tag = str_replace( '<script ', '<script defer ', $tag );
-		}
-	}
+	if ( is_singular() ) {
 
-	if ( in_array( $handle, ASYNC_SCRIPTS ) ) {
-		if ( false === stripos( $tag, 'async' ) ) {
-			$tag = str_replace( ' src', ' async="async" src', $tag );
+		if ( in_array( $handle, DEFER_SCRIPTS ) ) {
+			if ( false === stripos( $tag, 'defer' ) ) {
+				$tag = str_replace( '<script ', '<script defer ', $tag );
+			}
+		}
+
+		if ( in_array( $handle, ASYNC_SCRIPTS ) ) {
+			if ( false === stripos( $tag, 'async' ) ) {
+				$tag = str_replace( ' src', ' async="async" src', $tag );
+			}
 		}
 	}
 
@@ -216,7 +222,7 @@ add_action( 'login_enqueue_scripts', function() {
 }, 10 );
 
 add_filter( 'login_headerurl', function() { return home_url(); } );
-add_filter( 'login_headertitle', function() { return get_bloginfo( 'name' ); } );
+add_filter( 'login_headertext', function() { return get_bloginfo( 'name' ); } );
 
 /**
  * Allow SVG tags in HTML content.
