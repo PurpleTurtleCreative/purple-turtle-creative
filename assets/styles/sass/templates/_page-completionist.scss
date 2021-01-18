@@ -1,0 +1,95 @@
+body {
+	background-color: color(true-white);
+
+	main.site-main {
+
+		.button-group {
+			display: flex;
+			justify-content: center;
+			text-align: center;
+			margin: 1em 0 .5em;
+			max-width: 100%;
+			flex-wrap: wrap;
+
+			span {
+				font-size: .8em;
+			}
+
+			.button-dark {
+				margin-bottom: 1em;
+
+				a {
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					flex-wrap: nowrap;
+
+					svg {
+						margin-left: .5em;
+						font-size: 1.3em;
+					}
+
+					&.ptc-completionist-free-download {
+
+						svg {
+							margin-bottom: .1em;
+						}
+					}
+				}
+			}
+		}
+
+		> header {
+			text-align: center;
+
+			h1 {
+				margin-bottom: 0.1em;
+
+				@include breakpoint(medium) {
+					font-size: rem-calc(55);
+				}
+			}
+
+			h2 {
+				margin-top: 0;
+			}
+		}
+
+		> footer {
+			text-align: center;
+
+			h2 {
+				margin-top: .5em;
+			}
+
+			.asana-disclaimer {
+				font-size: 0.8em;
+				margin: 2em 0 0;
+				text-align: left;
+				font-style: italic;
+
+				@include breakpoint(medium) {
+					margin: 4em 0 1em;
+				}
+
+				a {
+					color: color(primary-dark);
+				}
+			}
+		}
+
+		.entry-content {
+
+			> .wp-block-group {
+
+				> .wp-block-group__inner-container {
+					padding: rem-calc(30 0);
+
+					@include breakpoint(medium) {
+						padding: rem-calc(60 0);
+					}
+				}
+			}
+		}
+	}
+}

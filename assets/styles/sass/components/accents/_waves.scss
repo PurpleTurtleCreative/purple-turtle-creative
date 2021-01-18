@@ -26,6 +26,24 @@ $wave_trim_width: 90*1.5;
 			top: 100%;
 		}
 	}
+
+	&-top {
+		position: relative;
+		background-color: color(primary);
+		color: color(off-white);
+		margin-top: rem-calc($wave_trim_height);
+		padding-bottom: rem-calc($wave_trim_height)/2.5;
+
+		&:before {
+			@extend .wave-trim;
+			content: '';
+			display: block;
+			position: absolute;
+			width: 100%;
+			top: rem-calc(-$wave_trim_height);
+			transform: scaleY(-1) scaleX(-1);
+		}
+	}
 }
 
 .wave-bg-third {
