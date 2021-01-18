@@ -43,10 +43,13 @@ namespace PTC_Theme;
 
 					<section class="col-links">
 						<h2 class="h6">Plugins</h2>
-						<?php the_sites(); ?>
+						<a href="<?php echo esc_url( site_url( '/completionist/' ) ); ?>">Completionist</a>
+						<a href="<?php echo esc_url( 'https://wordpress.org/plugins/grouped-content/' ); ?>">Grouped Content</a>
 						<h2 class="h6">Legal</h2>
 						<?php a_link_to( 'terms-conditions' ); ?>
 						<?php a_link_to( 'privacy-policy' ); ?>
+						<h2 class="h6">Contact</h2>
+						<a href="mailto:michelle@purpleturtlecreative.com">Michelle Blanchette</a>
 					</section>
 				</div>
 
