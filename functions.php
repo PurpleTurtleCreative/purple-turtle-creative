@@ -154,7 +154,7 @@ add_action( 'wp_enqueue_scripts', function() {
 			$theme_stylesheet = '/template_page-full-width.css';
 			break;
 
-		case 'page-completionist-new.php':
+		case 'page-completionist.php':
 			$theme_stylesheet = '/template_page-completionist.css';
 			break;
 
