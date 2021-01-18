@@ -75,11 +75,5 @@ get_header();
 
 	</main><!-- #main -->
 
-<script type="text/javascript">
-	document.getElementById('ptc-completionist-free-download').addEventListener( 'click', function() {
-		window.alert('Hey! Thanks for downloading!');
-	});
-</script>
-
 <?php
 get_footer();

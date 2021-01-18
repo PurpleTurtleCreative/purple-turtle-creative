@@ -37,7 +37,7 @@ body {
 					}
 				}
 			}
-		}
+		}//end button-group
 
 		> header {
 			text-align: center;
@@ -53,13 +53,17 @@ body {
 			h2 {
 				margin-top: 0;
 			}
-		}
+		}//end header
 
 		> footer {
 			text-align: center;
 
 			h2 {
 				margin-top: .5em;
+
+				@include breakpoint(medium) {
+					margin-top: 1.3em;
+				}
 			}
 
 			.asana-disclaimer {
@@ -76,9 +80,26 @@ body {
 					color: color(primary-dark);
 				}
 			}
-		}
+		}//end footer
 
 		.entry-content {
+
+			.subheading {
+				margin-top: -.7em;
+				font-weight: bold;
+				font-size: 1.2em;
+				margin-bottom: .7em;
+				color: color(grey);
+			}
+
+			ul {
+				margin: 0;
+				padding: 0 0 0 1.2em;
+
+				li {
+					margin: .5em 0;
+				}
+			}
 
 			> .wp-block-group {
 
