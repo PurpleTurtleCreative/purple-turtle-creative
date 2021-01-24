@@ -31,6 +31,8 @@ namespace PTC_Theme;
 	<link rel="preload" href="https://fonts.gstatic.com/s/poppins/v15/pxiByp8kv8JHgFVrLCz7Z1xlFd2JQEk.woff2" as="font" type="font/woff2" crossorigin="anonymous">
 	<link rel="preload" href="https://fonts.gstatic.com/s/roboto/v20/KFOlCnqEu92Fr1MmSU5fBBc4AMP6lQ.woff2" as="font" type="font/woff2" crossorigin="anonymous">
 
+	<meta name="theme-color" content="#3c56f5">
+
 	<?php wp_head(); ?>
 </head>
 
