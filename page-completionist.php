@@ -36,8 +36,7 @@ get_header();
 						<span>Current Release <strong>v<?php echo esc_html( $free_download_tag ); ?></strong></span>
 					</div>
 					<div class="button-dark">
-						<a class="ptc-completionist-see-docs" href="#" target="_blank">Documentation <?php fa( 'long-arrow-alt-right' ); ?></a>
-						<span><em>Coming Soon!</em></span>
+						<a class="ptc-completionist-see-docs" href="https://docs.purpleturtlecreative.com/completionist/" target="_blank">Documentation <?php fa( 'long-arrow-alt-right' ); ?></a>
 					</div>
 				</div>
 
@@ -63,8 +62,7 @@ get_header();
 						<span>Current Release <strong>v<?php echo esc_html( $free_download_tag ); ?></strong></span>
 					</div>
 					<div class="button-dark">
-						<a class="ptc-completionist-see-docs" href="#" target="_blank">Documentation <?php fa( 'long-arrow-alt-right' ); ?></a>
-						<span><em>Coming Soon!</em></span>
+						<a class="ptc-completionist-see-docs" href="https://docs.purpleturtlecreative.com/completionist/" target="_blank">Documentation <?php fa( 'long-arrow-alt-right' ); ?></a>
 					</div>
 				</div>
 
