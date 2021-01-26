@@ -158,6 +158,10 @@ add_action( 'wp_enqueue_scripts', function() {
 			$theme_stylesheet = '/template_page-completionist.css';
 			break;
 
+		case 'page-plugin-info.php':
+			$theme_stylesheet = '/template_page-plugin-info.css';
+			break;
+
 		default:
 			$theme_stylesheet = '/style.css';
 			break;

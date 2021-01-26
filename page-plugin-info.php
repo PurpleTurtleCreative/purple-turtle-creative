@@ -31,13 +31,12 @@ get_header();
 			<div class="content-width-slim">
 
 				<div class="plugin-info">
-					<h1><?php echo esc_html( $plugin_info->name ); ?></h1>
+					<h1><?php echo esc_html( ucfirst( str_replace( '-', ' ', $parent_slug ) ) ); ?></h1>
 					<p class="plugin-info__description">
 						<?php echo esc_html( $plugin_info->description ); ?>
 					</p>
 				</div>
 
-				<h2>Current Release Package Information</h2>
 				<div class="plugin-header-info">
 					<div class="plugin-header-info__entry">
 						<h3>Version:</h3>
@@ -64,11 +63,15 @@ get_header();
 						<h3>Requires PHP:</h3>
 						<p><?php echo esc_html( $plugin_info->requires_php ); ?></p>
 					</div>
+					<div class="plugin-header-info__entry">
+						<h3>File Size (Compressed):</h3>
+						<p><?php echo esc_html( round( ( filesize( $plugin_zip ) / 1000000 ), 2 ) . ' MB' ); ?></p>
+					</div>
 				</div>
 
 				<div class="button-dark">
 					<a href="<?php echo esc_url( $plugin_info->homepage ); ?>">
-						Go to Plugin Homepage <?php fa( 'long-arrow-alt-right' ); ?>
+						Go to Plugin Page <?php fa( 'long-arrow-alt-right' ); ?>
 					</a>
 				</div>
 

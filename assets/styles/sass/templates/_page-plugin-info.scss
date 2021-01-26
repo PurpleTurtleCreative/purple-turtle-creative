@@ -1,0 +1,93 @@
+body {
+	background-color: color(true-white);
+
+	main.site-main {
+
+		.button-dark {
+			margin-bottom: 1em;
+
+			a {
+				display: inline-flex;
+				align-items: center;
+				justify-content: center;
+				flex-wrap: nowrap;
+
+				svg {
+					margin-left: .5em;
+					font-size: 1.3em;
+				}
+			}
+		}
+
+		> header {
+			text-align: center;
+
+			.plugin-info {
+
+				h1 {
+					margin-bottom: 0.1em;
+
+					@include breakpoint(medium) {
+						font-size: rem-calc(55);
+					}
+				}
+
+				p {
+					font-size: 1.15em;
+				}
+			}
+
+
+			h2 {
+				margin-top: 0;
+				font-size: 1.5em;
+			}
+
+			.plugin-header-info {
+				background-color: color(off-white);
+				padding: rem-calc(15 15 20);
+				border-radius: rem-calc(7);
+				margin: rem-calc(0 0 45);
+				box-shadow: 0 5px 15px color(primary-dark);
+
+				&__entry {
+					display: flex;
+					align-items: center;
+					padding: rem-calc(7 0);
+					color: color(black);
+					flex-wrap: wrap;
+					justify-content: space-between;
+
+					> * {
+						// flex: 1;
+						margin: 0;
+						font-size: 1.3em;
+						line-height: 1.3em;
+						flex-basis: 100%;
+
+						@include breakpoint(medium) {
+							flex-basis: calc( 50% - .25em );
+						}
+					}
+
+					> h3 {
+						text-align: center;
+
+						@include breakpoint(medium) {
+							text-align: right;
+						}
+					}
+
+					> p {
+						text-align: center;
+
+						@include breakpoint(medium) {
+							font-weight: font-weight(body-bold);
+							text-align: left;
+						}
+					}
+				}
+			}
+		}//end header
+	}
+}
