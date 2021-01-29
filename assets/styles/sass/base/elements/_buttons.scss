@@ -27,7 +27,7 @@ input[type="submit"] {
 	}
 
 	&__link,
-	a {
+	> a {
 		display: block;
 		text-decoration: none;
 		@include font(body, body-bold);
@@ -52,7 +52,7 @@ input[type="submit"] {
 		@extend .button;
 
 		&__link,
-		a {
+		> a {
 			background-color: color(primary-dark);
 
 			&:hover,

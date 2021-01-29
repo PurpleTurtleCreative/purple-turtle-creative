@@ -50,7 +50,7 @@ get_header();
 
 			<div class="plugin-headers">
 
-					<h2>Latest Release Info</h2>
+					<h2 id="latest">Latest Release Info</h2>
 
 					<ul>
 						<li>
@@ -88,7 +88,7 @@ get_header();
 
 			<div class="plugin-changelog content-width-slim">
 
-					<h2>Changelog</h2>
+					<h2 id="changelog">Changelog</h2>
 
 					<div class="plugin-changelog__timeline">
 						<div class="content">

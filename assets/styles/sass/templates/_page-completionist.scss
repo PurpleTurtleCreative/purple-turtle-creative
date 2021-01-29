@@ -18,7 +18,7 @@ body {
 			.button-dark {
 				margin-bottom: 1em;
 
-				a {
+				> a {
 					display: flex;
 					align-items: center;
 					justify-content: center;
@@ -36,6 +36,25 @@ body {
 						}
 					}
 				}
+
+				> span {
+
+					a {
+						font-weight: font-weight(body);
+						display: inline-block;
+						color: color(off-white);
+						border-bottom: 1px dashed color(off-white);
+
+						&:hover,
+						&:focus,
+						&:active {
+							font-weight: font-weight(body-bold);
+							color: color(off-white);
+							text-decoration: none;
+							border-bottom-style: solid;
+						}
+					}
+				}
 			}
 		}//end button-group
 
@@ -44,6 +63,7 @@ body {
 
 			h1 {
 				margin-bottom: 0.1em;
+				font-size: 2rem;
 
 				@include breakpoint(medium) {
 					font-size: rem-calc(55);

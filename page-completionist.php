@@ -33,10 +33,15 @@ get_header();
 				<div class="button-group">
 					<div class="button-dark">
 						<a class="ptc-completionist-free-download" href="<?php echo esc_url( $free_download_url ); ?>" target="_blank">Download Now <?php fa( 'download' ); ?></a>
-						<span>Current Release <strong>v<?php echo esc_html( $free_download_tag ); ?></strong></span>
+						<span>
+							<a href="<?php the_permalink(); ?>plugin-info/#latest">
+								Current Release <strong>v<?php echo esc_html( $free_download_tag ); ?></strong>
+							</a>
+						</span>
 					</div>
 					<div class="button-dark">
 						<a class="ptc-completionist-see-docs" href="https://docs.purpleturtlecreative.com/completionist/" target="_blank">Documentation <?php fa( 'long-arrow-alt-right' ); ?></a>
+						<span><a href="<?php the_permalink(); ?>plugin-info/#changelog">View Changelog</a></span>
 					</div>
 				</div>
 
@@ -59,10 +64,15 @@ get_header();
 				<div class="button-group">
 					<div class="button-dark">
 						<a class="ptc-completionist-free-download" href="<?php echo esc_url( $free_download_url ); ?>" target="_blank">Download Now <?php fa( 'download' ); ?></a>
-						<span>Current Release <strong>v<?php echo esc_html( $free_download_tag ); ?></strong></span>
+						<span>
+							<a href="<?php the_permalink(); ?>plugin-info/#latest">
+								Current Release <strong>v<?php echo esc_html( $free_download_tag ); ?></strong>
+							</a>
+						</span>
 					</div>
 					<div class="button-dark">
 						<a class="ptc-completionist-see-docs" href="https://docs.purpleturtlecreative.com/completionist/" target="_blank">Documentation <?php fa( 'long-arrow-alt-right' ); ?></a>
+						<span><a href="<?php the_permalink(); ?>plugin-info/#changelog">View Changelog</a></span>
 					</div>
 				</div>
 
