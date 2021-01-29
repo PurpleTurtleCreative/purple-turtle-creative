@@ -21,11 +21,13 @@ body {
 
 		> header {
 			text-align: center;
+			padding-bottom: rem-calc(80);
 
 			.plugin-info {
 
 				h1 {
 					margin-bottom: 0.1em;
+					font-size: 2rem;
 
 					@include breakpoint(medium) {
 						font-size: rem-calc(55);
@@ -33,61 +35,114 @@ body {
 				}
 
 				p {
-					font-size: 1.15em;
-				}
-			}
-
-
-			h2 {
-				margin-top: 0;
-				font-size: 1.5em;
-			}
-
-			.plugin-header-info {
-				background-color: color(off-white);
-				padding: rem-calc(15 15 20);
-				border-radius: rem-calc(7);
-				margin: rem-calc(0 0 45);
-				box-shadow: 0 5px 15px color(primary-dark);
-
-				&__entry {
-					display: flex;
-					align-items: center;
-					padding: rem-calc(7 0);
-					color: color(black);
-					flex-wrap: wrap;
-					justify-content: space-between;
-
-					> * {
-						// flex: 1;
-						margin: 0;
-						font-size: 1.3em;
-						line-height: 1.3em;
-						flex-basis: 100%;
-
-						@include breakpoint(medium) {
-							flex-basis: calc( 50% - .25em );
-						}
-					}
-
-					> h3 {
-						text-align: center;
-
-						@include breakpoint(medium) {
-							text-align: right;
-						}
-					}
-
-					> p {
-						text-align: center;
-
-						@include breakpoint(medium) {
-							font-weight: font-weight(body-bold);
-							text-align: left;
-						}
-					}
+					font-size: 1.15rem;
 				}
 			}
 		}//end header
+
+		.package-info {
+			position: relative;
+			z-index: 1;
+			margin-top: rem-calc(-150);
+
+			.plugin-headers {
+				order: 2;
+				background-color: color(true-white);
+				border-radius: rem-calc(7);
+				margin: rem-calc(0 0 30);
+				box-shadow: 0 5px 15px rgba(color(black), .3);
+				padding-bottom: rem-calc(20);
+
+				h2 {
+					margin: 0;
+					padding: rem-calc(15);
+					// font-size: 1.3rem;
+				}
+
+				ul {
+					list-style: none;
+					padding: 0;
+
+					li {
+						display: flex;
+						padding: rem-calc(10 15);
+						border-top: 1px solid color(grey-light);
+
+						&:last-child {
+							border-bottom: 1px solid color(grey-light);
+						}
+
+						&:nth-of-type(odd) {
+							background-color: lighten(color(grey-lightest), 1.5%);
+
+							@include breakpoint(medium) {
+								background-color: lighten(color(grey-lightest), 2%);
+							}
+						}
+
+						> * {
+							flex: 1;
+							font-size: 1.15rem;
+							line-height: 1em;
+							margin: 0;
+							white-space: nowrap;
+						}
+
+						h3 {
+							text-align: left;
+						}
+
+						p {
+							text-align: right;
+						}
+					}
+				}
+			}//end plugin-headers
+
+			.plugin-changelog {
+				margin-bottom: rem-calc(90);
+
+				$timeline-dot-size: rem-calc(20);
+
+				h2 {
+					margin-bottom: rem-calc(45);
+				}
+
+				&__timeline {
+					position: relative;
+					margin-top: rem-calc(20);
+					border-left: 2px solid color(grey-light);
+					margin-left: #{$timeline-dot-size/1.9};
+					padding-left: rem-calc(20);
+
+					.content {
+						position: relative;
+						top: rem-calc(-20);
+
+						h3 {
+							position: relative;
+							line-height: #{$timeline-dot-size + .1rem};
+							margin: 3em 0 1em;
+
+							&:before {
+								content: '';
+								display: block;
+								height: $timeline-dot-size;
+								width: $timeline-dot-size;
+								top: calc( ( 1em - $timeline-dot-size ) / 2.1 );//slightly higher than half
+								left: calc( #{rem-calc(-20)} - #{$timeline-dot-size/1.9} );
+								background-color: color(primary);
+								border-radius: 50%;
+								position: absolute;
+							}
+						}
+
+						h4 {
+							margin-top: .7em;
+						}
+					}
+				}
+			}// end plugin-changelog
+		}// end package-info
 	}
 }

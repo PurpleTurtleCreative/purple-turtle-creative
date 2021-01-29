@@ -37,38 +37,6 @@ get_header();
 					</p>
 				</div>
 
-				<div class="plugin-header-info">
-					<div class="plugin-header-info__entry">
-						<h3>Version:</h3>
-						<p><?php echo esc_html( $plugin_info->version ); ?></p>
-					</div>
-					<div class="plugin-header-info__entry">
-						<h3>Released:</h3>
-						<p title="<?php echo esc_attr( $plugin_info->last_updated ); ?>">
-							<?php
-							$last_updated_date = date_create_from_format( 'Y-m-d H:i:s', $plugin_info->last_updated );
-							echo esc_html( human_time_diff( date_timestamp_get( $last_updated_date ) ) . ' ago' );
-							?>
-						</p>
-					</div>
-					<div class="plugin-header-info__entry">
-						<h3>Requires WordPress:</h3>
-						<p><?php echo esc_html( $plugin_info->requires ); ?></p>
-					</div>
-					<div class="plugin-header-info__entry">
-						<h3>Tested Up To:</h3>
-						<p><?php echo esc_html( $plugin_info->tested ); ?></p>
-					</div>
-					<div class="plugin-header-info__entry">
-						<h3>Requires PHP:</h3>
-						<p><?php echo esc_html( $plugin_info->requires_php ); ?></p>
-					</div>
-					<div class="plugin-header-info__entry">
-						<h3>File Size (Compressed):</h3>
-						<p><?php echo esc_html( round( ( filesize( $plugin_zip ) / 1000000 ), 2 ) . ' MB' ); ?></p>
-					</div>
-				</div>
-
 				<div class="button-dark">
 					<a href="<?php echo esc_url( $plugin_info->homepage ); ?>">
 						Go to Plugin Page <?php fa( 'long-arrow-alt-right' ); ?>
@@ -78,17 +46,59 @@ get_header();
 			</div>
 		</header>
 
-		<div class="plugin-changelog">
-			<div class="content-width">
+		<div class="package-info content-width-slim">
 
-				<h2>Changelog</h2>
+			<div class="plugin-headers">
 
-				<div class="plugin-changelog__content">
-					<?php echo wp_kses_post( $plugin_info->sections->changelog ); ?>
-				</div>
+					<h2>Latest Release Info</h2>
+
+					<ul>
+						<li>
+							<h3>Version:</h3>
+							<p><?php echo esc_html( $plugin_info->version ); ?></p>
+						</li>
+						<li>
+							<h3>Released:</h3>
+							<p title="<?php echo esc_attr( $plugin_info->last_updated ); ?>">
+								<?php
+								$last_updated_date = date_create_from_format( 'Y-m-d H:i:s', $plugin_info->last_updated );
+								echo esc_html( human_time_diff( date_timestamp_get( $last_updated_date ) ) . ' ago' );
+								?>
+							</p>
+						</li>
+						<li>
+							<h3>Requires WP:</h3>
+							<p><?php echo esc_html( $plugin_info->requires ); ?></p>
+						</li>
+						<li>
+							<h3>Tested Up To:</h3>
+							<p><?php echo esc_html( $plugin_info->tested ); ?></p>
+						</li>
+						<li>
+							<h3>Requires PHP:</h3>
+							<p><?php echo esc_html( $plugin_info->requires_php ); ?></p>
+						</li>
+						<li>
+							<h3>File Size:</h3>
+							<p><?php echo esc_html( round( ( filesize( $plugin_zip ) / 1000000 ), 2 ) . ' MB' ); ?></p>
+						</li>
+					</ul>
 
 			</div>
-		</div>
+
+			<div class="plugin-changelog content-width-slim">
+
+					<h2>Changelog</h2>
+
+					<div class="plugin-changelog__timeline">
+						<div class="content">
+							<?php echo wp_kses_post( $plugin_info->sections->changelog ); ?>
+						</div>
+					</div>
+
+			</div>
+
+		</div><!-- .package-info -->
 
 	</main><!-- #main -->
 

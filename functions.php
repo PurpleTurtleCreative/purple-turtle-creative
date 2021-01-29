@@ -179,7 +179,7 @@ add_action( 'wp_print_styles', function() {
 
 	$current_template = $GLOBALS['current_theme_template'] ?? '';
 
-	if ( in_array( $current_template, [ 'index.php', '404.php' ] ) ) {
+	if ( in_array( $current_template, [ 'index.php', '404.php', 'page-plugin-info.php' ] ) ) {
 		wp_dequeue_style( 'wp-block-library' );
 	}
 
