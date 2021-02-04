@@ -20,7 +20,7 @@ get_header();
 				<h1 class="page-title"><span>Error 404</span> Not Found</h1>
 
 				<div class="archive-description">
-					<p>Dang it! I couldn't find what you were looking for, but maybe browsing the categories below with help you find it!</p>
+					<p>I couldn't find what you were looking for, but maybe browsing the categories below will help you find it.</p>
 				</div>
 
 				<div class="all-categories">
