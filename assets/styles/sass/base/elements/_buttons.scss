@@ -109,6 +109,10 @@ a.badge {
 	margin-top: 3em;
 	margin-bottom: 1em;
 
+	&.aligncenter {
+		justify-content: center;
+	}
+
 	.wp-block-button {
 		@extend .button;
 
