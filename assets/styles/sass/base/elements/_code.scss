@@ -47,7 +47,6 @@ var {
 
 	&[class*="language-"] {
 		@include font(code);
-		overflow-x: auto;
 		display: block;
 		padding: 1em 1em .8em;
 
@@ -68,8 +67,9 @@ var {
 	}
 }
 
-.wp-block-code code {
+pre.wp-block-code code {
 	border: none;
+	overflow-x: auto;
 }
 
 /* PLUGIN: Code Syntax Block */
