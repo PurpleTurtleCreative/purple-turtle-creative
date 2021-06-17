@@ -24,6 +24,8 @@ namespace PTC_Theme;
 			<?php endif; ?>
 		</ul><!-- .entry-meta -->
 
+		<?php the_short_description(); ?>
+
 	</header><!-- .entry-header -->
 
 	<div class="entry-content">
