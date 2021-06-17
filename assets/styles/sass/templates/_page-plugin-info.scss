@@ -102,7 +102,8 @@ body {
 			.plugin-changelog {
 				margin-bottom: rem-calc(90);
 
-				$timeline-dot-size: rem-calc(20);
+				$timeline-dot-size: rem-calc(30);
+				$timeline-dot-gutter: #{$timeline-dot-size/1};
 
 				h2 {
 					margin-bottom: rem-calc(45);
@@ -111,9 +112,21 @@ body {
 				&__timeline {
 					position: relative;
 					margin-top: rem-calc(20);
-					border-left: 2px solid color(grey-light);
+					border-left: 2px solid color(grey-lightest);
 					margin-left: #{$timeline-dot-size/1.9};
-					padding-left: rem-calc(20);
+					padding-left: $timeline-dot-gutter;
+
+					&:after {
+						content: '';
+						display: block;
+						height: #{$timeline-dot-size/3.0};
+						width: #{$timeline-dot-size/3.0};
+						bottom: 0;
+						left: calc( ( -#{$timeline-dot-size/3.0} / 2.0 ) - 1px );
+						background-color: color(grey-lightest);
+						border-radius: 50%;
+						position: absolute;
+					}
 
 					.content {
 						position: relative;
@@ -129,9 +142,10 @@ body {
 								display: block;
 								height: $timeline-dot-size;
 								width: $timeline-dot-size;
-								top: calc( ( 1em - $timeline-dot-size ) / 2.1 );//slightly higher than half
-								left: calc( #{rem-calc(-20)} - #{$timeline-dot-size/1.9} );
+								top: 0;
+								left: calc( -#{$timeline-dot-size/1.9} - #{$timeline-dot-gutter} );
 								background-color: color(primary);
+								border: #{$timeline-dot-size/3.0} solid color(grey-lightest);
 								border-radius: 50%;
 								position: absolute;
 							}
