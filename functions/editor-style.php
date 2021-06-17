@@ -1,8 +1,6 @@
 <?php
 /**
- * Purple Turtle Creative functions and definitions
- *
- * @link https://developer.wordpress.org/themes/basics/theme-functions/
+ * Styles for the Gutenberg editor.
  *
  * @package Purple_Turtle_Creative
  */
@@ -101,5 +99,4 @@ function get_custom_colors() {
 	}
 
 	return $colors;
-
 }
