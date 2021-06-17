@@ -145,8 +145,9 @@ body {
 								top: 0;
 								left: calc( -#{$timeline-dot-size/1.9} - #{$timeline-dot-gutter} );
 								background-color: color(primary);
-								border: #{$timeline-dot-size/3.0} solid color(grey-lightest);
+								border: #{$timeline-dot-size/3.0} solid color(off-white);
 								border-radius: 50%;
+								box-shadow: 0 0 0 2px color(grey-lightest);
 								position: absolute;
 							}
 						}
