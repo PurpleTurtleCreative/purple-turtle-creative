@@ -2,5 +2,6 @@
 /vendor
 package-lock.json
 composer.lock
-style.css.map
+*.css.map
+*.js.map
 .DS_Store
