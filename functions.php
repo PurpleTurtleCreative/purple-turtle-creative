@@ -24,6 +24,11 @@ foreach ( glob( get_template_directory() . '/functions/*.php' ) as $filename ) {
 }
 
 /**
+ * Don't ask about admin email.
+ */
+add_filter( 'admin_email_check_interval', '__return_false' );
+
+/**
  * Configure theme's supported features.
  */
 add_action( 'after_setup_theme', function() {
