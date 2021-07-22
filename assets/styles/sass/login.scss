@@ -15,7 +15,16 @@ body.login {
 		padding: 0 0 1%;
 
 		a {
-			color: color(true-white) !important;
+			color: color(true-white);
+		}
+
+		#login_error,
+		.message,
+		.success {
+
+			a {
+				color: color(primary);
+			}
 		}
 
 		h1 {
