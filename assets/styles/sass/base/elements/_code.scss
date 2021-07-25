@@ -48,10 +48,10 @@ var {
 	&[class*="language-"] {
 		@include font(code);
 		display: block;
-		padding: 1em 1em .8em;
+		padding: 1em 1em .8em !important;
 
 		@include breakpoint(medium) {
-			padding: 1em 1.5em .8em;
+			padding: 1em 1.5em .8em !important;
 		}
 	}
 
