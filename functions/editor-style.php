@@ -7,25 +7,26 @@
 
 namespace PTC_Theme;
 
+add_action( 'after_setup_theme', __NAMESPACE__ . '\configure_gutenberg_support', 10 );
+add_action( 'enqueue_block_editor_assets', __NAMESPACE__ . '\enqueue_block_editor_assets', 999 );
+add_filter( 'mkaz_code_syntax_language_list', __NAMESPACE__ . '\mkaz_code_syntax_language_list', 999, 1 );
+
 /**
  * Configure the Gutenberg Editor.
  */
-add_action( 'after_setup_theme', function() {
-
+function configure_gutenberg_support() {
 	// Disable theme overrides from being applied.
 	add_theme_support( 'disable-custom-gradients' );
 	add_theme_support( 'disable-custom-colors' );
 	add_theme_support( 'disable-custom-font-sizes' );
-
 	// Define color palette.
 	add_theme_support( 'editor-color-palette', get_custom_colors() );
-
-}, 10 );
+}
 
 /**
  * Enqueue Gutenberg Editor styles.
  */
-add_action( 'enqueue_block_editor_assets', function() {
+function enqueue_block_editor_assets() {
 
 	$editor_stylesheet = get_template_directory() . '/assets/styles/style-editor.css';
 	$editor_stylesheet_uri = get_template_directory_uri() . '/assets/styles/style-editor.css';
@@ -41,8 +42,7 @@ add_action( 'enqueue_block_editor_assets', function() {
 		[],
 		'1.0'
 	);
-
-}, 999 );
+}
 
 /**
  * Get color values defined in _colors.scss
@@ -99,4 +99,22 @@ function get_custom_colors() {
 	}
 
 	return $colors;
+}
+
+/**
+ * Only allow supported code languages to be used.
+ *
+ * @see wp-content/plugins/code-syntax-block/prism-languages.php
+ * @see wp-content/themes/purple-turtle-creative/assets/styles/sass/base/elements/_code.scss
+ *
+ * @param string[] $languages The array of prism languages.
+ */
+function mkaz_code_syntax_language_list( $languages ) {
+	return [
+		'bash'       => 'Bash/Shell',
+		'css'        => 'CSS',
+		'javascript' => 'JavaScript',
+		'json'       => 'JSON',
+		'php'        => 'PHP',
+	];
 }
