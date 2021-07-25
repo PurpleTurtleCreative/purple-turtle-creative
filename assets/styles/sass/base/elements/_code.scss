@@ -91,7 +91,7 @@ pre[class*="language-"] {
 		letter-spacing: .1em;
 	}
 
-	@each $lang in (bash, css, javascript, php) {
+	@each $lang in (bash, css, javascript, json, php) {
 		&.language-#{$lang}:before {
 			content: '#{$lang}';
 		}

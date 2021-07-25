@@ -238,6 +238,22 @@ add_filter( 'login_headerurl', function() { return home_url(); } );
 add_filter( 'login_headertext', function() { return get_bloginfo( 'name' ); } );
 
 /**
+ * Only allow supported code languages to be used.
+ *
+ * @see wp-content/plugins/code-syntax-block/prism-languages.php
+ * @see wp-content/themes/purple-turtle-creative/assets/styles/sass/base/elements/_code.scss
+ */
+add_filter( 'mkaz_code_syntax_language_list', function( $languages ) {
+	return [
+		"bash" => "Bash/Shell",
+		"css" => "CSS",
+		"javascript" => "JavaScript",
+		"json" => "JSON",
+		"php" => "PHP",
+	];
+}, 999, 1 );
+
+/**
  * Allow SVG tags in HTML content.
  */
 add_filter( 'wp_kses_allowed_html', function( $tags ) {
