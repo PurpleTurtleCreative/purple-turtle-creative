@@ -33,7 +33,7 @@ function the_published_or_modified_date( string $format = '%1$s <strong>%2$s</st
 	$published_date = get_the_date();
 	$modified_date = get_the_modified_date();
 	[ $label, $date, $info ] = ( $modified_date !== $published_date ) ?
-		[ 'Published', $published_date, " <span class='fa-info-circle' title='Modified on {$modified_date}'>" . get_fa( 'info-circle' ) . '</span>' ] :
+		[ 'Published', $published_date, " <span class='fa-info-circle' title='Modified {$modified_date}'>" . get_fa( 'info-circle' ) . '</span>' ] :
 		[ 'Published', $published_date, '' ];
 
 	echo wp_kses_post( sprintf( $format, $label, $date, $info ) );

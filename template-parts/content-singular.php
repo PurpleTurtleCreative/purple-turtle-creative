@@ -18,7 +18,15 @@ namespace PTC_Theme;
 		<?php the_title( '<h1 class="entry-title">', '</h1>' ); ?>
 
 		<ul class="entry-meta">
-			<li class="entry-date"><?php the_published_or_modified_date(); ?></li>
+			<li class="entry-date">
+				<?php
+				if ( is_page( [ 'privacy-policy', 'terms-conditions' ] ) ) {
+					echo 'Modified <strong>' . esc_html( get_the_modified_date() ) . '</strong>';
+				} else {
+					the_published_or_modified_date();
+				}
+				?>
+			</li>
 			<?php if ( 'page' != get_post_type() ) : ?>
 			<li class="entry-categories"><?php the_category( ' ' ); ?></li>
 			<?php endif; ?>
