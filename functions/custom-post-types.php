@@ -54,7 +54,7 @@ function register_custom_post_types() {
 		[
 			'label' => 'Portfolio',
 			'labels' => $labels,
-			'description' => 'Project posts to demonstrate expertise.',
+			'description' => 'Check out the latest projects that I\'ve been working on.',
 			'public' => true,
 			'hierarchical' => false,
 			'exclude_from_search' => false,
@@ -62,7 +62,11 @@ function register_custom_post_types() {
 			'menu_position' => 21, /* Pages menu item is priority 20, see https://developer.wordpress.org/reference/functions/add_menu_page/#default-bottom-of-menu-structure */
 			'menu_icon' => 'dashicons-index-card',
 			'register_meta_box_cb' => null,
-			'has_archive' => true,
+			'has_archive' => 'portfolio',
+			'rewrite' => [
+				'slug' => 'portfolio',
+				'with_front' => false,
+			],
 			'delete_with_user' => false,
 		]
 	);
