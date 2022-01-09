@@ -111,6 +111,12 @@ body.file-singular-php {
 							display: block;
 							margin: rem-calc(10 0);
 							font-size: 1.1em;
+							line-height: 1.5;
+
+							@include breakpoint(medium) {
+								margin: rem-calc(5 0);
+								line-height: 1.7;
+							}
 
 							strong {
 								display: inline-block;
@@ -170,4 +176,4 @@ body.file-singular-php {
 			}
 		}
 	}//&.single-ptc-portfolio
-}
+}//body.file-singular-php

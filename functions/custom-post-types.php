@@ -109,9 +109,9 @@ function register_custom_post_types() {
 			'public' => true,
 			'hierarchical' => false,
 			'show_in_rest' => true, // Make available in Block Editor.
-			'sort' => true,
+			'sort' => false,
 			'rewrite' => [
-				'slug' => 'portfolio/skills',
+				'slug' => 'portfolio/skill',
 				'with_front' => false,
 			],
 		]
