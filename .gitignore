@@ -1,7 +1,5 @@
 /node_modules
 /vendor
-package-lock.json
-composer.lock
 *.css.map
 *.js.map
 .DS_Store
