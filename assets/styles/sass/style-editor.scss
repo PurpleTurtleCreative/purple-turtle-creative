@@ -4,18 +4,16 @@
 
 body {
 
+	.wp-block {
+		max-width: 100%;
+	}
+
 	/* Editor main column width */
-	&.post-type-post {
+	&.post-type-post,
+	&.post-type-ptc-portfolio {
 
 		.wp-block {
 			max-width: 51.025rem; // to match (most) actual line breaks
-		}
-	}
-
-	&:not(.post-type-post) {
-
-		.wp-block {
-			max-width: 100%;
 		}
 	}
 
@@ -25,15 +23,20 @@ body {
 		@import "base/base";
 		@import "components/components";
 		font-size: rem-calc(18) !important;
+		padding-bottom: rem-calc(150);
+
+		h2:first-child {
+			margin-top: 3em;
+		}
 
 		.editor-post-title__input {
 			@include font(heading);
-			line-height: 1.2em;
 		}
 
 		p,
 		ul {
 			@include font(body);
+			line-height: 2;
 		}
 
 		svg {
