@@ -124,7 +124,59 @@ body.file-404-php {
 						}
 					}
 				} // end .entry-footer
-			}
-		}
+
+				// == Custom Content Overrides == //
+
+				&.type-ptc-portfolio {
+
+					.entry-content {
+
+						.project-client {
+							margin: 0;
+							font-size: 1rem;
+						  color: color(grey);
+						}
+
+						.entry-title {
+							margin-top: 0.3rem;
+						}
+
+						.project-dates {
+							font-weight: bolder;
+							margin: #{spacing(gutter)/1.3} 0;
+						}
+					}
+
+					.entry-footer {
+						border-top: 1px solid color(grey-lightest);
+
+						ul.project-skill-tags {
+							/** @see https://www.jankollars.com/posts/multi-line-horizontal-list-with-separators/ */
+						  display: flex;
+						  flex-wrap: wrap;
+						  padding-left: 0;
+						  list-style: none;
+						  margin: 0;
+						  margin-left: -3ch;
+						  clip-path: inset(0 0 0 3ch);
+						  font-size: 1rem;
+						  color: color(grey);
+
+							li {
+							  padding-left: 1ch;
+
+								&::before {
+								  content: '•';
+								  display: inline-block;
+								  margin-right: 1ch;
+								  width: 1ch;
+								  text-align: center;
+								}
+							}
+						}
+					}
+				}//&.type-ptc-portfolio
+			}//article
+		}//.posts-loop
 	}
 }
