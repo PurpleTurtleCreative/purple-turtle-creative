@@ -2,6 +2,7 @@
 	background-color: color(primary);
 	position: relative;
 	z-index: 100;
+	margin-bottom: -2px;//prevent white line.
 
 	.content-width {
 		display: flex;

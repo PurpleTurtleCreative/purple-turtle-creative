@@ -27,7 +27,7 @@ namespace PTC_Theme;
 							</a>
 						</div>
 						<div class="site-description">
-							<p>Welcome to my little oasis in the great wide Web where I come to document and craft new things&mdash;especially WordPress things. As a full-stack web developer, there's always more to learn and create. So come relax a while. Maybe you'll learn a new skill, find a useful tool, or refresh your inspiration.</p>
+							<p>Hi, I'm Michelle&mdash;a passionate and curious professional WordPress developer. Welcome to my little oasis of WordPress development discoveries, documentation, and projects.</p>
 						</div>
 						<div class="site-social">
 							<a href="https://www.linkedin.com/company/purple-turtle-creative" target="_blank" rel="noopener"><span class="fa-linkedin-in"><?php fa( 'linkedin-in', 'brands' ); ?></span>Follow for Updates</a>
