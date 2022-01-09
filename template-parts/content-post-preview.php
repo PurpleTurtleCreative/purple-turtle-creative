@@ -12,12 +12,6 @@ namespace PTC_Theme;
 ?>
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-	<header class="entry-header">
-		<a href="<?php echo esc_url( get_permalink() ); ?>" tabindex="-1">
-			<?php the_post_thumbnail( 'large' ); ?>
-		</a>
-	</header><!-- .entry-header -->
-
 	<div class="entry-content">
 
 		<?php the_primary_category(); ?>
@@ -29,8 +23,4 @@ namespace PTC_Theme;
 		<?php the_short_description(); ?>
 
 	</div><!-- .entry-content -->
-
-	<footer class="entry-footer">
-		<p class="entry-readmore"><a href="<?php echo esc_url( get_permalink() ); ?>" aria-label="<?php echo esc_attr( 'Read more about ' . get_the_title() ); ?>">Read More <?php fa( 'angle-double-right' ); ?></a></p>
-	</footer><!-- .entry-footer -->
 </article><!-- #post-<?php the_ID(); ?> -->

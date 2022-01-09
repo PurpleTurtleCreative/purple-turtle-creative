@@ -110,19 +110,6 @@ body.file-404-php {
 
 				.entry-footer {
 					padding: spacing(gutter);
-
-					.entry-readmore {
-						margin: 0;
-
-						a {
-							display: flex;
-							align-items: center;
-
-							svg {
-								margin-left: .3em;
-							}
-						}
-					}
 				} // end .entry-footer
 
 				// == Custom Content Overrides == //
@@ -143,7 +130,7 @@ body.file-404-php {
 
 						.project-dates {
 							font-weight: bolder;
-							margin: #{spacing(gutter)/1.3} 0;
+							margin-bottom: #{spacing(gutter)/1.3};
 						}
 					}
 
