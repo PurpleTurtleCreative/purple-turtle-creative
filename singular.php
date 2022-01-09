@@ -22,9 +22,14 @@ get_header();
 		while ( have_posts() ) :
 			the_post();
 
-			get_template_part( 'template-parts/content', 'singular' );
+			if ( is_singular( [ 'page', 'post' ] ) ) {
+				get_template_part( 'template-parts/content', 'singular' );
+			} else {
+				// Get template part for custom post types.
+				get_template_part( 'template-parts/content', get_post_type() );
+			}
 
-			if ( 'page' != get_post_type() ) {
+			if ( ! is_singular( 'page' ) ) {
 				the_post_navigation(
 					[
 						'prev_text' => '<div class="nav-icon">&lsaquo;</div><div class="nav-label" title="%title"><span class="nav-subtitle">Prev:</span> %title</div>',

@@ -109,6 +109,11 @@ function register_custom_post_types() {
 			'public' => true,
 			'hierarchical' => false,
 			'show_in_rest' => true, // Make available in Block Editor.
+			'sort' => true,
+			'rewrite' => [
+				'slug' => 'portfolio/skills',
+				'with_front' => false,
+			],
 		]
 	);
 }
@@ -128,7 +133,7 @@ function register_post_type_custom_fields() {
 						'label' => 'Project Dates',
 						'name' => 'ptc_project_dates',
 						'type' => 'group',
-						'instructions' => 'Post content should be as concise as possible and contain three sections: (1) Project - Define the request (2) Solution - Describe the implemented features or fixes (3) Result - The solution\'s impact.',
+						'instructions' => 'Post content should be as concise as possible and contain three sections: (1) Project - Define the request (2) Solution - Describe the implemented features or fixes, noting any challenges (3) Result - The solution\'s impact.',
 						'required' => 0,
 						'conditional_logic' => 0,
 						'wrapper' => array(
@@ -194,6 +199,25 @@ function register_post_type_custom_fields() {
 						'min' => '0.5',
 						'max' => '',
 						'step' => '0.5',
+					),
+					array(
+						'key' => 'field_61da36171adf3',
+						'label' => 'Client',
+						'name' => 'ptc_project_client',
+						'type' => 'text',
+						'instructions' => 'The client who requested the project.',
+						'required' => 0,
+						'conditional_logic' => 0,
+						'wrapper' => array(
+							'width' => '',
+							'class' => '',
+							'id' => '',
+						),
+						'default_value' => 'Self (Personal Project)',
+						'placeholder' => 'Self (Personal Project)',
+						'prepend' => '',
+						'append' => '',
+						'maxlength' => '',
 					),
 					array(
 						'key' => 'field_61da36171adf1',

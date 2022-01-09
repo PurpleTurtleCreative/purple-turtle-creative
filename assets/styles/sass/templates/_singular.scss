@@ -80,4 +80,94 @@ body.file-singular-php {
 			}
 		}
 	}
+
+	// == Custom Content Overrides == //
+
+	&.single-ptc-portfolio {
+
+		main.site-main {
+
+			.wave-bg-third {
+				&:before {
+					height: 100vh;
+
+					@include breakpoint(medium) {
+						height: 90vh;
+					}
+
+					@include breakpoint(xlarge) {
+						height: 66vh;
+					}
+				}
+			}
+
+			article {
+
+				.entry-header {
+					ul.entry-meta {
+						margin: rem-calc(30 0);
+
+						li {
+							display: block;
+							margin: rem-calc(10 0);
+							font-size: 1.1em;
+
+							strong {
+								display: inline-block;
+
+								@include breakpoint(medium) {
+									width: 7em;
+								}
+							}
+
+							&.entry-categories {
+
+								@include breakpoint(medium) {
+									text-indent: -7em;
+									margin-left: 7em;
+								}
+
+								strong {
+									text-indent: 0;
+								}
+
+								a {
+									margin: .2em;
+									text-indent: 0;
+								}
+							}
+
+							&.project-link {
+								text-align: center;
+
+								a {
+									@extend .badge-dark;
+									display: inline-flex;
+									align-items: center;
+									margin: 1em 0 .5em;
+									padding-left: 2em;
+									padding-right: 2em;
+									border-radius: 999px;
+
+									svg {
+										margin-left: 0.5em;
+										font-size: 1.3em;
+									}
+								}
+							}
+						}
+					}
+				}
+
+				.entry-content {
+
+					h2:not(:first-of-type) {
+						border-top: 2px solid color(grey-lightest);
+						margin-top: 2em;
+						padding-top: 2em;
+					}
+				}
+			}
+		}
+	}//&.single-ptc-portfolio
 }
