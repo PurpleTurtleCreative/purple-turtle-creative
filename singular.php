@@ -14,10 +14,6 @@ get_header();
 
 	<main id="primary" <?php post_class( 'site-main' ); ?>>
 
-		<div class="wave-bg-third">
-			<div class="wave-trim"></div>
-		</div>
-
 		<?php
 		while ( have_posts() ) :
 			the_post();

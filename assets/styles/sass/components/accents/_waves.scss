@@ -9,6 +9,8 @@ $wave_trim_width: 90*1.5;
 	background-repeat: repeat-x;
 	position: relative;
 	top: rem-calc(-20);
+	left: 0;
+	right: 0;
 	z-index: 1;
 
 	&-bottom {
@@ -23,7 +25,7 @@ $wave_trim_width: 90*1.5;
 			display: block;
 			position: absolute;
 			width: 100%;
-			top: 100%;
+			top: calc(100% - 2px);//prevent white line.
 		}
 	}
 
@@ -73,7 +75,7 @@ $wave_trim_width: 90*1.5;
 		background-size: rem-calc(250 200);
 		background-repeat: repeat-x;
 		position: relative;
-		top: -2px;
+		top: -2px;//prevent white line.
 		z-index: 0;
 	}
 }

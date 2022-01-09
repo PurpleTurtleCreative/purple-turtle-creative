@@ -1,11 +1,11 @@
+// Local Variables ---------
+
+$header_wave_trim_distance: 20vh;
+
+// -------------------------
+
 body.file-singular-php {
 	background-color: color(off-white);
-
-	.page-content,
-	.entry-content,
-	.entry-summary {
-		margin: 1.5em 0 0;
-	}
 
 	main.site-main {
 		margin-bottom: rem-calc(120);
@@ -14,18 +14,32 @@ body.file-singular-php {
 
 			.entry-header {
 				color: color(true-white);
-				padding: rem-calc(0 15);
 
-				@include breakpoint(small) {
-					padding: rem-calc(0 30);
+				&.wave-trim-bottom {
+					margin-bottom: 0;
+					padding-bottom: $header_wave_trim_distance;
+
+					&:after {
+						height: rem-calc(200);
+						background-position: left bottom;
+						background-size: rem-calc(250 200);
+					}
 				}
 
-				@include breakpoint(medium) {
-					padding: rem-calc(0 60);
+				.entry-header-inner {
+					padding: rem-calc(30 15 0);
+
+					@include breakpoint(small) {
+						padding: rem-calc(30 30 0);
+					}
+
+					@include breakpoint(medium) {
+						padding: rem-calc(30 60 0);
+					}
 				}
 
 				h1 {
-					margin: 0.5em 0 .3em;
+					margin: 0 0 .3em;
 					text-shadow: rem-calc(1 3 5) #{color(primary-dark)}80;
 				}
 
@@ -64,18 +78,24 @@ body.file-singular-php {
 				}
 			}
 
-			.entry-content {
-				background-color: color(true-white);
-				border-radius: rem-calc(10);
-				border: 2px solid color(grey-lightest);
-				padding: rem-calc(10 15 30);
+			.entry-content-container.content-width {
+				margin-top: -$header_wave_trim_distance;
 
-				@include breakpoint(small) {
-					padding: rem-calc(30 30 60);
-				}
+				.entry-content {
+					position: relative;
+					z-index: 10;
+					background-color: color(true-white);
+					border-radius: rem-calc(10);
+					border: 2px solid color(grey-lightest);
+					padding: rem-calc(10 15 30);
 
-				@include breakpoint(medium) {
-					padding: rem-calc(45 60 90);
+					@include breakpoint(small) {
+						padding: rem-calc(30 30 60);
+					}
+
+					@include breakpoint(medium) {
+						padding: rem-calc(45 60 90);
+					}
 				}
 			}
 		}
@@ -87,25 +107,11 @@ body.file-singular-php {
 
 		main.site-main {
 
-			.wave-bg-third {
-				&:before {
-					height: 100vh;
-
-					@include breakpoint(medium) {
-						height: 90vh;
-					}
-
-					@include breakpoint(xlarge) {
-						height: 66vh;
-					}
-				}
-			}
-
 			article {
 
 				.entry-header {
 					ul.entry-meta {
-						margin: rem-calc(30 0);
+						margin: rem-calc(30 0 20);
 
 						li {
 							display: block;
