@@ -8,6 +8,7 @@
 namespace PTC_Theme;
 
 add_action( 'init', __NAMESPACE__ . '\register_custom_post_types', 10 );
+add_action( 'acf/init', __NAMESPACE__ . '\register_post_type_custom_fields', 10 );
 
 /**
  * Registers the custom post types.
@@ -61,7 +62,6 @@ function register_custom_post_types() {
 			'show_in_rest' => true, // Make available in Block Editor.
 			'menu_position' => 21, /* Pages menu item is priority 20, see https://developer.wordpress.org/reference/functions/add_menu_page/#default-bottom-of-menu-structure */
 			'menu_icon' => 'dashicons-index-card',
-			'register_meta_box_cb' => null,
 			'taxonomies' => [ 'skill' ],
 			'has_archive' => 'portfolio',
 			'rewrite' => [
@@ -111,4 +111,145 @@ function register_custom_post_types() {
 			'show_in_rest' => true, // Make available in Block Editor.
 		]
 	);
+}
+
+/**
+ * Registers post type custom fields.
+ */
+function register_post_type_custom_fields() {
+	if ( function_exists( 'acf_add_local_field_group' ) ) :
+		acf_add_local_field_group(
+			array(
+				'key' => 'group_61da33691aa79',
+				'title' => 'Portfolio Project Metadata',
+				'fields' => array(
+					array(
+						'key' => 'field_61da35bd1adf0',
+						'label' => 'Project Dates',
+						'name' => 'ptc_project_dates',
+						'type' => 'group',
+						'instructions' => 'Post content should be as concise as possible and contain three sections: (1) Project - Define the request (2) Solution - Describe the implemented features or fixes (3) Result - The solution\'s impact.',
+						'required' => 0,
+						'conditional_logic' => 0,
+						'wrapper' => array(
+							'width' => '',
+							'class' => '',
+							'id' => '',
+						),
+						'layout' => 'block',
+						'sub_fields' => array(
+							array(
+								'key' => 'field_61da345c1aded',
+								'label' => 'From',
+								'name' => 'ptc_project_from',
+								'type' => 'date_picker',
+								'instructions' => 'When you started working on the project.',
+								'required' => 1,
+								'conditional_logic' => 0,
+								'wrapper' => array(
+									'width' => '50',
+									'class' => '',
+									'id' => '',
+								),
+								'display_format' => 'F j, Y',
+								'return_format' => 'F Y',
+								'first_day' => 1,
+							),
+							array(
+								'key' => 'field_61da351a1adee',
+								'label' => 'To',
+								'name' => 'ptc_project_to',
+								'type' => 'date_picker',
+								'instructions' => 'When you stopped working on the project. (Leave blank if project is still ongoing.)',
+								'required' => 0,
+								'conditional_logic' => 0,
+								'wrapper' => array(
+									'width' => '50',
+									'class' => '',
+									'id' => '',
+								),
+								'display_format' => 'F j, Y',
+								'return_format' => 'F Y',
+								'first_day' => 1,
+							),
+						),
+					),
+					array(
+						'key' => 'field_61da35691adef',
+						'label' => 'Billable Hours',
+						'name' => 'ptc_project_billable_hours',
+						'type' => 'number',
+						'instructions' => 'The number of hours charged.',
+						'required' => 0,
+						'conditional_logic' => 0,
+						'wrapper' => array(
+							'width' => '',
+							'class' => '',
+							'id' => '',
+						),
+						'default_value' => '',
+						'placeholder' => '',
+						'prepend' => '',
+						'append' => '',
+						'min' => '0.5',
+						'max' => '',
+						'step' => '0.5',
+					),
+					array(
+						'key' => 'field_61da36171adf1',
+						'label' => 'Work Role',
+						'name' => 'ptc_project_role',
+						'type' => 'text',
+						'instructions' => 'The role you performed on the project.',
+						'required' => 1,
+						'conditional_logic' => 0,
+						'wrapper' => array(
+							'width' => '',
+							'class' => '',
+							'id' => '',
+						),
+						'default_value' => '',
+						'placeholder' => '',
+						'prepend' => '',
+						'append' => '',
+						'maxlength' => '',
+					),
+					array(
+						'key' => 'field_61da36781adf2',
+						'label' => 'Project URL',
+						'name' => 'ptc_project_url',
+						'type' => 'url',
+						'instructions' => 'A link to the project.',
+						'required' => 0,
+						'conditional_logic' => 0,
+						'wrapper' => array(
+							'width' => '',
+							'class' => '',
+							'id' => '',
+						),
+						'default_value' => '',
+						'placeholder' => '',
+					),
+				),
+				'location' => array(
+					array(
+						array(
+							'param' => 'post_type',
+							'operator' => '==',
+							'value' => 'ptc-portfolio',
+						),
+					),
+				),
+				'menu_order' => 0,
+				'position' => 'acf_after_title',
+				'style' => 'default',
+				'label_placement' => 'top',
+				'instruction_placement' => 'label',
+				'hide_on_screen' => '',
+				'active' => true,
+				'description' => '',
+				'show_in_rest' => 0,
+			)
+		);
+	endif;
 }
