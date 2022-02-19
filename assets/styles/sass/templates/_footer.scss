@@ -21,25 +21,6 @@
 
 				.col-identity {
 
-					.site-logo {
-
-						a {
-							display: flex;
-							align-items: center;
-							font-size: rem-calc(60);
-							margin-bottom: rem-calc(15);
-
-							@include breakpoint( medium ) {
-								font-size: rem-calc(80);
-							}
-
-							svg.ptc-type {
-								font-size: .6em;
-								margin: 0 .1em;
-							}
-						}
-					}
-
 					.site-description {
 
 						p {
