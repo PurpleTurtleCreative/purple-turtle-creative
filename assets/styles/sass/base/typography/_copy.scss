@@ -79,6 +79,11 @@ ins {
 	text-decoration: none;
 }
 
+small {
+	display: inline-block;// required for line-height to work.
+	line-height: inherit;
+}
+
 big {
 	font-size: 1.3em;
 }
