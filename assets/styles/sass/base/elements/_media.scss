@@ -47,14 +47,11 @@ figcaption {
 
 .wp-block-gallery {
 
-	.blocks-gallery-grid {
+	.wp-block-image {
 
-		.blocks-gallery-item {
-
-			img {
-				@extend %style-default-image;
-				pointer-events: none;
-			}
+		img {
+			@extend %style-default-image;
+			pointer-events: none;
 		}
 	}
 
@@ -63,20 +60,16 @@ figcaption {
 		@for $i from 1 through 8 {
 			&.mobile-columns-#{$i} {
 
-				.blocks-gallery-grid {
+				.wp-block-image {
+					width: calc( #{100% / $i} - #{rem-calc(5)} ) !important;
+					margin: rem-calc(0 5 5 0) !important;
 
-					.blocks-gallery-item,
-					.blocks-gallery-image {
-					  width: calc( #{100% / $i} - #{rem-calc(5)} );
-					  margin: rem-calc(0 5 5 0);
+					&:nth-of-type(#{$i}n) {
+						margin-right: 0 !important;
+					}
 
-						&:nth-of-type(#{$i}n) {
-						  margin-right: 0;
-						}
-
-						img {
-							border-radius: rem-calc(10);
-						}
+					img {
+						border-radius: rem-calc(10) !important;
 					}
 				}
 			}
