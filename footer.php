@@ -27,7 +27,8 @@ namespace PTC_Theme;
 							</a>
 						</div>
 						<div class="site-description">
-							<p>Hi, I'm Michelle&mdash;a passionate and curious professional WordPress developer. Welcome to my little oasis of WordPress development discoveries, documentation, and projects.</p>
+							<p><?php echo get_bloginfo( 'description' ); ?></p>
+							<p class="llc-notice"><small>Purple Turtle Creative, LLC is a limited liability company registered with New York State.</small></p>
 						</div>
 						<div class="site-social">
 							<a href="https://www.linkedin.com/company/purple-turtle-creative" target="_blank" rel="noopener"><span class="fa-linkedin-in"><?php fa( 'linkedin-in', 'brands' ); ?></span>Follow for Updates</a>
@@ -60,11 +61,11 @@ namespace PTC_Theme;
 			<div class="content-width">
 
 				<div class="left">
-					<span>&copy;&nbsp;<a href="https://www.linkedin.com/in/michelle-blanchette/" target="_blank" rel="noopener">Michelle&nbsp;Blanchette</a>. All&nbsp;rights&nbsp;reserved.</span>
+					<span>&copy;&nbsp;<?php echo date( 'Y' ); ?>&nbsp;Purple&nbsp;Turtle&nbsp;Creative,&nbsp;LLC. All&nbsp;rights&nbsp;reserved.</span>
 				</div>
 
 				<div class="right">
-					<span title="Made with love in New York, USA">Made with <?php fa( 'heart' ); ?> in New York, USA</span>
+					<small>Website designed and developed by <a href="https://www.linkedin.com/in/michelle-blanchette/" target="_blank" rel="noopener">Michelle&nbsp;Blanchette</a>.</small>
 				</div>
 
 			</div>

@@ -4,7 +4,7 @@
   "description": "Custom theme for Purple Turtle Creative WordPress website.",
   "author": "Michelle Blanchette",
   "devDependencies": {
-    "node-sass": "^5.0.0",
+    "node-sass": "^7.0.0",
     "terser-folder": "^2.0.0"
   },
   "scripts": {
