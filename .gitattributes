@@ -1,0 +1,19 @@
+#
+# Some rules inspired by:
+# https://gist.github.com/jacobamit/64e0d04826c6c11321efa052c0b7b23f
+#
+
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# Don't diff or textually merge source maps
+*.map binary
+
+# Avoid unreadable diffs for generated text files, eg: *.min.js
+*.min.* binary
+
+# https://github.com/github/linguist/blob/master/docs/overrides.md
+node_modules/ linguist-vendored
+assets/*.css linguist-generated
+assets/*.map linguist-generated
+assets/*.min.* linguist-generated
