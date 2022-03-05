@@ -30,13 +30,14 @@ $spacings: (
 }
 
 %child-col-2 {
-	flex-basis: calc( 100% - #{spacing(gutter)/2} );
-	width: calc( 100% - #{spacing(gutter)/2} ); // legacy support
+	flex-basis: 100%;
+	width: 100%; // legacy support
 	margin: #{spacing(gutter)/2} 0;
 	padding: spacing(gutter);
 
 	@include breakpoint( medium ) {
 		flex-basis: calc( 50% - #{spacing(gutter)/2} );
 		width: calc( 50% - #{spacing(gutter)/2} ); // legacy support
+		padding: spacing(gutter) 0;
 	}
 }
