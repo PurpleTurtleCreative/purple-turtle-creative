@@ -29,8 +29,10 @@ if ( ! $project_client ) {
 
 $skills = get_the_terms( get_post(), 'skill' );
 $skill_tag_list_items_string = '';
-foreach ( $skills as &$skill ) {
-	$skill_tag_list_items_string .= "<li>{$skill->name}</li>";
+if ( is_array( $skills ) ) {
+	foreach ( $skills as &$skill ) {
+		$skill_tag_list_items_string .= "<li>{$skill->name}</li>";
+	}
 }
 ?>
 
@@ -53,9 +55,11 @@ foreach ( $skills as &$skill ) {
 
 	</div><!-- .entry-content -->
 
+	<?php if ( $skill_tag_list_items_string ) : ?>
 	<footer class="entry-footer">
 		<ul class="project-skill-tags" role="list">
 			<?php echo wp_kses_post( $skill_tag_list_items_string ); ?>
 		</ul>
 	</footer><!-- .entry-footer -->
+	<?php endif; ?>
 </article><!-- #post-<?php the_ID(); ?> -->
