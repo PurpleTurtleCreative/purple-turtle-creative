@@ -61,7 +61,7 @@ namespace PTC_Theme;
 			<div class="content-width">
 
 				<div class="left">
-					<span>&copy;&nbsp;<?php echo date( 'Y' ); ?>&nbsp;Purple&nbsp;Turtle&nbsp;Creative,&nbsp;LLC. All&nbsp;rights&nbsp;reserved.</span>
+					<small>&copy;&nbsp;<?php echo date( 'Y' ); ?>&nbsp;Purple&nbsp;Turtle&nbsp;Creative,&nbsp;LLC. All&nbsp;rights&nbsp;reserved.</small>
 				</div>
 
 				<div class="right">
