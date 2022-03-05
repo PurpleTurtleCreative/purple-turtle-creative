@@ -16,6 +16,51 @@ add_action( 'acf/init', __NAMESPACE__ . '\register_post_type_custom_fields', 10 
 function register_custom_post_types() {
 
 	$labels = [
+		'name'                       => 'Skills',
+		'singular_name'              => 'Skill',
+		'search_items'               => 'Search Skills',
+		'popular_items'              => 'Popular Skills',
+		'all_items'                  => 'All Skills',
+		'parent_item'                => 'Parent Skill',
+		'parent_item_colon'          => 'Parent Skill:',
+		'edit_item'                  => 'Edit Skill',
+		'view_item'                  => 'View Skill',
+		'update_item'                => 'Update Skill',
+		'add_new_item'               => 'Add New Skill',
+		'new_item_name'              => 'New Skill Name',
+		'separate_items_with_commas' => 'Separate skills with commas',
+		'add_or_remove_items'        => 'Add or remove skills',
+		'choose_from_most_used'      => 'Choose from the most used skills',
+		'not_found'                  => 'No skills found.',
+		'no_terms'                   => 'No skills',
+		'filter_by_item'             => 'Filter by skill',
+		'items_list_navigation'      => 'Skills list navigation',
+		'items_list'                 => 'Skills list',
+		'most_used'                  => 'Most Used',
+		'back_to_items'              => '&larr; Go to Skills',
+		'item_link'                  => 'Skill Link',
+		'item_link_description'      => 'A link to a skill.',
+	];
+
+	register_taxonomy(
+		'skill',
+		[ 'ptc-portfolio' ],
+		[
+			'label' => 'Skills',
+			'labels' => $labels,
+			'description' => '',
+			'public' => true,
+			'hierarchical' => false,
+			'show_in_rest' => true, // Make available in Block Editor.
+			'sort' => false,
+			'rewrite' => [
+				'slug' => 'portfolio/skill', // Must be defined before post type with same slug as prefix. Otherwise, this taxonomy's archive page is 404 error.
+				'with_front' => false,
+			],
+		]
+	);
+
+	$labels = [
 		'name'                     => 'Portfolio',
 		'singular_name'            => 'Project',
 		'add_new'                  => 'Add New',
@@ -69,51 +114,6 @@ function register_custom_post_types() {
 				'with_front' => false,
 			],
 			'delete_with_user' => false,
-		]
-	);
-
-	$labels = [
-		'name'                       => 'Skills',
-		'singular_name'              => 'Skill',
-		'search_items'               => 'Search Skills',
-		'popular_items'              => 'Popular Skills',
-		'all_items'                  => 'All Skills',
-		'parent_item'                => 'Parent Skill',
-		'parent_item_colon'          => 'Parent Skill:',
-		'edit_item'                  => 'Edit Skill',
-		'view_item'                  => 'View Skill',
-		'update_item'                => 'Update Skill',
-		'add_new_item'               => 'Add New Skill',
-		'new_item_name'              => 'New Skill Name',
-		'separate_items_with_commas' => 'Separate skills with commas',
-		'add_or_remove_items'        => 'Add or remove skills',
-		'choose_from_most_used'      => 'Choose from the most used skills',
-		'not_found'                  => 'No skills found.',
-		'no_terms'                   => 'No skills',
-		'filter_by_item'             => 'Filter by skill',
-		'items_list_navigation'      => 'Skills list navigation',
-		'items_list'                 => 'Skills list',
-		'most_used'                  => 'Most Used',
-		'back_to_items'              => '&larr; Go to Skills',
-		'item_link'                  => 'Skill Link',
-		'item_link_description'      => 'A link to a skill.',
-	];
-
-	register_taxonomy(
-		'skill',
-		'ptc-portfolio',
-		[
-			'label' => 'Skills',
-			'labels' => $labels,
-			'description' => '',
-			'public' => true,
-			'hierarchical' => false,
-			'show_in_rest' => true, // Make available in Block Editor.
-			'sort' => false,
-			'rewrite' => [
-				'slug' => 'portfolio/skill',
-				'with_front' => false,
-			],
 		]
 	);
 }
