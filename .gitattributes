@@ -7,9 +7,9 @@
 * text=auto
 
 # Avoid unreadable diffs for generated text files, eg: *.min.js
-assets/*.map binary
-assets/*.min.* binary
-assets/*.css binary
+assets/**/*.map binary
+assets/**/*.min.* binary
+assets/**/*.css binary
 
 # https://github.com/github/linguist/blob/master/docs/overrides.md
 node_modules/ linguist-vendored
