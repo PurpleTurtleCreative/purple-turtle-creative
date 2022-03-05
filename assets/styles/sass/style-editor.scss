@@ -25,7 +25,7 @@ body {
 		font-size: rem-calc(18) !important;
 		padding-bottom: rem-calc(150);
 
-		h2:first-child {
+		.is-root-container > h2:first-child {
 			margin-top: 3em;
 		}
 
@@ -34,7 +34,8 @@ body {
 		}
 
 		p,
-		ul {
+		ul,
+		ol {
 			@include font(body);
 			line-height: 2;
 		}
