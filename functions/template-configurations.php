@@ -66,5 +66,5 @@ function filter_site_search_results( $query ) {
  * Customize login screen.
  */
 function enqueue_login_scripts() {
-	wp_enqueue_style( 'ptc-theme_login', STYLES_URI . '/login.css', [], VERSION );
+	wp_enqueue_style( 'ptc-theme_login', STYLES_URI . '/login.css', [], THEME_VERSION );
 }

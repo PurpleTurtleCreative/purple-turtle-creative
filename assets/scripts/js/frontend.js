@@ -1,12 +1,14 @@
-jQuery(function($) {
+document.addEventListener('DOMContentLoaded', function() {
 
-	// Mobile menu toggle
-	$('#site-navigation button.menu-toggle').on('click touch', function() {
-		$('html').toggleClass('mobile-menu-open');
-	});
+	// Toggle mobile menu open/close.
+	document.querySelector('#site-navigation button.menu-toggle')
+		.addEventListener('click', function() {
+			document.documentElement.classList.toggle('mobile-menu-open');
+		});
 
-	$('body').on('click touch', '#overlay', function(e) {
-		$('html').removeClass('mobile-menu-open');
-	});
-
+	// Close mobile menu on overlay click.
+	document.getElementById('overlay')
+		.addEventListener('click', function() {
+			document.documentElement.classList.remove('mobile-menu-open');
+		});
 });

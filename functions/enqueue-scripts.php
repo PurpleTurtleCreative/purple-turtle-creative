@@ -45,8 +45,8 @@ function enqueue_scripts() {
 			break;
 	}
 
-	wp_enqueue_style( 'ptc-theme-style', STYLES_URI . $theme_stylesheet, [], VERSION );
-	wp_enqueue_script( 'ptc-theme-script', SCRIPTS_URI . '/frontend.min.js', [ 'jquery' ], VERSION, true );
+	wp_enqueue_style( 'ptc-theme-style', STYLES_URI . $theme_stylesheet, [], THEME_VERSION );
+	wp_enqueue_script( 'ptc-theme-script', SCRIPTS_URI . '/frontend.min.js', [ 'jquery' ], THEME_VERSION, true );
 }
 
 /**
