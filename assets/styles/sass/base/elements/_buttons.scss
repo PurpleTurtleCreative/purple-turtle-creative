@@ -2,6 +2,7 @@ button,
 input[type="button"],
 input[type="reset"],
 input[type="submit"] {
+	cursor: pointer;
 	@include font(body, body-bold);
 	border: 1px solid;
 	border-radius: 3px;
