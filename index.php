@@ -28,7 +28,10 @@ get_header();
 
 				if ( is_home() ) {
 					echo wp_kses_post( $before_page_title . '<span>' . single_post_title( '', false ) . '</span>' . $after_page_title );
-					echo '<div class="archive-description">' . get_the_content( '', true, get_option( 'page_for_posts' ) ) . '</div>';
+					$blog_page_content = trim( get_the_content( '', true, get_option( 'page_for_posts' ) ) );
+					if ( $blog_page_content ) {
+						echo wp_kses_post( '<div class="archive-description">' . $blog_page_content . '</div>' );
+					}
 				} elseif ( is_search() ) {
 					echo wp_kses_post( $before_page_title . 'Search Results for:<br /><span>' . get_search_query() . '</span>' . $after_page_title );
 				} elseif ( is_post_type_archive( 'ptc-portfolio' ) ) {
@@ -46,7 +49,7 @@ get_header();
 						all_categories( 'skill' );
 					} else {
 						// Note the taxonomy is blank for regular post archive.
-						all_categories( $GLOBALS['wp_query']->get('taxonomy') );
+						all_categories( $GLOBALS['wp_query']->get( 'taxonomy' ) );
 					}
 					?>
 				</div>

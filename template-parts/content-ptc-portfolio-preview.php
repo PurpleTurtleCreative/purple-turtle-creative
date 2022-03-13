@@ -30,8 +30,8 @@ if ( ! $project_client ) {
 $skills = get_the_terms( get_post(), 'skill' );
 $skill_tag_list_items_string = '';
 if ( is_array( $skills ) ) {
-	$queried_taxonomy = $GLOBALS['wp_query']->get('taxonomy');
-	$queried_term = $GLOBALS['wp_query']->get('term');
+	$queried_taxonomy = $GLOBALS['wp_query']->get( 'taxonomy' );
+	$queried_term = $GLOBALS['wp_query']->get( 'term' );
 	foreach ( $skills as &$skill ) {
 		$skill_tag_list_items_string .= sprintf(
 			'<li><a href="%1$s" class="%3$s">%2$s</a></li>',
