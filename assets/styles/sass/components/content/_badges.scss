@@ -1,0 +1,43 @@
+.referral-badge {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	background: color(primary);
+	border-radius: rem-calc(7);
+	padding: rem-calc(10 20 10 15);
+	color: color(off-white);
+	margin: rem-calc(7);
+
+	&:hover,
+	&:focus,
+	&:active {
+		text-decoration: none;
+		color: color(off-white);
+		background: color(black);
+	}
+
+	svg {
+		height: auto;
+		width: 1.66em;
+		margin-right: rem-calc(15);
+	}
+
+	.brand-text {
+		line-height: 1.25;
+		letter-spacing: 0.05em;
+
+		small {
+			display: block;
+			font-weight: font-weight(body);
+			white-space: nowrap;
+		}
+	}
+}
+
+.pill-badge {
+	@extend .badge;
+	color: color(black);
+	background-color: color(grey-light);
+	padding: .3em .7em;
+	border-radius: 999px;
+}

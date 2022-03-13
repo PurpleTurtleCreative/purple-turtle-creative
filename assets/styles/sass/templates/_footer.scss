@@ -33,20 +33,11 @@
 					}
 
 					.site-social {
-						margin-top: rem-calc(30);
+						margin-top: rem-calc(20);
 
-						a {
-							color: color(off-white);
-
-							span.fa-linkedin-in {
-								display: inline-block;
-								background-color: color(primary);
-								line-height: rem-calc(40);
-								width: rem-calc(40);
-								border-radius: 50%;
-								text-align: center;
-								margin-right: rem-calc(10);
-							}
+						.referral-badge {
+							display: inline-flex;
+							margin: 0;
 						}
 					}
 				}
@@ -111,6 +102,32 @@
 						@include breakpoint( medium ) {
 							margin-top: 0;
 						}
+					}
+				}
+			}
+
+			.referrals {
+				flex: 1;
+				flex-basis: 100%;
+				width: 100%;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				flex-wrap: wrap;
+				margin: 0 auto 1em;
+
+				@include breakpoint(medium) {
+					margin: 1em auto;
+				}
+
+				> p {
+					width: 100%;
+					text-align: center;
+					margin: 0.3em 1em;
+
+					@include breakpoint(medium) {
+						max-width: rem-calc(200);
+						text-align: right;
 					}
 				}
 			}

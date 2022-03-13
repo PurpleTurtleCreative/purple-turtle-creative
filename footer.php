@@ -31,7 +31,13 @@ namespace PTC_Theme;
 							<p class="llc-notice"><small>Purple Turtle Creative, LLC is a limited liability company registered with New York State.</small></p>
 						</div>
 						<div class="site-social">
-							<a href="https://www.linkedin.com/company/purple-turtle-creative" target="_blank" rel="noopener"><span class="fa-linkedin-in"><?php fa( 'linkedin-in', 'brands' ); ?></span>Follow for Updates</a>
+							<a class="referral-badge" href="https://www.linkedin.com/company/purple-turtle-creative" target="_blank">
+								<?php fa( 'linkedin', 'brands' ); ?>
+								<div class="brand-text">
+									<small>Follow on</small>
+									LinkedIn
+								</div>
+							</a>
 						</div>
 					</section>
 				</div>
@@ -52,6 +58,31 @@ namespace PTC_Theme;
 						<h2 class="h6">Contact</h2>
 						<a href="mailto:michelle@purpleturtlecreative.com">Michelle Blanchette</a>
 					</section>
+				</div>
+
+				<div class="referrals">
+					<p><small>Claim discounts and benefits by using my affiliate links:</small></p>
+					<a class="referral-badge" href="https://m.do.co/c/379a11ccae2a" target="_blank">
+						<?php fa( 'digital-ocean', 'brands' ); ?>
+						<div class="brand-text">
+							<small>Hosting by</small>
+							DigitalOcean
+						</div>
+					</a>
+					<a class="referral-badge" href="https://namecheap.pxf.io/5D4e9" target="_blank">
+						<?php svg( 'namecheap-logo.svg' ); ?>
+						<div class="brand-text">
+							<small>Domains via</small>
+							Namecheap
+						</div>
+					</a>
+					<a class="referral-badge" href="https://www.dropbox.com/referrals/AAC1FnrY_5WdLC4PUqUPV3HZy5IKCmD1w5o?src=global9" target="_blank">
+						<?php fa( 'dropbox', 'brands' ); ?>
+						<div class="brand-text">
+							<small>Storage by</small>
+							Dropbox
+						</div>
+					</a>
 				</div>
 
 			</div>

@@ -106,14 +106,6 @@ a.badge {
 	}
 }
 
-.pill-badge {
-	@extend .badge;
-	color: color(black);
-	background-color: color(grey-light);
-	padding: .3em .7em;
-	border-radius: 999px;
-}
-
 .wp-block-buttons {
 	margin-top: 3em;
 	margin-bottom: 1em;
