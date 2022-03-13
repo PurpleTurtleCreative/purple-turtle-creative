@@ -47,12 +47,17 @@ function the_published_or_modified_date( string $format = '%1$s <strong>%2$s</st
  * * %3$s - category post count
  * * %4$s - category active class
  */
-function all_categories( string $category_template = '<a href="%1$s" class="%4$s badge-dark">%2$s (%3$s)</a>' ) {
+function all_categories( string $taxonomy = '', string $category_template = '<a href="%1$s" class="%4$s badge-dark">%2$s (%3$s)</a>' ) {
+
+	if ( empty( $taxonomy ) ) {
+		$taxonomy = 'category';
+	}
 
 	$categories = get_categories(
 		[
 			'fields' => 'all',
 			'hide_empty' => true,
+			'taxonomy' => $taxonomy,
 		]
 	);
 
@@ -61,27 +66,38 @@ function all_categories( string $category_template = '<a href="%1$s" class="%4$s
 	}
 
 	/* Start with All Posts link */
-	$category_links = sprintf(
-		$category_template,
-		get_post_type_archive_link( 'post' ),
-		'All Posts',
-		wp_count_posts( 'post' )->publish,
-		( is_home() ) ? 'active' : ''
-	);
+	if ( 'skill' === $taxonomy ) {
+		$category_links = sprintf(
+			$category_template,
+			get_post_type_archive_link( 'ptc-portfolio' ),
+			'All Projects',
+			wp_count_posts( 'ptc-portfolio' )->publish,
+			( is_post_type_archive( 'ptc-portfolio' ) ) ? 'active' : ''
+		);
+	} else {
+		$category_links = sprintf(
+			$category_template,
+			get_post_type_archive_link( 'post' ),
+			'All Posts',
+			wp_count_posts( 'post' )->publish,
+			( is_home() ) ? 'active' : ''
+		);
+	}
 
 	/*
 	 * Apply an active class only when viewing a category archive.
 	 * Otherwise, there is no 'active category' to bother testing against.
 	 */
-	if ( is_category() ) {
-		global $cat;
+	if ( is_tax() ) {
+		$queried_taxonomy = $GLOBALS['wp_query']->get('taxonomy');
+		$queried_term = $GLOBALS['wp_query']->get('term');
 		foreach ( $categories as $c ) {
 			$category_links .= sprintf(
 				$category_template,
 				get_category_link( $c ),
 				$c->name,
 				$c->count,
-				( $cat == $c->term_id ) ? 'active' : ''
+				( $queried_taxonomy === $c->taxonomy && $queried_term === $c->slug ) ? 'active' : ''
 			);
 		}
 	} else {

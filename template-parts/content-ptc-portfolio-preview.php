@@ -30,14 +30,21 @@ if ( ! $project_client ) {
 $skills = get_the_terms( get_post(), 'skill' );
 $skill_tag_list_items_string = '';
 if ( is_array( $skills ) ) {
+	$queried_taxonomy = $GLOBALS['wp_query']->get('taxonomy');
+	$queried_term = $GLOBALS['wp_query']->get('term');
 	foreach ( $skills as &$skill ) {
-		$skill_tag_list_items_string .= "<li>{$skill->name}</li>";
+		$skill_tag_list_items_string .= sprintf(
+			'<li><a href="%1$s" class="%3$s">%2$s</a></li>',
+			get_category_link( $skill ),
+			$skill->name,
+			( $queried_taxonomy === $skill->taxonomy && $queried_term === $skill->slug ) ? 'active' : ''
+		);
 	}
 }
 
 $project_url = get_field( 'ptc_project_url' );
 
-$is_portfolio_archive = (bool) is_post_type_archive();
+$is_portfolio_archive = ( is_post_type_archive() || is_tax( 'skill' ) );
 ?>
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>

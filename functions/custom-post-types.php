@@ -100,7 +100,7 @@ function register_custom_post_types() {
 		[
 			'label' => 'Portfolio',
 			'labels' => $labels,
-			'description' => 'Check out the latest projects that I\'ve been working on.',
+			'description' => 'Check out what I\'ve been working on lately.',
 			'public' => true,
 			'hierarchical' => false,
 			'exclude_from_search' => false,
