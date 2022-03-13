@@ -89,6 +89,10 @@ body.archive {
 					margin: 0;
 					padding: spacing(gutter);
 
+					p {
+						margin-bottom: 1em;
+					}
+
 					.entry-primary-category {
 						margin: 0;
 						font-size: .9em;

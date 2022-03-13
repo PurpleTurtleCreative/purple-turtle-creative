@@ -28,8 +28,8 @@ get_header();
 			if ( ! is_singular( 'page' ) ) {
 				the_post_navigation(
 					[
-						'prev_text' => '<div class="nav-icon">&lsaquo;</div><div class="nav-label" title="%title"><span class="nav-subtitle">Prev:</span> %title</div>',
-						'next_text' => '<div class="nav-label" title="%title"><span class="nav-subtitle">Next:</span> %title</div><div class="nav-icon">&rsaquo;</div>',
+						'prev_text' => '<div class="nav-icon">&lsaquo;</div><div class="nav-label"><span class="nav-subtitle">Back</span><br/>%title</div>',
+						'next_text' => '<div class="nav-label"><span class="nav-subtitle">Next</span><br/>%title</div><div class="nav-icon">&rsaquo;</div>',
 						'class' => 'content-width',
 					]
 				);
