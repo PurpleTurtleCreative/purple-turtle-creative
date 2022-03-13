@@ -13,7 +13,7 @@ $project_dates = get_field( 'ptc_project_dates' );
 $from_date = $project_dates['ptc_project_from'];
 $to_date = $project_dates['ptc_project_to'] ?? 'Present';
 if ( ! $to_date ) {
-	$to_date = 'Present';
+	$to_date = '<span class="pill-badge">Present</span>';
 }
 
 $billable_hours = get_field( 'ptc_project_billable_hours' );
@@ -34,24 +34,34 @@ if ( is_array( $skills ) ) {
 		$skill_tag_list_items_string .= "<li>{$skill->name}</li>";
 	}
 }
+
+$project_url = get_field( 'ptc_project_url' );
+
+$is_portfolio_archive = (bool) is_post_type_archive();
 ?>
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-	<header class="entry-header">
-		<a href="<?php echo esc_url( get_permalink() ); ?>" tabindex="-1">
-			<?php the_post_thumbnail( 'large' ); ?>
-		</a>
-	</header><!-- .entry-header -->
 
 	<div class="entry-content">
 
 		<p class="project-client"><?php echo wp_kses_post( $project_client ); ?></p>
 
-		<?php the_title( '<h2 class="entry-title"><a href="' . esc_url( get_permalink() ) . '" rel="bookmark">', '</a></h2>' ); ?>
+		<?php
+		if ( true === $is_portfolio_archive ) {
+			if ( $project_url ) {
+				$external_link_icon = get_fa( 'square-arrow-up-right', 'solid' );
+				the_title( '<h2 class="entry-title"><a href="' . esc_url( $project_url ) . '" target="_blank">', $external_link_icon . '</a></h2>' );
+			} else {
+				the_title( '<h2 class="entry-title">', '</h2>' );
+			}
+		} else {
+			the_title( '<h2 class="entry-title"><a href="' . esc_url( get_permalink() ) . '" rel="bookmark">', '</a></h2>' );
+		}
+		?>
 
-		<p class="project-dates"><?php echo wp_kses_post( $project_dates_string ); ?></p>
+		<p class="entry-date"><?php echo wp_kses_post( $project_dates_string ); ?></p>
 
-		<?php the_short_description(); ?>
+		<?php ( true === $is_portfolio_archive ) ? the_content() : the_short_description(); ?>
 
 	</div><!-- .entry-content -->
 
