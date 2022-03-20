@@ -35,7 +35,7 @@ get_header();
 				} elseif ( is_search() ) {
 					echo wp_kses_post( $before_page_title . 'Search Results for:<br /><span>' . get_search_query() . '</span>' . $after_page_title );
 				} elseif ( is_post_type_archive( 'ptc-portfolio' ) ) {
-					echo wp_kses_post( $before_page_title . '<span>' . post_type_archive_title( '', false ) . '<span>' . $after_page_title );
+					echo wp_kses_post( $before_page_title . '<span>' . post_type_archive_title( '', false ) . '</span>' . $after_page_title );
 					the_archive_description( '<div class="archive-description">', '</div>' );
 				} else {
 					the_archive_title( $before_page_title, $after_page_title );
