@@ -23,7 +23,7 @@
 				border-radius: rem-calc(10);
 				text-decoration: none;
 				background: color(true-white);
-				box-shadow: 0 #{spacing(gutter)/2} #{spacing(gutter)/2} color(grey-light);
+				box-shadow: 0 #{spacing(gutter)/2} #{spacing(gutter)/2} color(grey-lightest);
 				overflow: hidden; // ensure border-radius clips children
 				transition: all 100ms ease-out;
 
@@ -31,7 +31,7 @@
 				&:focus,
 				&:active {
 					transform: translateY( #{spacing(gutter)/4} );
-					box-shadow: 0 #{spacing(gutter)/8} #{spacing(gutter)/8} color(grey-light);
+					box-shadow: 0 #{spacing(gutter)/8} #{spacing(gutter)/8} color(grey-lightest);
 
 					.nav-icon {
 						color: color(true-white);

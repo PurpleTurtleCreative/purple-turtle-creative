@@ -2,7 +2,7 @@
 
 	.footer-main {
 		background-color: color(black);
-		color: color(grey-light);
+		color: color(grey-lightest);
 		padding: rem-calc(20 0 30);
 
 		@include breakpoint( medium ) {

@@ -58,7 +58,7 @@ body.archive {
 				padding: 0;
 				background-color: color(true-white);
 				border-radius: #{spacing(gutter)/2};
-				box-shadow: 0 #{spacing(gutter)/2} #{spacing(gutter)/2} color(grey-light);
+				box-shadow: 0 #{spacing(gutter)/2} #{spacing(gutter)/2} color(grey-lightest);
 				overflow: hidden; // ensure border-radius clips children
 				transition: all 100ms ease-out;
 
@@ -67,7 +67,7 @@ body.archive {
 
 				&:hover {
 					transform: translateY( #{spacing(gutter)/4} );
-					box-shadow: 0 #{spacing(gutter)/8} #{spacing(gutter)/8} color(grey-light);
+					box-shadow: 0 #{spacing(gutter)/8} #{spacing(gutter)/8} color(grey-lightest);
 				}
 
 				.entry-header {

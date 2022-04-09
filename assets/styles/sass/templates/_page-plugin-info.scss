@@ -66,10 +66,10 @@ body {
 					li {
 						display: flex;
 						padding: rem-calc(10 15);
-						border-top: 1px solid color(grey-light);
+						border-top: 1px solid color(grey-lightest);
 
 						&:last-child {
-							border-bottom: 1px solid color(grey-light);
+							border-bottom: 1px solid color(grey-lightest);
 						}
 
 						&:nth-of-type(odd) {
