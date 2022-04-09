@@ -134,15 +134,25 @@ $sidebar-transition-duration: 300ms;
 								li {
 									margin: 0;
 
+									&.current-menu-item {
+										background-color: color(primary);
+
+										a {
+
+											&:hover,
+											&:focus,
+											&:active {
+												color: color(off-white);
+											}
+										}
+									}
+
 									a {
 										background: none;
 
 										&:hover,
 										&:focus,
-										&:active,
-										&.active,
-										&.current,
-										&[aria-current] {
+										&:active {
 											color: color(primary);
 										}
 									}
@@ -175,7 +185,7 @@ html.mobile-menu-open {
 				.main-navigation {
 
 					.menu-toggle {
-						background-color: color(black);
+						background-color: color(primary);
 					}
 
 					.menu-main-nav-container {
