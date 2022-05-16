@@ -34,6 +34,13 @@ function enqueue_scripts() {
 
 		case 'page-completionist.php':
 			$theme_stylesheet = '/template_page-completionist.css';
+			wp_enqueue_script(
+				'ptc-completionist-landing-page-script',
+				SCRIPTS_URI . '/completionist-landing-page.min.js',
+				[ 'ptc-theme-script' ],
+				THEME_VERSION,
+				true
+			);
 			break;
 
 		case 'page-plugin-info.php':
@@ -45,8 +52,19 @@ function enqueue_scripts() {
 			break;
 	}
 
-	wp_enqueue_style( 'ptc-theme-style', STYLES_URI . $theme_stylesheet, [], THEME_VERSION );
-	wp_enqueue_script( 'ptc-theme-script', SCRIPTS_URI . '/frontend.min.js', [], THEME_VERSION, true );
+	wp_enqueue_style(
+		'ptc-theme-style',
+		STYLES_URI . $theme_stylesheet,
+		[],
+		THEME_VERSION
+	);
+	wp_enqueue_script(
+		'ptc-theme-script',
+		SCRIPTS_URI . '/frontend.min.js',
+		[],
+		THEME_VERSION,
+		true
+	);
 }
 
 /**

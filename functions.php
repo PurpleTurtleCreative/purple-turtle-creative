@@ -18,8 +18,24 @@ define( __NAMESPACE__ . '\IMAGES_URI', $theme_directory_uri . '/assets/images' )
 define( __NAMESPACE__ . '\STYLES_URI', $theme_directory_uri . '/assets/styles' );
 define( __NAMESPACE__ . '\SCRIPTS_URI', $theme_directory_uri . '/assets/scripts' );
 
-define( __NAMESPACE__ . '\DEFER_SCRIPTS', [ 'jquery-core', 'jquery-migrate', 'wp-embed', 'ptc-theme-script' ] );
-define( __NAMESPACE__ . '\ASYNC_SCRIPTS', [ 'mkaz-code-syntax-prism-js' ] );
+// Scripts with defer always execute when the DOM is ready (but before DOMContentLoaded event).
+define(
+	__NAMESPACE__ . '\DEFER_SCRIPTS',
+	[
+		'jquery-core',
+		'jquery-migrate',
+		'wp-embed',
+		'ptc-theme-script',
+		'ptc-completionist-landing-page-script',
+	]
+);
+// Scripts with async load in the background and run when ready.
+define(
+	__NAMESPACE__ . '\ASYNC_SCRIPTS',
+	[
+		'mkaz-code-syntax-prism-js',
+	]
+);
 
 /**
  * Require all custom theme functions.
