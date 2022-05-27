@@ -60,12 +60,8 @@ figcaption {
 			&.mobile-columns-#{$i} {
 
 				.wp-block-image {
-					width: calc( #{100% / $i} - #{rem-calc(5)} ) !important;
-					margin: rem-calc(0 5 5 0) !important;
-
-					&:nth-of-type(#{$i}n) {
-						margin-right: 0 !important;
-					}
+					width: calc( #{100% / $i} - var(--wp--style--unstable-gallery-gap, 16px) ) !important;
+					margin: 0 !important;
 
 					img {
 						border-radius: rem-calc(10) !important;
