@@ -61,11 +61,11 @@ namespace PTC_Theme;
 				</div>
 
 				<div class="referrals">
-					<p><small>Claim discounts and benefits by using my affiliate links:</small></p>
+					<p><small>Claim discounts and benefits by using my referral links:</small></p>
 					<a class="referral-badge" href="https://m.do.co/c/379a11ccae2a" target="_blank">
 						<?php fa( 'digital-ocean', 'brands' ); ?>
 						<div class="brand-text">
-							<small>Hosting by</small>
+							<small>Hosting with</small>
 							DigitalOcean
 						</div>
 					</a>
@@ -79,12 +79,25 @@ namespace PTC_Theme;
 					<a class="referral-badge" href="https://www.dropbox.com/referrals/AAC1FnrY_5WdLC4PUqUPV3HZy5IKCmD1w5o?src=global9" target="_blank">
 						<?php fa( 'dropbox', 'brands' ); ?>
 						<div class="brand-text">
-							<small>Storage by</small>
+							<small>Storage with</small>
 							Dropbox
 						</div>
 					</a>
+					<a class="referral-badge" href="https://www.loom.com/refer/9dbd00fe69884abe975bd717cec1129e" target="_blank">
+						<?php svg( 'loom-logo.svg' ); ?>
+						<div class="brand-text">
+							<small>Videos via</small>
+							Loom
+						</div>
+					</a>
+					<a class="referral-badge" href="https://wp-rocket.me/?ref=058407d8" target="_blank">
+						<?php svg( 'wp-rocket-logo.svg' ); ?>
+						<div class="brand-text">
+							<small>Optimizations via</small>
+							WP Rocket
+						</div>
+					</a>
 				</div>
-
 			</div>
 		</div><!-- .footer-main -->
 
