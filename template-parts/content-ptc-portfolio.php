@@ -9,25 +9,8 @@
 
 namespace PTC_Theme;
 
-$project_dates = get_field( 'ptc_project_dates' );
-$from_date = $project_dates['ptc_project_from'];
-$to_date = $project_dates['ptc_project_to'] ?? 'Present';
-if ( ! $to_date ) {
-	$to_date = 'Present';
-}
-
-$billable_hours = get_field( 'ptc_project_billable_hours' );
-$project_dates_string = "{$from_date} &mdash; {$to_date}";
-if ( $billable_hours ) {
-	$project_dates_string .= " ({$billable_hours} hours)";
-}
-
-$project_client = get_field( 'ptc_project_client' );
-if ( ! $project_client ) {
-	$project_client = get_field_object( 'ptc_project_client' )['default_value'];
-}
-
-$project_role = get_field( 'ptc_project_role' );
+$end_date = get_field( 'ptc_project_end' ) ?: 'Present';
+$project_client = get_field( 'ptc_project_client' ) ?: get_field_object( 'ptc_project_client' )['default_value'];
 $project_url = get_field( 'ptc_project_url' );
 ?>
 
@@ -42,18 +25,13 @@ $project_url = get_field( 'ptc_project_url' );
 				<ul class="entry-meta">
 
 					<li class="project-dates">
-						<strong>Project Dates:</strong>
-						<?php echo wp_kses_post( $project_dates_string ); ?>
+						<strong>Completed:</strong>
+						<?php echo wp_kses_post( $end_date ); ?>
 					</li>
 
 					<li class="project-client">
 						<strong>Requestor:</strong>
 						<?php echo wp_kses_post( $project_client ); ?>
-					</li>
-
-					<li class="project-role">
-						<strong>Work Role:</strong>
-						<?php echo wp_kses_post( $project_role ); ?>
 					</li>
 
 					<li class="entry-categories project-skills">

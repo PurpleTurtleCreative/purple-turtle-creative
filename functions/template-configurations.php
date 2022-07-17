@@ -70,7 +70,7 @@ function customize_wp_query( $query ) {
 		$query->set( 'order', 'DESC' );
 		$query->set( 'orderby', 'meta_value_num' );
 		// ACF date field value is stored like 20220728 (YYYYMMDD).
-		$query->set( 'meta_key', 'ptc_project_dates_ptc_project_to' );
+		$query->set( 'meta_key', 'ptc_project_end' );
 	}
 }
 

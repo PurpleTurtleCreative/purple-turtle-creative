@@ -9,23 +9,9 @@
 
 namespace PTC_Theme;
 
-$project_dates = get_field( 'ptc_project_dates' );
-$from_date = $project_dates['ptc_project_from'];
-$to_date = $project_dates['ptc_project_to'] ?? 'Present';
-if ( ! $to_date ) {
-	$to_date = '<span class="pill-badge">Present</span>';
-}
+$end_date = get_field( 'ptc_project_end' ) ?: '<span class="pill-badge">Present</span>';
 
-$billable_hours = get_field( 'ptc_project_billable_hours' );
-$project_dates_string = "{$from_date} &mdash; {$to_date}";
-if ( $billable_hours ) {
-	$project_dates_string .= " ({$billable_hours} hours)";
-}
-
-$project_client = get_field( 'ptc_project_client' );
-if ( ! $project_client ) {
-	$project_client = get_field_object( 'ptc_project_client' )['default_value'];
-}
+$project_client = get_field( 'ptc_project_client' ) ?: get_field_object( 'ptc_project_client' )['default_value'];
 
 $skills = get_the_terms( get_post(), 'skill' );
 $skill_tag_list_items_string = '';
@@ -66,7 +52,7 @@ $is_portfolio_archive = ( is_post_type_archive() || is_tax( 'skill' ) );
 		}
 		?>
 
-		<p class="entry-date"><?php echo wp_kses_post( $project_dates_string ); ?></p>
+		<p class="entry-date"><?php echo wp_kses_post( $end_date ); ?></p>
 
 		<?php ( true === $is_portfolio_archive ) ? the_content() : the_short_description(); ?>
 
