@@ -2,7 +2,7 @@
 
 $acf_target = "user_{$atts['user']}";
 
-$work_status = get_field( 'ptc_work_status', $acf_target ) ?? null;
+$work_status = get_field( 'ptc_work_status', $acf_target ) ?? [];
 $work_url = get_field( 'ptc_work_url', $acf_target ) ?? '#';
 $work_message = get_field( 'ptc_work_message', $acf_target ) ?? '';
 
