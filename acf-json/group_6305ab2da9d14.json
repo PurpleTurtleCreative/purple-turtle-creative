@@ -17,14 +17,14 @@
             },
             "choices": {
                 "open": "Open",
-                "limited": "Limited Availability",
+                "limited": "Limited",
                 "closed": "Closed"
             },
             "default_value": "closed",
             "allow_null": 0,
             "multiple": 0,
             "ui": 0,
-            "return_format": "value",
+            "return_format": "array",
             "ajax": 0,
             "placeholder": ""
         },
@@ -82,5 +82,5 @@
     "active": true,
     "description": "",
     "show_in_rest": 0,
-    "modified": 1661317628
+    "modified": 1661319226
 }

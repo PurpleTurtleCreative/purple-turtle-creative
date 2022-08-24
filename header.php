@@ -56,5 +56,7 @@ namespace PTC_Theme;
 					);
 					?>
 				</nav><!-- #site-navigation -->
+
+				<?php do_shortcode( '[work_status_badge show_message="false"]' ); ?>
 			</div>
 		</header><!-- #header -->

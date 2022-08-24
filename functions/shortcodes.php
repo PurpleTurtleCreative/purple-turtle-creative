@@ -77,10 +77,19 @@ function display_bio_card( $atts, $content = null, $shortcode_tag = '' ) {
 function display_work_status_badge( $atts ) {
 	$atts = shortcode_atts(
 		[
-			'user' => get_the_author_meta( 'ID', false ),
+			'user' => false,
+			'show_message' => true,
 		],
 		$atts
 	);
 
-	get_template_part( 'template-parts/shortcode', 'work_status_badge' );
+	if ( ! is_numeric( $atts['user'] ) ) {
+		// Default to the current post author.
+		$atts['user'] = get_the_author_meta( 'ID', false );
+	}
+
+	$atts['user'] = (int) $atts['user'];
+	$atts['show_message'] = (bool) filter_var( $atts['show_message'], FILTER_VALIDATE_BOOLEAN );
+
+	include THEME_PATH . '/template-parts/shortcode-work_status_badge.php';
 }
