@@ -2,9 +2,9 @@
 
 $acf_target = "user_{$atts['user']}";
 
-$work_status = get_field( 'ptc_work_status', $acf_target ) ?: null;
-$work_url = get_field( 'ptc_work_url', $acf_target );
-$work_message = get_field( 'ptc_work_message', $acf_target );
+$work_status = get_field( 'ptc_work_status', $acf_target ) ?? null;
+$work_url = get_field( 'ptc_work_url', $acf_target ) ?? '#';
+$work_message = get_field( 'ptc_work_message', $acf_target ) ?? '';
 
 // Don't display shortcode if settings weren't saved for user.
 if ( ! empty( $work_status ) ) :
