@@ -7,8 +7,20 @@
 
 namespace PTC_Theme;
 
-add_shortcode( 'ptc-bio-card', __NAMESPACE__ . '\display_bio_card' );
-add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\enqueue_shortcode_scripts' );
+add_shortcode(
+	'ptc-work-status-badge',
+	__NAMESPACE__ . '\display_work_status_badge'
+);
+
+add_shortcode(
+	'ptc-bio-card',
+	__NAMESPACE__ . '\display_bio_card'
+);
+
+add_action(
+	'wp_enqueue_scripts',
+	__NAMESPACE__ . '\enqueue_shortcode_scripts'
+);
 
 /**
  * Registers shortcode assets for on-demand enqueue.
@@ -57,4 +69,18 @@ function display_bio_card( $atts, $content = null, $shortcode_tag = '' ) {
 	ob_start();
 	include THEME_PATH . '/template-parts/shortcodes/bio-card.php';
 	return ob_get_clean();
+}
+
+/**
+ * Displays a badge indicating the specified user's work status.
+ */
+function display_work_status_badge( $atts ) {
+	$atts = shortcode_atts(
+		[
+			'user' => get_the_author_meta( 'ID', false ),
+		],
+		$atts
+	);
+
+	get_template_part( 'template-parts/shortcode', 'work_status_badge' );
 }
