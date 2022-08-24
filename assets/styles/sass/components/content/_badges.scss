@@ -74,7 +74,7 @@
 			background-color: color(success);
 			box-shadow: 0px 0px 15px 1px color(success);
 			opacity: 1;
-			animation: active-light 2s ease-in infinite alternate;
+			animation: active-light 1500ms ease-in infinite alternate;
 
 			@include breakpoint(medium) {
 				width: rem-calc(12);
