@@ -46,7 +46,7 @@ namespace PTC_Theme;
 				</div><!-- .site-logo -->
 
 				<nav id="site-navigation" class="main-navigation">
-					<button class="menu-toggle" aria-controls="menu-header" aria-expanded="false">Menu</button>
+					<button class="menu-toggle" title="Menu"><?php fa( 'bars', 'solid' ); ?></button>
 					<?php
 					wp_nav_menu(
 						[
@@ -57,6 +57,6 @@ namespace PTC_Theme;
 					?>
 				</nav><!-- #site-navigation -->
 
-				<?php do_shortcode( '[work_status_badge show_message="false"]' ); ?>
+				<?php do_shortcode( '[ptc-work-status-badge show_message="false"]' ); ?>
 			</div>
 		</header><!-- #header -->

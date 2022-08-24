@@ -19,10 +19,6 @@
 			align-items: center;
 			justify-content: safe center;
 
-			@include breakpoint(xsmall) {
-				margin-left: rem-calc(-70);
-			}
-
 			@include breakpoint(medium) {
 				justify-content: flex-start;
 				margin: 0;
@@ -52,15 +48,19 @@
 			}
 
 			button.menu-toggle {
-				@include font(body, body-bold);
-				letter-spacing: .06em;
-				color: color(off-white);
 				border-radius: rem-calc(5);
-			  padding: rem-calc(10);
+			  padding: 0;
+			  width: rem-calc(40);
+			  height: rem-calc(40);
+				color: color(off-white);
 				background-color: color(primary-dark);
 
 				@include breakpoint(medium) {
 					display: none;
+				}
+
+				svg {
+					height: 1.15rem;
 				}
 			}
 
@@ -83,7 +83,20 @@
 					}
 				}
 			}
-		}
+		}//.main-navigation
+
+		.ptc-work-status-badge {
+			order: -1;
+			margin: 0;
+
+			@include breakpoint(medium) {
+				order: unset;
+			}
+
+			a {
+				margin: 0;
+			}
+		}//.ptc-work-status-badge
 	}
 }
 

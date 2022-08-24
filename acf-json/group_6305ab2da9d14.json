@@ -16,9 +16,9 @@
                 "id": ""
             },
             "choices": {
-                "open": "Open",
-                "limited": "Limited",
-                "closed": "Closed"
+                "open": "Open to Work",
+                "limited": "Busy",
+                "closed": "Fully Booked"
             },
             "default_value": "closed",
             "allow_null": 0,
@@ -30,11 +30,11 @@
         },
         {
             "key": "field_6305ad5820e95",
-            "label": "Badge Hyperlink",
-            "name": "ptc_work_hyperlink",
+            "label": "Badge URL",
+            "name": "ptc_work_url",
             "type": "url",
-            "instructions": "A hyperlink for your work availability badge.",
-            "required": 0,
+            "instructions": "The [href] for your work availability badge.",
+            "required": 1,
             "conditional_logic": 0,
             "wrapper": {
                 "width": "",
