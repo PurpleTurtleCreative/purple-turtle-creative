@@ -1,0 +1,41 @@
+@import "abstracts/abstracts";
+
+.ptc-block-accordion {
+	margin: rem-calc(30 0 60);
+
+	ul {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+
+		li {
+			border: 2px solid color(grey-lightest);
+			border-radius: rem-calc(10);
+			margin: rem-calc(15 0);
+			overflow: hidden;
+
+			.item-heading,
+			.item-content {
+				padding: rem-calc(10 15);
+
+				@include breakpoint(medium) {
+					padding: rem-calc(10 30);
+				}
+			}
+
+			.item-heading {
+				border-bottom: 2px solid color(grey-lightest);
+				margin: 0;
+				background: color(off-white);
+			}
+
+			.item-content {
+				padding-top: 0;
+
+				p {
+					margin: 1em 0;
+				}
+			}
+		}
+	}
+}

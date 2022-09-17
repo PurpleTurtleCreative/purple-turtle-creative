@@ -11,6 +11,39 @@ add_action( 'after_setup_theme', __NAMESPACE__ . '\configure_gutenberg_support',
 add_action( 'enqueue_block_editor_assets', __NAMESPACE__ . '\enqueue_block_editor_assets', 999 );
 add_filter( 'mkaz_code_syntax_language_list', __NAMESPACE__ . '\mkaz_code_syntax_language_list', 999, 1 );
 
+register_block_style(
+	'core/columns',
+	[
+		'name'         => 'cards',
+		'label'        => 'Cards',
+		'inline_style' => '
+			.wp-block-columns.is-style-cards {
+				gap: 1em;
+				margin-bottom: 1em;
+			}
+			.wp-block-columns.is-style-cards .wp-block-column {
+				border: 2px solid #e4e6fd;
+				border-radius: .625rem;
+				padding: .625rem 1.625rem;
+			}
+	',
+	]
+);
+
+register_block_style(
+	'core/group',
+	[
+		'name'         => 'fading-curve-top',
+		'label'        => 'Fading Curve Top',
+		'inline_style' => '
+			.wp-block-group.is-style-fading-curve-top {
+				background-image: linear-gradient(#f6f7fd, rgba(255,255,255,0));
+				border-radius: 50%/15%;
+			}
+	',
+	]
+);
+
 /**
  * Configure the Gutenberg Editor.
  */
