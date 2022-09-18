@@ -51,5 +51,24 @@ function register_acf_blocks() {
 				],
 			]
 		);
+		\acf_register_block_type(
+			[
+				'name' => 'ptc_block_post_previews',
+				'title' => 'PTC Post Previews',
+				'description' => 'Displays post preview cards.',
+				'category' => THEME_BASENAME,
+				'icon' => 'admin-page',
+				'render_template' => THEME_PATH . '/template-parts/acf-blocks/post-previews.php',
+				'post_types' => [ 'page' ],
+				'enqueue_style' => STYLES_URI . '/block_post-previews.css',
+				'supports' => [
+					'align' => false,
+					'align_text' => false,
+					'align_content' => false,
+					'full_height' => false,
+					'multiple' => true,
+				],
+			]
+		);
 	}
 }

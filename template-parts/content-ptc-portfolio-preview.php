@@ -9,9 +9,9 @@
 
 namespace PTC_Theme;
 
-$end_date = get_field( 'ptc_project_end' ) ?: '<span class="pill-badge">Present</span>';
+$end_date = get_field( 'ptc_project_end', get_the_ID() ) ?: '<span class="pill-badge">Present</span>';
 
-$project_client = get_field( 'ptc_project_client' ) ?: get_field_object( 'ptc_project_client' )['default_value'];
+$project_client = get_field( 'ptc_project_client', get_the_ID() ) ?: get_field_object( 'ptc_project_client' )['default_value'];
 
 $skills = get_the_terms( get_post(), 'skill' );
 $skill_tag_list_items_string = '';
@@ -28,7 +28,7 @@ if ( is_array( $skills ) ) {
 	}
 }
 
-$project_url = get_field( 'ptc_project_url' );
+$project_url = get_field( 'ptc_project_url', get_the_ID() );
 
 $is_portfolio_archive = ( is_post_type_archive() || is_tax( 'skill' ) );
 ?>

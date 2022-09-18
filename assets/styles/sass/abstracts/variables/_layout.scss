@@ -1,3 +1,5 @@
+@use "sass:math";
+
 // Variables
 
 $spacings: (
@@ -39,5 +41,22 @@ $spacings: (
 		flex-basis: calc( 50% - #{spacing(gutter)/2} );
 		width: calc( 50% - #{spacing(gutter)/2} ); // legacy support
 		padding: spacing(gutter) 0;
+	}
+}
+
+%child-col-third {
+	flex-basis: 100%;
+	width: 100%; // legacy support
+	margin: #{spacing(gutter)/2} 0;
+	padding: spacing(gutter);
+
+	@include breakpoint( medium ) {
+		flex-grow: 1;
+		flex-basis: calc( 33.33% - #{spacing(gutter)} );
+		width: calc( 33.33% - #{spacing(gutter)} ); // legacy support
+		min-width: rem-calc(350);
+		max-width: rem-calc(500);
+		padding: spacing(gutter) 0;
+		margin: #{spacing(gutter)/2};
 	}
 }
