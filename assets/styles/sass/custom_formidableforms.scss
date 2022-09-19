@@ -1,0 +1,133 @@
+@import "abstracts/abstracts";
+
+.frm_forms {
+	padding: rem-calc(30);
+	background: color(off-white);
+	border: 2px solid color(grey-lightest);
+	border-radius: rem-calc(10);
+
+	fieldset {
+		border: none;
+		padding: 0;
+		margin: 0;
+
+		legend {
+			display: none;
+		}
+	}
+
+	.frm_hidden {
+		display: none !important;
+	}
+
+	.frm_combo_inputs_container {
+		display: flex;
+
+		> .form-field {
+			flex: 1;
+
+			&:not(:last-of-type) {
+				margin-right: rem-calc(15);
+			}
+		}
+	}
+
+	.frm_verify {
+		display: none;
+	}
+
+	.frm_required {
+		color: color(danger-dark);
+	}
+
+	.frm_fields_container {
+		> .form-field {
+			margin: rem-calc(20 0);
+		}
+	}
+
+	.form-field {
+		display: flex;
+		flex-wrap: wrap;
+
+		$labelWidth: rem-calc(130);
+
+		label,
+		.frm_primary_label {
+			display: block;
+			width: $labelWidth;
+			padding: rem-calc(7 0);
+		}
+
+		input,
+		select,
+		textarea,
+		> fieldset {
+			display: block;
+			flex: 1;
+		}
+
+		input,
+		select,
+		textarea {
+			background: color(true-white);
+			margin: rem-calc(0);
+		}
+
+		.frm_primary_label {
+			@include font(body, body-bold);
+		}
+
+		.frm_description {
+			flex-basis: 100%;
+			margin-left: $labelWidth;
+			font-style: italic;
+			font-size: 0.8em;
+			color: color(grey);
+		}
+
+		> fieldset .frm_description {
+			margin-left: 0;
+		}
+
+		// Error states.
+		&.frm_blank_field {
+			input,
+			select,
+			textarea {
+				border-color: color(danger);
+				background: color(danger-light);
+			}
+
+			.frm_error {
+				flex-basis: 100%;
+				margin-left: $labelWidth;
+				color: color(danger-dark);
+			}
+		}
+	}
+
+	.frm_html_container {
+		display: block;
+		text-align: center;
+
+		&:not(:first-of-type) {
+			margin-top: rem-calc(60);
+		}
+	}
+
+	.frm_submit {
+		text-align: center;
+		margin: rem-calc(45 0 30);
+
+		.frm_button_submit {
+			min-width: 25%;
+			padding: 0.7em 1.5em;
+			font-size: rem-calc(20);
+
+			@include breakpoint(medium) {
+				font-size: rem-calc(24);
+			}
+		}
+	}
+}
