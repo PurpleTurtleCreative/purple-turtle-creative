@@ -112,7 +112,15 @@
 		text-align: center;
 
 		&:not(:first-of-type) {
-			margin-top: rem-calc(60);
+			margin-top: rem-calc(45);
+		}
+
+		h3 {
+			margin-bottom: 0;
+
+			+ p {
+				margin-top: rem-calc(5);
+			}
 		}
 	}
 
