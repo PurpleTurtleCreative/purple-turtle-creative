@@ -5,11 +5,15 @@
 	.frm_message {
 		text-align: center;
 		margin: rem-calc(20 0);
-		padding: rem-calc(10 30);
+		padding: rem-calc(10 15);
 		background: color(success-light);
 		border: 1px solid color(success);
 		border-radius: rem-calc(5);
 		color: color(success-dark);
+
+		@include breakpoint(medium) {
+			padding: rem-calc(10 30);
+		}
 
 		p:last-child {
 			margin: 0;
@@ -17,7 +21,7 @@
 	}
 
 	.frm_form_fields {
-		padding: rem-calc(20 10 10);
+		padding: rem-calc(20 15 10);
 		background: color(off-white);
 		border: 2px solid color(grey-lightest);
 		border-radius: rem-calc(10);

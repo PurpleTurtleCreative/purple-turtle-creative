@@ -4,7 +4,7 @@
 	background: color(true-white);
 	border: 2px solid color(grey-lightest);
 	border-radius: rem-calc(10);
-	padding: rem-calc(30);
+	padding: rem-calc(30 15);
 	text-align: center;
 
 	@include breakpoint(medium) {
@@ -12,6 +12,7 @@
 		flex-wrap: wrap;
 		justify-content: center;
 		text-align: left;
+		padding: rem-calc(30);
 	}
 
 	.user-avatar {
@@ -37,11 +38,11 @@
 		.contact {
 			display: flex;
 			flex-wrap: wrap;
-			margin-left: rem-calc(-10);
 			justify-content: center;
 
 			@include breakpoint(medium) {
 				justify-content: flex-start;
+				margin-left: rem-calc(-10);
 			}
 		}
 	}
