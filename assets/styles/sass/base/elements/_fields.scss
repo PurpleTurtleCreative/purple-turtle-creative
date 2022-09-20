@@ -33,6 +33,10 @@ textarea {
 	width: 100%;
 }
 
+fieldset {
+	min-inline-size: auto;
+}
+
 .search-form {
 	display: flex;
 	max-width: rem-calc(500);

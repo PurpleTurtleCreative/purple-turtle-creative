@@ -1,10 +1,14 @@
 @import "abstracts/abstracts";
 
 .frm_forms {
-	padding: rem-calc(30);
+	padding: rem-calc(10);
 	background: color(off-white);
 	border: 2px solid color(grey-lightest);
 	border-radius: rem-calc(10);
+
+	@include breakpoint(medium) {
+		padding: rem-calc(30);
+	}
 
 	fieldset {
 		border: none;
@@ -22,12 +26,17 @@
 
 	.frm_combo_inputs_container {
 		display: flex;
+		flex-wrap: wrap;
 
 		> .form-field {
-			flex: 1;
+			width: 100%;
 
-			&:not(:last-of-type) {
-				margin-right: rem-calc(15);
+			@include breakpoint(medium) {
+				flex: 1;
+
+				&:not(:last-of-type) {
+					margin-right: rem-calc(15);
+				}
 			}
 		}
 	}
@@ -42,7 +51,11 @@
 
 	.frm_fields_container {
 		> .form-field {
-			margin: rem-calc(20 0);
+			margin: rem-calc(10 0);
+
+			@include breakpoint(medium) {
+				margin: rem-calc(20 0);
+			}
 		}
 	}
 
@@ -55,8 +68,12 @@
 		label,
 		.frm_primary_label {
 			display: block;
-			width: $labelWidth;
+			width: 100%;
 			padding: rem-calc(7 0);
+
+			@include breakpoint(medium) {
+				width: $labelWidth;
+			}
 		}
 
 		input,
@@ -80,10 +97,14 @@
 
 		.frm_description {
 			flex-basis: 100%;
-			margin-left: $labelWidth;
+			margin-left: 0;
 			font-style: italic;
 			font-size: 0.8em;
 			color: color(grey);
+
+			@include breakpoint(medium) {
+				margin-left: $labelWidth;
+			}
 		}
 
 		> fieldset .frm_description {
@@ -101,8 +122,12 @@
 
 			.frm_error {
 				flex-basis: 100%;
-				margin-left: $labelWidth;
+				margin-left: 0;
 				color: color(danger-dark);
+
+				@include breakpoint(medium) {
+					margin-left: $labelWidth;
+				}
 			}
 		}
 	}

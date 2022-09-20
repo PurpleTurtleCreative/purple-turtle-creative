@@ -38,7 +38,12 @@ register_block_style(
 		'inline_style' => '
 			.wp-block-group.is-style-fading-curve-top {
 				background-image: linear-gradient(#f6f7fd, rgba(255,255,255,0));
-				border-radius: 50%/15%;
+				border-radius: 50%/4%;
+			}
+			@media (min-width: 768px) {
+				.wp-block-group.is-style-fading-curve-top {
+					border-radius: 50%/15%;
+				}
 			}
 	',
 	]
