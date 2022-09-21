@@ -35,7 +35,7 @@
 		display: flex !important;
 		align-items: center;
 		padding: rem-calc(30);
-		background: color(off-white);
+		background: color(true-white);
 		border-radius: rem-calc(10);
 		border: 2px solid color(grey-lightest);
 		transition: opacity linear 750ms;
@@ -43,7 +43,7 @@
 
 		&:not(.slick-current) {
 			transition: opacity linear 500ms;
-			opacity: 0.66;
+			opacity: 0.5;
 		}
 
 		.icon {
