@@ -30,7 +30,7 @@ function svg( string $asset_image_filename, string $directory = '' ) {
 function get_svg( string $asset_image_filename, string $directory = '' ) {
 
 	if ( '' === $directory ) {
-		$directory = get_template_directory() . '/assets/images/';
+		$directory = THEME_PATH . '/assets/images/';
 	}
 
 	$filename = $directory . $asset_image_filename;
@@ -49,7 +49,6 @@ function get_svg( string $asset_image_filename, string $directory = '' ) {
 
 	// SUCCESS!
 	return wp_kses_post( $svg );
-
 }
 
 /**
@@ -70,7 +69,7 @@ function svg_uri( string $asset_image_filename ) {
  */
 function get_svg_uri( string $asset_image_filename ) {
 	return esc_url(
-		get_template_directory_uri() . '/assets/images/' . $asset_image_filename
+		IMAGES_URI . '/' . $asset_image_filename
 	);
 }
 
@@ -96,7 +95,7 @@ function fa( string $icon_name, string $family_dir = 'solid' ) {
  */
 function get_fa( string $icon_name, string $family_dir = 'solid' ) {
 
-	$full_family_dir = get_template_directory() . '/assets/icons/' . $family_dir . '/';
+	$full_family_dir = THEME_PATH . '/assets/icons/' . $family_dir . '/';
 
 	if ( ! is_dir( $full_family_dir ) ) {
 		error_log( 'FA icon family is invalid: ' . $full_family_dir );
@@ -104,5 +103,4 @@ function get_fa( string $icon_name, string $family_dir = 'solid' ) {
 	}
 
 	return get_svg( $icon_name . '.svg', $full_family_dir );
-
 }

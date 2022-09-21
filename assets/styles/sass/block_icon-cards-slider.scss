@@ -1,0 +1,62 @@
+@import "abstracts/abstracts";
+
+.ptc-block-icon-cards-slider {
+
+	.slick-list {
+
+		&::before,
+		&::after {
+			content: "";
+			display: block;
+			position: absolute;
+			top: 0;
+			bottom: 0;
+			width: rem-calc(30);
+			z-index: 1;
+		}
+
+		&::before {
+			left: 0;
+			background: linear-gradient(to right, color(true-white), rgba(255, 255, 255, 0));
+		}
+
+		&::after {
+			right: 0;
+			background: linear-gradient(to left, color(true-white), rgba(255, 255, 255, 0));
+		}
+	}
+
+	.slick-slide {
+		margin: rem-calc(0 15);
+	}
+
+	.icon-card {
+		position: relative;
+		display: flex !important;
+		align-items: center;
+		padding: rem-calc(30);
+		background: color(off-white);
+		border-radius: rem-calc(10);
+		border: 2px solid color(grey-lightest);
+		transition: opacity linear 750ms;
+		opacity: 1;
+
+		&:not(.slick-current) {
+			transition: opacity linear 500ms;
+			opacity: 0.66;
+		}
+
+		.icon {
+			font-size: rem-calc(60);
+			background: color(grey-lightest);
+			color: color(primary);
+			border-radius: 50%;
+			width: rem-calc(120);
+			height: rem-calc(120);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			margin-right: rem-calc(30);
+		}
+	}
+}
