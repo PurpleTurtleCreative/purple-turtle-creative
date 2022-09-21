@@ -4,9 +4,11 @@
 
 document.addEventListener('DOMContentLoaded', function() {
   jQuery('.ptc-block-icon-cards-slider').slick({
-  	infinite: true,
-  	dots: true,
   	slide: '.icon-card',
+  	dots: true,
+  	prevArrow: 'button.slick-prev',
+  	nextArrow: 'button.slick-next',
+  	infinite: true,
     centerMode: true,
     variableWidth: true,
     slidesToShow: 1,

@@ -1,34 +1,8 @@
 @import "abstracts/abstracts";
 
 .ptc-block-icon-cards-slider {
-
-	.slick-list {
-
-		&::before,
-		&::after {
-			content: "";
-			display: block;
-			position: absolute;
-			top: 0;
-			bottom: 0;
-			width: rem-calc(30);
-			z-index: 1;
-		}
-
-		&::before {
-			left: 0;
-			background: linear-gradient(to right, color(true-white), rgba(255, 255, 255, 0));
-		}
-
-		&::after {
-			right: 0;
-			background: linear-gradient(to left, color(true-white), rgba(255, 255, 255, 0));
-		}
-	}
-
-	.slick-slide {
-		margin: rem-calc(0 15);
-	}
+	position: relative;
+	margin: rem-calc(30 0 60);
 
 	.icon-card {
 		position: relative;
@@ -38,12 +12,14 @@
 		background: color(true-white);
 		border-radius: rem-calc(10);
 		border: 2px solid color(grey-lightest);
-		transition: opacity linear 750ms;
+		transition: opacity linear 750ms, transform linear 450ms;
 		opacity: 1;
+		transform: scale(1.0);
 
 		&:not(.slick-current) {
-			transition: opacity linear 500ms;
+			transition: opacity linear 500ms, transform linear 250ms;
 			opacity: 0.5;
+			transform: scale(0.9);
 		}
 
 		.icon {
@@ -57,6 +33,109 @@
 			align-items: center;
 			justify-content: center;
 			margin-right: rem-calc(30);
+		}
+	}
+
+	// SlickJS component styles.
+
+	.slick-list {
+
+		&::before,
+		&::after {
+			content: "";
+			display: block;
+			position: absolute;
+			top: 0;
+			bottom: 0;
+			width: rem-calc(120);
+			z-index: 1;
+		}
+
+		&::before {
+			left: 0;
+			background: linear-gradient(to right, color(true-white) 10%, rgba(255, 255, 255, 0));
+		}
+
+		&::after {
+			right: 0;
+			background: linear-gradient(to left, color(true-white) 10%, rgba(255, 255, 255, 0));
+		}
+	}
+
+	.slick-slide {
+		margin: rem-calc(0 -10);//adjust for scale transform.
+	}
+
+	.slick-dots {
+		position: absolute;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 100%;
+		margin: rem-calc(10 0 0);
+		padding: 0;
+		list-style: none;
+
+		> li {
+			line-height: 1;
+
+			> button {
+				border-radius: 999px;
+				border: none;
+				color: transparent;
+				background: color(grey-lightest);
+				font-size: 1px;
+				padding: rem-calc(5);
+				margin: rem-calc(5);
+				transition: padding ease-out 200ms;
+			}
+			&.slick-active {
+				> button {
+					background: color(primary);
+					border: none;
+					padding: rem-calc(7);
+				}
+			}
+		}
+	}
+
+	.slick-arrow {
+		position: absolute;
+		top: 50%;
+		transform: translateY(-50%);
+		border-radius: 999px;
+		font-size: rem-calc(30);
+		width: rem-calc(60);
+		height: rem-calc(60);
+		padding: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		&.slick-prev {
+			transition: left ease-out 300ms;
+			left: rem-calc(-60);
+		}
+
+		&.slick-next {
+			transition: right ease-out 300ms;
+			right: rem-calc(-60);
+		}
+	}
+
+	&:hover {
+
+		.slick-arrow {
+
+			&.slick-prev {
+				transition: left ease-out 300ms;
+				left: rem-calc(15);
+			}
+
+			&.slick-next {
+				transition: right ease-out 300ms;
+				right: rem-calc(15);
+			}
 		}
 	}
 }
