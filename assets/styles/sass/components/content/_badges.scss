@@ -1,20 +1,11 @@
 .referral-badge {
+	@extend .button__link;
 	display: flex;
 	align-items: center;
 	justify-content: flex-start;
-	background: color(primary);
 	border-radius: rem-calc(7);
 	padding: rem-calc(10 20 10 15);
-	color: color(off-white);
 	margin: rem-calc(7);
-
-	&:hover,
-	&:focus,
-	&:active {
-		text-decoration: none;
-		color: color(off-white);
-		background: color(black);
-	}
 
 	svg {
 		height: auto;

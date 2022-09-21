@@ -45,8 +45,21 @@ input[type="submit"] {
 		&.active,
 		&.current,
 		&[aria-current] {
+			text-decoration: none;
 			color: color(true-white);
 			background-color: color(primary-dark);
+		}
+
+		&.has-primary-dark-background-color {
+			&:hover,
+			&:focus,
+			&:active,
+			&.active,
+			&.current,
+			&[aria-current] {
+				border-color: color(black) !important;
+				background: color(black) !important;
+			}
 		}
 	}
 
