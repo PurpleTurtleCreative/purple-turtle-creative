@@ -49,6 +49,38 @@ register_block_style(
 	]
 );
 
+register_block_style(
+	'core/list',
+	[
+		'name'         => 'clean',
+		'label'        => 'Clean',
+		'inline_style' => '
+			ul.is-style-clean {
+				margin: 0;
+				padding: 0 0 0 20px;
+				list-style-type: none;
+			}
+
+			ul.is-style-clean li {
+				position: relative;
+				margin: 1em 0;
+			}
+
+			ul.is-style-clean li::before {
+				content: "";
+				display: block;
+				background: currentColor;
+				height: 6px;
+				width: 6px;
+				border-radius: 999px;
+				position: absolute;
+				left: -18px;
+				top: calc(0.5em + 3px);
+			}
+	',
+	]
+);
+
 /**
  * Configure the Gutenberg Editor.
  */
