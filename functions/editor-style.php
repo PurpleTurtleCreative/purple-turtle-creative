@@ -61,6 +61,10 @@ register_block_style(
 				list-style-type: none;
 			}
 
+			p + ul.is-style-clean {
+				margin-top: -0.5em;
+			}
+
 			ul.is-style-clean li {
 				position: relative;
 				margin: 1em 0;

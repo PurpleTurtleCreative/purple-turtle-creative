@@ -35,7 +35,7 @@
 			flex: 1;
 			position: relative;
 			margin: 0;
-			padding: spacing(gutter);
+			padding: rem-calc(30);
 
 			p {
 				margin-bottom: 1em;
@@ -71,7 +71,7 @@
 		} // end .entry-content
 
 		.entry-footer {
-			padding: spacing(gutter);
+			padding: rem-calc(20 30);
 		} // end .entry-footer
 
 		// == Custom Content Overrides == //

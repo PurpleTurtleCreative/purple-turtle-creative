@@ -2,19 +2,31 @@
 
 .ptc-block-icon-cards-slider {
 	position: relative;
-	margin: rem-calc(30 0 60);
+	margin: rem-calc(10 0);
+
+	@include breakpoint(medium) {
+		margin: rem-calc(15 0 60);
+	}
 
 	.icon-card {
 		position: relative;
 		display: flex !important;
+		flex-wrap: wrap;
 		align-items: center;
-		padding: rem-calc(30);
+		justify-content: center;
+		text-align: center;
+		padding: rem-calc(15 20);
 		background: color(true-white);
 		border-radius: rem-calc(10);
 		border: 2px solid color(grey-lightest);
 		transition: opacity linear 750ms, transform linear 450ms;
 		opacity: 1;
 		transform: scale(1.0);
+
+		@include breakpoint(medium) {
+			padding: rem-calc(30);
+			text-align: left;
+		}
 
 		&:not(.slick-current) {
 			transition: opacity linear 500ms, transform linear 250ms;
@@ -23,16 +35,30 @@
 		}
 
 		.icon {
-			font-size: rem-calc(60);
-			background: color(grey-lightest);
-			color: color(primary);
-			border-radius: 50%;
-			width: rem-calc(120);
-			height: rem-calc(120);
 			display: flex;
 			align-items: center;
 			justify-content: center;
-			margin-right: rem-calc(30);
+			background: color(grey-lightest);
+			color: color(primary);
+			border-radius: 50%;
+			width: rem-calc(90);
+			height: rem-calc(90);
+			font-size: rem-calc(45);
+			margin: rem-calc(20 0 10 0);
+
+			@include breakpoint(medium) {
+				width: rem-calc(120);
+				height: rem-calc(120);
+				font-size: rem-calc(60);
+				margin: rem-calc(0 30 0 0);
+			}
+		}
+
+		.title {
+
+			@include breakpoint-down(medium) {
+				font-size: rem-calc(20);
+			}
 		}
 	}
 
@@ -49,6 +75,10 @@
 			bottom: 0;
 			width: rem-calc(120);
 			z-index: 1;
+
+			@include breakpoint-down(medium) {
+				display: none !important;
+			}
 		}
 
 		&::before {
@@ -63,18 +93,27 @@
 	}
 
 	.slick-slide {
-		margin: rem-calc(0 -10);//adjust for scale transform.
+		margin: rem-calc(0);
+		max-width: calc(100vw - #{rem-calc(45*2)});
+
+		@include breakpoint(medium) {
+			margin: rem-calc(0 -10);//adjust for scale transform.
+		}
 	}
 
 	.slick-dots {
-		position: absolute;
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		position: absolute;
 		width: 100%;
-		margin: rem-calc(10 0 0);
+		margin: rem-calc(15 0 0);
 		padding: 0;
 		list-style: none;
+
+		@include breakpoint-down(medium) {
+			display: none !important;
+		}
 
 		> li {
 			line-height: 1;
@@ -100,6 +139,9 @@
 	}
 
 	.slick-arrow {
+		display: flex;
+		align-items: center;
+		justify-content: center;
 		position: absolute;
 		top: 50%;
 		transform: translateY(-50%);
@@ -108,9 +150,10 @@
 		width: rem-calc(60);
 		height: rem-calc(60);
 		padding: 0;
-		display: flex;
-		align-items: center;
-		justify-content: center;
+
+		@include breakpoint-down(medium) {
+			display: none !important;
+		}
 
 		&.slick-prev {
 			transition: left ease-out 300ms;
