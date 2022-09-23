@@ -104,7 +104,6 @@ register_block_style(
 				top: -10px;
 				left: 50%;
 				transform: translate(-50%,-100%);
-				max-width: calc(100% + 20px);
 				text-align: center;
 				line-height: 1.3;
 				background: #08082b;

@@ -45,6 +45,21 @@ figcaption {
 /* Gallery */
 
 .wp-block-gallery {
+	justify-content: center;
+	user-select: none;
+
+	@include breakpoint(medium) {
+
+		@for $i from 1 through 8 {
+			&.columns-#{$i} {
+
+				.wp-block-image {
+					max-width: calc( #{100% / $i} - var(--wp--style--gallery-gap-default, 16px) ) !important;
+					margin: 0 !important;
+				}
+			}
+		}//for
+	}
 
 	.wp-block-image {
 
@@ -54,20 +69,16 @@ figcaption {
 		}
 	}
 
-	@include breakpoint-between( medium, xsmall ) {
+	@include breakpoint-down(medium) {
 
 		@for $i from 1 through 8 {
 			&.mobile-columns-#{$i} {
 
 				.wp-block-image {
-					width: calc( #{100% / $i} - var(--wp--style--unstable-gallery-gap, 16px) ) !important;
+					max-width: calc( #{100% / $i} - var(--wp--style--gallery-gap-default, 16px) ) !important;
 					margin: 0 !important;
-
-					img {
-						border-radius: rem-calc(10) !important;
-					}
 				}
 			}
-		} // for
+		}//for
 	}
-} // .wp-block-gallery
+}//.wp-block-gallery
