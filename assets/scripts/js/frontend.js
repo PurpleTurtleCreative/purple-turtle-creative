@@ -17,7 +17,23 @@ document.getElementById('overlay')
 		document.documentElement.classList.remove('mobile-menu-open');
 	});
 
-//////////////////////////////
+///////////////////////////////
+// -- Block Custom Styles -- //
+///////////////////////////////
+
+// Create popover components for gallery images.
+document.querySelectorAll('.wp-block-gallery.is-style-popover-alt-text')
+	.forEach(function(galleryEl) {
+		galleryEl.querySelectorAll('figure.wp-block-image img[alt]:not([alt=""])')
+			.forEach(function(imageEl) {
+				const popoverEl = document.createElement('p');
+				popoverEl.innerText = imageEl.alt;
+				popoverEl.classList.add('popover-alt-text');
+				imageEl.parentElement.insertBefore(popoverEl, imageEl);
+			});
+	});
+
+/////////////////////////////
 // -- Utility Functions -- //
 /////////////////////////////
 
