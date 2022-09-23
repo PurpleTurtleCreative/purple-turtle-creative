@@ -9,6 +9,7 @@ namespace PTC_Theme;
 
 add_action( 'acf/init', __NAMESPACE__ . '\register_acf_blocks', 10 );
 add_action( 'acf/load_field/key=field_632a8942e8de8', __NAMESPACE__ . '\populate_icon_select_options' );
+add_action( 'acf/load_field/key=field_632df30088333', __NAMESPACE__ . '\populate_icon_select_options' );
 if ( class_exists( '\WP_Block_Editor_Context' ) ) {
 	add_filter( 'block_categories_all', __NAMESPACE__ . '\filter_block_categories', 10, 2 );
 } else {
@@ -105,6 +106,25 @@ function register_acf_blocks() {
 		);
 		\acf_register_block_type(
 			[
+				'name' => 'ptc_block_icon_buttons',
+				'title' => 'PTC Icon Buttons',
+				'description' => 'Displays buttons with an icon.',
+				'category' => THEME_BASENAME,
+				'icon' => 'button',
+				'render_template' => THEME_PATH . '/template-parts/acf-blocks/icon-buttons.php',
+				'post_types' => [ 'page' ],
+				// 'enqueue_style' => STYLES_URI . '/block_icon-buttons.css',
+				'supports' => [
+					'align' => true,
+					'align_text' => false,
+					'align_content' => false,
+					'full_height' => false,
+					'multiple' => true,
+				],
+			]
+		);
+		\acf_register_block_type(
+			[
 				'name' => 'ptc_block_post_previews',
 				'title' => 'PTC Post Previews',
 				'description' => 'Displays post preview cards.',
@@ -135,13 +155,18 @@ function register_acf_blocks() {
  */
 function populate_icon_select_options( $field ) {
 
-	$solid_family_icons = glob( THEME_PATH . '/assets/icons/solid/*.svg' ) ?: [];
+	// Clear existing options.
+	$field['choices'] = [];
 
-	if ( count( $solid_family_icons ) > 0 ) {
-		$field['choices'] = []; // clear any existing options.
-		foreach ( $solid_family_icons as $icon_file ) {
-			$icon_name = basename( $icon_file, '.svg' );
-			$field['choices'][ $icon_name ] = ucwords( str_replace( '-', ' ', $icon_name ) );
+	// Find icons for each FontAwesome family.
+	$icon_families = [ 'brands', 'solid' ];
+	foreach ( $icon_families as $family ) {
+		$icon_files = glob( THEME_PATH . "/assets/icons/{$family}/*.svg" ) ?: [];
+		if ( count( $icon_files ) > 0 ) {
+			foreach ( $icon_files as $icon_file ) {
+				$icon_name = basename( $icon_file, '.svg' );
+				$field['choices'][ "{$family}/{$icon_name}" ] = ucwords( $family . ' - ' . str_replace( '-', ' ', $icon_name ) );
+			}
 		}
 	}
 

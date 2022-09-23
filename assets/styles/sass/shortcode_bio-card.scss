@@ -12,7 +12,7 @@
 		flex-wrap: wrap;
 		justify-content: center;
 		text-align: left;
-		padding: rem-calc(30);
+		padding: rem-calc(40 30);
 	}
 
 	.user-avatar {
@@ -36,13 +36,12 @@
 		}
 
 		.contact {
-			display: flex;
-			flex-wrap: wrap;
+			margin-top: rem-calc(0);
+			margin-bottom: rem-calc(0);
 			justify-content: center;
 
 			@include breakpoint(medium) {
 				justify-content: flex-start;
-				margin-left: rem-calc(-10);
 			}
 		}
 	}

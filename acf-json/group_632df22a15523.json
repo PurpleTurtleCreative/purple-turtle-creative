@@ -1,0 +1,185 @@
+{
+    "key": "group_632df22a15523",
+    "title": "PTC Block - Icon Buttons",
+    "fields": [
+        {
+            "key": "field_632e1587c7d96",
+            "label": "Color",
+            "name": "ptc_icon_buttons_color",
+            "type": "select",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "has-primary-background-color": "Primary",
+                "has-primary-dark-background-color": "Primary Dark"
+            },
+            "default_value": false,
+            "allow_null": 0,
+            "multiple": 0,
+            "ui": 0,
+            "return_format": "value",
+            "ajax": 0,
+            "placeholder": ""
+        },
+        {
+            "key": "field_632df28c88330",
+            "label": "Buttons",
+            "name": "ptc_icon_buttons",
+            "type": "repeater",
+            "instructions": "",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "collapsed": "field_632df2da88331",
+            "min": 1,
+            "max": 0,
+            "layout": "block",
+            "button_label": "Add Button",
+            "sub_fields": [
+                {
+                    "key": "field_632df2da88331",
+                    "label": "Label",
+                    "name": "label",
+                    "type": "text",
+                    "instructions": "",
+                    "required": 1,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "placeholder": "",
+                    "prepend": "",
+                    "append": "",
+                    "maxlength": ""
+                },
+                {
+                    "key": "field_632df2f188332",
+                    "label": "URL",
+                    "name": "url",
+                    "type": "url",
+                    "instructions": "",
+                    "required": 1,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "default_value": "",
+                    "placeholder": ""
+                },
+                {
+                    "key": "field_632df30088333",
+                    "label": "Icon",
+                    "name": "icon",
+                    "type": "select",
+                    "instructions": "",
+                    "required": 1,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "choices": {
+                        "brands\/digital-ocean": "Brands - Digital Ocean",
+                        "brands\/dropbox": "Brands - Dropbox",
+                        "brands\/linkedin-in": "Brands - Linkedin In",
+                        "brands\/linkedin": "Brands - Linkedin",
+                        "brands\/wordpress-simple": "Brands - Wordpress Simple",
+                        "solid\/angle-double-right": "Solid - Angle Double Right",
+                        "solid\/angle-left": "Solid - Angle Left",
+                        "solid\/angle-right": "Solid - Angle Right",
+                        "solid\/bolt": "Solid - Bolt",
+                        "solid\/box-archive": "Solid - Box Archive",
+                        "solid\/cart-shopping": "Solid - Cart Shopping",
+                        "solid\/chart-column": "Solid - Chart Column",
+                        "solid\/chart-line": "Solid - Chart Line",
+                        "solid\/chart-pie": "Solid - Chart Pie",
+                        "solid\/download": "Solid - Download",
+                        "solid\/envelope-open-text": "Solid - Envelope Open Text",
+                        "solid\/envelope": "Solid - Envelope",
+                        "solid\/file-code": "Solid - File Code",
+                        "solid\/file-contract": "Solid - File Contract",
+                        "solid\/file-invoice-dollar": "Solid - File Invoice Dollar",
+                        "solid\/file-invoice": "Solid - File Invoice",
+                        "solid\/file-shield": "Solid - File Shield",
+                        "solid\/file-signature": "Solid - File Signature",
+                        "solid\/file-zipper": "Solid - File Zipper",
+                        "solid\/gauge-high": "Solid - Gauge High",
+                        "solid\/hand-holding-dollar": "Solid - Hand Holding Dollar",
+                        "solid\/heart-circle-check": "Solid - Heart Circle Check",
+                        "solid\/heart": "Solid - Heart",
+                        "solid\/info-circle": "Solid - Info Circle",
+                        "solid\/laptop-code": "Solid - Laptop Code",
+                        "solid\/laptop-file": "Solid - Laptop File",
+                        "solid\/long-arrow-alt-right": "Solid - Long Arrow Alt Right",
+                        "solid\/seedling": "Solid - Seedling",
+                        "solid\/shield-halved": "Solid - Shield Halved",
+                        "solid\/shopping-basket": "Solid - Shopping Basket",
+                        "solid\/square-arrow-up-right": "Solid - Square Arrow Up Right",
+                        "solid\/users": "Solid - Users"
+                    },
+                    "default_value": false,
+                    "allow_null": 0,
+                    "multiple": 0,
+                    "ui": 1,
+                    "ajax": 0,
+                    "return_format": "value",
+                    "placeholder": ""
+                },
+                {
+                    "key": "field_632e069453b78",
+                    "label": "Icon Position",
+                    "name": "icon_position_before",
+                    "type": "true_false",
+                    "instructions": "",
+                    "required": 1,
+                    "conditional_logic": 0,
+                    "wrapper": {
+                        "width": "",
+                        "class": "",
+                        "id": ""
+                    },
+                    "message": "",
+                    "default_value": 1,
+                    "ui": 1,
+                    "ui_on_text": "Before",
+                    "ui_off_text": "After"
+                }
+            ]
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "block",
+                "operator": "==",
+                "value": "acf\/ptc-block-icon-buttons"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_rest": 0,
+    "modified": 1663965099
+}

@@ -6,7 +6,7 @@ input[type="submit"] {
 	cursor: pointer;
 	@include font(body, body-bold);
 	border: 1px solid;
-	border-radius: rem-calc(5);
+	border-radius: rem-calc(7);
 	border-color: color(primary);
 	background: color(primary);
 	color: color(off-white);
@@ -21,12 +21,30 @@ input[type="submit"] {
 	}
 }
 
-.button {
-	margin-right: rem-calc(7);
+.button-group {
+	display: flex;
+	margin: rem-calc(45 0 20);
+	max-width: 100%;
+	flex-wrap: wrap;
 
-	&:last-of-type {
-		margin-right: 0;
+	&.left {
+		margin-left: rem-calc(-7);
+		justify-content: flex-start;
+		text-align: left;
 	}
+	&.center {
+		justify-content: center;
+		text-align: center;
+	}
+	&.right {
+		margin-right: rem-calc(-7);
+		justify-content: flex-end;
+		text-align: right;
+	}
+}
+
+.button {
+	margin: rem-calc(7);
 
 	&__link,
 	> a {
@@ -36,7 +54,7 @@ input[type="submit"] {
 		letter-spacing: .06em;
 		color: color(off-white);
 		background-color: color(primary);
-		border-radius: rem-calc(5);
+		border-radius: rem-calc(7);
 	  padding: rem-calc(13 20);
 
 		&:hover,
@@ -50,7 +68,25 @@ input[type="submit"] {
 			background-color: color(primary-dark);
 		}
 
+		&.has-primary-background-color {
+			border-color: color(primary) !important;
+			background: color(primary) !important;
+
+			&:hover,
+			&:focus,
+			&:active,
+			&.active,
+			&.current,
+			&[aria-current] {
+				border-color: color(primary-dark) !important;
+				background: color(primary-dark) !important;
+			}
+		}
+
 		&.has-primary-dark-background-color {
+			border-color: color(primary-dark) !important;
+			background: color(primary-dark) !important;
+
 			&:hover,
 			&:focus,
 			&:active,
@@ -61,22 +97,25 @@ input[type="submit"] {
 				background: color(black) !important;
 			}
 		}
-	}
 
-	&-dark {
-		@extend .button;
+		&.icon-button {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			flex-wrap: nowrap;
 
-		&__link,
-		> a {
-			background-color: color(primary-dark);
+			svg {
+				margin-right: .5em;
+				font-size: 1.5em;
+			}
 
-			&:hover,
-			&:focus,
-			&:active,
-			&.active,
-			&.current,
-			&[aria-current] {
-				background-color: color(black);
+			&.--is-icon-position-after {
+				flex-direction: row-reverse;
+
+				svg {
+					margin-right: 0;
+					margin-left: 0.5em;
+				}
 			}
 		}
 	}
@@ -88,7 +127,7 @@ input[type="submit"] {
 	color: color(true-white);
 	background-color: color(primary);
 	padding: .3em .7em;
-	border-radius: rem-calc(5);
+	border-radius: rem-calc(7);
 
 	&-dark {
 		@extend .badge;

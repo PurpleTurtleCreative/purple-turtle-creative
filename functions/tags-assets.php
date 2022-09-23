@@ -68,9 +68,7 @@ function svg_uri( string $asset_image_filename ) {
  * /assets/images/ folder.
  */
 function get_svg_uri( string $asset_image_filename ) {
-	return esc_url(
-		IMAGES_URI . '/' . $asset_image_filename
-	);
+	return esc_url( IMAGES_URI . '/' . $asset_image_filename );
 }
 
 /**

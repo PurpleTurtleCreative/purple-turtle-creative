@@ -14,9 +14,12 @@ $icon_cards = get_field( 'ptc_slider_icon_cards' ) ?: [];
 if ( count( $icon_cards ) > 0 ) :
 	?>
 	<div class="ptc-block ptc-block-icon-cards-slider">
-		<?php foreach ( $icon_cards as $card ) { ?>
+		<?php
+		foreach ( $icon_cards as $card ) {
+			$icon = explode( '/', $card['icon'] );
+			?>
 			<div class="icon-card">
-				<div class="icon"><?php fa( $card['icon'] ); ?></div>
+				<div class="icon"><?php fa( $icon[1], $icon[0] ); ?></div>
 				<div class="card">
 					<h3 class="title"><?php echo esc_html( $card['title'] ); ?></h3>
 					<div class="content"><?php echo wp_kses_post( $card['content'] ); ?></div>

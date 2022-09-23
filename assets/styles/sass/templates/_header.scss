@@ -76,6 +76,7 @@
 
 				li {
 					@extend .button;
+					margin: rem-calc(3);
 
 					a {
 						@extend .button__link;

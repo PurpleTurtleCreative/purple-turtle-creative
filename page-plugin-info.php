@@ -37,10 +37,10 @@ get_header();
 					</p>
 				</div>
 
-				<div class="button-dark">
-					<a href="<?php echo esc_url( $plugin_info->homepage ); ?>">
-						Go to Plugin Page <?php fa( 'long-arrow-alt-right' ); ?>
-					</a>
+				<div class="button-group center">
+					<div class="button">
+						<a class="icon-button has-primary-dark-background-color --is-icon-position-after" href="<?php echo esc_url( $plugin_info->homepage ); ?>"><?php fa( 'long-arrow-alt-right' ); ?>Go to Plugin Page</a>
+					</div>
 				</div>
 
 			</div>
