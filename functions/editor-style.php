@@ -90,7 +90,7 @@ register_block_style(
 		'inline_style' => '
 			.wp-block-gallery.is-style-popover-alt-text {
 				--wp--style--gallery-gap-default: 1rem;
-				padding: 2rem;
+				padding: 0.5rem 2rem;
 			}
 			.wp-block-gallery.is-style-popover-alt-text figure.wp-block-image {
 				position: relative;
@@ -104,8 +104,8 @@ register_block_style(
 				top: -10px;
 				left: 50%;
 				transform: translate(-50%,-100%);
+				max-width: calc(100% + 20px);
 				text-align: center;
-				white-space: nowrap;
 				line-height: 1.3;
 				background: #08082b;
 				color: white;
@@ -115,6 +115,12 @@ register_block_style(
 				user-select: none;
 				pointer-events: none;
 				z-index: 1;
+			}
+			@media (min-width: 768px) {
+				.wp-block-gallery.is-style-popover-alt-text figure.wp-block-image:hover p.popover-alt-text {
+					white-space: nowrap;
+					max-width: 100vw;
+				}
 			}
 			.wp-block-gallery.is-style-popover-alt-text figure.wp-block-image p.popover-alt-text::after {
 				content: "";
