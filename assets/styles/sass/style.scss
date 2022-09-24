@@ -1,4 +1,4 @@
-// global
+// Global.
 @import "abstracts/abstracts";
 @import "generic/normalize";
 @import "generic/box-sizing";
@@ -8,3 +8,14 @@
 @import "utilities/accessibility";
 @import "templates/header";
 @import "templates/footer";
+
+// Gutenberg styles.
+
+@each $slug, $color in $colors {
+	.has-#{$slug}-background-color {
+		background-color: $color !important;
+	}
+	.has-#{$slug}-color {
+		color: $color !important;
+	}
+}

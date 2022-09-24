@@ -66,9 +66,10 @@ body.login {
 		#backtoblog {
 			text-align: center;
 			margin: 2rem 0 1rem;
-			@extend .button-dark;
+			@extend .button;
 
 			a {
+				@extend .has-primary-dark-background-color;
 				display: inline-block;
 			}
 		}

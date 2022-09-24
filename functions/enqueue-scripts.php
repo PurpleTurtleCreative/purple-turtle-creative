@@ -10,6 +10,7 @@ namespace PTC_Theme;
 add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\enqueue_scripts', 10 );
 add_action( 'wp_print_styles', __NAMESPACE__ . '\dequeue_unused_scripts', 100 );
 add_filter( 'script_loader_tag', __NAMESPACE__ . '\optimize_script_loading', 10, 3 );
+add_filter( 'get_frm_stylesheet', __NAMESPACE__ . '\get_formidable_forms_stylesheet', 10, 2 );
 
 /**
  * Enqueue scripts and styles.
@@ -117,4 +118,15 @@ function optimize_script_loading( $tag, $handle, $src ) {
 	}
 
 	return $tag;
+}
+
+/**
+ * Replaces Formidable Forms' stylesheet with our own.
+ *
+ * @param array $previous_css An array with a single key "formidable", set
+ * to the stylesheet URL.
+ */
+function get_formidable_forms_stylesheet( $previous_css ) {
+	$previous_css['formidable'] = STYLES_URI . '/custom_formidableforms.css';
+	return $previous_css;
 }

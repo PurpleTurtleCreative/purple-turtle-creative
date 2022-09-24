@@ -4,30 +4,14 @@ body {
 	main.site-main {
 
 		.button-group {
-			display: flex;
-			justify-content: center;
-			text-align: center;
-			margin: 1em 0 .5em;
-			max-width: 100%;
-			flex-wrap: wrap;
 
 			span {
 				font-size: .8em;
 			}
 
-			.button-dark {
-				margin-bottom: 1em;
+			.button {
 
 				> a {
-					display: flex;
-					align-items: center;
-					justify-content: center;
-					flex-wrap: nowrap;
-
-					svg {
-						margin-left: .5em;
-						font-size: 1.3em;
-					}
 
 					&.ptc-completionist-free-download {
 
@@ -97,7 +81,8 @@ body {
 				}
 
 				a {
-					color: color(primary-dark);
+					color: inherit;
+					text-decoration: underline;
 				}
 			}
 		}//end footer

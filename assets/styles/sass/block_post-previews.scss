@@ -1,0 +1,20 @@
+@import "abstracts/abstracts";
+
+.ptc-block-post-previews {
+	@import "base/elements/buttons";
+	@import "components/content/posts-loop";
+
+	.posts-loop {
+		padding: rem-calc(10);
+		justify-content: center;
+
+		article {
+			@extend %child-col-third;
+
+			@include breakpoint(medium) {
+				min-width: rem-calc(350);
+				max-width: rem-calc(500);
+			}
+		}
+	}
+}

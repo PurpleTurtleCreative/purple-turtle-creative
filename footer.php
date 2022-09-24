@@ -31,7 +31,7 @@ namespace PTC_Theme;
 							<p class="llc-notice"><small>Purple Turtle Creative, LLC is a limited liability company registered with New York State.</small></p>
 						</div>
 						<div class="site-social">
-							<a class="referral-badge" href="https://www.linkedin.com/company/purple-turtle-creative" target="_blank">
+							<a class="referral-badge linkedin" href="https://www.linkedin.com/company/purple-turtle-creative" target="_blank">
 								<?php fa( 'linkedin', 'brands' ); ?>
 								<div class="brand-text">
 									<small>Follow on</small>
@@ -62,35 +62,35 @@ namespace PTC_Theme;
 
 				<div class="referrals">
 					<p><small>Claim discounts and benefits by using my referral links:</small></p>
-					<a class="referral-badge" href="https://m.do.co/c/379a11ccae2a" target="_blank">
+					<a class="referral-badge digitalocean" href="https://m.do.co/c/379a11ccae2a" target="_blank">
 						<?php fa( 'digital-ocean', 'brands' ); ?>
 						<div class="brand-text">
 							<small>Hosting with</small>
 							DigitalOcean
 						</div>
 					</a>
-					<a class="referral-badge" href="https://namecheap.pxf.io/5D4e9" target="_blank">
+					<a class="referral-badge namecheap" href="https://namecheap.pxf.io/5D4e9" target="_blank">
 						<?php svg( 'namecheap-logo.svg' ); ?>
 						<div class="brand-text">
 							<small>Domains via</small>
 							Namecheap
 						</div>
 					</a>
-					<a class="referral-badge" href="https://www.dropbox.com/referrals/AAC1FnrY_5WdLC4PUqUPV3HZy5IKCmD1w5o?src=global9" target="_blank">
+					<a class="referral-badge dropbox" href="https://www.dropbox.com/referrals/AAC1FnrY_5WdLC4PUqUPV3HZy5IKCmD1w5o?src=global9" target="_blank">
 						<?php fa( 'dropbox', 'brands' ); ?>
 						<div class="brand-text">
 							<small>Storage with</small>
 							Dropbox
 						</div>
 					</a>
-					<a class="referral-badge" href="https://www.loom.com/refer/9dbd00fe69884abe975bd717cec1129e" target="_blank">
+					<a class="referral-badge loom" href="https://www.loom.com/refer/9dbd00fe69884abe975bd717cec1129e" target="_blank">
 						<?php svg( 'loom-logo.svg' ); ?>
 						<div class="brand-text">
 							<small>Videos via</small>
 							Loom
 						</div>
 					</a>
-					<a class="referral-badge" href="https://wp-rocket.me/?ref=058407d8" target="_blank">
+					<a class="referral-badge wp-rocket" href="https://wp-rocket.me/?ref=058407d8" target="_blank">
 						<?php svg( 'wp-rocket-logo.svg' ); ?>
 						<div class="brand-text">
 							<small>Optimizations via</small>

@@ -125,17 +125,25 @@
 					text-align: center;
 					margin: 0.3em 1em;
 				}
-
-				.referral-badge {
-					&:last-of-type {
-						svg {
-							width: 2em;
-						}
-					}
-				}
 			}
 		}
-	} // .footer-main
+	}//.footer-main
+
+	.referral-badge {
+
+		&.wp-rocket {
+			svg {
+				width: 2em;
+			}
+		}
+
+		&:hover,
+		&:focus,
+		&:active {
+			color: color(off-white);
+			background: color(black);
+		}
+	}
 
 	.site-info {
 		background-color: color(primary);

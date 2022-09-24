@@ -1,0 +1,184 @@
+@import "abstracts/abstracts";
+
+.ptc-block-icon-cards-slider {
+	position: relative;
+	margin: rem-calc(0);
+
+	@include breakpoint(medium) {
+		margin: rem-calc(0 0 60);
+	}
+
+	.icon-card {
+		position: relative;
+		display: flex !important;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: center;
+		text-align: center;
+		padding: rem-calc(15 20);
+		background: color(true-white);
+		border-radius: rem-calc(10);
+		border: 2px solid color(grey-lightest);
+		transition: opacity linear 750ms, transform linear 450ms;
+		opacity: 1;
+		transform: scale(1.0);
+
+		@include breakpoint(medium) {
+			padding: rem-calc(30);
+			text-align: left;
+		}
+
+		&:not(.slick-current) {
+			transition: opacity linear 500ms, transform linear 250ms;
+			opacity: 0.5;
+			transform: scale(0.9);
+		}
+
+		.icon {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			background: color(grey-lightest);
+			color: color(primary);
+			border-radius: 50%;
+			width: rem-calc(90);
+			height: rem-calc(90);
+			font-size: rem-calc(45);
+			margin: rem-calc(20 0 10 0);
+
+			@include breakpoint(medium) {
+				width: rem-calc(120);
+				height: rem-calc(120);
+				font-size: rem-calc(60);
+				margin: rem-calc(0 30 0 0);
+			}
+		}
+
+		.title {
+
+			@include breakpoint-down(medium) {
+				font-size: rem-calc(20);
+			}
+		}
+	}
+
+	// SlickJS component styles.
+
+	.slick-list {
+
+		&::before,
+		&::after {
+			content: "";
+			display: block;
+			position: absolute;
+			top: 0;
+			bottom: 0;
+			width: rem-calc(120);
+			z-index: 1;
+
+			@include breakpoint-down(medium) {
+				display: none !important;
+			}
+		}
+
+		&::before {
+			left: 0;
+			background: linear-gradient(to right, color(true-white) 10%, rgba(255, 255, 255, 0));
+		}
+
+		&::after {
+			right: 0;
+			background: linear-gradient(to left, color(true-white) 10%, rgba(255, 255, 255, 0));
+		}
+	}
+
+	.slick-slide {
+		margin: rem-calc(0);
+		max-width: calc(100vw - #{rem-calc(45*2)});
+
+		@include breakpoint(medium) {
+			margin: rem-calc(0 -10);//adjust for scale transform.
+		}
+	}
+
+	.slick-dots {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		position: absolute;
+		width: 100%;
+		margin: rem-calc(15 0 0);
+		padding: 0;
+		list-style: none;
+
+		@include breakpoint-down(medium) {
+			display: none !important;
+		}
+
+		> li {
+			line-height: 1;
+
+			> button {
+				border-radius: 999px;
+				border: none;
+				color: transparent;
+				background: color(grey-lightest);
+				font-size: 1px;
+				padding: rem-calc(5);
+				margin: rem-calc(5);
+				transition: padding ease-out 200ms;
+			}
+			&.slick-active {
+				> button {
+					background: color(primary);
+					border: none;
+					padding: rem-calc(7);
+				}
+			}
+		}
+	}
+
+	.slick-arrow {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		position: absolute;
+		top: 50%;
+		transform: translateY(-50%);
+		border-radius: 999px;
+		font-size: rem-calc(30);
+		width: rem-calc(60);
+		height: rem-calc(60);
+		padding: 0;
+
+		@include breakpoint-down(medium) {
+			display: none !important;
+		}
+
+		&.slick-prev {
+			transition: left ease-out 300ms;
+			left: rem-calc(-60);
+		}
+
+		&.slick-next {
+			transition: right ease-out 300ms;
+			right: rem-calc(-60);
+		}
+	}
+
+	&:hover {
+
+		.slick-arrow {
+
+			&.slick-prev {
+				transition: left ease-out 300ms;
+				left: rem-calc(15);
+			}
+
+			&.slick-next {
+				transition: right ease-out 300ms;
+				right: rem-calc(15);
+			}
+		}
+	}
+}

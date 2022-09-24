@@ -3,20 +3,8 @@ body {
 
 	main.site-main {
 
-		.button-dark {
-			margin-bottom: 1em;
-
-			a {
-				display: inline-flex;
-				align-items: center;
-				justify-content: center;
-				flex-wrap: nowrap;
-
-				svg {
-					margin-left: .5em;
-					font-size: 1.3em;
-				}
-			}
+		.button-group {
+			margin-top: rem-calc(20);
 		}
 
 		> header {

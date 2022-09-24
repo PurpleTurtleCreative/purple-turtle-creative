@@ -16,9 +16,13 @@ input[type="color"],
 textarea {
 	background: color(off-white);
 	border: 1px solid color(grey-lightest);
-	border-radius: 3px;
+	border-radius: rem-calc(5);
 	padding: 0.3em 0.5em;
 	vertical-align: top;
+
+	&::placeholder {
+		color: color(grey);
+	}
 }
 
 select {
@@ -27,6 +31,10 @@ select {
 
 textarea {
 	width: 100%;
+}
+
+fieldset {
+	min-inline-size: auto;
 }
 
 .search-form {

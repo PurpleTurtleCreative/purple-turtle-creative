@@ -30,17 +30,17 @@ get_header();
 					<p>Establish a complete project management workflow between your Asana workspace and WordPress dashboard.</p>
 				</div>
 
-				<div class="button-group">
-					<div class="button-dark">
-						<a class="ptc-completionist-free-download" href="<?php echo esc_url( $free_download_url ); ?>" target="_blank">Download Now <?php fa( 'download' ); ?></a>
+				<div class="button-group center">
+					<div class="button">
+						<a class="icon-button has-primary-dark-background-color --is-icon-position-after ptc-completionist-free-download" href="<?php echo esc_url( $free_download_url ); ?>" target="_blank"><?php fa( 'download' ); ?>Download Now</a>
 						<span>
 							<a href="<?php the_permalink(); ?>plugin-info/#latest">
 								Current Release <strong>v<?php echo esc_html( $free_download_tag ); ?></strong>
 							</a>
 						</span>
 					</div>
-					<div class="button-dark">
-						<a class="ptc-completionist-see-docs" href="https://docs.purpleturtlecreative.com/completionist/" target="_blank">Documentation <?php fa( 'long-arrow-alt-right' ); ?></a>
+					<div class="button">
+						<a class="icon-button has-primary-dark-background-color --is-icon-position-after ptc-completionist-see-docs" href="https://docs.purpleturtlecreative.com/completionist/" target="_blank"><?php fa( 'long-arrow-alt-right' ); ?>Documentation</a>
 						<span><a href="<?php the_permalink(); ?>plugin-info/#changelog">View Changelog</a></span>
 					</div>
 				</div>
@@ -61,17 +61,17 @@ get_header();
 				<h2 id="try-completionist">Ready to try?</h2>
 				<p>Download the Completionist WordPress plugin now to integrate your Asana tasks with your WordPress admin area.</p>
 
-				<div class="button-group">
-					<div class="button-dark">
-						<a class="ptc-completionist-free-download" href="<?php echo esc_url( $free_download_url ); ?>" target="_blank">Download Now <?php fa( 'download' ); ?></a>
+				<div class="button-group center">
+					<div class="button">
+						<a class="icon-button has-primary-dark-background-color --is-icon-position-after ptc-completionist-free-download" href="<?php echo esc_url( $free_download_url ); ?>" target="_blank"><?php fa( 'download' ); ?>Download Now</a>
 						<span>
 							<a href="<?php the_permalink(); ?>plugin-info/#latest">
 								Current Release <strong>v<?php echo esc_html( $free_download_tag ); ?></strong>
 							</a>
 						</span>
 					</div>
-					<div class="button-dark">
-						<a class="ptc-completionist-see-docs" href="https://docs.purpleturtlecreative.com/completionist/" target="_blank">Documentation <?php fa( 'long-arrow-alt-right' ); ?></a>
+					<div class="button">
+						<a class="icon-button has-primary-dark-background-color --is-icon-position-after ptc-completionist-see-docs" href="https://docs.purpleturtlecreative.com/completionist/" target="_blank"><?php fa( 'long-arrow-alt-right' ); ?>Documentation</a>
 						<span><a href="<?php the_permalink(); ?>plugin-info/#changelog">View Changelog</a></span>
 					</div>
 				</div>
