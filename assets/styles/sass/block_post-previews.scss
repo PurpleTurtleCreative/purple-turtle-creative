@@ -10,6 +10,11 @@
 
 		article {
 			@extend %child-col-third;
+
+			@include breakpoint(medium) {
+				min-width: rem-calc(350);
+				max-width: rem-calc(500);
+			}
 		}
 	}
 }
