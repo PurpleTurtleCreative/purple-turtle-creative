@@ -26,9 +26,9 @@ if ( count( $icon_cards ) > 0 ) :
 				</div>
 			</div>
 		<?php }//end foreach ?>
-		<button class="slick-prev" type="button"><?php fa( 'angle-left', 'solid' ); ?></button>
+		<button class="slick-prev" type="button" aria-label="Previous"><?php fa( 'angle-left', 'solid' ); ?></button>
 		<div class="slick-dots"></div>
-		<button class="slick-next" type="button"><?php fa( 'angle-right', 'solid' ); ?></button>
+		<button class="slick-next" type="button" aria-label="Next"><?php fa( 'angle-right', 'solid' ); ?></button>
 	</div>
 	<?php
 endif;

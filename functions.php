@@ -25,6 +25,9 @@ define(
 		'jquery-core',
 		'jquery-migrate',
 		'wp-embed',
+		'slick',
+		'formidable',
+		'ptc-block-icon-cards-slider',
 		'ptc-theme-script',
 		'ptc-completionist-landing-page-script',
 	]
