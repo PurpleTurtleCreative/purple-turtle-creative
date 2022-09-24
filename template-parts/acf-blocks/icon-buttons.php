@@ -13,14 +13,18 @@ $icon_buttons = get_field( 'ptc_icon_buttons' ) ?: [];
 
 // Display slides.
 if ( count( $icon_buttons ) > 0 ) :
+	$class_list = 'ptc-block ptc-block-icon-buttons button-group';
+	if ( ! empty( $block['className'] ) ) {
+		$class_list .= " {$block['className']}";
+	}
+	if ( ! empty( $block['align'] ) ) {
+		$class_list .= " {$block['align']}";
+	}
 	?>
-	<div class="ptc-block ptc-block-icon-buttons button-group <?php echo esc_attr( "{$block['className']} {$block['align']}" ); ?>">
+	<div class="<?php echo esc_attr( $class_list ); ?>">
 		<?php
 		foreach ( $icon_buttons as $button ) {
 			$icon = explode( '/', $button['icon'] );
-			if ( empty( $icon[1] ) ) {
-				continue;// Avoid null when loading the Block Editor.
-			}
 			$class_list = "icon-button {$icon_buttons_color} --is-icon-{$icon[0]}-{$icon[1]}";
 			if ( false === $button['icon_position_before'] ) {
 				$class_list .= ' --is-icon-position-after';
