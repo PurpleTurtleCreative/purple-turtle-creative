@@ -25,6 +25,10 @@ get_header();
 				get_template_part( 'template-parts/content', get_post_type() );
 			}
 
+			echo '<div class="content-width">';
+			echo do_shortcode( '[ptc-bio-card]' );
+			echo '</div>';
+
 			if ( ! is_singular( 'page' ) ) {
 				the_post_navigation(
 					[
