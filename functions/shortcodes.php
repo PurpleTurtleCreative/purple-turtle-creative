@@ -9,12 +9,12 @@ namespace PTC_Theme;
 
 add_shortcode(
 	'ptc-work-status-badge',
-	__NAMESPACE__ . '\display_work_status_badge'
+	__NAMESPACE__ . '\get_work_status_badge'
 );
 
 add_shortcode(
 	'ptc-bio-card',
-	__NAMESPACE__ . '\display_bio_card'
+	__NAMESPACE__ . '\get_bio_card'
 );
 
 add_action(
@@ -43,7 +43,7 @@ function enqueue_shortcode_scripts() {
  * Defaults to null if no content.
  * @param string $shortcode_tag The shortcode tag name.
  */
-function display_bio_card( $atts, $content = null, $shortcode_tag = '' ) {
+function get_bio_card( $atts, $content = null, $shortcode_tag = '' ) {
 
 	// Set parameter defaults.
 	$atts = shortcode_atts(
@@ -79,7 +79,7 @@ function display_bio_card( $atts, $content = null, $shortcode_tag = '' ) {
  * Defaults to null if no content.
  * @param string $shortcode_tag The shortcode tag name.
  */
-function display_work_status_badge( $atts, $content = null, $shortcode_tag = '' ) {
+function get_work_status_badge( $atts, $content = null, $shortcode_tag = '' ) {
 
 	// Set parameter defaults.
 	$atts = shortcode_atts(
