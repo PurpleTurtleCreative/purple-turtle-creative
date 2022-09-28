@@ -73,23 +73,33 @@ function display_bio_card( $atts, $content = null, $shortcode_tag = '' ) {
 
 /**
  * Displays a badge indicating the specified user's work status.
+ *
+ * @param array  $atts User defined attributes in shortcode tag.
+ * @param string $content Optional. Inner content of the shortcode tag.
+ * Defaults to null if no content.
+ * @param string $shortcode_tag The shortcode tag name.
  */
-function display_work_status_badge( $atts ) {
+function display_work_status_badge( $atts, $content = null, $shortcode_tag = '' ) {
+
+	// Set parameter defaults.
 	$atts = shortcode_atts(
 		[
-			'user' => false,
-			'show_message' => true,
+			'user_id' => 0,
 		],
-		$atts
+		$atts,
+		$shortcode_tag
 	);
 
-	if ( ! is_numeric( $atts['user'] ) ) {
-		// Default to the current post author.
-		$atts['user'] = get_the_author_meta( 'ID', false );
+	// Sanitize and cast values.
+	$atts['user_id'] = (int) filter_var( $atts['user_id'], FILTER_SANITIZE_NUMBER_INT );
+
+	// Retrieve calculated defaults, if necessary.
+	if ( 0 === $atts['user_id'] ) {
+		// If no user_id provided, use the current author.
+		$atts['user_id'] = get_the_author_meta( 'ID', false );
 	}
 
-	$atts['user'] = (int) $atts['user'];
-	$atts['show_message'] = (bool) filter_var( $atts['show_message'], FILTER_VALIDATE_BOOLEAN );
-
-	include THEME_PATH . '/template-parts/shortcode-work_status_badge.php';
+	ob_start();
+	require THEME_PATH . '/template-parts/shortcodes/work-status-badge.php';
+	return ob_get_clean();
 }

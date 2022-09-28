@@ -38,12 +38,13 @@ namespace PTC_Theme;
 	<div id="page" class="site">
 		<header id="header" class="site-header">
 			<div class="content-width">
+
 				<div class="site-logo hide-decal-small">
 					<a href="<?php echo esc_url( home_url() ); ?>" aria-label="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>">
 						<?php svg( 'decal-duo-opacity.svg' ); ?>
 						<?php svg( 'type-duo-opacity.svg' ); ?>
 					</a>
-				</div><!-- .site-logo -->
+				</div>
 
 				<nav id="site-navigation" class="main-navigation">
 					<button class="menu-toggle" title="Menu"><?php fa( 'bars', 'solid' ); ?></button>
@@ -55,8 +56,9 @@ namespace PTC_Theme;
 						]
 					);
 					?>
-				</nav><!-- #site-navigation -->
+				</nav>
 
-				<?php do_shortcode( '[ptc-work-status-badge show_message="false"]' ); ?>
+				<?php echo do_shortcode( '[ptc-work-status-badge]' ); ?>
+
 			</div>
 		</header><!-- #header -->

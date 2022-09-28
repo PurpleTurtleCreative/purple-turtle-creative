@@ -6,7 +6,7 @@
 
 	.content-width {
 		display: flex;
-		align-items: center;
+		align-items: stretch;
 		flex-direction: row-reverse;
 
 		@include breakpoint(medium) {
@@ -48,12 +48,14 @@
 			}
 
 			button.menu-toggle {
-				border-radius: rem-calc(5);
+				align-self: center;
+				border-radius: rem-calc(7);
+				margin-right: rem-calc(7);
 			  padding: 0;
 			  width: rem-calc(40);
 			  height: rem-calc(40);
 				color: color(off-white);
-				background-color: color(primary-dark);
+				background: color(primary-dark);
 
 				@include breakpoint(medium) {
 					display: none;
@@ -76,7 +78,6 @@
 
 				li {
 					@extend .button;
-					margin: rem-calc(3);
 
 					a {
 						@extend .button__link;
@@ -85,9 +86,9 @@
 			}
 		}//.main-navigation
 
-		.ptc-work-status-badge {
+		.ptc-shortcode-work-status-badge {
 			order: -1;
-			margin: 0;
+			margin-right: 0;
 
 			@include breakpoint(medium) {
 				order: unset;
@@ -96,7 +97,7 @@
 			a {
 				margin: 0;
 			}
-		}//.ptc-work-status-badge
+		}//.ptc-shortcode-work-status-badge
 	}
 }
 

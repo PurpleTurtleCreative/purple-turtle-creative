@@ -43,25 +43,6 @@
             },
             "default_value": "",
             "placeholder": ""
-        },
-        {
-            "key": "field_6305ad9020e96",
-            "label": "Badge Message",
-            "name": "ptc_work_message",
-            "type": "text",
-            "instructions": "A short message about your current availability.",
-            "required": 0,
-            "conditional_logic": 0,
-            "wrapper": {
-                "width": "",
-                "class": "",
-                "id": ""
-            },
-            "default_value": "",
-            "placeholder": "",
-            "prepend": "",
-            "append": "",
-            "maxlength": ""
         }
     ],
     "location": [

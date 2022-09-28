@@ -50,49 +50,55 @@
 	}
 }
 
-.ptc-work-status-badge {
+.ptc-shortcode-work-status-badge {
+	@extend .referral-badge;
+	font-size: 0.8rem;
+	background: color(black);
 
-	a {
-		@extend .referral-badge;
-		font-size: 0.8rem;
-		background-color: color(black);
+	&:hover,
+	&:focus,
+	&:active,
+	&.active,
+	&.current,
+	&[aria-current] {
+		background: color(black) !important;
+	}
 
-		@include breakpoint-down(medium) {
-			padding: rem-calc(7 10 7 12);
-		}
+	@include breakpoint-down(medium) {
+		padding: rem-calc(7 10 7 12);
+	}
+
+	@include breakpoint(medium) {
+		font-size: 1rem;
+	}
+
+	.indicator {
+		display: block;
+		border-radius: 50%;
+		width: rem-calc(8);
+		height: rem-calc(8);
+		margin: rem-calc(0 12 0 0);
+		background: color(success);
+		box-shadow: 0px 0px 15px 1px color(success);
+		opacity: 1;
+		animation: active-light 1500ms ease-in infinite alternate;
 
 		@include breakpoint(medium) {
-			font-size: 1rem;
+			width: rem-calc(12);
+			height: rem-calc(12);
+			margin: rem-calc(10 25 10 10);
 		}
 
-		.indicator {
-			display: block;
-			border-radius: 50%;
-			width: rem-calc(8);
-			height: rem-calc(8);
-			margin: rem-calc(0 12 0 0);
-			background-color: color(success);
-			box-shadow: 0px 0px 15px 1px color(success);
-			opacity: 1;
-			animation: active-light 1500ms ease-in infinite alternate;
+		&-limited {
+			background: color(warning);
+			box-shadow: 0px 0px 15px 1px color(warning);
+			animation: away-light 1500ms ease-in infinite alternate;
+		}
 
-			@include breakpoint(medium) {
-				width: rem-calc(12);
-				height: rem-calc(12);
-				margin: rem-calc(10 25 10 10);
-			}
-
-			&-limited {
-				background-color: color(warning);
-				box-shadow: 0px 0px 15px 1px color(warning);
-				animation: away-light 1500ms ease-in infinite alternate;
-			}
-
-			&-closed {
-				background-color: color(danger-dark);
-				box-shadow: 0px 0px 15px 1px color(danger-dark);
-				animation: none;
-			}
+		&-closed {
+			background: color(danger-dark);
+			box-shadow: 0px 0px 15px 1px color(danger-dark);
+			animation: none;
 		}
 	}
 }
