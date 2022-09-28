@@ -6,7 +6,7 @@
 
 	.content-width {
 		display: flex;
-		align-items: center;
+		align-items: stretch;
 		flex-direction: row-reverse;
 
 		@include breakpoint(medium) {
@@ -18,10 +18,6 @@
 			display: flex;
 			align-items: center;
 			justify-content: safe center;
-
-			@include breakpoint(xsmall) {
-				margin-left: rem-calc(-70);
-			}
 
 			@include breakpoint(medium) {
 				justify-content: flex-start;
@@ -52,15 +48,21 @@
 			}
 
 			button.menu-toggle {
-				@include font(body, body-bold);
-				letter-spacing: .06em;
+				align-self: center;
+				border-radius: rem-calc(7);
+				margin-right: rem-calc(7);
+			  padding: 0;
+			  width: rem-calc(40);
+			  height: rem-calc(40);
 				color: color(off-white);
-				border-radius: rem-calc(5);
-			  padding: rem-calc(10);
-				background-color: color(primary-dark);
+				background: color(primary-dark);
 
 				@include breakpoint(medium) {
 					display: none;
+				}
+
+				svg {
+					height: 1.15rem;
 				}
 			}
 
@@ -76,14 +78,22 @@
 
 				li {
 					@extend .button;
-					margin: rem-calc(3);
 
 					a {
 						@extend .button__link;
 					}
 				}
 			}
-		}
+		}//.main-navigation
+
+		.ptc-shortcode-work-status-badge {
+			order: -1;
+			margin-right: 0;
+
+			@include breakpoint(medium) {
+				order: unset;
+			}
+		}//.ptc-shortcode-work-status-badge
 	}
 }
 

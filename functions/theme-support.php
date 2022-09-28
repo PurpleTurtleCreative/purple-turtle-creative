@@ -12,6 +12,7 @@ add_action( 'after_setup_theme', __NAMESPACE__ . '\configure_theme_support', 0, 
 add_action( 'after_setup_theme', __NAMESPACE__ . '\define_content_width', 0 );
 add_filter( 'wp_kses_allowed_html', __NAMESPACE__ . '\allow_svg_markup', 10, 1 );
 add_filter( 'safe_style_css', __NAMESPACE__ . '\allow_svg_styles', 10, 1 );
+add_filter( 'acf/settings/save_json', __NAMESPACE__ . '\acf_json_save_point' );
 
 /**
  * Configure theme's supported features.
@@ -121,4 +122,16 @@ function allow_svg_styles( $styles ) {
 	$styles[] = 'fill';
 	$styles[] = 'opacity';
 	return $styles;
+}
+
+/**
+ * Specifies the save point for ACF.
+ *
+ * @link https://www.advancedcustomfields.com/resources/local-json/#syncing-changes
+ *
+ * @param string $path The directory in which ACF field groups will be saved.
+ */
+function acf_json_save_point( $path ) {
+	$path = THEME_PATH . '/acf-json';
+	return $path;
 }

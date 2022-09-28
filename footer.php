@@ -33,10 +33,10 @@ namespace PTC_Theme;
 						<div class="site-social">
 							<a class="referral-badge linkedin" href="https://www.linkedin.com/company/purple-turtle-creative" target="_blank">
 								<?php fa( 'linkedin', 'brands' ); ?>
-								<div class="brand-text">
+								<p>
 									<small>Follow on</small>
 									LinkedIn
-								</div>
+								</p>
 							</a>
 						</div>
 					</section>
@@ -64,38 +64,38 @@ namespace PTC_Theme;
 					<p><small>Claim discounts and benefits by using my referral links:</small></p>
 					<a class="referral-badge digitalocean" href="https://m.do.co/c/379a11ccae2a" target="_blank">
 						<?php fa( 'digital-ocean', 'brands' ); ?>
-						<div class="brand-text">
+						<p>
 							<small>Hosting with</small>
 							DigitalOcean
-						</div>
+						</p>
 					</a>
 					<a class="referral-badge namecheap" href="https://namecheap.pxf.io/5D4e9" target="_blank">
 						<?php svg( 'namecheap-logo.svg' ); ?>
-						<div class="brand-text">
+						<p>
 							<small>Domains via</small>
 							Namecheap
-						</div>
+						</p>
 					</a>
 					<a class="referral-badge dropbox" href="https://www.dropbox.com/referrals/AAC1FnrY_5WdLC4PUqUPV3HZy5IKCmD1w5o?src=global9" target="_blank">
 						<?php fa( 'dropbox', 'brands' ); ?>
-						<div class="brand-text">
+						<p>
 							<small>Storage with</small>
 							Dropbox
-						</div>
+						</p>
 					</a>
 					<a class="referral-badge loom" href="https://www.loom.com/refer/9dbd00fe69884abe975bd717cec1129e" target="_blank">
 						<?php svg( 'loom-logo.svg' ); ?>
-						<div class="brand-text">
+						<p>
 							<small>Videos via</small>
 							Loom
-						</div>
+						</p>
 					</a>
 					<a class="referral-badge wp-rocket" href="https://wp-rocket.me/?ref=058407d8" target="_blank">
 						<?php svg( 'wp-rocket-logo.svg' ); ?>
-						<div class="brand-text">
+						<p>
 							<small>Optimizations via</small>
 							WP Rocket
-						</div>
+						</p>
 					</a>
 				</div>
 			</div>

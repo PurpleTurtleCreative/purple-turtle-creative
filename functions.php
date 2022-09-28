@@ -18,7 +18,7 @@ define( __NAMESPACE__ . '\IMAGES_URI', $theme_directory_uri . '/assets/images' )
 define( __NAMESPACE__ . '\STYLES_URI', $theme_directory_uri . '/assets/styles' );
 define( __NAMESPACE__ . '\SCRIPTS_URI', $theme_directory_uri . '/assets/scripts' );
 
-// Scripts with defer always execute when the DOM is ready (but before DOMContentLoaded event).
+// Scripts with "defer" always execute when the DOM is ready (but before DOMContentLoaded event).
 define(
 	__NAMESPACE__ . '\DEFER_SCRIPTS',
 	[
@@ -32,7 +32,7 @@ define(
 		'ptc-completionist-landing-page-script',
 	]
 );
-// Scripts with async load in the background and run when ready.
+// Scripts with "async" load in the background and run when ready.
 define(
 	__NAMESPACE__ . '\ASYNC_SCRIPTS',
 	[
@@ -40,9 +40,7 @@ define(
 	]
 );
 
-/**
- * Require all custom theme functions.
- */
+// Require all custom theme functions.
 foreach ( glob( get_template_directory() . '/functions/*.php' ) as $file ) {
 	require_once $file;
 }

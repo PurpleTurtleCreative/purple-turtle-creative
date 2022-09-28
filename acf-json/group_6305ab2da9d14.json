@@ -1,0 +1,67 @@
+{
+    "key": "group_6305ab2da9d14",
+    "title": "PTC Shortcode - Work Status Badge",
+    "fields": [
+        {
+            "key": "field_6305ab8220e94",
+            "label": "Work Status",
+            "name": "ptc_work_status",
+            "type": "select",
+            "instructions": "Your current availability to accepting new work.",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "choices": {
+                "open": "Open to Work",
+                "limited": "Busy",
+                "closed": "Fully Booked"
+            },
+            "default_value": "closed",
+            "allow_null": 0,
+            "multiple": 0,
+            "ui": 0,
+            "return_format": "array",
+            "ajax": 0,
+            "placeholder": ""
+        },
+        {
+            "key": "field_6305ad5820e95",
+            "label": "Badge URL",
+            "name": "ptc_work_url",
+            "type": "url",
+            "instructions": "The [href] for your work availability badge.",
+            "required": 1,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "placeholder": ""
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "user_form",
+                "operator": "==",
+                "value": "edit"
+            }
+        ]
+    ],
+    "menu_order": 99999,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": true,
+    "description": "",
+    "show_in_rest": 0,
+    "modified": 1661319226
+}
