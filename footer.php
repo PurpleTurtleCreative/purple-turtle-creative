@@ -30,7 +30,14 @@ namespace PTC_Theme;
 							<p><?php echo get_bloginfo( 'description' ); ?></p>
 							<p class="llc-notice"><small>Purple Turtle Creative, LLC is a limited liability company registered with New York State.</small></p>
 						</div>
-						<div class="site-social">
+						<div class="button-group left">
+							<a class="referral-badge free-estimate" href="<?php echo esc_url( home_url( '#contact' ) ); ?>">
+								<?php fa( 'file-invoice', 'solid' ); ?>
+								<p>
+									<small>Request an</small>
+									Estimate
+								</p>
+							</a>
 							<a class="referral-badge linkedin" href="https://www.linkedin.com/company/purple-turtle-creative" target="_blank">
 								<?php fa( 'linkedin', 'brands' ); ?>
 								<p>
