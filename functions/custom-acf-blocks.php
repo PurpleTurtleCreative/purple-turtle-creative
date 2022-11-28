@@ -83,7 +83,7 @@ function register_acf_blocks() {
 					wp_enqueue_script(
 						'slick',
 						SCRIPTS_URI . '/vendor/slick.min.js',
-						[ 'jquery' ],
+						[ 'jquery-core' ],
 						'1.8.1',
 						true
 					);

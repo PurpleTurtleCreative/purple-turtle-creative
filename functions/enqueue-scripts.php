@@ -102,6 +102,19 @@ function optimize_script_loading( $tag, $handle, $src ) {
 		return $tag;
 	}
 
+	if ( 'jquery-migrate' === $handle ) {
+		/*
+		Formidable Forms enqueues 'jquery' rather than 'jquery-core'.
+		This means 'jquery-migrate' is enqueued also. This is why I'm
+		manually erasing the HTML tag, because I can't just dequeue
+		'jquery-migrate' since it's being enqueued as a dependency script.
+
+		Created a support ticket with Formidable Forms here:
+		https://wordpress.org/support/topic/remove-jquery-migrate-from-enqueueing-on-the-frontend/#new-topic-0
+		*/
+		return '';
+	}
+
 	if ( is_singular() ) {
 
 		if ( in_array( $handle, DEFER_SCRIPTS ) ) {
