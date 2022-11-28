@@ -34,19 +34,9 @@
 	border-radius: 999px;
 }
 
-@keyframes active-light {
+@keyframes breathing-light {
 	100% {
-		opacity: 0.8;
-		box-shadow: 0px 0px 5px 1px color(success-dark);
-		background-color: color(success-dark);
-	}
-}
-
-@keyframes away-light {
-	100% {
-		opacity: 0.8;
-		box-shadow: 0px 0px 5px 1px color(warning-dark);
-		background-color: color(warning-dark);
+		opacity: 0.5;
 	}
 }
 
@@ -81,7 +71,7 @@
 		background: color(success);
 		box-shadow: 0px 0px 15px 1px color(success);
 		opacity: 1;
-		animation: active-light 1500ms ease-in infinite alternate;
+		animation: breathing-light 1.75s ease-in infinite alternate;
 
 		@include breakpoint(medium) {
 			width: rem-calc(12);
@@ -92,7 +82,7 @@
 		&-limited {
 			background: color(warning);
 			box-shadow: 0px 0px 15px 1px color(warning);
-			animation: away-light 1500ms ease-in infinite alternate;
+			animation: breathing-light 1.75s ease-in infinite alternate;
 		}
 
 		&-closed {

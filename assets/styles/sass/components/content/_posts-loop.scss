@@ -8,7 +8,7 @@
 		border-radius: #{spacing(gutter)/2};
 		box-shadow: 0 #{spacing(gutter)/2} #{spacing(gutter)/2} color(grey-lightest);
 		overflow: hidden; // ensure border-radius clips children
-		transition: all 100ms ease-out;
+		transition: box-shadow 100ms ease-out, transform 100ms ease-out;
 
 		display: flex;
 		flex-direction: column;
