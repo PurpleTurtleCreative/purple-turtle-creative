@@ -11,6 +11,9 @@ add_action( 'after_setup_theme', __NAMESPACE__ . '\configure_gutenberg_support',
 add_action( 'enqueue_block_editor_assets', __NAMESPACE__ . '\enqueue_block_editor_assets', 999 );
 add_filter( 'mkaz_code_syntax_language_list', __NAMESPACE__ . '\mkaz_code_syntax_language_list', 999, 1 );
 
+// Remove SVG definitions for duotones.
+remove_action( 'wp_body_open', 'wp_global_styles_render_svg_filters' );
+
 register_block_style(
 	'core/columns',
 	[
@@ -142,12 +145,21 @@ register_block_style(
  * Configure the Gutenberg Editor.
  */
 function configure_gutenberg_support() {
+
 	// Disable theme overrides from being applied.
 	add_theme_support( 'disable-custom-gradients' );
 	add_theme_support( 'disable-custom-colors' );
 	add_theme_support( 'disable-custom-font-sizes' );
+	add_theme_support( 'editor-font-sizes', array() );
+	add_theme_support( 'custom-units', array() );
+
 	// Define color palette.
+	add_theme_support( 'editor-gradient-presets', array() );
 	add_theme_support( 'editor-color-palette', get_custom_colors() );
+
+	// Editor styles.
+	// add_theme_support( 'editor-styles' );
+	// add_editor_style( THEME_PATH . '/assets/styles/style-editor.css' );
 }
 
 /**
