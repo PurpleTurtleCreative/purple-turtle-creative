@@ -90,13 +90,6 @@ namespace PTC_Theme;
 							Dropbox
 						</p>
 					</a>
-					<a class="referral-badge loom" href="https://www.loom.com/refer/9dbd00fe69884abe975bd717cec1129e" target="_blank">
-						<?php svg( 'loom-logo.svg' ); ?>
-						<p>
-							<small>Videos via</small>
-							Loom
-						</p>
-					</a>
 					<a class="referral-badge wp-rocket" href="https://wp-rocket.me/?ref=058407d8" target="_blank">
 						<?php svg( 'wp-rocket-logo.svg' ); ?>
 						<p>
