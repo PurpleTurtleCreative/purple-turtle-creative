@@ -17,6 +17,10 @@ namespace PTC_Theme;
 <html <?php language_attributes(); ?>>
 <head>
 
+	<meta charset="<?php bloginfo( 'charset' ); ?>">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#3c56f5">
+
 	<!-- Google tag (gtag.js) -->
 	<script async src="https://www.googletagmanager.com/gtag/js?id=G-X52D1SE1L3"></script>
 	<script>
@@ -27,14 +31,9 @@ namespace PTC_Theme;
 		gtag('config', 'G-X52D1SE1L3');
 	</script>
 
-	<meta charset="<?php bloginfo( 'charset' ); ?>">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-
 	<link rel="preload" href="/wp-content/themes/purple-turtle-creative/assets/fonts/poppins_v15_700.woff2" as="font" type="font/woff2">
 	<link rel="preload" href="/wp-content/themes/purple-turtle-creative/assets/fonts/roboto_v20_300.woff2" as="font" type="font/woff2">
 	<link rel="preload" href="/wp-content/themes/purple-turtle-creative/assets/fonts/roboto_v20_500.woff2" as="font" type="font/woff2">
-
-	<meta name="theme-color" content="#3c56f5">
 
 	<?php wp_head(); ?>
 </head>
