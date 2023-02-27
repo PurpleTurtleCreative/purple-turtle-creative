@@ -211,8 +211,143 @@
 			"customFontSize": false,
 			"dropCap": false,
 			"fluid": false,
-			"fontFamilies": [],
-			"fontSizes": [],
+			"fontFamilies": [
+				{
+					"fontFace": [
+						{
+							"fontFamily": "Poppins",
+							"fontStyle": "normal",
+							"fontWeight": "700",
+							"fontDisplay": "swap",
+							"src": "file:./assets/fonts/poppins_v15_700.woff2",
+							"unicodeRange": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD"
+						}
+					],
+					"fontFamily": "Poppins, Helvetica, sans-serif",
+					"name": "Poppins",
+					"slug": "heading"
+				},
+				{
+					"fontFace": [
+						{
+							"fontFamily": "Roboto",
+							"fontStyle": "normal",
+							"fontWeight": "300",
+							"fontDisplay": "swap",
+							"src": "file:./assets/fonts/roboto_v20_300.woff2",
+							"unicodeRange": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD"
+						},
+						{
+							"fontFamily": "Roboto",
+							"fontStyle": "normal",
+							"fontWeight": "500",
+							"fontDisplay": "swap",
+							"src": "file:./assets/fonts/roboto_v20_500.woff2",
+							"unicodeRange": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD"
+						}
+					],
+					"fontFamily": "Roboto, Helvetica, sans-serif",
+					"name": "Roboto",
+					"slug": "body"
+				},
+				{
+					"fontFace": [
+						{
+							"fontFamily": "Courier Prime",
+							"fontStyle": "normal",
+							"fontWeight": "400",
+							"fontDisplay": "swap",
+							"src": "file:./assets/fonts/courierprime_v2_400.woff2",
+							"unicodeRange": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD"
+						},
+						{
+							"fontFamily": "Courier Prime",
+							"fontStyle": "normal",
+							"fontWeight": "700",
+							"fontDisplay": "swap",
+							"src": "file:./assets/fonts/courierprime_v2_700.woff2",
+							"unicodeRange": "U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD"
+						}
+					],
+					"fontFamily": "\"Courier Prime\", monospace",
+					"name": "Courier Prime",
+					"slug": "code"
+				}
+			],
+			"fontSizes": [
+				{
+					"fluid": {
+						"min": "0.7rem",
+						"max": "0.8rem"
+					},
+					"size": "0.8rem",
+					"name": "Small",
+					"slug": "small"
+				},
+				{
+					"fluid": {
+						"min": "1rem",
+						"max": "1.125rem"
+					},
+					"size": "1.125rem",
+					"name": "Body",
+					"slug": "body"
+				},
+				{
+					"fluid": {
+						"min": "1rem",
+						"max": "1.125rem"
+					},
+					"size": "1.125rem",
+					"name": "Heading 6",
+					"slug": "h6"
+				},
+				{
+					"fluid": {
+						"min": "1.125rem",
+						"max": "1.25rem"
+					},
+					"size": "1.25rem",
+					"name": "Heading 5",
+					"slug": "h5"
+				},
+				{
+					"fluid": {
+						"min": "1.25rem",
+						"max": "1.5rem"
+					},
+					"size": "1.5rem",
+					"name": "Heading 4",
+					"slug": "h4"
+				},
+				{
+					"fluid": {
+						"min": "1.5rem",
+						"max": "1.6875rem"
+					},
+					"size": "1.6875rem",
+					"name": "Heading 3",
+					"slug": "h3"
+				},
+				{
+					"fluid": {
+						"min": "1.5625rem",
+						"max": "1.875rem"
+					},
+					"size": "1.875rem",
+					"name": "Heading 2",
+					"slug": "h2"
+				},
+				{
+					"fluid": {
+						"min": "1.6875rem",
+						"max": "3rem"
+					},
+					"size": "3rem",
+					"name": "Heading 1",
+					"slug": "h1"
+				}
+			],
 			"fontStyle": false,
 			"fontWeight": false,
 			"letterSpacing": false,
@@ -220,5 +355,27 @@
 			"textDecoration": false,
 			"textTransform": false
 		}
+	},
+	"styles": {
+		"border": {},
+		"color": {
+			"background": "var(--wp--preset--color--true-white)",
+			"text": "var(--wp--preset--color--black)"
+		},
+		"css": "",
+		"filter": {},
+		"outline": {},
+		"shadow": {},
+		"spacing": {},
+		"typography": {
+			"fontFamily": "var(--wp--preset--font-family--body)",
+			"fontWeight": "300",
+			"fontSize": "var(--wp--preset--font-size--body)",
+			"lineHeight": "1.7",
+			"letterSpacing": "0.03em",
+			"textRendering": "optimizeLegibility"
+		},
+		"blocks": {},
+		"elements": {}
 	}
 }

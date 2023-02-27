@@ -6,15 +6,14 @@ Author URI: https://purpleturtlecreative.com/
 Description: Custom theme for Purple Turtle Creative's website. Requires the ACF plugin.
 Version: 2.0.0
 Requires at least: 6.1
-Tested up to: 6.1
+Tested up to: 6.1.1
 Requires PHP: 7.4
 License: GNU General Public License v2 or later
 Text Domain: purple-turtle-creative
 Tags: gutenberg, block-theme, full-site-editing
-
-This theme, like WordPress, is licensed under the GPL.
-Use it to make something cool, have fun, and share what you've learned.
-
-Normalizing styles have been helped along thanks to
-Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
 */
+
+html,
+body {
+	text-rendering: optimizeLegibility;
+}
