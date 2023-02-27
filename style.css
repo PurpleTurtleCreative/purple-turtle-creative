@@ -14,6 +14,11 @@ Tags: gutenberg, block-theme, full-site-editing
 */
 
 html,
-body {
-	text-rendering: optimizeLegibility;
+body,
+p,
+a,
+div,
+code,
+span {
+	text-rendering: optimizeLegibility !important;
 }

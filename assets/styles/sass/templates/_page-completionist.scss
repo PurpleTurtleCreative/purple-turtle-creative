@@ -105,17 +105,6 @@ body {
 					margin: .5em 0;
 				}
 			}
-
-			> .wp-block-group {
-
-				> .wp-block-group__inner-container {
-					padding: rem-calc(30 0);
-
-					@include breakpoint(medium) {
-						padding: rem-calc(60 0);
-					}
-				}
-			}
 		}
 	}
 }

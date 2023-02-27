@@ -2,23 +2,21 @@
 // 	font-size: 16px;
 // }
 
-// body,
-// button,
-// input,
-// select,
-// optgroup,
-// textarea {
-// 	// @include font(body);
-// 	// color: color(black);
-// 	// letter-spacing: 0.03em;
-// 	// font-size: rem-calc(16);
-// 	// line-height: 1.7;
-// 	text-rendering: optimizeLegibility;
+input,
+select,
+optgroup,
+textarea {
+	@include font(body);
+	color: color(black);
+	letter-spacing: 0.03em;
+	font-size: rem-calc(16);
+	line-height: 1.7;
+	text-rendering: optimizeLegibility;
 
-// 	@include breakpoint(medium) {
-// 		font-size: rem-calc(18);
-// 	}
-// }
+	@include breakpoint(medium) {
+		font-size: rem-calc(18);
+	}
+}
 
 @import "headings";
 @import "copy";
