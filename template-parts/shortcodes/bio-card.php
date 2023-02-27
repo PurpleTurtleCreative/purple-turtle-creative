@@ -15,7 +15,7 @@ if ( ! empty( $atts['user_id'] ) ) :
 			<?php echo get_avatar( $user, 150, 'mystery', $user->display_name ); ?>
 		</div>
 		<div class="user-details">
-			<p class="name h3 heading"><?php echo esc_html( $user->display_name ?? '' ); ?></p>
+			<h3 class="name"><?php echo esc_html( $user->display_name ?? '' ); ?></h3>
 			<p class="description"><?php echo wp_kses_post( $user->description ?? '' ); ?></p>
 			<div class="contact button-group left">
 				<?php if ( $user->user_email ) : ?>
