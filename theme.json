@@ -1,0 +1,224 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/theme.json",
+	"version": 2,
+	"settings": {
+		"appearanceTools": false,
+		"border": {
+			"color": false,
+			"radius": false,
+			"style": false,
+			"width": false
+		},
+		"color": {
+			"custom": false,
+			"customDuotone": false,
+			"customGradient": false,
+			"defaultDuotone": false,
+			"defaultGradients": false,
+			"defaultPalette": false,
+			"duotone": [],
+			"gradients": [],
+			"link": false,
+			"text": true,
+			"palette": [
+				{
+					"name": "Primary Light",
+					"slug": "primary-light",
+					"color": "#7285f8"
+				},
+				{
+					"name": "Primary",
+					"slug": "primary",
+					"color": "#3c56f5"
+				},
+				{
+					"name": "Primary Dark",
+					"slug": "primary-dark",
+					"color": "#1123b0"
+				},
+				{
+					"name": "True White",
+					"slug": "true-white",
+					"color": "#fff"
+				},
+				{
+					"name": "Off White",
+					"slug": "off-white",
+					"color": "#f6f7fd"
+				},
+				{
+					"name": "Grey Lightest",
+					"slug": "grey-lightest",
+					"color": "#e4e6fd"
+				},
+				{
+					"name": "Grey Light",
+					"slug": "grey-light",
+					"color": "#c3cae5"
+				},
+				{
+					"name": "Grey",
+					"slug": "grey",
+					"color": "#8c92b1"
+				},
+				{
+					"name": "Black",
+					"slug": "black",
+					"color": "#08082b"
+				},
+				{
+					"name": "True Black",
+					"slug": "true-black",
+					"color": "#000"
+				},
+				{
+					"name": "Warning Light",
+					"slug": "warning-light",
+					"color": "#fff3c4"
+				},
+				{
+					"name": "Warning",
+					"slug": "warning",
+					"color": "#f7c948"
+				},
+				{
+					"name": "Warning Dark",
+					"slug": "warning-dark",
+					"color": "#cb6e17"
+				},
+				{
+					"name": "Info Light",
+					"slug": "info-light",
+					"color": "#e6f6ff"
+				},
+				{
+					"name": "Info",
+					"slug": "info",
+					"color": "#7cc4fa"
+				},
+				{
+					"name": "Info Dark",
+					"slug": "info-dark",
+					"color": "#2680c2"
+				},
+				{
+					"name": "Danger Light",
+					"slug": "danger-light",
+					"color": "#ffeeee"
+				},
+				{
+					"name": "Danger",
+					"slug": "danger",
+					"color": "#f86a6a"
+				},
+				{
+					"name": "Danger Dark",
+					"slug": "danger-dark",
+					"color": "#cf1124"
+				},
+				{
+					"name": "Success Light",
+					"slug": "success-light",
+					"color": "#f2fde0"
+				},
+				{
+					"name": "Success",
+					"slug": "success",
+					"color": "#6cd410"
+				},
+				{
+					"name": "Success Dark",
+					"slug": "success-dark",
+					"color": "#399709"
+				}
+			]
+		},
+		"custom": {},
+		"dimensions": {
+			"minHeight": false
+		},
+		"layout": {
+			"contentSize": "45rem",
+			"wideSize": "64rem"
+		},
+		"shadow": {
+			"presets": []
+		},
+		"spacing": {
+			"blockGap": null,
+			"customSpacingSize": false,
+			"margin": true,
+			"padding": true,
+			"spacingSizes": [
+				{
+					"name": "5px",
+					"size": "5px",
+					"slug": "5"
+				},
+				{
+					"name": "7px",
+					"size": "7px",
+					"slug": "7"
+				},
+				{
+					"name": "10px",
+					"size": "10px",
+					"slug": "10"
+				},
+				{
+					"name": "20px",
+					"size": "20px",
+					"slug": "20"
+				},
+				{
+					"name": "30px",
+					"size": "30px",
+					"slug": "30"
+				},
+				{
+					"name": "45px",
+					"size": "45px",
+					"slug": "45"
+				},
+				{
+					"name": "60px",
+					"size": "60px",
+					"slug": "60"
+				},
+				{
+					"name": "80px",
+					"size": "80px",
+					"slug": "80"
+				},
+				{
+					"name": "100px",
+					"size": "100px",
+					"slug": "100"
+				},
+				{
+					"name": "120px",
+					"size": "120px",
+					"slug": "120"
+				},
+				{
+					"name": "160px",
+					"size": "160px",
+					"slug": "160"
+				}
+			]
+		},
+		"typography": {
+			"customFontSize": false,
+			"dropCap": false,
+			"fluid": false,
+			"fontFamilies": [],
+			"fontSizes": [],
+			"fontStyle": false,
+			"fontWeight": false,
+			"letterSpacing": false,
+			"lineHeight": false,
+			"textDecoration": false,
+			"textTransform": false
+		}
+	}
+}
