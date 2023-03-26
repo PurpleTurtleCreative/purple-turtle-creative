@@ -6,6 +6,18 @@
 	display: none;
 }
 
+.entry-content {
+
+	form.post-password-form {
+		@extend .content-width;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		text-align: center;
+		margin: 10vh auto;
+	}
+}
+
 .entry-date {
 
 	.fa-info-circle {
