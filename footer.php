@@ -69,32 +69,25 @@ namespace PTC_Theme;
 
 				<div class="referrals">
 					<p><small>Claim discounts and benefits by using my referral links:</small></p>
-					<a class="referral-badge digitalocean" href="https://m.do.co/c/379a11ccae2a" target="_blank">
+					<a class="referral-badge digitalocean" href="https://m.do.co/c/379a11ccae2a" target="_blank" rel="sponsored">
 						<?php fa( 'digital-ocean', 'brands' ); ?>
 						<p>
 							<small>Hosting with</small>
 							DigitalOcean
 						</p>
 					</a>
-					<a class="referral-badge namecheap" href="https://namecheap.pxf.io/5D4e9" target="_blank">
-						<?php svg( 'namecheap-logo.svg' ); ?>
+					<a class="referral-badge wp-rocket" href="https://wp-rocket.me/?ref=058407d8" target="_blank" rel="sponsored">
+						<?php svg( 'wp-rocket-logo.svg' ); ?>
 						<p>
-							<small>Domains via</small>
-							Namecheap
+							<small>Performance via</small>
+							WP Rocket
 						</p>
 					</a>
-					<a class="referral-badge dropbox" href="https://www.dropbox.com/referrals/AAC1FnrY_5WdLC4PUqUPV3HZy5IKCmD1w5o?src=global9" target="_blank">
+					<a class="referral-badge dropbox" href="https://www.dropbox.com/referrals/AAC1FnrY_5WdLC4PUqUPV3HZy5IKCmD1w5o?src=global9" target="_blank" rel="sponsored">
 						<?php fa( 'dropbox', 'brands' ); ?>
 						<p>
 							<small>Storage with</small>
 							Dropbox
-						</p>
-					</a>
-					<a class="referral-badge wp-rocket" href="https://wp-rocket.me/?ref=058407d8" target="_blank">
-						<?php svg( 'wp-rocket-logo.svg' ); ?>
-						<p>
-							<small>Optimizations via</small>
-							WP Rocket
 						</p>
 					</a>
 				</div>
@@ -105,7 +98,7 @@ namespace PTC_Theme;
 			<div class="content-width">
 
 				<div class="left">
-					<small>&copy;&nbsp;<?php echo date( 'Y' ); ?>&nbsp;Purple&nbsp;Turtle&nbsp;Creative,&nbsp;LLC. All&nbsp;rights&nbsp;reserved.</small>
+					<small>&copy;&nbsp;<?php echo esc_html( gmdate( 'Y' ) ); ?>&nbsp;Purple&nbsp;Turtle&nbsp;Creative,&nbsp;LLC. All&nbsp;rights&nbsp;reserved.</small>
 				</div>
 
 				<div class="right">
