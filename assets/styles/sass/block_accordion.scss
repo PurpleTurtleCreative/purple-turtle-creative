@@ -3,12 +3,12 @@
 .ptc-block-accordion {
 	margin: rem-calc(30 0 60);
 
-	ul {
+	> ul {
 		list-style: none;
 		padding: 0;
 		margin: 0;
 
-		li {
+		> li {
 			border: 2px solid color(grey-lightest);
 			border-radius: rem-calc(10);
 			margin: rem-calc(15 0);
