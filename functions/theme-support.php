@@ -110,6 +110,13 @@ function allow_svg_markup( $tags ) {
 		'style' => [],
 	];
 
+	$tags['polygon'] = [
+		'd' => [],
+		'fill' => [],
+		'style' => [],
+		'points' => [],
+	];
+
 	return $tags;
 }
 

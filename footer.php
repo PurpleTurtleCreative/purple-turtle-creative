@@ -31,13 +31,6 @@ namespace PTC_Theme;
 							<p class="llc-notice"><small>Purple Turtle Creative, LLC is a limited liability company registered with New York State.</small></p>
 						</div>
 						<div class="button-group left">
-							<a class="referral-badge free-estimate" href="<?php echo esc_url( home_url( '#contact' ) ); ?>">
-								<?php fa( 'file-invoice', 'solid' ); ?>
-								<p>
-									<small>Request an</small>
-									Estimate
-								</p>
-							</a>
 							<a class="referral-badge linkedin" href="https://www.linkedin.com/company/purple-turtle-creative" target="_blank">
 								<?php fa( 'linkedin', 'brands' ); ?>
 								<p>
@@ -88,6 +81,13 @@ namespace PTC_Theme;
 						<p>
 							<small>Storage with</small>
 							Dropbox
+						</p>
+					</a>
+					<a class="referral-badge codeable" href="https://www.codeable.io/?ref=VET12" target="_blank" rel="sponsored">
+						<?php svg( 'codeable-logo.svg' ); ?>
+						<p>
+							<small>Support by</small>
+							Codeable
 						</p>
 					</a>
 				</div>

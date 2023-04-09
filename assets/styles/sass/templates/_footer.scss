@@ -34,12 +34,6 @@
 
 					.button-group {
 						margin-top: rem-calc(20);
-
-						.free-estimate {
-							svg {
-								width: 1.3em;
-							}
-						}
 					}
 				}
 			}
@@ -135,6 +129,12 @@
 		&.wp-rocket {
 			svg {
 				width: 2em;
+			}
+		}
+
+		&.codeable {
+			svg {
+				width: 1.5em;
 			}
 		}
 
