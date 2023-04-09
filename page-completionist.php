@@ -32,7 +32,7 @@ get_header();
 
 				<div class="button-group center">
 					<div class="button">
-						<a class="icon-button has-primary-dark-background-color --is-icon-position-after ptc-completionist-free-download" href="<?php echo esc_url( $free_download_url ); ?>" target="_blank"><?php fa( 'download' ); ?>Download Now</a>
+						<a class="icon-button has-primary-dark-background-color --is-icon-position-after ptc-completionist-free-download" href="<?php echo esc_url( $free_download_url ); ?>" target="_blank" rel="nofollow"><?php fa( 'download' ); ?>Download Now</a>
 						<span>
 							<a href="<?php the_permalink(); ?>plugin-info/#latest">
 								Current Release <strong>v<?php echo esc_html( $free_download_tag ); ?></strong>
@@ -63,7 +63,7 @@ get_header();
 
 				<div class="button-group center">
 					<div class="button">
-						<a class="icon-button has-primary-dark-background-color --is-icon-position-after ptc-completionist-free-download" href="<?php echo esc_url( $free_download_url ); ?>" target="_blank"><?php fa( 'download' ); ?>Download Now</a>
+						<a class="icon-button has-primary-dark-background-color --is-icon-position-after ptc-completionist-free-download" href="<?php echo esc_url( $free_download_url ); ?>" target="_blank" rel="nofollow"><?php fa( 'download' ); ?>Download Now</a>
 						<span>
 							<a href="<?php the_permalink(); ?>plugin-info/#latest">
 								Current Release <strong>v<?php echo esc_html( $free_download_tag ); ?></strong>
