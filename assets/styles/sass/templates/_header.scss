@@ -18,6 +18,11 @@
 			display: flex;
 			align-items: center;
 			justify-content: safe center;
+			margin-right: rem-calc(40/2);
+
+			@include breakpoint(xsmall) {
+				margin-right: rem-calc(40 + 7);
+			}
 
 			@include breakpoint(medium) {
 				justify-content: flex-start;
@@ -85,15 +90,6 @@
 				}
 			}
 		}//.main-navigation
-
-		.ptc-shortcode-work-status-badge {
-			order: -1;
-			margin-right: 0;
-
-			@include breakpoint(medium) {
-				order: unset;
-			}
-		}//.ptc-shortcode-work-status-badge
 	}
 }
 
@@ -179,6 +175,8 @@ $sidebar-transition-duration: 300ms;
 
 html.mobile-menu-open {
 	overflow: hidden !important; // prevent scrolling
+	height: 100vh !important;
+	width: 100vw !important;
 
 	body {
 
@@ -187,9 +185,10 @@ html.mobile-menu-open {
 		}
 
 		> .site {
-			left: $sidebar-menu-width;
-			width: 100vw - $sidebar-menu-width;
-			height: 100vh;
+			overflow: hidden !important;
+			left: $sidebar-menu-width !important;
+			width: 100vw - $sidebar-menu-width !important;
+			height: 100vh !important;
 
 			#header {
 

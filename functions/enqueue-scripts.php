@@ -10,7 +10,6 @@ namespace PTC_Theme;
 add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\enqueue_scripts', 10 );
 add_action( 'wp_print_styles', __NAMESPACE__ . '\dequeue_unused_scripts', 100 );
 add_filter( 'script_loader_tag', __NAMESPACE__ . '\optimize_script_loading', 10, 3 );
-add_filter( 'get_frm_stylesheet', __NAMESPACE__ . '\get_formidable_forms_stylesheet', 10, 2 );
 
 /**
  * Enqueue scripts and styles.
@@ -102,19 +101,6 @@ function optimize_script_loading( $tag, $handle, $src ) {
 		return $tag;
 	}
 
-	if ( 'jquery-migrate' === $handle ) {
-		/*
-		Formidable Forms enqueues 'jquery' rather than 'jquery-core'.
-		This means 'jquery-migrate' is enqueued also. This is why I'm
-		manually erasing the HTML tag, because I can't just dequeue
-		'jquery-migrate' since it's being enqueued as a dependency script.
-
-		Created a support ticket with Formidable Forms here:
-		https://wordpress.org/support/topic/remove-jquery-migrate-from-enqueueing-on-the-frontend/#new-topic-0
-		*/
-		return '';
-	}
-
 	if ( is_singular() ) {
 
 		if ( in_array( $handle, DEFER_SCRIPTS ) ) {
@@ -131,15 +117,4 @@ function optimize_script_loading( $tag, $handle, $src ) {
 	}
 
 	return $tag;
-}
-
-/**
- * Replaces Formidable Forms' stylesheet with our own.
- *
- * @param array $previous_css An array with a single key "formidable", set
- * to the stylesheet URL.
- */
-function get_formidable_forms_stylesheet( $previous_css ) {
-	$previous_css['formidable'] = STYLES_URI . '/custom_formidableforms.css';
-	return $previous_css;
 }

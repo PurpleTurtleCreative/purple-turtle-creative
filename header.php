@@ -67,7 +67,5 @@ namespace PTC_Theme;
 					?>
 				</nav>
 
-				<?php echo do_shortcode( '[ptc-work-status-badge user_id="1"]' ); ?>
-
 			</div>
 		</header><!-- #header -->

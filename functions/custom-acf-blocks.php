@@ -8,7 +8,6 @@
 namespace PTC_Theme;
 
 add_action( 'acf/init', __NAMESPACE__ . '\register_acf_blocks', 10 );
-add_action( 'acf/load_field/key=field_632a8942e8de8', __NAMESPACE__ . '\populate_icon_select_options' );
 add_action( 'acf/load_field/key=field_632df30088333', __NAMESPACE__ . '\populate_icon_select_options' );
 if ( class_exists( '\WP_Block_Editor_Context' ) ) {
 	add_filter( 'block_categories_all', __NAMESPACE__ . '\filter_block_categories', 10, 2 );
@@ -49,52 +48,6 @@ function register_acf_blocks() {
 				'render_template' => THEME_PATH . '/template-parts/acf-blocks/accordion.php',
 				'post_types' => [ 'page' ],
 				'enqueue_style' => STYLES_URI . '/block_accordion.css',
-				'supports' => [
-					'align' => false,
-					'align_text' => false,
-					'align_content' => false,
-					'full_height' => false,
-					'multiple' => true,
-				],
-			]
-		);
-		\acf_register_block_type(
-			[
-				'name' => 'ptc_block_icon_cards_slider',
-				'title' => 'PTC Icon Cards Slider',
-				'description' => 'Displays a slider of cards with associated icons.',
-				'category' => THEME_BASENAME,
-				'icon' => 'slides',
-				'render_template' => THEME_PATH . '/template-parts/acf-blocks/icon-cards-slider.php',
-				'post_types' => [ 'page' ],
-				'enqueue_assets' => function() {
-					wp_enqueue_style(
-						'ptc-block-icon-cards-slider',
-						STYLES_URI . '/block_icon-cards-slider.css',
-						[],
-						THEME_VERSION
-					);
-					wp_enqueue_style(
-						'slick',
-						STYLES_URI . '/vendor/slick.css',
-						[],
-						'1.8.1'
-					);
-					wp_enqueue_script(
-						'slick',
-						SCRIPTS_URI . '/vendor/slick.min.js',
-						[ 'jquery-core' ],
-						'1.8.1',
-						true
-					);
-					wp_enqueue_script(
-						'ptc-block-icon-cards-slider',
-						SCRIPTS_URI . '/block-icon-cards-slider.min.js',
-						[ 'slick' ],
-						THEME_VERSION,
-						true
-					);
-				},
 				'supports' => [
 					'align' => false,
 					'align_text' => false,
