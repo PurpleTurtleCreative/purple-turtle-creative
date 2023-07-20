@@ -7,7 +7,8 @@
 
 namespace PTC_Theme;
 
-add_filter( 'template_include', __NAMESPACE__ . '\set_current_template', 1000 );
+add_filter( 'template_include', __NAMESPACE__ . '\set_current_template', 10 );
+add_filter( 'template_include', __NAMESPACE__ . '\remember_current_theme_template', PHP_INT_MAX );
 add_filter( 'body_class', __NAMESPACE__ . '\set_body_class', 10 );
 add_action( 'pre_get_posts', __NAMESPACE__ . '\customize_wp_query', 10 );
 add_filter( 'excerpt_length', __NAMESPACE__ . '\set_excerpt_length', 10 );
@@ -34,8 +35,12 @@ function set_current_template( $template ) {
 		$template = locate_template( 'index.php' );
 	}
 
-	$GLOBALS['current_theme_template'] = basename( $template );
 	return $template;
+}
+
+function remember_current_theme_template( $template ) {
+  $GLOBALS['current_theme_template'] = basename( $template );
+  return $template;
 }
 
 /**

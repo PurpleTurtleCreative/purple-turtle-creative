@@ -15,6 +15,7 @@ namespace PTC_Theme;
 
 	<footer id="footer" class="site-footer">
 
+		<?php if ( ! is_valid_html_api_endpoint() ) : ?>
 		<div class="footer-main">
 			<div class="content-width">
 
@@ -93,6 +94,7 @@ namespace PTC_Theme;
 				</div>
 			</div>
 		</div><!-- .footer-main -->
+		<?php endif; ?>
 
 		<div class="site-info">
 			<div class="content-width">
