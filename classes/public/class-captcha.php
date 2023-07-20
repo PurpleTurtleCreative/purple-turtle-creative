@@ -55,7 +55,16 @@ class Captcha {
 	/**
 	 * Prints the captcha HTML target container.
 	 *
+	 * Note that you should not render captchas with the same
+	 * action value within the same page load! This will cause
+	 * the unique nonce to be overridden on each render, breaking
+	 * verification for earlier renders of the captcha with the
+	 * same action value.
+	 *
 	 * @link https://developers.cloudflare.com/turnstile/get-started/client-side-rendering/#configurations
+	 *
+	 * @param string $action A unique identifier for this widget
+	 * instance.
 	 */
 	public static function render( string $action ) {
 		if ( static::is_enabled() ) {
