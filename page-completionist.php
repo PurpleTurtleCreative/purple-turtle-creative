@@ -5,7 +5,10 @@
 
 namespace PTC_Theme;
 
+require_once THEME_PATH . '/classes/public/class-captcha.php';
+
 require_once \PTC_Resources_Server\PLUGIN_PATH . 'src/public/servers/class-plugins-server.php';
+
 $free_download_url = '#';
 $free_download_tag = '{{Error}}';
 if ( class_exists( '\PTC_Resources_Server\Plugins\Server' ) ) {
@@ -47,6 +50,16 @@ get_header();
 
 			</div>
 		</header>
+
+		<div class="content-width-slim">
+			<form method="POST" action="">
+				<span>Subscribe to email notifications:</span>
+				<input type="email" name="ptc_subscribe_email" placeholder="mail@example.com" />
+				<?php Captcha::render( 'ptc-local-test' ); ?>
+				<input type="hidden" name="ptc_subscribe_list" value="mail.test" />
+				<input type="submit" name="ptc_subscribe_submit" value="Subscribe" />
+			</form>
+		</div>
 
 		<?php
 		while ( have_posts() ) :

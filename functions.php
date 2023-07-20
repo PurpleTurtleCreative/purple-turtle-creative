@@ -28,6 +28,7 @@ define(
 		'formidable',
 		'ptc-theme-script',
 		'ptc-completionist-landing-page-script',
+		'cf-turnstile',
 	]
 );
 // Scripts with "async" load in the background and run when ready.
@@ -35,10 +36,18 @@ define(
 	__NAMESPACE__ . '\ASYNC_SCRIPTS',
 	[
 		'mkaz-code-syntax-prism-js',
+		'cf-turnstile',
 	]
 );
 
 // Require all custom theme functions.
-foreach ( glob( get_template_directory() . '/functions/*.php' ) as $file ) {
+foreach ( glob( THEME_PATH . '/functions/*.php' ) as $file ) {
 	require_once $file;
 }
+
+// Require all public classes.
+foreach ( glob( THEME_PATH . '/classes/public/class-*.php' ) as $file ) {
+	require_once $file;
+}
+
+Captcha::register();
