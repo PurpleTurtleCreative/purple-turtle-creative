@@ -12,6 +12,7 @@ define( __NAMESPACE__ . '\THEME_VERSION', $wp_theme->get( 'Version' ) );
 define( __NAMESPACE__ . '\THEME_NAME', $wp_theme->get( 'Name' ) );
 define( __NAMESPACE__ . '\THEME_BASENAME', basename( __DIR__ ) );
 define( __NAMESPACE__ . '\THEME_PATH', __DIR__ );
+define( __NAMESPACE__ . '\REST_API_NAMESPACE_V1', 'ptc-theme/v1' );
 
 $theme_directory_uri = get_template_directory_uri();
 define( __NAMESPACE__ . '\IMAGES_URI', $theme_directory_uri . '/assets/images' );

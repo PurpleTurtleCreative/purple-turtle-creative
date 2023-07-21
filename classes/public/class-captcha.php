@@ -16,9 +16,22 @@ namespace PTC_Theme;
 class Captcha {
 
 	/**
+	 * The server-side endpoint used for verifying client-side tokens.
+	 *
+	 * @var string SITE_VERIFY_ENDPOINT
+	 */
+	private const SITE_VERIFY_ENDPOINT = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';
+
+	/**
 	 * Hooks code into WordPress.
 	 */
 	public static function register() {
+
+		if ( session_status() !== \PHP_SESSION_ACTIVE ) {
+			// This class uses session data to verify requests.
+			session_start();
+		}
+
 		add_action(
 			'wp_enqueue_scripts',
 			__CLASS__ . '::register_scripts'
@@ -67,28 +80,93 @@ class Captcha {
 	 * instance.
 	 */
 	public static function render( string $action ) {
-		if ( static::is_enabled() ) {
 
-			// Generate a random nonce value for extra verification.
-			$_SESSION["ptc_captcha_{$action}_cdata"] = wp_generate_password( 32, false, false );
-
-			// Render DOM node.
-			printf(
-				'<div class="cf-turnstile" data-language="en-US" data-theme="light" data-sitekey="%s" data-action="%s" data-cdata="%s"></div>',
-				esc_attr( \PTC_CF_TURNSTILE_SITE_KEY ),
-				esc_attr( $action ),
-				esc_attr( $_SESSION["ptc_captcha_{$action}_cdata"] ),
+		// Ensure required globals are configured.
+		if ( ! static::is_enabled() ) {
+			trigger_error(
+				'Failed to render client-side CAPTCHA widget. This site may be unprotected against bots. Missing required constants.',
+				\E_USER_WARNING
 			);
-
-			// Enqueue script dependency.
-			wp_enqueue_script( 'cf-turnstile' );
+			return;
 		}
+
+		// Generate a random nonce value for extra verification.
+		$_SESSION[ "ptc_captcha_{$action}_cdata" ] = wp_generate_password( 32, false, false );
+
+		// Render DOM node.
+		printf(
+			'
+			<input type="hidden" name="cf-turnstile-action" value="%2$s" />
+			<div class="cf-turnstile" data-language="en-US" data-theme="light" data-sitekey="%1$s" data-action="%2$s" data-cdata="%3$s"></div>
+			',
+			esc_attr( \PTC_CF_TURNSTILE_SITE_KEY ),
+			esc_attr( $action ),
+			esc_attr( $_SESSION[ "ptc_captcha_{$action}_cdata" ] ),
+		);
+
+		// Enqueue script dependency.
+		wp_enqueue_script( 'cf-turnstile' );
 	}
 
 	/**
 	 * Checks the captcha client-side token.
 	 *
+	 * @param string $action The action associated with the token.
+	 * @param string $token The client-side token to be verified.
+	 *
 	 * @return bool If the token is verified as human. (ie success)
 	 */
-	public static function verify() {}
+	public static function verify( string $action, string $token ) : bool {
+
+		// Ensure required globals are configured.
+		if ( ! static::is_enabled() ) {
+			trigger_error(
+				'Failed to process server-side CAPTCHA verification. Frontend user requests may be permanently blocked. Missing required constants.',
+				\E_USER_WARNING
+			);
+			return false;
+		}
+
+		// Send the verification request.
+		$response = wp_remote_post(
+			static::SITE_VERIFY_ENDPOINT,
+			array(
+				'body' => array(
+					'secret'   => \PTC_CF_TURNSTILE_SECRET_KEY,
+					'response' => $token,
+				),
+			)
+		);
+
+		// Validate the response.
+		$http_code = (int) wp_remote_retrieve_response_code( $response );
+		if ( 200 !== $http_code ) {
+			return false;
+		}
+
+		// Get the response body.
+		$body = wp_remote_retrieve_body( $response );
+		if ( empty( $body ) ) {
+			return false;
+		}
+
+		// Decode the JSON data.
+		$response = json_decode( $body, true );// associative array.
+		if ( empty( $response ) || ! is_array( $response ) ) {
+			return false;
+		}
+
+		// Check if successful verification.
+		if ( empty( $response['success'] ) || ! $response['success'] ) {
+			return false;
+		}
+
+		// Final check whether this is a legitimate success.
+		return (
+			! empty( $response['action'] ) &&
+			$action === $response['action'] &&
+			! empty( $response['cdata'] ) &&
+			$_SESSION[ "ptc_captcha_{$action}_cdata" ] === $response['cdata']
+		);
+	}
 }
