@@ -55,7 +55,6 @@ namespace PTC_Theme;
 					</a>
 				</div>
 
-				<?php if ( ! is_valid_html_api_endpoint() ) : ?>
 				<nav id="site-navigation" class="main-navigation">
 					<button class="menu-toggle" title="Menu"><?php fa( 'bars', 'solid' ); ?></button>
 					<?php
@@ -67,7 +66,6 @@ namespace PTC_Theme;
 					);
 					?>
 				</nav>
-				<?php endif; ?>
 
 			</div>
 		</header><!-- #header -->

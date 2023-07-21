@@ -51,7 +51,7 @@ get_header();
 
 		<div class="content-width-slim">
 			<?php
-			Mailing_List::render_subscription_form(
+			Mailing_Lists::render_subscription_form(
 				'mail.test',
 				'Join the Mailing List',
 				'Effortlessly keep updated on the latest features and announcements.',

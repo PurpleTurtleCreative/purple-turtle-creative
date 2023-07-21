@@ -8,13 +8,14 @@
 namespace PTC_Theme;
 
 require_once THEME_PATH . '/classes/public/class-captcha.php';
+require_once THEME_PATH . '/classes/public/class-html-routes.php';
 
 /**
  * Static class for managing email mailing lists.
  *
  * @link https://documentation.mailgun.com/en/latest/api-mailinglists.html
  */
-class Mailing_List {
+class Mailing_Lists {
 
 	/**
 	 * The number of API requests permitted per limit period.
@@ -35,10 +36,8 @@ class Mailing_List {
 	 * Hooks code into WordPress.
 	 */
 	public static function register() {
-		add_action(
-			'wp_enqueue_scripts',
-			__CLASS__ . '::register_scripts'
-		);
+		add_action( 'wp_enqueue_scripts', __CLASS__ . '::register_scripts' );
+		add_action( 'html_routes_init', __CLASS__ . '::register_html_routes' );
 	}
 
 	/**
@@ -82,5 +81,15 @@ class Mailing_List {
 				<button type="submit"><?php echo esc_html( $submit_label ); ?></button>
 			</form>
 		<?php
+	}
+
+	/**
+	 * Registers HTML route endpoints.
+	 */
+	public static function register_html_routes() {
+		HTML_Routes::register_route(
+			'/mailing-lists/email-verification',
+			THEME_PATH . '/html-routes/email-verification.php'
+		);
 	}
 }
