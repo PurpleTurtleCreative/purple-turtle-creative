@@ -9,6 +9,7 @@ namespace PTC_Theme;
 
 require_once THEME_PATH . '/classes/public/class-captcha.php';
 require_once THEME_PATH . '/classes/public/class-html-routes.php';
+require_once THEME_PATH . '/classes/includes/class-util.php';
 
 /**
  * Static class for managing email mailing lists.
@@ -18,19 +19,73 @@ require_once THEME_PATH . '/classes/public/class-html-routes.php';
 class Mailing_Lists {
 
 	/**
-	 * The number of API requests permitted per limit period.
+	 * The option name for storing the number of API requests
+	 * executed within the current period.
 	 *
-	 * @var int REQUESTS_LIMIT_COUNT
+	 * NOTE THIS IS NOTE SAFE AGAINST RACE CONDITIONS as the
+	 * option value is retrieved, checked, and then incremented.
+	 * A large number of requests could pass checks before another
+	 * large number of requests increments the counter.
+	 *
+	 * There isn't an efficient way around this because we only
+	 * need to store one value and locking the entire wp_options
+	 * table wouldn't be performant since it is so widely used.
+	 *
+	 * The saving grace is that we use Web Application Firewall
+	 * technologies to protect the website from high amounts of
+	 * suspicious traffic. Additionally, there are only so many
+	 * instances of MySQL connections and PHP workers at any given
+	 * time which means they must conclude their work before
+	 * other requests may be processed. So there is at least that
+	 * layer of throttling (if I actually know what I'm saying).
+	 *
+	 * @see API_REQUESTS_LIMIT_COUNT
+	 * @see API_REQUESTS_LIMIT_PERIOD
+	 *
+	 * @var string API_REQUESTS_TRACKER_OPTION
 	 */
-	private const REQUESTS_LIMIT_COUNT = 100;
+	private const API_REQUESTS_TRACKER_OPTION = '_ptc_mailing_lists_api_requests_tracker';
 
 	/**
-	 * The period for which the subscriber limit is tracked and
-	 * eventually reset (in seconds).
+	 * The number of API requests permitted per limit period.
 	 *
-	 * @var int SUBSCRIBER_LIMIT_DAYS
+	 * This helps reduce API usage costs with our mailing provider
+	 * in case of spam abuse or otherwise unexpected traffic.
+	 *
+	 * @var int API_REQUESTS_LIMIT_COUNT
 	 */
-	private const REQUESTS_LIMIT_PERIOD = 14 * \DAY_IN_SECONDS;
+	private const API_REQUESTS_LIMIT_COUNT = 200;
+
+	/**
+	 * The period (in seconds) for which the total API requests
+	 * limit is tracked and eventually reset.
+	 *
+	 * @var int API_REQUESTS_LIMIT_PERIOD
+	 */
+	private const API_REQUESTS_LIMIT_PERIOD = 7 * \DAY_IN_SECONDS;
+
+	/**
+	 * The total number of allowed verification requests
+	 * per subscriber.
+	 *
+	 * @var int SUBSCRIBER_REQUEST_LIMIT_COUNT
+	 */
+	private const SUBSCRIBER_REQUEST_LIMIT_COUNT = 2;
+
+	/**
+	 * The cooldown period (in seconds) between each verification
+	 * request of each subscriber.
+	 *
+	 * This prevents accidental resubmissions, bot attacks, or
+	 * otherwise impatient requests.
+	 *
+	 * @var int SUBSCRIBER_REQUEST_COOLDOWN
+	 */
+	private const SUBSCRIBER_REQUEST_COOLDOWN = \HOUR_IN_SECONDS;
+
+	private const ERROR_LIMIT_EXCEEDED = 1;
+
+	private const ERROR_NEEDS_COOLDOWN = 2;
 
 	/**
 	 * The latest database version used by this class.
@@ -44,7 +99,7 @@ class Mailing_Lists {
 	 *
 	 * @var string DATABASE_VERSION_OPTION
 	 */
-	private const DATABASE_VERSION_OPTION = 'ptc_mailing_lists_db_version';
+	private const DATABASE_VERSION_OPTION = '_ptc_mailing_lists_db_version';
 
 	/**
 	 * The database table name for storing email verification
@@ -110,9 +165,9 @@ class Mailing_Lists {
 				ID bigint(20) unsigned NOT NULL AUTO_INCREMENT UNIQUE,
 				email varchar(100) NOT NULL,
 				mailing_list varchar(100) NOT NULL,
-				verification_token char(32) NOT NULL,
+				token char(32) NOT NULL,
 				status varchar(20) NOT NULL,
-				request_count smallint unsigned NOT NULL,
+				request_count smallint unsigned DEFAULT 1 NOT NULL,
 				first_seen datetime DEFAULT CURRENT_TIMESTAMP NOT NULL,
 				last_seen datetime DEFAULT CURRENT_TIMESTAMP NOT NULL,
 				PRIMARY KEY  (ID)
@@ -148,6 +203,9 @@ class Mailing_Lists {
 		string $captcha_action,
 		string $submit_label = 'Subscribe'
 	) {
+
+		// @TODO - Check API request balance, render error.
+
 		// @TODO - Write the JavaScript for asynchronous submission.
 		// @TODO - Define the ACF block for custom render placement.
 
@@ -187,7 +245,7 @@ class Mailing_Lists {
 	 *
 	 * @return string|false The mailing list address.
 	 */
-	private static function get_mailing_list( string $list_id ) : string|bool {
+	private static function get_mailing_list_by_id( string $list_id ) : string|bool {
 		return array_search( $list_id, static::MAILING_LIST_IDS, true );
 	}
 
@@ -219,7 +277,7 @@ class Mailing_Lists {
 							'required' => true,
 							// WordPress discloses these functions may be
 							// inaccurate, but I'd rather be safer and mayyybe
-							// miss a few subscribers than welcome nonsense.
+							// miss a few subscribers than permit bad data.
 							'sanitize_callback' => 'sanitize_email',
 							'validate_callback' => 'is_email',
 						),
@@ -263,9 +321,15 @@ class Mailing_Lists {
 	 */
 	public static function handle_post_subscribe(
 		\WP_REST_Request $request
-	) : \WP_REST_Response|\WP_Error {
+	) : \WP_REST_Response {
 
-		$mailing_list = static::get_mailing_list( $request['list_id'] );
+		// @TODO - Record GA4 event.
+
+		// Gather variables from request.
+
+		$email = $request['email'];
+
+		$mailing_list = static::get_mailing_list_by_id( $request['list_id'] );
 		if ( ! $mailing_list ) {
 			return \WP_Error(
 				'invalid_list',
@@ -274,20 +338,62 @@ class Mailing_Lists {
 			);
 		}
 
-		$response = array(
-			'message' => "Email {$request['email']} is eligible to subscribe to the {$mailing_list} mailing list!",
+		$now_unix = time();
+		$now_sql  = Util::unix_as_sql_timestamp( $now_unix );
+
+		// Check if subscriber verification already exists.
+		$email_verification = static::get_email_verification_record(
+			$email,
+			$mailing_list
 		);
 
-		return new \WP_REST_Response( $response, 200 );
-	}
+		if ( null === $email_verification ) {
+			// New subscriber request.
 
-	private static function add_email_verification_request(
-		string $email,
-		string $mailing_list
-	) {
-		// @TODO - Check if already exists.
-		// @TODO - Generate verification token.
-		// @TODO - Add email to database as pending.
+			// !! LENGTH MUST MATCH DATABASE TABLE SCHEMA !!
+			$token = wp_generate_password( 32, false, false );
+
+			// Insert new subscriber request.
+			global $wpdb;
+			$insert_res = $wpdb->insert(
+				static::DATABASE_EMAIL_VERIFICATION_TABLE,
+				array(
+					'email'         => $email,
+					'mailing_list'  => $mailing_list,
+					'token'         => $token,
+					'status'        => 'pending',
+					'request_count' => 1,
+					'first_seen'    => $now_sql,
+					'last_seen'     => $now_sql,
+				),
+				array(
+					'%s', // email.
+					'%s', // mailing_list.
+					'%s', // token.
+					'%s', // status.
+					'%d', // request_count.
+					'%s', // first_seen.
+					'%s', // last_seen.
+				)
+			);
+
+			if ( false === $insert_res ) {
+				// @TODO - Record GA4 event.
+				return new \WP_REST_Response( 'Your request could not be processed. Please try again later.', 500 );
+			}
+
+			// @TODO - Send verification email template with link.
+			// @TODO - Iterate request count for current period.
+
+			return new \WP_REST_Response( 'Thank you for your interest! Please check your inbox or spam folder to confirm your subscription.', 201 );
+		} else {
+			// Existing subscriber request.
+
+			// @TODO - Check if permitted retry and send.
+			// @TODO - Return error responses if not permitted retry.
+		}
+
+		return new \WP_REST_Response( "Email {$request['email']} is eligible to subscribe to the {$mailing_list} mailing list!", 200 );
 	}
 
 	/**
@@ -311,6 +417,7 @@ class Mailing_Lists {
 				FROM %i
 				WHERE email = %s
 				  AND mailing_list = %s
+				LIMIT 1;
 				",
 				static::DATABASE_EMAIL_VERIFICATION_TABLE,
 				$email,
@@ -320,14 +427,104 @@ class Mailing_Lists {
 		);
 	}
 
-	private static function update_email_verification_record(
-		array $col_values
-	) {}
+	/**
+	 * Checks if the email verification is permitted to retry.
+	 *
+	 * @param array $email_verification The email verification record.
+	 *
+	 * @return int The error code if not permitted. 0 if permitted.
+	 */
+	private static function can_retry_email_verification(
+		array $email_verification
+	) : int {
+
+		// Check subscriber's total request limit.
+		if ( $email_verification['request_count'] >= static::SUBSCRIBER_REQUEST_LIMIT_COUNT ) {
+			return ERROR_LIMIT_EXCEEDED;
+		}
+
+		// Check subscriber's request cooldown.
+		if (
+			false === Util::is_sql_timestamp_expired(
+				$email_verification['last_seen'],
+				static::SUBSCRIBER_REQUEST_COOLDOWN
+			)
+		) {
+			return ERROR_NEEDS_COOLDOWN;
+		}
+
+		// All checks pass.
+		return 0;
+	}
+
+	/**
+	 * Gets the API request tracker's current state.
+	 *
+	 * @return array
+	 */
+	private static function get_api_request_tracker() : array {
+
+		// Get the tracker state.
+		$tracker = get_option(
+			static::API_REQUESTS_TRACKER_OPTION,
+			array()
+		);
+
+		// Reset if expired or not initialized.
+		// Note that count may be zero, so do not use empty().
+		if (
+			! isset( $tracker['count'] ) ||
+			empty( $tracker['start_unix'] ) ||
+			Util::is_sql_timestamp_expired(
+				$tracker['start_unix'],
+				static::API_REQUESTS_LIMIT_PERIOD
+			)
+		) {
+			$tracker['count']      = 0;
+			$tracker['start_unix'] = time();
+			update_option(
+				static::API_REQUESTS_TRACKER_OPTION,
+				$tracker,
+				false // Do not autoload.
+			);
+		}
+
+		return $tracker;
+	}
+
+	/**
+	 * Gets the remaining number of API requests that may be used.
+	 *
+	 * @return int
+	 */
+	private static function get_api_request_balance() : int {
+		$tracker = static::get_api_request_tracker();
+		return static::API_REQUESTS_LIMIT_COUNT - $tracker['count'];
+	}
+
+	/**
+	 * Increases the API request tracker's count.
+	 *
+	 * @param int $increment Optional. The increment amount. Default 1.
+	 */
+	private static function increment_api_request_count( int $increment = 1 ) {
+		// Get the tracker state.
+		$tracker = static::get_api_request_tracker();
+		// Add to counter.
+		$tracker['count'] += $increment;
+		// Commit.
+		update_option(
+			static::API_REQUESTS_TRACKER_OPTION,
+			$tracker,
+			false // Do not autoload.
+		);
+	}
 
 	private static function send_email_verification_request(
-		string $email,
-		string $mailing_list
-	) {
+		array $email_verification
+	) : int {
+		// @TODO - Check API request balance, return error code.
 		// @TODO - Send Mailgun email template with verification link.
+		// @TODO - Return error code on Mailgun failure.
 	}
 }
