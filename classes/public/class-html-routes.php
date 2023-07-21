@@ -138,9 +138,11 @@ class HTML_Routes {
 				/**
 				 * Fires after the HTML route is determined.
 				 *
-				 * @param string $current_route The HTML route for the current request.
+				 * @param string    $current_route The HTML route for
+				 * the current request.
+				 * @param \WP_Query $query The query.
 				 */
-				do_action( 'html_route', static::$current_route );
+				do_action( 'html_route', static::$current_route, $query );
 
 				// Register modifications for HTML routes.
 				add_action( 'template_redirect', __CLASS__ . '::optimize_html_route', 10, 0 );
@@ -148,9 +150,18 @@ class HTML_Routes {
 				add_filter( 'body_class', __CLASS__ . '::get_body_classes', 9, 0 );
 				add_filter( 'template_include', __CLASS__ . '::get_current_route_template', 9, 0 );
 			} else {
+
 				// The HTML route doesn't have a valid endpoint.
 				$query->set_404();
 				status_header( 404 );
+
+				/**
+				 * Fires after the current HTML route query is
+				 * determined invalid and set to HTTP 404.
+				 *
+				 * @param \WP_Query $query The query.
+				 */
+				do_action( 'html_route_not_found', $query );
 			}
 		}
 	}
