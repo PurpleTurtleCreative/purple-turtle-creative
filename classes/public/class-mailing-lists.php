@@ -19,34 +19,6 @@ require_once THEME_PATH . '/classes/includes/class-util.php';
 class Mailing_Lists {
 
 	/**
-	 * The option name for storing the number of API requests
-	 * executed within the current period.
-	 *
-	 * NOTE THIS IS NOTE SAFE AGAINST RACE CONDITIONS as the
-	 * option value is retrieved, checked, and then incremented.
-	 * A large number of requests could pass checks before another
-	 * large number of requests increments the counter.
-	 *
-	 * There isn't an efficient way around this because we only
-	 * need to store one value and locking the entire wp_options
-	 * table wouldn't be performant since it is so widely used.
-	 *
-	 * The saving grace is that we use Web Application Firewall
-	 * technologies to protect the website from high amounts of
-	 * suspicious traffic. Additionally, there are only so many
-	 * instances of MySQL connections and PHP workers at any given
-	 * time which means they must conclude their work before
-	 * other requests may be processed. So there is at least that
-	 * layer of throttling (if I actually know what I'm saying).
-	 *
-	 * @see API_REQUESTS_LIMIT_COUNT
-	 * @see API_REQUESTS_LIMIT_PERIOD
-	 *
-	 * @var string API_REQUESTS_TRACKER_OPTION
-	 */
-	private const API_REQUESTS_TRACKER_OPTION = '_ptc_mailing_lists_api_requests_tracker';
-
-	/**
 	 * The number of API requests permitted per limit period.
 	 *
 	 * This helps reduce API usage costs with our mailing provider
@@ -63,6 +35,22 @@ class Mailing_Lists {
 	 * @var int API_REQUESTS_LIMIT_PERIOD
 	 */
 	private const API_REQUESTS_LIMIT_PERIOD = 7 * \DAY_IN_SECONDS;
+
+	/**
+	 * The option name for storing the number of API requests
+	 * executed within the current period.
+	 *
+	 * @var string API_REQUESTS_TRACKER_COUNT_OPTION
+	 */
+	private const API_REQUESTS_TRACKER_COUNT_OPTION = '_ptc_mailing_lists_api_requests_tracker_count';
+
+	/**
+	 * The option name for storing the start of the current API
+	 * requests tracker period as Unix seconds.
+	 *
+	 * @var string API_REQUESTS_TRACKER_START_OPTION
+	 */
+	private const API_REQUESTS_TRACKER_START_OPTION = '_ptc_mailing_lists_api_requests_tracker_start';
 
 	/**
 	 * The total number of allowed verification requests
@@ -409,6 +397,11 @@ class Mailing_Lists {
 		string $mailing_list
 	) : ?array {
 
+		// @TODO - Use database transactions and SELECT...FOR UPDATE
+		// since this record is always expected to be updated
+		// and should avoid race conditions since it tracks
+		// repeat requests for rate limiting.
+
 		global $wpdb;
 		$res = $wpdb->get_row(
 			$wpdb->prepare(
@@ -458,71 +451,104 @@ class Mailing_Lists {
 	}
 
 	/**
-	 * Gets the API request tracker's current state.
+	 * Prepares for tracking expectant API requests.
 	 *
-	 * @return array
+	 * You MUST use the accompanying end_api_request() function
+	 * to conclude the transaction and unlock the API request
+	 * tracker rows within the database.
+	 *
+	 * @see static::end_api_request()
+	 *
+	 * @return int The permitted number of requests.
 	 */
-	private static function get_api_request_tracker() : array {
+	private static function start_api_request() : int {
+		global $wpdb;
+		$wpdb->query( 'START TRANSACTION;' );
 
-		// Get the tracker state.
-		$tracker = get_option(
-			static::API_REQUESTS_TRACKER_OPTION,
-			array()
+		// Lock API requests tracker table rows for update.
+		$tracker = $wpdb->get_row(
+			$wpdb->prepare(
+				"
+				SELECT
+					o1.option_value AS 'count',
+					o2.option_value AS 'start_unix'
+				FROM {$wpdb->options} o1
+				JOIN {$wpdb->options} o2
+				WHERE o1.option_name = %i
+				  AND o2.option_name = %i
+				FOR UPDATE;
+				",
+				static::API_REQUESTS_TRACKER_COUNT_OPTION,
+				static::API_REQUESTS_TRACKER_START_OPTION,
+			),
+			\ARRAY_A
 		);
 
-		// Reset if expired or not initialized.
-		// Note that count may be zero, so do not use empty().
+		// Check result.
 		if (
 			! isset( $tracker['count'] ) ||
-			empty( $tracker['start_unix'] ) ||
+			! isset( $tracker['start_unix'] ) ||
 			Util::is_sql_timestamp_expired(
 				$tracker['start_unix'],
 				static::API_REQUESTS_LIMIT_PERIOD
 			)
 		) {
-			$tracker['count']      = 0;
-			$tracker['start_unix'] = time();
+			// API requests tracker needs to be initialized or reset.
 			update_option(
-				static::API_REQUESTS_TRACKER_OPTION,
-				$tracker,
+				static::API_REQUESTS_TRACKER_COUNT_OPTION,
+				0,
 				false // Do not autoload.
 			);
+			update_option(
+				static::API_REQUESTS_TRACKER_START_OPTION,
+				time(),
+				false // Do not autoload.
+			);
+			// Conclude and try again.
+			$wpdb->query( 'COMMIT;' );
+			return static::start_api_request();
 		}
 
-		return $tracker;
-	}
-
-	/**
-	 * Gets the remaining number of API requests that may be used.
-	 *
-	 * @return int
-	 */
-	private static function get_api_request_balance() : int {
-		$tracker = static::get_api_request_tracker();
+		// Return the remaining balance of requests permitted.
 		return static::API_REQUESTS_LIMIT_COUNT - $tracker['count'];
 	}
 
 	/**
-	 * Increases the API request tracker's count.
+	 * Records and concludes usage of API request tracking.
 	 *
-	 * @param int $increment Optional. The increment amount. Default 1.
+	 * @param int $sent_requests_count The number of API requests
+	 * to count toward the usage limit.
 	 */
-	private static function increment_api_request_count( int $increment = 1 ) {
-		// Get the tracker state.
-		$tracker = static::get_api_request_tracker();
-		// Add to counter.
-		$tracker['count'] += $increment;
-		// Commit.
-		update_option(
-			static::API_REQUESTS_TRACKER_OPTION,
-			$tracker,
-			false // Do not autoload.
+	private static function end_api_request( int $sent_requests_count ) {
+		global $wpdb;
+
+		if ( 0 === $sent_requests_count ) {
+			// Nothing was counted, so end transaction with rollback.
+			$wpdb->query( 'ROLLBACK;' );
+			return;
+		}
+
+		// Record the counted API requests.
+		$wpdb->update(
+			$wpdb->prepare(
+				"
+				UPDATE {$wpdb->options}
+				SET option_value = option_value + %d
+				WHERE option_name = %i;
+				",
+				static::API_REQUESTS_TRACKER_COUNT_OPTION,
+				$sent_requests_count
+			)
 		);
+
+		// Conclude the transaction.
+		$wpdb->query( 'COMMIT;' );
 	}
 
 	private static function send_email_verification_request(
 		array $email_verification
 	) : int {
+
 		// @TODO - Check API request balance, return error code.
 		// @TODO - Send Mailgun email template with verification link.
 		// @TODO - Return error code on Mailgun failure.
