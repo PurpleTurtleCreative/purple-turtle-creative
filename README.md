@@ -4,6 +4,20 @@ Custom WordPress theme built from [Automattic's Underscores](https://github.com/
 
 © [Michelle Blanchette](https://github.com/MichelleBlanchette). All Rights Reserved.
 
+## Configuration
+
+The following global constants are currently used within this theme. Please define them in your wp-config.php file.
+
+```php
+/* Google Analytics - Measurement Protocol */
+define( 'PTC_GA4_API_SECRET', '' );
+define( 'PTC_GA4_MEASUREMENT_ID', '' );
+define( 'PTC_GA4_CLIENT_ID', '' );
+/* Mailgun */
+define( 'PTC_MAILGUN_API_KEY', '' );
+define( 'PTC_MAILGUN_DOMAIN', '' );
+```
+
 Installation
 ---------------
 

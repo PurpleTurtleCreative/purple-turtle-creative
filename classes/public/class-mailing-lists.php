@@ -71,9 +71,26 @@ class Mailing_Lists {
 	 */
 	private const SUBSCRIBER_REQUEST_COOLDOWN = \HOUR_IN_SECONDS;
 
-	private const ERROR_LIMIT_EXCEEDED = 1;
+	/**
+	 * The code for an unexpected error.
+	 *
+	 * @var int ERROR_UNEXPECTED
+	 */
+	private const ERROR_UNEXPECTED = 1;
 
+	/**
+	 * The error code when a short-term limit is exceeded.
+	 *
+	 * @var int ERROR_NEEDS_COOLDOWN
+	 */
 	private const ERROR_NEEDS_COOLDOWN = 2;
+
+	/**
+	 * The error code when a long-term limit is exceeded.
+	 *
+	 * @var int ERROR_LIMIT_EXCEEDED
+	 */
+	private const ERROR_LIMIT_EXCEEDED = 3;
 
 	/**
 	 * The latest database version used by this class.
@@ -305,29 +322,28 @@ class Mailing_Lists {
 	 *
 	 * @param \WP_REST_Request $request The request.
 	 *
-	 * @return \WP_REST_Response|\WP_Error The response.
+	 * @return \WP_REST_Response The response.
 	 */
 	public static function handle_post_subscribe(
 		\WP_REST_Request $request
 	) : \WP_REST_Response {
 
-		// @TODO - Record GA4 event.
+		// @TODO - Record GA4 event generic 'hit'.
 
 		// Gather variables from request.
-
-		$email = $request['email'];
-
+		$email        = $request['email'];
 		$mailing_list = static::get_mailing_list_by_id( $request['list_id'] );
 		if ( ! $mailing_list ) {
-			return \WP_Error(
-				'invalid_list',
-				'The provided list_id is invalid.',
-				array( 'status' => 400 )
-			);
+			return new \WP_REST_Response( 'Sorry, but your request could not be processed. This mailing list is no longer used.', 400 );
 		}
 
+		// Note time of request.
 		$now_unix = time();
 		$now_sql  = Util::unix_as_sql_timestamp( $now_unix );
+
+		// Prepare default response.
+		$code    = 500;
+		$message = 'Sorry, but your request could not be processed. An unexpected error occurred.';
 
 		// Check if subscriber verification already exists.
 		$email_verification = static::get_email_verification_record(
@@ -343,7 +359,7 @@ class Mailing_Lists {
 
 			// Insert new subscriber request.
 			global $wpdb;
-			$insert_res = $wpdb->insert(
+			$res = $wpdb->insert(
 				static::DATABASE_EMAIL_VERIFICATION_TABLE,
 				array(
 					'email'         => $email,
@@ -365,23 +381,97 @@ class Mailing_Lists {
 				)
 			);
 
-			if ( false === $insert_res ) {
-				// @TODO - Record GA4 event.
-				return new \WP_REST_Response( 'Your request could not be processed. Please try again later.', 500 );
+			if ( false === $res ) {
+				$code    = 500;
+				$message = 'Sorry, but your request could not be processed. An unexpected error occurred.';
+			} else {
+
+				// Send verification email template with link.
+				$res = static::send_email_verification_request( $email, $token );
+
+				// Check response code.
+				switch ( $res ) {
+
+					case 0:
+						$code    = 201;
+						$message = 'Thank you for your interest! Please check your inbox or spam folder to confirm your subscription.';
+						break;
+
+					case static::ERROR_LIMIT_EXCEEDED:
+						$code    = 503;
+						$message = 'Sorry, but your request could not be processed. We are currently experiencing a high number of requests.';
+						break;
+
+					case static::ERROR_UNEXPECTED:
+					default:
+						$code    = 500;
+						$message = 'Sorry, but your request could not be processed. An unexpected error occurred.';
+						break;
+				}
 			}
-
-			// @TODO - Send verification email template with link.
-			// @TODO - Iterate request count for current period.
-
-			return new \WP_REST_Response( 'Thank you for your interest! Please check your inbox or spam folder to confirm your subscription.', 201 );
-		} else {
+		} elseif (
+			! empty( $email_verification['email'] ) &&
+			$email === $email_verification['email']
+		) {
 			// Existing subscriber request.
 
-			// @TODO - Check if permitted retry and send.
-			// @TODO - Return error responses if not permitted retry.
+			// @TODO - Update request_count and last_seen.
+
+			// Check if already verified.
+			if ( 'verified' === $email_verification['status'] ) {
+				$code    = 400;
+				$message = 'Hello, again! You previously confirmed your subscription to this mailing list. Please send us an email if you wish to resubscribe.';
+			} else {
+
+				// Check if permitted retry.
+				$res = can_retry_email_verification( $email_verification );
+				if ( $res > 0 ) {
+					switch ( $res ) {
+
+						case static::ERROR_NEEDS_COOLDOWN:
+							$code    = 429;
+							$message = 'Hello, again! You have recently tried to subscribe to this mailing list. Please be patient and check your inbox or spam folder to confirm your subscription.';
+							break;
+
+						case static::ERROR_LIMIT_EXCEEDED:
+							$code    = 403;
+							$message = 'Sorry, but your request could not be processed. You have sent too many requests.';
+							break;
+					}
+				} else {
+
+					// Send verification email template with link.
+					$res = static::send_email_verification_request(
+						$email_verification['email'],
+						$email_verification['token']
+					);
+
+					// Check response code.
+					switch ( $res ) {
+
+						case 0:
+							$code    = 200;
+							$message = 'Thank you for your interest! Please check your inbox or spam folder to confirm your subscription.';
+							break;
+
+						case static::ERROR_LIMIT_EXCEEDED:
+							$code    = 503;
+							$message = 'Sorry, but your request could not be processed. We are currently experiencing a high number of requests.';
+							break;
+
+						case static::ERROR_UNEXPECTED:
+						default:
+							$code    = 500;
+							$message = 'Sorry, but your request could not be processed. An unexpected error occurred.';
+							break;
+					}
+				}
+			}
 		}
 
-		return new \WP_REST_Response( "Email {$request['email']} is eligible to subscribe to the {$mailing_list} mailing list!", 200 );
+		// @TODO - Record GA4 event.
+
+		return new \WP_REST_Response( $message, $code );
 	}
 
 	/**
@@ -545,12 +635,79 @@ class Mailing_Lists {
 		$wpdb->query( 'COMMIT;' );
 	}
 
+	/**
+	 * Sends an email verification request to confirm a subscriber.
+	 *
+	 * @link https://documentation.mailgun.com/en/latest/api-sending.html#sending
+	 *
+	 * @param string $email The subscriber's email address.
+	 * @param string $token The subscriber's email verification
+	 * token.
+	 *
+	 * @return int The error code or 0 on success.
+	 */
 	private static function send_email_verification_request(
-		array $email_verification
+		string $email,
+		string $token
 	) : int {
 
-		// @TODO - Check API request balance, return error code.
-		// @TODO - Send Mailgun email template with verification link.
-		// @TODO - Return error code on Mailgun failure.
+		// Check API request balance, return error code.
+		if ( static::start_api_request() < 1 ) {
+			static::end_api_request( 0 );
+			return static::ERROR_LIMIT_EXCEEDED;
+		}
+
+		// Prepare email verification link.
+		$email_verification_url = add_query_arg(
+			array(
+				'subscriber' => $email,
+				'token'      => $token,
+			),
+			HTML_Routes::get_url( '/mailing-lists/email-verification' )
+		);
+
+		// Send confirmation email.
+		$response = wp_remote_post(
+			sprintf(
+				'https://api.mailgun.net/v3/%s/messages',
+				\PTC_MAILGUN_DOMAIN
+			),
+			array(
+				'headers' => array(
+					'Authorization' => 'Basic ' . base64_encode( 'api:' . \PTC_MAILGUN_API_KEY ), // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode
+					'Content-Type'  => 'application/json',
+				),
+				'body'    => wp_json_encode(
+					array(
+						'from'                     => 'Purple Turtle Creative <noreply@purpleturtlecreative.com>',
+						'to'                       => $email,
+						'subject'                  => 'Please confirm your subscription',
+						'template'                 => 'email verification',
+						't:version'                => 'initial',
+						'v:subscriber_email'       => $email,
+						'v:email_verification_url' => $email_verification_url,
+						'o:tracking'               => 'yes',
+						'o:tag'                    => 'email-verification',
+						'o:tag'                    => 'confirm-subscription',
+					)
+				),
+			)
+		);
+
+		// @TODO - Log GA4 event.
+
+		// Check HTTP response to handle error.
+		if ( 200 !== (int) wp_remote_retrieve_response_code( $response ) ) {
+			static::end_api_request( 0 ); // Don't count failure toward usage limits.
+			trigger_error(
+				'Failed to send email verification template to potential subscriber: ' . print_r( $response, true ),
+				\E_USER_WARNING
+			);
+			return static::ERROR_UNEXPECTED;
+		}
+
+		// Success!
+		static::end_api_request( 1 );
+		return 0;
 	}
 }
