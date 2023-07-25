@@ -209,8 +209,6 @@ class Mailing_Lists {
 		string $submit_label = 'Subscribe'
 	) {
 
-		// @TODO - Define the ACF block or shortcode for placement.
-		// @TODO - Enqueue CSS styling.
 		// @TODO - Write the JavaScript for asynchronous submission.
 
 		if ( empty( static::MAILING_LIST_IDS[ $mailing_list ] ) ) {
@@ -337,190 +335,204 @@ class Mailing_Lists {
 	) : \WP_REST_Response {
 		global $wpdb;
 
-		// @TODO - Record GA4 event generic 'hit'.
-
 		// Gather variables from request.
 		$email        = $request['email'];
 		$mailing_list = static::get_mailing_list_by_id( $request['list_id'] );
+
+		// Default response that should always be overridden.
+		$status  = 500;
+		$message = 'Sorry, but your request could not be processed. Something went wrong on our end.';
+
+		// Ensure mailing list is actually valid.
 		if ( ! $mailing_list ) {
-			return new \WP_REST_Response( 'Sorry, but your request could not be processed. This mailing list is no longer used.', 400 );
-		}
+			$status  = 400;
+			$message = 'Sorry, but your request could not be processed. This mailing list is no longer used.';
+		} else {
+			// Okay, this request is relevant.
 
-		// Note time of request.
-		$now_unix = time();
-		$now_sql  = Util::unix_as_sql_timestamp( $now_unix );
+			// Note time of request.
+			$now_unix = time();
+			$now_sql  = Util::unix_as_sql_timestamp( $now_unix );
 
-		// Prepare default response.
-		$code    = 500;
-		$message = 'Sorry, but your request could not be processed. An unexpected error occurred.';
+			// Prepare default response.
+			$status  = 500;
+			$message = 'Sorry, but your request could not be processed. An unexpected error occurred.';
 
-		// Check if subscriber verification already exists.
-		$email_verification = static::get_and_lock_email_verification_record(
-			$email,
-			$mailing_list
-		);
-
-		if ( null === $email_verification ) {
-			// New subscriber request.
-
-			// Send verification email template with link.
-			$res = static::send_email_verification_request(
+			// Check if subscriber verification already exists.
+			$email_verification = static::get_and_lock_email_verification_record(
 				$email,
 				$mailing_list
 			);
 
-			// Check response code.
-			switch ( $res ) {
+			if ( null === $email_verification ) {
+				// New subscriber request.
 
-				case 0:
-					// Record new subscriber request.
-					$res = $wpdb->insert(
+				// Send verification email template with link.
+				$res = static::send_email_verification_request(
+					$email,
+					$mailing_list
+				);
+
+				// Check response code.
+				switch ( $res ) {
+
+					case 0:
+						// Record new subscriber request.
+						$res = $wpdb->insert(
+							static::DATABASE_EMAIL_VERIFICATION_TABLE,
+							array(
+								'email'         => $email,
+								'mailing_list'  => $mailing_list,
+								'status'        => 'pending',
+								'request_count' => 1,
+								'first_seen'    => $now_sql,
+								'last_seen'     => $now_sql,
+							),
+							array(
+								'%s', // email.
+								'%s', // mailing_list.
+								'%s', // status.
+								'%d', // request_count.
+								'%s', // first_seen.
+								'%s', // last_seen.
+							)
+						);
+
+						if ( false === $res ) {
+							// This could probably happen if the new subscriber
+							// request was sent multiple times before it was
+							// able to be written to the database. There's a
+							// race condition in first checking if the subscriber
+							// exists versus actually adding it to the databse
+							// for the first time. When the record doesn't yet
+							// exist, multiple requests could slip through and
+							// cause an insertion error when the Primary Key
+							// is checked. This is why a WAF is important.
+							$status  = 500;
+							$message = 'Sorry, but your request could not be processed. An unexpected error occurred.';
+						} else {
+							$status  = 201;
+							$message = 'Thank you for your interest! Please check your inbox or spam folder to confirm your subscription.';
+						}
+
+						break;
+
+					case static::ERROR_LIMIT_EXCEEDED:
+						$status  = 503;
+						$message = 'Sorry, but your request could not be processed. We are currently experiencing a high number of requests.';
+						break;
+
+					case static::ERROR_UNEXPECTED:
+					default:
+						$status  = 500;
+						$message = 'Sorry, but your request could not be processed. An unexpected error occurred.';
+						break;
+				}
+			} elseif (
+				! empty( $email_verification['email'] ) &&
+				$email === $email_verification['email']
+			) {
+				// Existing subscriber request.
+
+				$sent_requests = 0;
+				$update_status = $email_verification['status'];
+
+				// Check if already verified.
+				if ( 'verified' === $email_verification['status'] ) {
+					$status  = 400;
+					$message = 'Hello, again! You previously confirmed your subscription to this mailing list. Please email Michelle if you wish to resubscribe.';
+				} else {
+
+					// Check if permitted retry.
+					$res = static::can_retry_email_verification( $email_verification );
+					if ( $res > 0 ) {
+						switch ( $res ) {
+
+							case static::ERROR_NEEDS_COOLDOWN:
+								$status  = 429;
+								$message = 'Hello, again! You have recently tried to subscribe to this mailing list. Please be patient and check your inbox or spam folder to confirm your subscription. If you still haven\'t received the confirmation email, you may try subscribing again in exactly ' . human_time_diff( $now_unix, $now_unix + static::SUBSCRIBER_REQUEST_COOLDOWN ) . ' from now.';
+								break;
+
+							case static::ERROR_LIMIT_EXCEEDED:
+								$status  = 403;
+								$message = 'Sorry, but your request could not be processed. You have sent too many requests.';
+								break;
+						}
+					} else {
+
+						// Send verification email template with link.
+						$res = static::send_email_verification_request(
+							$email_verification['email'],
+							$email_verification['mailing_list']
+						);
+
+						// Check response code.
+						switch ( $res ) {
+
+							case 0:
+								$status  = 200;
+								$message = 'Hello, again! Sorry that the last verification request didn\'t work out. Please check your inbox or spam folder again now to confirm your subscription.';
+								$sent_requests = 1;
+								$update_status = 'pending';
+								break;
+
+							case static::ERROR_LIMIT_EXCEEDED:
+								$status  = 503;
+								$message = 'Sorry, but your request could not be processed. We are currently experiencing a high number of requests.';
+								break;
+
+							case static::ERROR_UNEXPECTED:
+							default:
+								$status  = 500;
+								$message = 'Sorry, but your request could not be processed. An unexpected error occurred.';
+								break;
+						}
+					}
+
+					$res = $wpdb->update(
 						static::DATABASE_EMAIL_VERIFICATION_TABLE,
 						array(
-							'email'         => $email,
-							'mailing_list'  => $mailing_list,
-							'status'        => 'pending',
-							'request_count' => 1,
-							'first_seen'    => $now_sql,
+							'status'        => $update_status,
+							'request_count' => $email_verification['request_count'] + $sent_requests,
 							'last_seen'     => $now_sql,
 						),
 						array(
-							'%s', // email.
-							'%s', // mailing_list.
+							'ID'           => $email_verification['ID'],
+							'email'        => $email_verification['email'],
+							'mailing_list' => $email_verification['mailing_list'],
+						),
+						array(
 							'%s', // status.
 							'%d', // request_count.
-							'%s', // first_seen.
 							'%s', // last_seen.
+						),
+						array(
+							'%d', // ID.
+							'%s', // email.
+							'%s', // mailing_list.
 						)
 					);
 
 					if ( false === $res ) {
-						// This could probably happen if the new subscriber
-						// request was sent multiple times before it was
-						// able to be written to the database. There's a
-						// race condition in first checking if the subscriber
-						// exists versus actually adding it to the databse
-						// for the first time. When the record doesn't yet
-						// exist, multiple requests could slip through and
-						// cause an insertion error when the Primary Key
-						// is checked. This is why a WAF is important.
-						$code    = 500;
-						$message = 'Sorry, but your request could not be processed. An unexpected error occurred.';
-					} else {
-						$code    = 201;
-						$message = 'Thank you for your interest! Please check your inbox or spam folder to confirm your subscription.';
+						trigger_error(
+							"Failed to update email verification record ID {$email_verification['ID']}.",
+							\E_USER_NOTICE
+						);
 					}
-
-					break;
-
-				case static::ERROR_LIMIT_EXCEEDED:
-					$code    = 503;
-					$message = 'Sorry, but your request could not be processed. We are currently experiencing a high number of requests.';
-					break;
-
-				case static::ERROR_UNEXPECTED:
-				default:
-					$code    = 500;
-					$message = 'Sorry, but your request could not be processed. An unexpected error occurred.';
-					break;
-			}
-		} elseif (
-			! empty( $email_verification['email'] ) &&
-			$email === $email_verification['email']
-		) {
-			// Existing subscriber request.
-
-			$sent_requests = 0;
-			$update_status = $email_verification['status'];
-
-			// Check if already verified.
-			if ( 'verified' === $email_verification['status'] ) {
-				$code    = 400;
-				$message = 'Hello, again! You previously confirmed your subscription to this mailing list. Please email Michelle if you wish to resubscribe.';
-			} else {
-
-				// Check if permitted retry.
-				$res = static::can_retry_email_verification( $email_verification );
-				if ( $res > 0 ) {
-					switch ( $res ) {
-
-						case static::ERROR_NEEDS_COOLDOWN:
-							$code    = 429;
-							$message = 'Hello, again! You have recently tried to subscribe to this mailing list. Please be patient and check your inbox or spam folder to confirm your subscription. If you still haven\'t received the confirmation email, you may try subscribing again in exactly ' . human_time_diff( $now_unix, $now_unix + static::SUBSCRIBER_REQUEST_COOLDOWN ) . ' from now.';
-							break;
-
-						case static::ERROR_LIMIT_EXCEEDED:
-							$code    = 403;
-							$message = 'Sorry, but your request could not be processed. You have sent too many requests.';
-							break;
-					}
-				} else {
-
-					// Send verification email template with link.
-					$res = static::send_email_verification_request(
-						$email_verification['email'],
-						$email_verification['mailing_list']
-					);
-
-					// Check response code.
-					switch ( $res ) {
-
-						case 0:
-							$code    = 200;
-							$message = 'Hello, again! Sorry that the last verification request didn\'t work out. Please check your inbox or spam folder again now to confirm your subscription.';
-							$sent_requests = 1;
-							$update_status = 'pending';
-							break;
-
-						case static::ERROR_LIMIT_EXCEEDED:
-							$code    = 503;
-							$message = 'Sorry, but your request could not be processed. We are currently experiencing a high number of requests.';
-							break;
-
-						case static::ERROR_UNEXPECTED:
-						default:
-							$code    = 500;
-							$message = 'Sorry, but your request could not be processed. An unexpected error occurred.';
-							break;
-					}
-				}
-
-				$res = $wpdb->update(
-					static::DATABASE_EMAIL_VERIFICATION_TABLE,
-					array(
-						'status'        => $update_status,
-						'request_count' => $email_verification['request_count'] + $sent_requests,
-						'last_seen'     => $now_sql,
-					),
-					array(
-						'ID'           => $email_verification['ID'],
-						'email'        => $email_verification['email'],
-						'mailing_list' => $email_verification['mailing_list'],
-					),
-					array(
-						'%s', // status.
-						'%d', // request_count.
-						'%s', // last_seen.
-					),
-					array(
-						'%d', // ID.
-						'%s', // email.
-						'%s', // mailing_list.
-					)
-				);
-
-				if ( false === $res ) {
-					trigger_error(
-						"Failed to update email verification record ID {$email_verification['ID']}.",
-						\E_USER_NOTICE
-					);
 				}
 			}
 		}
 
 		// @TODO - Record GA4 event.
 
-		return new \WP_REST_Response( $message, $code );
+		// Format response.
+		return new \WP_REST_Response(
+			array(
+				'status'  => $status,
+				'message' => $message,
+			),
+			$status
+		);
 	}
 
 	/**
