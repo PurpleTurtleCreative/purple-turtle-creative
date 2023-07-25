@@ -170,12 +170,12 @@ class Mailing_Lists {
 				ID bigint(20) unsigned NOT NULL AUTO_INCREMENT UNIQUE,
 				email varchar(100) NOT NULL,
 				mailing_list varchar(100) NOT NULL,
-				token char(32) NOT NULL,
+				token char(16) NOT NULL,
 				status varchar(20) NOT NULL,
-				request_count smallint unsigned DEFAULT 1 NOT NULL,
+				request_count smallint unsigned NOT NULL,
 				first_seen datetime DEFAULT CURRENT_TIMESTAMP NOT NULL,
 				last_seen datetime DEFAULT CURRENT_TIMESTAMP NOT NULL,
-				PRIMARY KEY  (ID)
+				PRIMARY KEY  (ID, email, mailing_list)
 			) {$charset_collate};"
 		);
 
@@ -209,10 +209,9 @@ class Mailing_Lists {
 		string $submit_label = 'Subscribe'
 	) {
 
-		// @TODO - Check API request balance, render error.
-
+		// @TODO - Define the ACF block or shortcode for placement.
+		// @TODO - Enqueue CSS styling.
 		// @TODO - Write the JavaScript for asynchronous submission.
-		// @TODO - Define the ACF block for custom render placement.
 
 		if ( empty( static::MAILING_LIST_IDS[ $mailing_list ] ) ) {
 			trigger_error(
@@ -225,21 +224,27 @@ class Mailing_Lists {
 		$form_action_url = rest_url( REST_API_NAMESPACE_V1 . '/mailing-lists/subscribe' );
 
 		?>
-			<form class="ptc-mailing-list-subscribe" method="POST" action="<?php echo esc_url( $form_action_url ); ?>">
+		<div class="ptc-mailing-list-subscribe">
+			<form method="POST" action="<?php echo esc_url( $form_action_url ); ?>">
 				<?php
 				if ( ! empty( $title_text ) ) {
 					echo '<h3>' . esc_html( $title_text ) . '</h3>';
 				}
 				if ( ! empty( $body_text ) ) {
-					echo wp_kses_post( $body_text );
+					echo wp_kses_post( wpautop( $body_text ) );
 				}
 				?>
-				<input type="email" name="email" placeholder="mail@example.com" required />
+				<div class="form-row">
+					<input type="email" name="email" placeholder="mail@example.com" required />
+					<button type="submit"><?php echo esc_html( $submit_label ); ?></button>
+				</div>
 				<input type="hidden" name="list_id" value="<?php echo esc_attr( static::MAILING_LIST_IDS[ $mailing_list ] ); ?>" />
 				<?php wp_nonce_field( 'wp_rest', '_wpnonce', true, true ); ?>
 				<?php Captcha::render( $captcha_action ); ?>
-				<button type="submit"><?php echo esc_html( $submit_label ); ?></button>
 			</form>
+			<p>By clicking "<?php echo esc_html( $submit_label ); ?>", you agree to receive email messages from Purple Turtle Creative.</p>
+			<p>A verification email will be sent to confirm your subscription.</p>
+		</div>
 		<?php
 	}
 
@@ -318,7 +323,7 @@ class Mailing_Lists {
 	}
 
 	/**
-	 * Handles a requrest to subscribe to a mailing list.
+	 * Handles a request to subscribe to a mailing list.
 	 *
 	 * @param \WP_REST_Request $request The request.
 	 *
@@ -327,6 +332,7 @@ class Mailing_Lists {
 	public static function handle_post_subscribe(
 		\WP_REST_Request $request
 	) : \WP_REST_Response {
+		global $wpdb;
 
 		// @TODO - Record GA4 event generic 'hit'.
 
@@ -346,7 +352,7 @@ class Mailing_Lists {
 		$message = 'Sorry, but your request could not be processed. An unexpected error occurred.';
 
 		// Check if subscriber verification already exists.
-		$email_verification = static::get_email_verification_record(
+		$email_verification = static::get_and_lock_email_verification_record(
 			$email,
 			$mailing_list
 		);
@@ -355,59 +361,67 @@ class Mailing_Lists {
 			// New subscriber request.
 
 			// !! LENGTH MUST MATCH DATABASE TABLE SCHEMA !!
-			$token = wp_generate_password( 32, false, false );
+			$token = wp_generate_password( 16, false, false );
 
-			// Insert new subscriber request.
-			global $wpdb;
-			$res = $wpdb->insert(
-				static::DATABASE_EMAIL_VERIFICATION_TABLE,
-				array(
-					'email'         => $email,
-					'mailing_list'  => $mailing_list,
-					'token'         => $token,
-					'status'        => 'pending',
-					'request_count' => 1,
-					'first_seen'    => $now_sql,
-					'last_seen'     => $now_sql,
-				),
-				array(
-					'%s', // email.
-					'%s', // mailing_list.
-					'%s', // token.
-					'%s', // status.
-					'%d', // request_count.
-					'%s', // first_seen.
-					'%s', // last_seen.
-				)
-			);
+			// Send verification email template with link.
+			$res = static::send_email_verification_request( $email, $token );
 
-			if ( false === $res ) {
-				$code    = 500;
-				$message = 'Sorry, but your request could not be processed. An unexpected error occurred.';
-			} else {
+			// Check response code.
+			switch ( $res ) {
 
-				// Send verification email template with link.
-				$res = static::send_email_verification_request( $email, $token );
+				case 0:
+					// Record new subscriber request.
+					$res = $wpdb->insert(
+						static::DATABASE_EMAIL_VERIFICATION_TABLE,
+						array(
+							'email'         => $email,
+							'mailing_list'  => $mailing_list,
+							'token'         => $token,
+							'status'        => 'pending',
+							'request_count' => 1,
+							'first_seen'    => $now_sql,
+							'last_seen'     => $now_sql,
+						),
+						array(
+							'%s', // email.
+							'%s', // mailing_list.
+							'%s', // token.
+							'%s', // status.
+							'%d', // request_count.
+							'%s', // first_seen.
+							'%s', // last_seen.
+						)
+					);
 
-				// Check response code.
-				switch ( $res ) {
-
-					case 0:
-						$code    = 201;
-						$message = 'Thank you for your interest! Please check your inbox or spam folder to confirm your subscription.';
-						break;
-
-					case static::ERROR_LIMIT_EXCEEDED:
-						$code    = 503;
-						$message = 'Sorry, but your request could not be processed. We are currently experiencing a high number of requests.';
-						break;
-
-					case static::ERROR_UNEXPECTED:
-					default:
+					if ( false === $res ) {
+						// This could probably happen if the new subscriber
+						// request was sent multiple times before it was
+						// able to be written to the database. There's a
+						// race condition in first checking if the subscriber
+						// exists versus actually adding it to the databse
+						// for the first time. When the record doesn't yet
+						// exist, multiple requests could slip through and
+						// cause an insertion error when the Primary Key
+						// is checked. This is why a WAF is important.
 						$code    = 500;
 						$message = 'Sorry, but your request could not be processed. An unexpected error occurred.';
-						break;
-				}
+					} else {
+						$code    = 201;
+						$message = 'Thank you for your interest! Please check your inbox or spam folder to confirm your subscription.';
+					}
+
+					break;
+
+				case static::ERROR_LIMIT_EXCEEDED:
+					$code    = 503;
+					$message = 'Sorry, but your request could not be processed. We are currently experiencing a high number of requests.';
+					break;
+
+				case static::ERROR_UNEXPECTED:
+				default:
+					$code    = 500;
+					$message = 'Sorry, but your request could not be processed. An unexpected error occurred.';
+					break;
 			}
 		} elseif (
 			! empty( $email_verification['email'] ) &&
@@ -415,7 +429,8 @@ class Mailing_Lists {
 		) {
 			// Existing subscriber request.
 
-			// @TODO - Update request_count and last_seen.
+			$sent_requests = 0;
+			$update_status = $email_verification['status'];
 
 			// Check if already verified.
 			if ( 'verified' === $email_verification['status'] ) {
@@ -424,13 +439,13 @@ class Mailing_Lists {
 			} else {
 
 				// Check if permitted retry.
-				$res = can_retry_email_verification( $email_verification );
+				$res = static::can_retry_email_verification( $email_verification );
 				if ( $res > 0 ) {
 					switch ( $res ) {
 
 						case static::ERROR_NEEDS_COOLDOWN:
 							$code    = 429;
-							$message = 'Hello, again! You have recently tried to subscribe to this mailing list. Please be patient and check your inbox or spam folder to confirm your subscription.';
+							$message = 'Hello, again! You have recently tried to subscribe to this mailing list. Please be patient and check your inbox or spam folder to confirm your subscription. If you still haven\'t received the confirmation email, you may try subscribing again in exactly ' . human_time_diff( $now_unix, $now_unix + static::SUBSCRIBER_REQUEST_COOLDOWN ) . ' from now.';
 							break;
 
 						case static::ERROR_LIMIT_EXCEEDED:
@@ -452,6 +467,8 @@ class Mailing_Lists {
 						case 0:
 							$code    = 200;
 							$message = 'Thank you for your interest! Please check your inbox or spam folder to confirm your subscription.';
+							$sent_requests = 1;
+							$update_status = 'pending';
 							break;
 
 						case static::ERROR_LIMIT_EXCEEDED:
@@ -465,6 +482,33 @@ class Mailing_Lists {
 							$message = 'Sorry, but your request could not be processed. An unexpected error occurred.';
 							break;
 					}
+				}
+
+				$res = $wpdb->update(
+					static::DATABASE_EMAIL_VERIFICATION_TABLE,
+					array(
+						'status'        => $update_status,
+						'request_count' => $email_verification['request_count'] + $sent_requests,
+						'last_seen'     => $now_sql,
+					),
+					array(
+						'ID' => $email_verification['ID'],
+					),
+					array(
+						'%s', // status.
+						'%d', // request_count.
+						'%s', // last_seen.
+					),
+					array(
+						'%d',
+					)
+				);
+
+				if ( false === $res ) {
+					trigger_error(
+						"Failed to update email verification record ID {$email_verification['ID']}.",
+						\E_USER_NOTICE
+					);
 				}
 			}
 		}
@@ -482,25 +526,20 @@ class Mailing_Lists {
 	 *
 	 * @return array|null An associative array or null.
 	 */
-	private static function get_email_verification_record(
+	private static function get_and_lock_email_verification_record(
 		string $email,
 		string $mailing_list
 	) : ?array {
-
-		// @TODO - Use database transactions and SELECT...FOR UPDATE
-		// since this record is always expected to be updated
-		// and should avoid race conditions since it tracks
-		// repeat requests for rate limiting.
-
 		global $wpdb;
-		$res = $wpdb->get_row(
+		return $wpdb->get_row(
 			$wpdb->prepare(
 				"
 				SELECT *
 				FROM %i
 				WHERE email = %s
 				  AND mailing_list = %s
-				LIMIT 1;
+				LIMIT 1
+				FOR UPDATE;
 				",
 				static::DATABASE_EMAIL_VERIFICATION_TABLE,
 				$email,
@@ -523,7 +562,7 @@ class Mailing_Lists {
 
 		// Check subscriber's total request limit.
 		if ( $email_verification['request_count'] >= static::SUBSCRIBER_REQUEST_LIMIT_COUNT ) {
-			return ERROR_LIMIT_EXCEEDED;
+			return static::ERROR_LIMIT_EXCEEDED;
 		}
 
 		// Check subscriber's request cooldown.
@@ -533,7 +572,12 @@ class Mailing_Lists {
 				static::SUBSCRIBER_REQUEST_COOLDOWN
 			)
 		) {
-			return ERROR_NEEDS_COOLDOWN;
+			// Note that this is based on when the user last submitted
+			// a request to subscribe, which is refreshed even on
+			// failed requests. This may seem counterintuitive, but
+			// this behavior makes this a true cooldown as "spammer"
+			// and bot activity remains "heated".
+			return static::ERROR_NEEDS_COOLDOWN;
 		}
 
 		// All checks pass.
@@ -564,8 +608,8 @@ class Mailing_Lists {
 					o2.option_value AS 'start_unix'
 				FROM {$wpdb->options} o1
 				JOIN {$wpdb->options} o2
-				WHERE o1.option_name = %i
-				  AND o2.option_name = %i
+				WHERE o1.option_name = %s
+				  AND o2.option_name = %s
 				FOR UPDATE;
 				",
 				static::API_REQUESTS_TRACKER_COUNT_OPTION,
@@ -578,7 +622,7 @@ class Mailing_Lists {
 		if (
 			! isset( $tracker['count'] ) ||
 			! isset( $tracker['start_unix'] ) ||
-			Util::is_sql_timestamp_expired(
+			Util::is_unix_expired(
 				$tracker['start_unix'],
 				static::API_REQUESTS_LIMIT_PERIOD
 			)
@@ -619,15 +663,15 @@ class Mailing_Lists {
 		}
 
 		// Record the counted API requests.
-		$wpdb->update(
+		$wpdb->query(
 			$wpdb->prepare(
 				"
 				UPDATE {$wpdb->options}
 				SET option_value = option_value + %d
-				WHERE option_name = %i;
+				WHERE option_name = %s;
 				",
-				static::API_REQUESTS_TRACKER_COUNT_OPTION,
-				$sent_requests_count
+				$sent_requests_count,
+				static::API_REQUESTS_TRACKER_COUNT_OPTION
 			)
 		);
 
@@ -675,21 +719,21 @@ class Mailing_Lists {
 			array(
 				'headers' => array(
 					'Authorization' => 'Basic ' . base64_encode( 'api:' . \PTC_MAILGUN_API_KEY ), // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode
-					'Content-Type'  => 'application/json',
 				),
-				'body'    => wp_json_encode(
-					array(
-						'from'                     => 'Purple Turtle Creative <noreply@purpleturtlecreative.com>',
-						'to'                       => $email,
-						'subject'                  => 'Please confirm your subscription',
-						'template'                 => 'email verification',
-						't:version'                => 'initial',
-						'v:subscriber_email'       => $email,
-						'v:email_verification_url' => $email_verification_url,
-						'o:tracking'               => 'yes',
-						'o:tag'                    => 'email-verification',
-						'o:tag'                    => 'confirm-subscription',
-					)
+				'body'    => array(
+					'from'                     => sprintf(
+						'Purple Turtle Creative <noreply@%s>',
+						\PTC_MAILGUN_DOMAIN
+					),
+					'to'                       => $email,
+					'subject'                  => 'Please confirm your subscription',
+					'template'                 => 'email verification',
+					't:version'                => 'initial',
+					'v:subscriber_email'       => $email,
+					'v:email_verification_url' => $email_verification_url,
+					'o:tracking'               => 'yes',
+					'o:tag'                    => 'email-verification',
+					'o:tag'                    => 'confirm-subscription',
 				),
 			)
 		);

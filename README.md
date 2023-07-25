@@ -16,6 +16,9 @@ define( 'PTC_GA4_CLIENT_ID', '' );
 /* Mailgun */
 define( 'PTC_MAILGUN_API_KEY', '' );
 define( 'PTC_MAILGUN_DOMAIN', '' );
+/* Cloudflare - Turnstile CAPTCHA */
+define( 'PTC_CF_TURNSTILE_SITE_KEY', '' );
+define( 'PTC_CF_TURNSTILE_SECRET_KEY', '' );
 ```
 
 Installation

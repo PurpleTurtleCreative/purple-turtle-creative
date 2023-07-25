@@ -63,4 +63,20 @@ class Util {
 			time() - static::sql_timestamp_as_unix( $sql_timestamp ) >= $ttl_seconds
 		);
 	}
+
+	/**
+	 * Checks if a Unix seconds timestamp is more than a given
+	 * duration in the past.
+	 *
+	 * @param int $unix_timestamp The Unix seconds timestamp.
+	 * @param int $ttl_seconds The duration in seconds.
+	 *
+	 * @return bool
+	 */
+	public static function is_unix_expired(
+		int $unix_timestamp,
+		int $ttl_seconds
+	) : bool {
+		return ( time() - $unix_timestamp >= $ttl_seconds );
+	}
 }
