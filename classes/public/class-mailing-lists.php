@@ -132,7 +132,7 @@ class Mailing_Lists {
 	 *
 	 * @var string[] MAILING_LIST_IDS
 	 */
-	private const MAILING_LIST_IDS = array(
+	public const MAILING_LIST_IDS = array(
 		'completionist@purpleturtlecreative.com' => 'RN3epj3Y8VmA9iKj',
 		'stage@purpleturtlecreative.com'         => 'rV2rtR8ch8Kh6Dgg',
 		'dev@sandboxe9304e53e5994067aa8ce9e5897e4536.mailgun.org' => 'GtujGDN2bj23QsU8',
@@ -194,7 +194,7 @@ class Mailing_Lists {
 	/**
 	 * Gets the mailing list subscription form HTML.
 	 *
-	 * @param string $list_id The mailing list ID.
+	 * @param string $mailing_list The mailing list address.
 	 * @param string $title_text The form title text.
 	 * @param string $body_text The form body text.
 	 * @param string $captcha_action The captcha widget ID.

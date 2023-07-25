@@ -9,6 +9,7 @@ namespace PTC_Theme;
 
 add_action( 'acf/init', __NAMESPACE__ . '\register_acf_blocks', 10 );
 add_action( 'acf/load_field/key=field_632df30088333', __NAMESPACE__ . '\populate_icon_select_options' );
+add_action( 'acf/load_field/key=field_64bff01345eb5', __NAMESPACE__ . '\populate_mailing_list_select_options' );
 if ( class_exists( '\WP_Block_Editor_Context' ) ) {
 	add_filter( 'block_categories_all', __NAMESPACE__ . '\filter_block_categories', 10, 2 );
 } else {
@@ -78,14 +79,15 @@ function register_acf_blocks() {
 		);
 		\acf_register_block_type(
 			[
-				'name' => 'ptc_block_post_previews',
-				'title' => 'PTC Post Previews',
-				'description' => 'Displays post preview cards.',
+				'name' => 'ptc_block_mailing_list_subscribe',
+				'title' => 'PTC Mailing List Subscribe',
+				'description' => 'Displays a mailing list subscribe form.',
 				'category' => THEME_BASENAME,
-				'icon' => 'admin-page',
-				'render_template' => THEME_PATH . '/template-parts/acf-blocks/post-previews.php',
-				'post_types' => [ 'page' ],
-				'enqueue_style' => STYLES_URI . '/block_post-previews.css',
+				'icon' => 'email-alt',
+				'render_template' => THEME_PATH . '/template-parts/acf-blocks/mailing-list-subscribe.php',
+				'post_types' => [ 'page', 'post' ],
+				'enqueue_style' => STYLES_URI . '/block_mailing-list-subscribe.css',
+				'enqueue_script' => STYLES_URI . '/block_mailing-list-subscribe.js',
 				'supports' => [
 					'align' => false,
 					'align_text' => false,
@@ -121,6 +123,32 @@ function populate_icon_select_options( $field ) {
 				$field['choices'][ "{$family}/{$icon_name}" ] = ucwords( $family . ' - ' . str_replace( '-', ' ', $icon_name ) );
 			}
 		}
+	}
+
+	return $field;
+}
+
+/**
+ * Sets the provided field's "choices" with the mailing lists
+ * recognized by this theme.
+ *
+ * @link https://www.advancedcustomfields.com/resources/dynamically-populate-a-select-fields-choices/
+ *
+ * @param array $field The ACF field object data.
+ */
+function populate_mailing_list_select_options( $field ) {
+
+	// Ensure dependency is present.
+	if ( ! class_exists( 'Mailing_Lists' ) ) {
+		require_once THEME_PATH . '/classes/public/class-mailing-lists.php';
+	}
+
+	// Clear existing options.
+	$field['choices'] = array();
+
+	// Format mailing list options.
+	foreach ( Mailing_Lists::MAILING_LIST_IDS as $mailing_list => $list_id ) {
+		$field['choices'][ $list_id ] = $mailing_list;
 	}
 
 	return $field;
