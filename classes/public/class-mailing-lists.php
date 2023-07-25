@@ -134,7 +134,8 @@ class Mailing_Lists {
 	 */
 	private const MAILING_LIST_IDS = array(
 		'completionist@purpleturtlecreative.com' => 'RN3epj3Y8VmA9iKj',
-		'mail.test@purpleturtlecreative.com'     => '4T3HmaE8JtUovVF7',
+		'stage@purpleturtlecreative.com'         => 'rV2rtR8ch8Kh6Dgg',
+		'dev@sandboxe9304e53e5994067aa8ce9e5897e4536.mailgun.org' => 'GtujGDN2bj23QsU8',
 	);
 
 	/**
@@ -432,7 +433,7 @@ class Mailing_Lists {
 			// Check if already verified.
 			if ( 'verified' === $email_verification['status'] ) {
 				$code    = 400;
-				$message = 'Hello, again! You previously confirmed your subscription to this mailing list. Please send us an email if you wish to resubscribe.';
+				$message = 'Hello, again! You previously confirmed your subscription to this mailing list. Please email Michelle if you wish to resubscribe.';
 			} else {
 
 				// Check if permitted retry.
@@ -463,7 +464,7 @@ class Mailing_Lists {
 
 						case 0:
 							$code    = 200;
-							$message = 'Thank you for your interest! Please check your inbox or spam folder to confirm your subscription.';
+							$message = 'Hello, again! Sorry that the last verification request didn\'t work out. Please check your inbox or spam folder again now to confirm your subscription.';
 							$sent_requests = 1;
 							$update_status = 'pending';
 							break;
@@ -489,7 +490,9 @@ class Mailing_Lists {
 						'last_seen'     => $now_sql,
 					),
 					array(
-						'ID' => $email_verification['ID'],
+						'ID'           => $email_verification['ID'],
+						'email'        => $email_verification['email'],
+						'mailing_list' => $email_verification['mailing_list'],
 					),
 					array(
 						'%s', // status.
@@ -497,7 +500,9 @@ class Mailing_Lists {
 						'%s', // last_seen.
 					),
 					array(
-						'%d',
+						'%d', // ID.
+						'%s', // email.
+						'%s', // mailing_list.
 					)
 				);
 
@@ -718,6 +723,7 @@ class Mailing_Lists {
 		$email_verification_url = add_query_arg(
 			array(
 				'subscriber' => $email,
+				'list_id'    => static::MAILING_LIST_IDS[ $mailing_list ],
 				'token'      => static::get_email_verification_token(
 					$email,
 					$mailing_list
@@ -769,5 +775,120 @@ class Mailing_Lists {
 		// Success!
 		static::end_api_request( 1 );
 		return 0;
+	}
+
+	/**
+	 * Subscribes a member to the mailing list if valid.
+	 *
+	 * @link https://documentation.mailgun.com/en/latest/api-mailinglists.html#mailing-lists
+	 *
+	 * @param string $email The subscriber's email.
+	 * @param string $list_id The mailing address ID.
+	 * @param string $token The provided email verification token.
+	 *
+	 * @return bool If the member was successfully subscribed.
+	 */
+	public static function process_email_verification(
+		string $email,
+		string $list_id,
+		string $token
+	) : bool {
+
+		// Get the actual mailing list.
+		$mailing_list = static::get_mailing_list_by_id( $list_id );
+		if ( ! $mailing_list ) {
+			return false;
+		}
+
+		// Confirm the token.
+		if (
+			static::get_email_verification_token(
+				$email,
+				$mailing_list
+			) !== $token
+		) {
+			return false;
+		}
+
+		// Check the record exists and lock for update.
+		$email_verification = static::get_and_lock_email_verification_record(
+			$email,
+			$mailing_list
+		);
+
+		if ( null === $email_verification ) {
+			return false;
+		}
+
+		// Seems legit.
+		// Actually subscribe the email to the mailing list.
+		$response = wp_remote_post(
+			sprintf(
+				'https://api.mailgun.net/v3/lists/%s/members',
+				$mailing_list
+			),
+			array(
+				'headers' => array(
+					'Authorization' => 'Basic ' . base64_encode( 'api:' . \PTC_MAILGUN_API_KEY ), // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode
+				),
+				'body'    => array(
+					'address'    => $email_verification['email'],
+					'subscribed' => 'yes',
+					'upsert'     => 'yes',
+				),
+			)
+		);
+
+		// Check HTTP response to handle error.
+		if ( 200 !== (int) wp_remote_retrieve_response_code( $response ) ) {
+			trigger_error(
+				"Failed to subscribe email verification ID {$email_verification['ID']}: " . print_r( $response, true ),
+				\E_USER_WARNING
+			);
+			return false;
+		}
+
+		// Record successful verification status.
+
+		global $wpdb;
+
+		$now_sql = Util::unix_as_sql_timestamp( time() );
+
+		$res = $wpdb->update(
+			static::DATABASE_EMAIL_VERIFICATION_TABLE,
+			array(
+				'status'    => 'verified',
+				'last_seen' => $now_sql,
+			),
+			array(
+				'ID'           => $email_verification['ID'],
+				'email'        => $email_verification['email'],
+				'mailing_list' => $email_verification['mailing_list'],
+			),
+			array(
+				'%s', // status.
+				'%s', // last_seen.
+			),
+			array(
+				'%d', // ID.
+				'%s', // email.
+				'%s', // mailing_list.
+			)
+		);
+
+		if ( false === $res ) {
+			// Ignoring this error because the subscriber has already
+			// been successfully subscribed at this point. This is
+			// just for bookkeeping and preventing API usage abuse.
+			// Note it since this error is unexpected, though, and
+			// can be manually resolved later.
+			trigger_error(
+				"Failed to update email verification ID {$email_verification['ID']} to 'verified' status and '{$now_sql}' last_seen.",
+				\E_USER_WARNING
+			);
+		}
+
+		// Success!
+		return true;
 	}
 }

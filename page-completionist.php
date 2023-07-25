@@ -52,7 +52,7 @@ get_header();
 		<div class="content-width-slim">
 			<?php
 			Mailing_Lists::render_subscription_form(
-				'mail.test@purpleturtlecreative.com',
+				'dev@sandboxe9304e53e5994067aa8ce9e5897e4536.mailgun.org',
 				'Join the Mailing List',
 				'Effortlessly keep updated on the latest features and announcements.',
 				'ptc-local-test',
