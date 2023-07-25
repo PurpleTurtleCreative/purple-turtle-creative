@@ -170,7 +170,6 @@ class Mailing_Lists {
 				ID bigint(20) unsigned NOT NULL AUTO_INCREMENT UNIQUE,
 				email varchar(100) NOT NULL,
 				mailing_list varchar(100) NOT NULL,
-				token char(16) NOT NULL,
 				status varchar(20) NOT NULL,
 				request_count smallint unsigned NOT NULL,
 				first_seen datetime DEFAULT CURRENT_TIMESTAMP NOT NULL,
@@ -360,11 +359,11 @@ class Mailing_Lists {
 		if ( null === $email_verification ) {
 			// New subscriber request.
 
-			// !! LENGTH MUST MATCH DATABASE TABLE SCHEMA !!
-			$token = wp_generate_password( 16, false, false );
-
 			// Send verification email template with link.
-			$res = static::send_email_verification_request( $email, $token );
+			$res = static::send_email_verification_request(
+				$email,
+				$mailing_list
+			);
 
 			// Check response code.
 			switch ( $res ) {
@@ -376,7 +375,6 @@ class Mailing_Lists {
 						array(
 							'email'         => $email,
 							'mailing_list'  => $mailing_list,
-							'token'         => $token,
 							'status'        => 'pending',
 							'request_count' => 1,
 							'first_seen'    => $now_sql,
@@ -385,7 +383,6 @@ class Mailing_Lists {
 						array(
 							'%s', // email.
 							'%s', // mailing_list.
-							'%s', // token.
 							'%s', // status.
 							'%d', // request_count.
 							'%s', // first_seen.
@@ -458,7 +455,7 @@ class Mailing_Lists {
 					// Send verification email template with link.
 					$res = static::send_email_verification_request(
 						$email_verification['email'],
-						$email_verification['token']
+						$email_verification['mailing_list']
 					);
 
 					// Check response code.
@@ -680,19 +677,35 @@ class Mailing_Lists {
 	}
 
 	/**
+	 * Gets the email verification token.
+	 *
+	 * @link https://documentation.mailgun.com/en/latest/api-sending.html#sending
+	 *
+	 * @param string $email The subscriber's email address.
+	 * @param string $mailing_list The desired mailing list.
+	 *
+	 * @return string
+	 */
+	private static function get_email_verification_token(
+		string $email,
+		string $mailing_list
+	) {
+		return wp_hash( $email . $mailing_list );
+	}
+
+	/**
 	 * Sends an email verification request to confirm a subscriber.
 	 *
 	 * @link https://documentation.mailgun.com/en/latest/api-sending.html#sending
 	 *
 	 * @param string $email The subscriber's email address.
-	 * @param string $token The subscriber's email verification
-	 * token.
+	 * @param string $mailing_list The desired mailing list.
 	 *
 	 * @return int The error code or 0 on success.
 	 */
 	private static function send_email_verification_request(
 		string $email,
-		string $token
+		string $mailing_list
 	) : int {
 
 		// Check API request balance, return error code.
@@ -705,7 +718,10 @@ class Mailing_Lists {
 		$email_verification_url = add_query_arg(
 			array(
 				'subscriber' => $email,
-				'token'      => $token,
+				'token'      => static::get_email_verification_token(
+					$email,
+					$mailing_list
+				),
 			),
 			HTML_Routes::get_url( '/mailing-lists/email-verification' )
 		);
