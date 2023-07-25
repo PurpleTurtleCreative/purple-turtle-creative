@@ -225,25 +225,28 @@ class Mailing_Lists {
 
 		?>
 		<div class="ptc-mailing-list-subscribe">
+			<?php
+			if ( ! empty( $title_text ) ) {
+				echo '<h3>' . esc_html( $title_text ) . '</h3>';
+			}
+			if ( ! empty( $body_text ) ) {
+				echo wp_kses_post( wpautop( $body_text ) );
+			}
+			?>
 			<form method="POST" action="<?php echo esc_url( $form_action_url ); ?>">
-				<?php
-				if ( ! empty( $title_text ) ) {
-					echo '<h3>' . esc_html( $title_text ) . '</h3>';
-				}
-				if ( ! empty( $body_text ) ) {
-					echo wp_kses_post( wpautop( $body_text ) );
-				}
-				?>
-				<div class="form-row">
+				<div class="form-row form-main-input">
 					<input type="email" name="email" placeholder="mail@example.com" required />
 					<button type="submit"><?php echo esc_html( $submit_label ); ?></button>
 				</div>
+				<div class="form-row form-extra-details">
+					<?php Captcha::render( $captcha_action ); ?>
+					<div class="legal-text">
+						<p><small>By submitting, you agree to our <?php a_link_to( 'privacy-policy' ); ?> and to receiving email messages from Purple&nbsp;Turtle&nbsp;Creative. A verification email will be sent to confirm your subscription request.</small></p>
+					</div>
+				</div>
 				<input type="hidden" name="list_id" value="<?php echo esc_attr( static::MAILING_LIST_IDS[ $mailing_list ] ); ?>" />
 				<?php wp_nonce_field( 'wp_rest', '_wpnonce', true, true ); ?>
-				<?php Captcha::render( $captcha_action ); ?>
 			</form>
-			<p>By clicking "<?php echo esc_html( $submit_label ); ?>", you agree to receive email messages from Purple Turtle Creative.</p>
-			<p>A verification email will be sent to confirm your subscription.</p>
 		</div>
 		<?php
 	}

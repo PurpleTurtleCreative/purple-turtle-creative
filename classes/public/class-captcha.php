@@ -97,7 +97,7 @@ class Captcha {
 		printf(
 			'
 			<input type="hidden" name="cf-turnstile-action" value="%2$s" />
-			<div class="cf-turnstile" data-language="en-US" data-theme="light" data-sitekey="%1$s" data-action="%2$s" data-cdata="%3$s"></div>
+			<div class="cf-turnstile" data-language="en-US" data-theme="light" data-size="normal" data-appearance="always" data-sitekey="%1$s" data-action="%2$s" data-cdata="%3$s"></div>
 			',
 			esc_attr( \PTC_CF_TURNSTILE_SITE_KEY ),
 			esc_attr( $action ),

@@ -11,6 +11,9 @@ if ( ! class_exists( 'Mailing_Lists' ) ) {
 }
 
 // Render HTML.
+
+echo '<div class="ptc-block-mailing-list-subscribe">';
+
 \PTC_Theme\Mailing_Lists::render_subscription_form(
 	get_field( 'ptc_mailing_list' ),
 	get_field( 'ptc_mailing_list_title' ),
@@ -18,3 +21,5 @@ if ( ! class_exists( 'Mailing_Lists' ) ) {
 	get_field( 'ptc_mailing_list_captcha_action_id' ),
 	get_field( 'ptc_mailing_list_submit_label' )
 );
+
+echo '</div>';
