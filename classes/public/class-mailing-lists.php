@@ -227,7 +227,7 @@ class Mailing_Lists {
 		<div class="ptc-mailing-list-subscribe">
 			<?php
 			if ( ! empty( $title_text ) ) {
-				echo '<h3>' . esc_html( $title_text ) . '</h3>';
+				echo '<h2>' . esc_html( $title_text ) . '</h2>';
 			}
 			if ( ! empty( $body_text ) ) {
 				echo wp_kses_post( wpautop( $body_text ) );
