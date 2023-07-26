@@ -28,7 +28,7 @@ namespace PTC_Theme;
 						</div>
 						<div class="site-description">
 							<p><?php echo get_bloginfo( 'description' ); ?></p>
-							<p class="llc-notice"><small>Purple Turtle Creative, LLC is a limited liability company registered with New York State.</small></p>
+							<p class="llc-notice"><small>Purple&nbsp;Turtle&nbsp;Creative,&nbsp;LLC is a limited liability company registered&nbsp;with&nbsp;New&nbsp;York&nbsp;State.</small></p>
 						</div>
 						<div class="button-group left">
 							<a class="referral-badge linkedin" href="https://www.linkedin.com/company/purple-turtle-creative" target="_blank">
