@@ -835,6 +835,11 @@ class Mailing_Lists {
 			return false;
 		}
 
+		if ( 'verified' === $email_verification['status'] ) {
+			// Already verified, so avoid the API request.
+			return true;
+		}
+
 		// Seems legit.
 		// Actually subscribe the email to the mailing list.
 		$response = wp_remote_post(
