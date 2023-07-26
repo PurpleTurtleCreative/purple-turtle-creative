@@ -30,7 +30,7 @@ get_header();
 ?>
 
 	<main id="primary" <?php post_class( 'site-main  has-primary-background-color has-background' ); ?>>
-		<div class="content-width">
+		<div class="content-width-slim">
 			<?php if ( $is_success ) : ?>
 				<p class="banner banner-success has-text-align-center"><strong>Success!</strong><br />You are now subscribed to receive the latest updates.</p>
 			<?php else : ?>

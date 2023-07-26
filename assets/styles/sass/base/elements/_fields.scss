@@ -68,3 +68,35 @@ fieldset {
 		}
 	}
 }
+
+@keyframes ptc-loader-spin {
+
+	from {
+		transform: rotate(0deg);
+	}
+
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+.ptc-form-loader {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-wrap: nowrap;
+	gap: 0.75em;
+	color: color(grey);
+	margin: 1em;
+
+	&::before {
+		content: "";
+		display: block;
+		padding: rem-calc(7);
+		margin: 0;
+		border-radius: 50%;
+		border: rem-calc(7) solid color(grey-lightest);
+		border-top: rem-calc(7) solid color(primary);
+		animation: ptc-loader-spin 1.5s linear infinite;
+	}
+}

@@ -81,6 +81,8 @@ document.querySelectorAll('.ptc-mailing-list-subscribe form')
 								'form_submit_success',
 							);
 						}
+					} else {
+						throw 'Bad response';
 					}
 				})
 				.catch(err => {
