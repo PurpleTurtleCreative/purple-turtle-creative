@@ -7,6 +7,8 @@
 
 namespace PTC_Theme;
 
+defined( 'ABSPATH' ) || die();
+
 $wp_theme = wp_get_theme();
 define( __NAMESPACE__ . '\THEME_VERSION', $wp_theme->get( 'Version' ) );
 define( __NAMESPACE__ . '\THEME_NAME', $wp_theme->get( 'Name' ) );

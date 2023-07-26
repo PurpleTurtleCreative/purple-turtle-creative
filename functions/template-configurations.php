@@ -7,6 +7,8 @@
 
 namespace PTC_Theme;
 
+defined( 'ABSPATH' ) || die();
+
 add_filter( 'template_include', __NAMESPACE__ . '\set_current_template', 10 );
 add_filter( 'template_include', __NAMESPACE__ . '\remember_current_theme_template', PHP_INT_MAX );
 add_filter( 'body_class', __NAMESPACE__ . '\set_body_class', 10 );

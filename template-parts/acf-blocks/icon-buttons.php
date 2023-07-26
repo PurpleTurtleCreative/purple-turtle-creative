@@ -7,6 +7,8 @@
 
 namespace PTC_Theme;
 
+defined( 'ABSPATH' ) || die();
+
 // Get block data.
 $icon_buttons_color = get_field( 'ptc_icon_buttons_color' ) ?: '';
 $icon_buttons = get_field( 'ptc_icon_buttons' ) ?: [];

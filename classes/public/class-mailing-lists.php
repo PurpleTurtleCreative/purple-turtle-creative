@@ -7,6 +7,8 @@
 
 namespace PTC_Theme;
 
+defined( 'ABSPATH' ) || die();
+
 require_once THEME_PATH . '/classes/public/class-captcha.php';
 require_once THEME_PATH . '/classes/public/class-html-routes.php';
 require_once THEME_PATH . '/classes/includes/class-util.php';

@@ -7,6 +7,8 @@
 
 namespace PTC_Theme;
 
+defined( 'ABSPATH' ) || die();
+
 if ( ! empty( $atts['user_id'] ) ) :
 	$user = get_userdata( $atts['user_id'] );
 	?>

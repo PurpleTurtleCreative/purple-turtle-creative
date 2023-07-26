@@ -7,6 +7,8 @@
 
 namespace PTC_Theme;
 
+defined( 'ABSPATH' ) || die();
+
 add_action( 'acf/init', __NAMESPACE__ . '\register_acf_blocks', 10 );
 add_action( 'acf/load_field/key=field_632df30088333', __NAMESPACE__ . '\populate_icon_select_options' );
 add_action( 'acf/load_field/key=field_64bff01345eb5', __NAMESPACE__ . '\populate_mailing_list_select_options' );

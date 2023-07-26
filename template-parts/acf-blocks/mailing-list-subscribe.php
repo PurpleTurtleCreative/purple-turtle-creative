@@ -1,9 +1,13 @@
 <?php
 /**
- * PTC Post Previews block rendering.
+ * PTC Mailing List Subscribe block rendering.
  *
  * @package Purple_Turtle_Creative
  */
+
+namespace PTC_Theme;
+
+defined( 'ABSPATH' ) || die();
 
 // Ensure dependency is present.
 if ( ! class_exists( 'Mailing_Lists' ) ) {

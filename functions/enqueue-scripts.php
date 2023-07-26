@@ -7,6 +7,8 @@
 
 namespace PTC_Theme;
 
+defined( 'ABSPATH' ) || die();
+
 add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\enqueue_scripts', 10 );
 add_action( 'wp_print_styles', __NAMESPACE__ . '\dequeue_unused_scripts', 100 );
 add_filter( 'script_loader_tag', __NAMESPACE__ . '\optimize_script_loading', 10, 3 );

@@ -7,6 +7,8 @@
 
 namespace PTC_Theme;
 
+defined( 'ABSPATH' ) || die();
+
 require_once THEME_PATH . '/classes/public/class-mailing-lists.php';
 
 // Process the request.

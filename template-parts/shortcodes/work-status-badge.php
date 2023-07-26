@@ -7,6 +7,8 @@
 
 namespace PTC_Theme;
 
+defined( 'ABSPATH' ) || die();
+
 if ( ! empty( $atts['user_id'] ) ) :
 
 	$acf_target = "user_{$atts['user_id']}";

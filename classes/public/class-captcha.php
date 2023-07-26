@@ -7,6 +7,8 @@
 
 namespace PTC_Theme;
 
+defined( 'ABSPATH' ) || die();
+
 /**
  * Static class for managing client-side and server-side
  * bot challenges (aka captchas) for trustworthy form handling.

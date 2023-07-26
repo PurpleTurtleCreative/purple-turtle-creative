@@ -11,6 +11,8 @@
 
 namespace PTC_Theme;
 
+defined( 'ABSPATH' ) || die();
+
 ?>
 
 	<footer id="footer" class="site-footer">

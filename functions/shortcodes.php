@@ -7,6 +7,8 @@
 
 namespace PTC_Theme;
 
+defined( 'ABSPATH' ) || die();
+
 add_shortcode(
 	'ptc-work-status-badge',
 	__NAMESPACE__ . '\get_work_status_badge'
