@@ -52,9 +52,6 @@ namespace PTC_Theme;
 						<h2 class="h6">Plugins</h2>
 						<a href="<?php echo esc_url( site_url( '/completionist/' ) ); ?>">Completionist</a>
 						<a href="<?php echo esc_url( 'https://wordpress.org/plugins/grouped-content/' ); ?>" target="_blank">Grouped Content</a>
-						<h2 class="h6">Legal</h2>
-						<?php a_link_to( 'terms-conditions' ); ?>
-						<?php a_link_to( 'privacy-policy' ); ?>
 						<h2 class="h6">Contact</h2>
 						<a href="mailto:michelle@purpleturtlecreative.com">Michelle Blanchette</a>
 					</section>
@@ -102,7 +99,7 @@ namespace PTC_Theme;
 				</div>
 
 				<div class="right">
-					<small>Website designed and developed by <a href="https://www.linkedin.com/in/michelle-blanchette/" target="_blank" rel="noopener">Michelle&nbsp;Blanchette</a>.</small>
+					<small><?php a_link_to( 'terms-conditions' ); ?><span class="separator"></span><?php a_link_to( 'privacy-policy' ); ?></small>
 				</div>
 
 			</div>
