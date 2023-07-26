@@ -3,15 +3,25 @@
   border-radius: 5px;
   position: relative;
   background-color: color(off-white);
-  border: 1px solid color(grey-lightest);
-  color: color(grey);
+  border: 1px solid color(grey-light);
+  color: color(grey-dark);
+
+	a {
+		color: inherit !important;
+		text-decoration: underline !important;
+	}
 
 	@each $status in (warning, info, danger, success) {
 
 		&-#{$status} {
-			background-color: color(#{$status}-light);
-			border-color: color(#{$status});
-			color: color(#{$status}-dark);
+			background-color: color(#{$status}-light) !important;
+			border-color: color(#{$status}) !important;
+			color: color(#{$status}-dark) !important;
+
+			a {
+				color: inherit !important;
+				text-decoration: underline !important;
+			}
 		}
 	}
 

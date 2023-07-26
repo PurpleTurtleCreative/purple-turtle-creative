@@ -54,3 +54,17 @@ fieldset {
 		margin-left: .3em;
 	}
 }
+
+.ptc-form-response {
+	max-width: rem-calc(650);
+	margin: 0 auto;
+	text-align: center;
+
+	p {
+		margin: 0.5em 0 1em;
+
+		&:last-child {
+			margin-bottom: 0.5em;
+		}
+	}
+}

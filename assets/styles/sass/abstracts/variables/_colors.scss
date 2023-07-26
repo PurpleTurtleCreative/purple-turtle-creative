@@ -13,26 +13,27 @@ $colors: (
 	true-white: #fff,
 	off-white: #f6f7fd,
 	grey-lightest: #e4e6fd,
-	// grey-light: #c3cae5,
+	grey-light: #c3c8e5,
 	grey: #8c92b1,
+	grey-dark: #595d72,
 	black: #08082b,
 	true-black: #000,
 	//statuses
 	warning-light: #fff3c4,
 	warning: #f7c948,
-	warning-dark: #cb6e17,
+	warning-dark: #b44d12,
 	//
 	info-light: #e6f6ff,
 	info: #7cc4fa,
-	info-dark: #2680c2,
+	info-dark: #0967d2,
 	//
 	danger-light: #ffeeee,
 	danger: #f86a6a,
 	danger-dark: #cf1124,
 	//
-	success-light: #f2fde0,
-	success: #6cd410,
-	success-dark: #399709
+	success-light: #eefada,
+	success: #7dd426,
+	success-dark: #307f08
 );
 
 // Getter function

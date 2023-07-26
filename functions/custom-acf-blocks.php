@@ -87,7 +87,7 @@ function register_acf_blocks() {
 				'render_template' => THEME_PATH . '/template-parts/acf-blocks/mailing-list-subscribe.php',
 				'post_types' => [ 'page', 'post' ],
 				'enqueue_style' => STYLES_URI . '/block_mailing-list-subscribe.css',
-				'enqueue_script' => STYLES_URI . '/block_mailing-list-subscribe.js',
+				'enqueue_script' => SCRIPTS_URI . '/block_mailing-list-subscribe.min.js',
 				'supports' => [
 					'align' => false,
 					'align_text' => false,

@@ -440,7 +440,7 @@ class Mailing_Lists {
 				// Check if already verified.
 				if ( 'verified' === $email_verification['status'] ) {
 					$status  = 400;
-					$message = 'Hello, again! You previously confirmed your subscription to this mailing list. Please email Michelle if you wish to resubscribe.';
+					$message = 'Hello, again! You previously confirmed your subscription to this mailing list. Please contact us if you wish to resubscribe.';
 				} else {
 
 					// Check if permitted retry.
@@ -450,7 +450,7 @@ class Mailing_Lists {
 
 							case static::ERROR_NEEDS_COOLDOWN:
 								$status  = 429;
-								$message = 'Hello, again! You have recently tried to subscribe to this mailing list. Please be patient and check your inbox or spam folder to confirm your subscription. If you still haven\'t received the confirmation email, you may try subscribing again in exactly ' . human_time_diff( $now_unix, $now_unix + static::SUBSCRIBER_REQUEST_COOLDOWN ) . ' from now.';
+								$message = 'Hello, again! You have recently tried to subscribe to this mailing list. Please be patient and check your inbox or spam folder to confirm your subscription. If you still haven\'t received the confirmation email, please wait ' . human_time_diff( $now_unix, $now_unix + static::SUBSCRIBER_REQUEST_COOLDOWN ) . ' before trying to subscribe again.';
 								break;
 
 							case static::ERROR_LIMIT_EXCEEDED:

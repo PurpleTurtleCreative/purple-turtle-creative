@@ -2,6 +2,7 @@ a {
 	color: color(primary);
 	font-weight: font-weight(body-bold);
 	text-decoration: none;
+	text-underline-offset: 0.1em;
 
 	&:hover,
 	&:focus,
