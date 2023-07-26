@@ -66,11 +66,11 @@ function set_body_class( $classes ) {
  * @param \WP_Query $query The WP_Query instance (passed by reference).
  */
 function customize_wp_query( $query ) {
-	if ( $query->is_search ) {
+	if ( $query->is_main_query() && $query->is_search ) {
 		// Search should only return blog posts.
 		$query->set( 'post_type', [ 'post' ] );
 	}
-	if ( $query->is_post_type_archive( 'ptc-portfolio' ) ) {
+	if ( $query->is_main_query() && $query->is_post_type_archive( 'ptc-portfolio' ) ) {
 		// Sort portfolio posts by project start date.
 		$query->set( 'order', 'DESC' );
 		$query->set( 'orderby', 'meta_value_num' );
@@ -119,7 +119,7 @@ function enqueue_login_scripts() {
  * @return string
  */
 function set_login_headerurl( $login_header_url ) {
-	return home_url();
+	return home_url( '/' );
 }
 
 /**

@@ -36,6 +36,9 @@ get_header();
 			<?php else : ?>
 				<p class="banner banner-danger has-text-align-center"><strong>Oops!</strong> Something went wrong, so you still aren't subscribed.<br />Please try again later or email <a href="mailto:michelle@purpleturtlecreative.com">michelle@purpleturtlecreative.com</a> for assistance.</p>
 			<?php endif; ?>
+			<p id="backtoblog">
+				<a href="<?php echo esc_url( home_url( '/' ) ); ?>">&larr; Back to <?php bloginfo( 'name' ); ?></a>
+			</p>
 		</div>
 	</main><!-- #main -->
 

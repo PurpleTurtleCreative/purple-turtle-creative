@@ -47,6 +47,10 @@ function enqueue_scripts() {
 			$theme_stylesheet = '/template_page-plugin-info.css';
 			break;
 
+		case 'email-verification.php':
+			$theme_stylesheet = '/template_html-route-endpoint.css';
+			break;
+
 		default:
 			$theme_stylesheet = '/style.css';
 			break;

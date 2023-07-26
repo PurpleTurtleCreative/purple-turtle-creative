@@ -1,0 +1,32 @@
+body {
+
+	#primary {
+
+		> * {
+			padding-bottom: 10%;
+		}
+	}
+
+	.banner {
+		padding: 2em;
+	}
+
+	#backtoblog {
+		text-align: center;
+		margin: 2rem 0 1rem;
+		@extend .button;
+		font-size: 0.8em;
+
+		a {
+			@extend .has-primary-dark-background-color;
+			display: inline-block;
+		}
+	}
+
+	#footer {
+
+		.footer-main {
+			display: none !important;
+		}
+	}
+}
