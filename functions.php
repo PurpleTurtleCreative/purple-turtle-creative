@@ -31,6 +31,7 @@ define(
 		'formidable',
 		'ptc-theme-script',
 		'ptc-completionist-landing-page-script',
+		'block-acf-ptc-block-mailing-list-subscribe',
 		'cf-turnstile',
 	]
 );

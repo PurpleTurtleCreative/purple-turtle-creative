@@ -1,8 +1,5 @@
 /**
- * Theme global frontend scripts.
- *
- * No need for DOMContentLoaded listener. This script is enqueued in the footer
- * and deferred.
+ * PTC Block - Mailing List Subscribe scripts.
  */
 
 // Handle mailing list subscribe form submission.
