@@ -13,10 +13,13 @@ namespace PTC_Theme;
 
 defined( 'ABSPATH' ) || die();
 
+require_once THEME_PATH . '/classes/public/class-html-routes.php';
+
 ?>
 
 	<footer id="footer" class="site-footer">
 
+		<?php if ( ! HTML_Routes::is_html_endpoint() ) : ?>
 		<div class="footer-main">
 			<div class="content-width">
 
@@ -92,6 +95,7 @@ defined( 'ABSPATH' ) || die();
 				</div>
 			</div>
 		</div><!-- .footer-main -->
+	<?php endif; // is not html endpoint. ?>
 
 		<div class="site-info">
 			<div class="content-width">

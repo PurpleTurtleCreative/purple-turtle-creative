@@ -278,4 +278,15 @@ class HTML_Routes {
 	public static function get_current_route_template() : string {
 		return static::get_route_template( static::get_current_route() );
 	}
+
+	/**
+	 * Checks if the request is for a valid HTML endpoint.
+	 *
+	 * Always returns false before the parse_query hook.
+	 *
+	 * @return bool
+	 */
+	public static function is_html_endpoint() : bool {
+		return ( ! empty( static::get_current_route_template() ) );
+	}
 }
