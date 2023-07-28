@@ -104,7 +104,7 @@ document.querySelectorAll('.ptc-mailing-list-subscribe form')
 					// Show error message.
 					container.innerHTML = `
 						<div class="ptc-form-response">
-							<p>Your request failed to submit, so it could not be processed. Please check your Internet connection, <a href="${window.location.toString()}">refresh the page</a>, and try again.</p>
+							<p>Your request failed to submit, so it could not be processed. Please check your Internet connection, <a href="javascript:document.location.reload()">refresh the page</a>, and try again.</p>
 							<p>For assistance, please email <a href="mailto:michelle@purpleturtlecreative.com">michelle@purpleturtlecreative.com</a>.</p>
 						</div>
 					`;
