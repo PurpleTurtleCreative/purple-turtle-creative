@@ -28,12 +28,6 @@ class Captcha {
 	 * Hooks code into WordPress.
 	 */
 	public static function register() {
-
-		if ( session_status() !== \PHP_SESSION_ACTIVE ) {
-			// This class uses session data to verify requests.
-			session_start();
-		}
-
 		add_action(
 			'wp_enqueue_scripts',
 			__CLASS__ . '::register_scripts'
@@ -92,18 +86,14 @@ class Captcha {
 			return;
 		}
 
-		// Generate a random nonce value for extra verification.
-		$_SESSION[ "ptc_captcha_{$action}_cdata" ] = wp_generate_password( 32, false, false );
-
 		// Render DOM node.
 		printf(
 			'
 			<input type="hidden" name="cf-turnstile-action" value="%2$s" />
-			<div class="cf-turnstile" data-language="en-US" data-theme="light" data-size="normal" data-appearance="always" data-sitekey="%1$s" data-action="%2$s" data-cdata="%3$s"></div>
+			<div class="cf-turnstile" data-language="en-US" data-theme="light" data-size="normal" data-appearance="always" data-sitekey="%1$s" data-action="%2$s"></div>
 			',
 			esc_attr( \PTC_CF_TURNSTILE_SITE_KEY ),
-			esc_attr( $action ),
-			esc_attr( $_SESSION[ "ptc_captcha_{$action}_cdata" ] ),
+			esc_attr( $action )
 		);
 
 		// Enqueue script dependency.
@@ -166,9 +156,7 @@ class Captcha {
 		// Final check whether this is a legitimate success.
 		return (
 			! empty( $response['action'] ) &&
-			$action === $response['action'] &&
-			! empty( $response['cdata'] ) &&
-			$_SESSION[ "ptc_captcha_{$action}_cdata" ] === $response['cdata']
+			$action === $response['action']
 		);
 	}
 }
