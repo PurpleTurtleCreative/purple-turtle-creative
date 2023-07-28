@@ -1,9 +1,13 @@
 <?php
 /**
+ * Plugin info child page template.
+ *
  * @package Purple_Turtle_Creative
  */
 
 namespace PTC_Theme;
+
+defined( 'ABSPATH' ) || die();
 
 require_once \PTC_Resources_Server\PLUGIN_PATH . 'src/public/servers/class-plugins-server.php';
 

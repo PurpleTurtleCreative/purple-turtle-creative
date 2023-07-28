@@ -5,6 +5,10 @@
  * @package Purple_Turtle_Creative
  */
 
+namespace PTC_Theme;
+
+defined( 'ABSPATH' ) || die();
+
 // Get block data.
 $accordion_items = get_field( 'ptc_accordion_items' ) ?: [];
 

@@ -7,6 +7,8 @@
 
 namespace PTC_Theme;
 
+defined( 'ABSPATH' ) || die();
+
 /**
  * Remove screen reader text H2 element in the_post_navigation() template.
  */

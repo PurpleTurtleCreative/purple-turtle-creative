@@ -7,6 +7,8 @@
 
 namespace PTC_Theme;
 
+defined( 'ABSPATH' ) || die();
+
 add_action( 'init', __NAMESPACE__ . '\register_custom_post_types', 10 );
 add_action( 'acf/init', __NAMESPACE__ . '\register_post_type_custom_fields', 10 );
 

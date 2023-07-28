@@ -9,6 +9,8 @@
 
 namespace PTC_Theme;
 
+defined( 'ABSPATH' ) || die();
+
 ?>
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>

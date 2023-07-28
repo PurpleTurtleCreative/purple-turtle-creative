@@ -11,24 +11,29 @@
 
 namespace PTC_Theme;
 
+defined( 'ABSPATH' ) || die();
+
+require_once THEME_PATH . '/classes/public/class-html-routes.php';
+
 ?>
 
 	<footer id="footer" class="site-footer">
 
+		<?php if ( ! HTML_Routes::is_html_endpoint() ) : ?>
 		<div class="footer-main">
 			<div class="content-width">
 
 				<div class="left">
 					<section class="col-identity">
 						<div class="site-logo">
-							<a href="<?php echo esc_url( home_url() ); ?>" aria-label="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>">
+							<a href="<?php echo esc_url( home_url( '/' ) ); ?>" aria-label="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>">
 								<?php svg( 'decal-duo-opacity.svg' ); ?>
 								<?php svg( 'type-duo-opacity.svg' ); ?>
 							</a>
 						</div>
 						<div class="site-description">
 							<p><?php echo get_bloginfo( 'description' ); ?></p>
-							<p class="llc-notice"><small>Purple Turtle Creative, LLC is a limited liability company registered with New York State.</small></p>
+							<p class="llc-notice"><small>Purple&nbsp;Turtle&nbsp;Creative,&nbsp;LLC is a limited liability company registered&nbsp;with&nbsp;New&nbsp;York&nbsp;State.</small></p>
 						</div>
 						<div class="button-group left">
 							<a class="referral-badge linkedin" href="https://www.linkedin.com/company/purple-turtle-creative" target="_blank">
@@ -52,9 +57,6 @@ namespace PTC_Theme;
 						<h2 class="h6">Plugins</h2>
 						<a href="<?php echo esc_url( site_url( '/completionist/' ) ); ?>">Completionist</a>
 						<a href="<?php echo esc_url( 'https://wordpress.org/plugins/grouped-content/' ); ?>" target="_blank">Grouped Content</a>
-						<h2 class="h6">Legal</h2>
-						<?php a_link_to( 'terms-conditions' ); ?>
-						<?php a_link_to( 'privacy-policy' ); ?>
 						<h2 class="h6">Contact</h2>
 						<a href="mailto:michelle@purpleturtlecreative.com">Michelle Blanchette</a>
 					</section>
@@ -93,6 +95,7 @@ namespace PTC_Theme;
 				</div>
 			</div>
 		</div><!-- .footer-main -->
+	<?php endif; // is not html endpoint. ?>
 
 		<div class="site-info">
 			<div class="content-width">
@@ -102,7 +105,7 @@ namespace PTC_Theme;
 				</div>
 
 				<div class="right">
-					<small>Website designed and developed by <a href="https://www.linkedin.com/in/michelle-blanchette/" target="_blank" rel="noopener">Michelle&nbsp;Blanchette</a>.</small>
+					<small><?php a_link_to( 'terms-conditions' ); ?><span class="separator"></span><?php a_link_to( 'privacy-policy' ); ?></small>
 				</div>
 
 			</div>

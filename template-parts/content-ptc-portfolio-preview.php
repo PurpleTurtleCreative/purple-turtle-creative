@@ -9,6 +9,8 @@
 
 namespace PTC_Theme;
 
+defined( 'ABSPATH' ) || die();
+
 $end_date = get_field( 'ptc_project_end', get_the_ID() ) ?: '<span class="pill-badge">Present</span>';
 
 $project_client = get_field( 'ptc_project_client', get_the_ID() ) ?: get_field_object( 'ptc_project_client' )['default_value'];

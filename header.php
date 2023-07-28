@@ -11,6 +11,8 @@
 
 namespace PTC_Theme;
 
+defined( 'ABSPATH' ) || die();
+
 ?>
 
 <!doctype html>
@@ -28,7 +30,11 @@ namespace PTC_Theme;
 		function gtag(){dataLayer.push(arguments);}
 		gtag('js', new Date());
 
+		<?php if ( 'production' === wp_get_environment_type() ) : ?>
 		gtag('config', 'G-X52D1SE1L3');
+		<?php else : ?>
+		gtag('config', 'G-X52D1SE1L3', { "debug_mode": true });
+		<?php endif; ?>
 	</script>
 
 	<link rel="preload" href="/wp-content/themes/purple-turtle-creative/assets/fonts/poppins_v15_700.woff2" as="font" type="font/woff2">
@@ -49,7 +55,7 @@ namespace PTC_Theme;
 			<div class="content-width">
 
 				<div class="site-logo hide-decal-small">
-					<a href="<?php echo esc_url( home_url() ); ?>" aria-label="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>">
+					<a href="<?php echo esc_url( home_url( '/' ) ); ?>" aria-label="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>">
 						<?php svg( 'decal-duo-opacity.svg' ); ?>
 						<?php svg( 'type-duo-opacity.svg' ); ?>
 					</a>

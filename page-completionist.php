@@ -1,11 +1,16 @@
 <?php
 /**
+ * Completionist plugin landing page.
+ *
  * @package Purple_Turtle_Creative
  */
 
 namespace PTC_Theme;
 
+defined( 'ABSPATH' ) || die();
+
 require_once \PTC_Resources_Server\PLUGIN_PATH . 'src/public/servers/class-plugins-server.php';
+
 $free_download_url = '#';
 $free_download_tag = '{{Error}}';
 if ( class_exists( '\PTC_Resources_Server\Plugins\Server' ) ) {

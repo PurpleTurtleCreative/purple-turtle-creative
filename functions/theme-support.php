@@ -7,6 +7,8 @@
 
 namespace PTC_Theme;
 
+defined( 'ABSPATH' ) || die();
+
 add_filter( 'admin_email_check_interval', '\__return_false' );// Don't ask about admin email.
 add_action( 'after_setup_theme', __NAMESPACE__ . '\configure_theme_support', 0, 1 );
 add_action( 'after_setup_theme', __NAMESPACE__ . '\define_content_width', 0 );

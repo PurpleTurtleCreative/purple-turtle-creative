@@ -7,7 +7,10 @@
 
 namespace PTC_Theme;
 
-add_filter( 'template_include', __NAMESPACE__ . '\set_current_template', 1000 );
+defined( 'ABSPATH' ) || die();
+
+add_filter( 'template_include', __NAMESPACE__ . '\set_current_template', 10 );
+add_filter( 'template_include', __NAMESPACE__ . '\remember_current_theme_template', PHP_INT_MAX );
 add_filter( 'body_class', __NAMESPACE__ . '\set_body_class', 10 );
 add_action( 'pre_get_posts', __NAMESPACE__ . '\customize_wp_query', 10 );
 add_filter( 'excerpt_length', __NAMESPACE__ . '\set_excerpt_length', 10 );
@@ -34,8 +37,12 @@ function set_current_template( $template ) {
 		$template = locate_template( 'index.php' );
 	}
 
-	$GLOBALS['current_theme_template'] = basename( $template );
 	return $template;
+}
+
+function remember_current_theme_template( $template ) {
+  $GLOBALS['current_theme_template'] = basename( $template );
+  return $template;
 }
 
 /**
@@ -61,11 +68,11 @@ function set_body_class( $classes ) {
  * @param \WP_Query $query The WP_Query instance (passed by reference).
  */
 function customize_wp_query( $query ) {
-	if ( $query->is_search ) {
+	if ( $query->is_main_query() && $query->is_search ) {
 		// Search should only return blog posts.
 		$query->set( 'post_type', [ 'post' ] );
 	}
-	if ( $query->is_post_type_archive( 'ptc-portfolio' ) ) {
+	if ( $query->is_main_query() && $query->is_post_type_archive( 'ptc-portfolio' ) ) {
 		// Sort portfolio posts by project start date.
 		$query->set( 'order', 'DESC' );
 		$query->set( 'orderby', 'meta_value_num' );
@@ -114,7 +121,7 @@ function enqueue_login_scripts() {
  * @return string
  */
 function set_login_headerurl( $login_header_url ) {
-	return home_url();
+	return home_url( '/' );
 }
 
 /**

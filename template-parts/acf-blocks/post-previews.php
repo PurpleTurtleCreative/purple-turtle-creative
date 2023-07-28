@@ -5,6 +5,10 @@
  * @package Purple_Turtle_Creative
  */
 
+namespace PTC_Theme;
+
+defined( 'ABSPATH' ) || die();
+
 // Get block data.
 $selected_post_type = get_field( 'ptc_post_previews_type' ) ?: 'post';
 $display_limit_count = get_field( 'ptc_post_previews_limit' ) ?: 3;

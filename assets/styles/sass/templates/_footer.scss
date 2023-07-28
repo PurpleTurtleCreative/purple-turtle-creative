@@ -184,14 +184,8 @@
 					text-align: center;
 				}
 
-				a {
-					text-decoration: 1px underline dashed;
-					text-underline-offset: 2px;
-
-					&:hover,
-					&:focus {
-						text-decoration-style: solid;
-					}
+				.separator {
+					margin: 0 1em;
 				}
 			}
 		}

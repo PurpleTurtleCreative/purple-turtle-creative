@@ -14,6 +14,8 @@
 
 namespace PTC_Theme;
 
+defined( 'ABSPATH' ) || die();
+
 get_header();
 ?>
 
