@@ -97,6 +97,7 @@ function register_acf_blocks() {
 					'full_height' => false,
 					'multiple' => true,
 				],
+				'mode' => 'edit',
 			]
 		);
 	}

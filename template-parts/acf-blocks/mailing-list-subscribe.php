@@ -14,9 +14,17 @@ if ( ! class_exists( 'Mailing_Lists' ) ) {
 	require_once \PTC_Theme\THEME_PATH . '/classes/public/class-mailing-lists.php';
 }
 
+$class = 'ptc-block-mailing-list-subscribe';
+if ( ! empty( $block['className'] ) ) {
+	$class .= " {$block['className']}";
+}
+
 // Render HTML.
 
-echo '<div class="ptc-block-mailing-list-subscribe">';
+printf(
+	'<div class="%s">',
+	esc_attr( $class )
+);
 
 \PTC_Theme\Mailing_Lists::render_subscription_form(
 	get_field( 'ptc_mailing_list' ),

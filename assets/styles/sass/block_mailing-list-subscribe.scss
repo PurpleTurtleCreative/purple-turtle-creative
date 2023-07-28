@@ -1,89 +1,87 @@
 @import "abstracts/abstracts";
 
-.ptc-block-mailing-list-subscribe {
+.ptc-mailing-list-subscribe {
+	text-align: center;
+	padding: rem-calc(20);
+	background: color(off-white);
+	border: 2px solid color(grey-lightest);
+	border-radius: rem-calc(10);
+	color: color(black);
 
-	.ptc-mailing-list-subscribe {
-		text-align: center;
-		padding: rem-calc(20);
-		background: color(off-white);
-		border: 2px solid color(grey-lightest);
-		border-radius: rem-calc(10);
+	@include breakpoint(medium) {
+		padding: rem-calc(30 60);
 
-		@include breakpoint(medium) {
-			padding: rem-calc(30 60);
+		.content-width-slim & {
+			padding: rem-calc(20 30);
+		}
+	}
 
-			.content-width-slim & {
-				padding: rem-calc(20 30);
+	form {
+
+		.form-row {
+			display: flex;
+			flex-wrap: nowrap;
+			align-items: stretch;
+			justify-content: center;
+			margin: rem-calc(10 0);
+			gap: rem-calc(0);
+
+			input[type="email"] {
+				flex: 1;
+				background: color(true-white);
+				border: 1px solid color(primary);
+				border-radius: rem-calc(7 0 0 7);
+			}
+
+			[type="submit"] {
+				border-radius: rem-calc(0 7 7 0);
+			}
+
+			&.form-extra-details {
+				flex-wrap: wrap;
+				align-items: flex-start;
+				justify-content: space-between;
+				gap: rem-calc(10);
 			}
 		}
 
-		form {
+		.legal-text {
+			flex: 1;
+			min-width: rem-calc(250);
+			text-align: left;
+			font-size: 0.9rem;
 
-			.form-row {
-				display: flex;
-				flex-wrap: nowrap;
-				align-items: stretch;
+			p {
+				margin: rem-calc(0 5);
+			}
+
+			a {
+				white-space: nowrap;
+			}
+		}
+
+		.cf-turnstile {
+			display: flex;
+			min-width: 300px;
+			min-height: 65px;
+			margin: 0;
+			line-height: 0;
+			outline: 1px solid color(grey-lightest);
+			outline-offset: -1px;
+			border-radius: 7px;
+			border-radius: rem-calc(7);
+			overflow: hidden;
+
+			&:empty {
+				align-items: center;
 				justify-content: center;
-				margin: rem-calc(10 0);
-				gap: rem-calc(0);
+				background-color: color(grey-lightest);
 
-				input[type="email"] {
-					flex: 1;
-					background: color(true-white);
-					border: 1px solid color(primary);
-					border-radius: rem-calc(7 0 0 7);
-				}
-
-				[type="submit"] {
-					border-radius: rem-calc(0 7 7 0);
-				}
-
-				&.form-extra-details {
-					flex-wrap: wrap;
-					align-items: flex-start;
-					justify-content: space-between;
-					gap: rem-calc(10);
-				}
-			}
-
-			.legal-text {
-				flex: 1;
-				min-width: rem-calc(250);
-				text-align: left;
-				font-size: 0.9rem;
-
-				p {
-					margin: rem-calc(0 5);
-				}
-
-				a {
-					white-space: nowrap;
-				}
-			}
-
-			.cf-turnstile {
-				display: flex;
-				min-width: 300px;
-				min-height: 65px;
-				margin: 0;
-				line-height: 0;
-				outline: 1px solid color(grey-lightest);
-				outline-offset: -1px;
-				border-radius: 7px;
-				border-radius: rem-calc(7);
-				overflow: hidden;
-
-				&:empty {
-					align-items: center;
-					justify-content: center;
-					background-color: color(grey-lightest);
-
-					&::before {
-						content: "Loading CAPTCHA widget...";
-						font-size: 0.8rem;
-						font-style: italic;
-						color: color(grey);
-					}
+				&::before {
+					content: "Loading CAPTCHA widget...";
+					font-size: 0.8rem;
+					font-style: italic;
+					color: color(grey);
 				}
 			}
 		}
