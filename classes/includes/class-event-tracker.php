@@ -75,6 +75,11 @@ class Event_Tracker {
 				static::GA4_ENDPOINT
 			);
 
+			// Use DebugView when testing.
+			if ( 'production' !== wp_get_environment_type() ) {
+				$params['debug_mode'] = true;
+			}
+
 			// Prepare event data.
 			$event_data = array(
 				'name'   => $event_name,
@@ -109,7 +114,7 @@ class Event_Tracker {
 			);
 
 			// Check HTTP response.
-			if ( 200 !== (int) wp_remote_retrieve_response_code( $response ) ) {
+			if ( (int) wp_remote_retrieve_response_code( $response ) > 204 ) {
 				trigger_error(
 					'Failed to record_ga4_event(). Received HTTP response error: ' . print_r( $response, true ),
 					\E_USER_WARNING

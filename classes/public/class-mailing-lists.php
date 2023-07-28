@@ -12,6 +12,7 @@ defined( 'ABSPATH' ) || die();
 require_once THEME_PATH . '/classes/public/class-captcha.php';
 require_once THEME_PATH . '/classes/public/class-html-routes.php';
 require_once THEME_PATH . '/classes/includes/class-util.php';
+require_once THEME_PATH . '/classes/includes/class-event-tracker.php';
 
 /**
  * Static class for managing email mailing lists.
@@ -358,6 +359,7 @@ class Mailing_Lists {
 
 			// Prepare default response.
 			$status  = 500;
+			$code    = 'unset';
 			$message = 'Sorry, but your request could not be processed. An unexpected error occurred.';
 
 			// Check if subscriber verification already exists.
@@ -411,9 +413,11 @@ class Mailing_Lists {
 							// cause an insertion error when the Primary Key
 							// is checked. This is why a WAF is important.
 							$status  = 500;
+							$code    = 'new_insert_error';
 							$message = 'Sorry, but your request could not be processed. An unexpected error occurred.';
 						} else {
 							$status  = 201;
+							$code    = 'new_subscribe';
 							$message = 'Thank you for your interest! Please check your inbox or spam folder to confirm your subscription.';
 						}
 
@@ -421,12 +425,14 @@ class Mailing_Lists {
 
 					case static::ERROR_LIMIT_EXCEEDED:
 						$status  = 503;
+						$code    = 'new_high_traffic_error';
 						$message = 'Sorry, but your request could not be processed. We are currently experiencing a high number of requests.';
 						break;
 
 					case static::ERROR_UNEXPECTED:
 					default:
 						$status  = 500;
+						$code    = 'new_unexpected_error';
 						$message = 'Sorry, but your request could not be processed. An unexpected error occurred.';
 						break;
 				}
@@ -452,11 +458,13 @@ class Mailing_Lists {
 
 							case static::ERROR_NEEDS_COOLDOWN:
 								$status  = 429;
+								$code    = 'retry_cooldown_error';
 								$message = 'Hello, again! You have recently tried to subscribe to this mailing list. Please be patient and check your inbox or spam folder to confirm your subscription. If you still haven\'t received the confirmation email, please wait ' . human_time_diff( $now_unix, $now_unix + static::SUBSCRIBER_REQUEST_COOLDOWN ) . ' before trying to subscribe again.';
 								break;
 
 							case static::ERROR_LIMIT_EXCEEDED:
 								$status  = 403;
+								$code    = 'retry_lockout_error';
 								$message = 'Sorry, but your request could not be processed. You have sent too many requests.';
 								break;
 						}
@@ -473,6 +481,7 @@ class Mailing_Lists {
 
 							case 0:
 								$status  = 200;
+								$code    = 'retry_subscribe';
 								$message = 'Hello, again! Sorry that the last verification request didn\'t work out. Please check your inbox or spam folder again now to confirm your subscription.';
 								$sent_requests = 1;
 								$update_status = 'pending';
@@ -480,12 +489,14 @@ class Mailing_Lists {
 
 							case static::ERROR_LIMIT_EXCEEDED:
 								$status  = 503;
+								$code    = 'retry_high_traffic_error';
 								$message = 'Sorry, but your request could not be processed. We are currently experiencing a high number of requests.';
 								break;
 
 							case static::ERROR_UNEXPECTED:
 							default:
 								$status  = 500;
+								$code    = 'retry_unexpected_error';
 								$message = 'Sorry, but your request could not be processed. An unexpected error occurred.';
 								break;
 						}
@@ -525,7 +536,15 @@ class Mailing_Lists {
 			}
 		}
 
-		// @TODO - Record GA4 event.
+		// Record GA4 event.
+		Event_Tracker::record_ga4_event(
+			'request_subscribe',
+			array(
+				'event_category'     => 'mailing_lists',
+				'event_label'        => $code,
+				'http_response_code' => $status,
+			)
+		);
 
 		// Format response.
 		return new \WP_REST_Response(

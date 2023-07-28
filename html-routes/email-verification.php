@@ -10,6 +10,7 @@ namespace PTC_Theme;
 defined( 'ABSPATH' ) || die();
 
 require_once THEME_PATH . '/classes/public/class-mailing-lists.php';
+require_once THEME_PATH . '/classes/includes/class-event-tracker.php';
 
 // Process the request.
 
@@ -26,6 +27,15 @@ if (
 		sanitize_text_field( wp_unslash( $_GET['token'] ) )
 	);
 }
+
+// Record GA4 event.
+Event_Tracker::record_ga4_event(
+	'email_verify',
+	array(
+		'event_category' => 'mailing_lists',
+		'event_label'    => ( ( $is_success ) ? 'email_verification_success' : 'email_verification_error' ),
+	)
+);
 
 // Begin template output.
 get_header();

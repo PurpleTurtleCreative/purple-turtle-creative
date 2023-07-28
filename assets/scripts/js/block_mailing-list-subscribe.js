@@ -8,7 +8,22 @@
 // Handle mailing list subscribe form submission.
 document.querySelectorAll('.ptc-mailing-list-subscribe form')
 	.forEach(form => {
-		window.console.log('found subscribe form', form);
+
+		// Track form interaction.
+		form.addEventListener(
+			'input',
+			event => {
+				// Log GA4 event.
+				window.ptcTrackEvent(
+					'mailing_lists',
+					'form_start',
+					'subscribe_start',
+				);
+			},
+			{ "once" : true }
+		);
+
+		// Handle form submission via AJAX.
 		form.addEventListener('submit', async (event) => {
 			// Prevent form submit redirect.
 			event.preventDefault();
@@ -16,8 +31,8 @@ document.querySelectorAll('.ptc-mailing-list-subscribe form')
 			// Log GA4 event.
 			window.ptcTrackEvent(
 				'mailing_lists',
-				'subscribe_form_submit',
 				'form_submit',
+				'subscribe_submit',
 			);
 
 			// Remember parent element.
@@ -63,8 +78,8 @@ document.querySelectorAll('.ptc-mailing-list-subscribe form')
 							// Log GA4 event.
 							window.ptcTrackEvent(
 								'mailing_lists',
-								'subscribe_form_submit',
-								'form_submit_error',
+								'form_submit',
+								'subscribe_error',
 							);
 						} else {
 							// Show success message.
@@ -77,8 +92,8 @@ document.querySelectorAll('.ptc-mailing-list-subscribe form')
 							// Log GA4 event.
 							window.ptcTrackEvent(
 								'mailing_lists',
-								'subscribe_form_submit',
-								'form_submit_success',
+								'form_submit',
+								'subscribe_success',
 							);
 						}
 					} else {
@@ -97,8 +112,8 @@ document.querySelectorAll('.ptc-mailing-list-subscribe form')
 					// Log GA4 event.
 					window.ptcTrackEvent(
 						'mailing_lists',
-						'subscribe_form_submit',
-						'form_submit_exception',
+						'form_submit',
+						'subscribe_exception',
 					);
 					// Log error.
 					window.console.error(err);

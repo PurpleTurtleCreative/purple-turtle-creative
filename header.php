@@ -30,7 +30,11 @@ defined( 'ABSPATH' ) || die();
 		function gtag(){dataLayer.push(arguments);}
 		gtag('js', new Date());
 
+		<?php if ( 'production' === wp_get_environment_type() ) : ?>
 		gtag('config', 'G-X52D1SE1L3');
+		<?php else : ?>
+		gtag('config', 'G-X52D1SE1L3', { "debug_mode": true });
+		<?php endif; ?>
 	</script>
 
 	<link rel="preload" href="/wp-content/themes/purple-turtle-creative/assets/fonts/poppins_v15_700.woff2" as="font" type="font/woff2">
