@@ -246,7 +246,6 @@ class Mailing_Lists {
 					</div>
 				</div>
 				<input type="hidden" name="list_id" value="<?php echo esc_attr( static::MAILING_LIST_IDS[ $mailing_list ] ); ?>" />
-				<?php wp_nonce_field( 'wp_rest', '_wpnonce', true, true ); ?>
 			</form>
 		</div>
 		<?php
