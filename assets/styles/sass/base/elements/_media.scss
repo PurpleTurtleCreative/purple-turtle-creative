@@ -132,14 +132,11 @@ figcaption {
 
 	&.has-paused-animation {
 
-		&:hover {
+		&::after {
+			content: "Tap to Play";
 
-			&::after {
-				content: "Tap to Play";
-
-				@include breakpoint(medium) {
-					content: "Click to Play";
-				}
+			@include breakpoint(medium) {
+				content: "Click to Play";
 			}
 		}
 	}
