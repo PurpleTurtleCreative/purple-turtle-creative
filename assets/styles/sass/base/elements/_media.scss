@@ -16,11 +16,44 @@ img {
 
 article:not(.page) { // Post articles only
 
+	.wp-block-image {
+		margin: 1.5em 0;
+		padding: rem-calc(7);
+		border-radius: rem-calc(7);
+		background: color(grey-lightest);
+
+		@include breakpoint(medium) {
+			padding: rem-calc(10);
+			border-radius: rem-calc(10);
+		}
+
+		figcaption {
+			margin: rem-calc(10 0 3);
+			color: color(black);
+
+			@include breakpoint(medium) {
+				margin: rem-calc(15 0 5);
+			}
+
+			@include breakpoint-down(medium) {
+				font-size: 0.875em;
+			}
+		}
+	}
+
 	.wp-block-image img,
 	.wp-block-image canvas.animation-static-frame,
+	.controlled-animated-media,
 	img {
 		display: block;
-		border: 2px solid color(grey-lightest);
+		border-radius: rem-calc(7);
+		box-shadow: rem-calc(0 2 5 0) color(grey-light);
+		overflow: hidden;
+
+		@include breakpoint(medium) {
+			border-radius: rem-calc(10);
+			box-shadow: rem-calc(0 3 10 0) color(grey-light);
+		}
 	}
 }
 
@@ -65,7 +98,7 @@ figcaption {
 	}
 
 	&::after {
-		content: "Click to Pause";
+		content: "Tap to Pause";
 		display: block;
 		position: absolute;
 		top: 50%;
@@ -75,11 +108,17 @@ figcaption {
 		font-size: 1.3em;
 		letter-spacing: 0.05em;
 		color: color(true-white);
+
+		@include breakpoint(medium) {
+			content: "Click to Pause";
+		}
 	}
 
 	&::before,
 	&::after {
 		pointer-events: none !important;
+		white-space: nowrap;
+		text-shadow: rem-calc(0 3 7) rgba(color(black), 0.5);
 		visibility: hidden;
 	}
 
@@ -96,7 +135,11 @@ figcaption {
 		&:hover {
 
 			&::after {
-				content: "Click to Play";
+				content: "Tap to Play";
+
+				@include breakpoint(medium) {
+					content: "Click to Play";
+				}
 			}
 		}
 	}
