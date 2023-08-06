@@ -8,6 +8,7 @@ object {
 /* Images */
 
 .wp-block-image img,
+.wp-block-image canvas.animation-static-frame,
 img {
 	height: auto; // Make sure images are scaled correctly.
 	max-width: 100%; // Adhere to container width.
@@ -16,7 +17,9 @@ img {
 article:not(.page) { // Post articles only
 
 	.wp-block-image img,
+	.wp-block-image canvas.animation-static-frame,
 	img {
+		display: block;
 		border: 2px solid color(grey-lightest);
 	}
 }
@@ -30,7 +33,7 @@ figure {
 figcaption {
 	@include font(body);
 	font-size: rem-calc(16);
-	color: color(grey);
+	color: color(grey-dark);
 	text-align: center;
 	margin: 1em 0 1.5em;
 	line-height: 1.5;
@@ -40,6 +43,63 @@ figcaption {
 .wp-block-image.is-style-default img {
 	border-radius: rem-calc(20);
 	border: 2px solid color(grey-lightest);
+}
+
+/* Animation Control */
+
+.controlled-animated-media {
+	cursor: pointer !important;
+	position: relative;
+
+	&::before {
+		content: "";
+		display: block;
+		position: absolute;
+		left: 0;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		width: 100%;
+		height: 100%;
+		background: rgba(color(black), 0.8);
+	}
+
+	&::after {
+		content: "Click to Pause";
+		display: block;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		@include font(heading);
+		font-size: 1.3em;
+		letter-spacing: 0.05em;
+		color: color(true-white);
+	}
+
+	&::before,
+	&::after {
+		pointer-events: none !important;
+		visibility: hidden;
+	}
+
+	&:hover {
+
+		&::before,
+		&::after {
+			visibility: visible;
+		}
+	}
+
+	&.has-paused-animation {
+
+		&:hover {
+
+			&::after {
+				content: "Click to Play";
+			}
+		}
+	}
 }
 
 /* Gallery */

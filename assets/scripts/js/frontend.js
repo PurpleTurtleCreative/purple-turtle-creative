@@ -17,6 +17,59 @@ document.getElementById('overlay')
 		document.documentElement.classList.remove('mobile-menu-open');
 	});
 
+////////////////////////////
+// -- Accessible Media -- //
+////////////////////////////
+
+// Play/Pause moving pictures (GIFs).
+document.querySelectorAll('.wp-block-image img[src$=".gif"]')
+	.forEach(function(img) {
+		if ( img.complete ) {
+			// If image is already loaded.
+			addAnimatedMediaControls(img);
+		} else {
+			// Once image is lazy loaded.
+			img.addEventListener('load', function(event) {
+				addAnimatedMediaControls(img);
+			}, { once: true });
+		}
+	});
+
+function addAnimatedMediaControls(img) {
+	// Create static image.
+	const canvas = document.createElement('canvas');
+	canvas.width = img.naturalWidth;
+	canvas.height = img.naturalHeight;
+	canvas.getContext('2d').drawImage(img, 0, 0, img.naturalWidth, img.naturalHeight);
+	canvas.classList.add('animation-static-frame');
+	// Add to DOM in wrapper.
+	const mediaWrap = document.createElement('div');
+	mediaWrap.classList.add('controlled-animated-media');
+	img.parentElement.replaceChild(mediaWrap, img);
+	mediaWrap.appendChild(canvas);
+	mediaWrap.appendChild(img);
+	img.classList.add('animation');
+	// Allow user control.
+	canvas.addEventListener('click', function(event) {
+		// Clicked static image, so now show animation.
+		canvas.style.display = 'none';
+		img.style.removeProperty('display');
+		mediaWrap.classList.remove('has-paused-animation');
+		// Start GIF at beginning.
+		const src = img.src;
+		img.src = '';
+		img.src = src;
+	});
+	img.addEventListener('click', function(event) {
+		// Clicked animated image, so now show static.
+		img.style.display = 'none';
+		canvas.style.removeProperty('display');
+		mediaWrap.classList.add('has-paused-animation');
+	});
+	// Play by default.
+	canvas.click();
+}
+
 ///////////////////////////////
 // -- Block Custom Styles -- //
 ///////////////////////////////
@@ -55,7 +108,7 @@ function ptcTrackEvent( eventCategory, eventAction, eventLabel ) {
 		});
 	}
 
-	console.log(
+	window.console.log(
 		'Event:',
 		{
 			"eventCategory": eventCategory,
