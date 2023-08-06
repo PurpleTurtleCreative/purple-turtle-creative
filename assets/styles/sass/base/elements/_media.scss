@@ -108,6 +108,8 @@ figcaption {
 		font-size: 1.3em;
 		letter-spacing: 0.05em;
 		color: color(true-white);
+		white-space: nowrap;
+		text-shadow: rem-calc(0 3 7) rgba(color(black), 0.5);
 
 		@include breakpoint(medium) {
 			content: "Click to Pause";
@@ -117,8 +119,6 @@ figcaption {
 	&::before,
 	&::after {
 		pointer-events: none !important;
-		white-space: nowrap;
-		text-shadow: rem-calc(0 3 7) rgba(color(black), 0.5);
 		visibility: hidden;
 	}
 
