@@ -30,18 +30,20 @@ get_header();
 
 				if ( is_home() ) {
 					echo wp_kses_post( $before_page_title . '<span>' . single_post_title( '', false ) . '</span>' . $after_page_title );
-					$blog_page_content = trim( get_the_content( '', true, get_option( 'page_for_posts' ) ) );
-					if ( $blog_page_content ) {
-						echo wp_kses_post( '<div class="archive-description">' . $blog_page_content . '</div>' );
-					}
 				} elseif ( is_search() ) {
 					echo wp_kses_post( $before_page_title . 'Search Results for:<br /><span>' . get_search_query() . '</span>' . $after_page_title );
 				} elseif ( is_post_type_archive( 'ptc-portfolio' ) ) {
 					echo wp_kses_post( $before_page_title . '<span>' . post_type_archive_title( '', false ) . '</span>' . $after_page_title );
 					the_archive_description( '<div class="archive-description">', '</div>' );
+				} elseif ( is_404() ) {
+					echo wp_kses_post( $before_page_title . 'Error <span>Not Found</span>' . $after_page_title );
 				} else {
 					the_archive_title( $before_page_title, $after_page_title );
 					the_archive_description( '<div class="archive-description">', '</div>' );
+				}
+
+				if ( ! is_post_type_archive( 'ptc-portfolio' ) ) {
+					get_search_form();
 				}
 				?>
 
@@ -73,19 +75,22 @@ get_header();
 				?>
 			</div>
 
+			<nav class="pagination content-width">
+				<?php
+				echo paginate_links(
+					array(
+						'prev_text' => get_fa( 'angle-left' ) . ' Back',
+						'next_text' => 'Next ' . get_fa( 'angle-right' ),
+					)
+				);
+				?>
+			</nav>
+
 		<?php else : ?>
 
 			<div class="no-results not-found content-width">
-
-			<?php if ( is_search() ) : ?>
-				<p>No posts were found to include your search terms. Try again with some different keywords!</p>
-			<?php else : ?>
-				<p>No posts were found. Try using the search form below or the category buttons above!</p>
-			<?php endif; ?>
-
-			<?php get_search_form(); ?>
-
-			</div><!-- .page-content -->
+				<p><strong>No posts were found.</strong><br />Try using the search form or category buttons above!</p>
+			</div>
 
 		<?php endif; ?>
 

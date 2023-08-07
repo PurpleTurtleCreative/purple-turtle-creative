@@ -6,6 +6,11 @@ body.archive {
 	.no-results,
 	.not-found {
 		text-align: center;
+
+		strong {
+			@include font(heading);
+			font-size: 1.3em;
+		}
 	}
 
 	main.site-main {
@@ -27,6 +32,11 @@ body.archive {
 				}
 			}
 
+			.search-form {
+				@extend .form-input-button-row-dark;
+				margin-top: rem-calc(30);
+			}
+
 			.archive-description {
 				@extend .content-width-slim;
 
@@ -44,7 +54,7 @@ body.archive {
 
 				a {
 					display: inline-block;
-					word-wrap: none;
+					white-space: nowrap;
 					margin: .2em;
 				}
 			}

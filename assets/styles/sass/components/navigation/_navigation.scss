@@ -58,7 +58,7 @@
 					padding: rem-calc(0 10);
 					text-align: center;
 					color: color(primary);
-					font-size: 2.5rem;
+					font-size: 1.5em;
 					line-height: 1.3em;
 				}
 			}
@@ -91,6 +91,31 @@
 						border-right: 1px solid color(grey-lightest);
 					}
 				}
+			}
+		}
+	}
+}
+
+nav.pagination {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-wrap: wrap;
+	gap: #{spacing(gutter)/2};
+	margin: spacing(gutter) auto !important;
+
+	.page-numbers {
+		@extend .button__link;
+
+		&.next,
+		&.prev {
+			display: flex;
+			align-items: center;
+			gap: #{spacing(gutter)/2};
+			margin: #{spacing(gutter)/2};
+
+			svg {
+				font-size: 1.3em;
 			}
 		}
 	}

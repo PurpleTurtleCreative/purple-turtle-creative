@@ -235,11 +235,11 @@ class Mailing_Lists {
 			}
 			?>
 			<form method="POST" action="<?php echo esc_url( $form_action_url ); ?>">
-				<div class="form-row form-main-input">
+				<div class="form-input-button-row">
 					<input type="email" name="email" placeholder="mail@example.com" required />
 					<button type="submit"><?php echo esc_html( $submit_label ); ?></button>
 				</div>
-				<div class="form-row form-extra-details">
+				<div class="form-extra-details">
 					<?php Captcha::render( $captcha_action ); ?>
 					<div class="legal-text">
 						<p><small>By submitting, you agree to our <?php a_link_to( 'privacy-policy' ); ?> and to receiving email messages from Purple&nbsp;Turtle&nbsp;Creative. A verification email will be sent to confirm your subscription request.</small></p>
