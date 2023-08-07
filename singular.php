@@ -36,8 +36,8 @@ get_header();
 			if ( ! is_singular( 'page' ) ) {
 				the_post_navigation(
 					[
-						'prev_text' => '<div class="nav-icon">&lsaquo;</div><div class="nav-label"><span class="nav-subtitle">Back</span><br/>%title</div>',
-						'next_text' => '<div class="nav-label"><span class="nav-subtitle">Next</span><br/>%title</div><div class="nav-icon">&rsaquo;</div>',
+						'prev_text' => '<div class="nav-icon">' . get_fa( 'angle-left' ) . '</div><div class="nav-label"><span class="nav-subtitle">Back</span><br/>%title</div>',
+						'next_text' => '<div class="nav-label"><span class="nav-subtitle">Next</span><br/>%title</div><div class="nav-icon">' . get_fa( 'angle-right' ) . '</div>',
 						'class' => 'content-width',
 					]
 				);

@@ -63,7 +63,7 @@ require_once THEME_PATH . '/classes/public/class-html-routes.php';
 				</div>
 
 				<div class="referrals">
-					<p><small>Claim discounts and benefits by using my referral links:</small></p>
+					<p><small>Claim discounts and benefits by using our referral links:</small></p>
 					<a class="referral-badge digitalocean" href="https://m.do.co/c/379a11ccae2a" target="_blank" rel="sponsored nofollow">
 						<?php fa( 'digital-ocean', 'brands' ); ?>
 						<p>
