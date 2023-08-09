@@ -18,6 +18,15 @@
 
 	form {
 
+		.form-extra-details {
+			display: flex;
+			flex-wrap: wrap;
+			align-items: flex-start;
+			justify-content: space-between;
+			gap: rem-calc(10);
+			margin: rem-calc(10 0);
+		}
+
 		.legal-text {
 			flex: 1;
 			min-width: rem-calc(250);
