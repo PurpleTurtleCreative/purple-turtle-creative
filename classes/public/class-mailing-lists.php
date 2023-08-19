@@ -148,7 +148,6 @@ class Mailing_Lists {
 		add_action( 'after_setup_theme', __CLASS__ . '::maybe_install_database_tables' );
 		add_action( 'html_routes_init', __CLASS__ . '::register_html_routes' );
 		add_action( 'rest_api_init', __CLASS__ . '::register_rest_routes' );
-		add_action( 'wp_enqueue_scripts', __CLASS__ . '::register_scripts' );
 	}
 
 	/**
@@ -190,11 +189,6 @@ class Mailing_Lists {
 	}
 
 	/**
-	 * Registers the related script and style handles.
-	 */
-	public static function register_scripts() {}
-
-	/**
 	 * Gets the mailing list subscription form HTML.
 	 *
 	 * @param string $mailing_list The mailing list address.
@@ -211,8 +205,6 @@ class Mailing_Lists {
 		string $captcha_action,
 		string $submit_label = 'Subscribe'
 	) {
-
-		// @TODO - Write the JavaScript for asynchronous submission.
 
 		if ( empty( static::MAILING_LIST_IDS[ $mailing_list ] ) ) {
 			trigger_error(
@@ -249,6 +241,43 @@ class Mailing_Lists {
 			</form>
 		</div>
 		<?php
+	}
+
+	/**
+	 * Renders the mailing list subscribe ACF block.
+	 *
+	 * This ensures the necessary scripts and styles are enqueued.
+	 *
+	 * @link https://dbushell.com/2020/10/05/wordpress-gutenberg-and-tips-for-acf-blocks/
+	 * @see wp-content/plugins/advanced-custom-fields-pro/pro/blocks.php
+	 *
+	 * @param string $mailing_list The mailing list address.
+	 * @param string $title_text The form title text.
+	 * @param string $body_text The form body text.
+	 * @param string $captcha_action The captcha widget ID.
+	 * @param string $submit_label Optional. The submit button
+	 * label text. Default 'Subscribe'.
+	 */
+	public static function render_subscription_form_block(
+		string $mailing_list,
+		string $title_text,
+		string $body_text,
+		string $captcha_action,
+		string $submit_label = 'Subscribe'
+	) {
+		acf_render_block(
+			array(
+				'id'   => '',
+				'name' => 'acf/ptc-block-mailing-list-subscribe',
+				'data' => array(
+					'ptc_mailing_list_title'             => $title_text,
+					'ptc_mailing_list_body'              => $body_text,
+					'ptc_mailing_list'                   => $mailing_list,
+					'ptc_mailing_list_captcha_action_id' => $captcha_action,
+					'ptc_mailing_list_submit_label'      => $submit_label,
+				),
+			)
+		);
 	}
 
 	/**

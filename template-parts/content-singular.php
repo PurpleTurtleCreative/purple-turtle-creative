@@ -44,7 +44,22 @@ defined( 'ABSPATH' ) || die();
 
 	<div class="entry-content-container content-width">
 		<div class="entry-content">
+
 			<?php the_content(); ?>
+
+			<?php
+			if ( has_term( array( 'completionist', 'completionist-users' ), 'category' ) ) {
+				// Release Notes and usage posts about Completionist.
+				require_once THEME_PATH . '/classes/public/class-mailing-lists.php';
+				Mailing_Lists::render_subscription_form_block(
+					'completionist@purpleturtlecreative.com',
+					'Never Miss Exciting Updates',
+					'Join the <a href="' . esc_url( home_url( '/completionist/' ) ) . '">Completionist</a> mailing list to know when new features are released.',
+					'completionist-release-notes-end',
+					'Subscribe'
+				);
+			}
+			?>
 		</div><!-- .entry-content -->
 	</div>
 
