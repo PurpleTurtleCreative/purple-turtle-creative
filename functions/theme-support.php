@@ -66,6 +66,9 @@ function configure_theme_support() {
 	 * @link https://developer.wordpress.org/reference/functions/add_theme_support/#post-formats
 	 */
 	add_theme_support( 'post-formats', [ 'status' ] );
+
+	// Enable responsive embed styles.
+	add_theme_support( 'responsive-embeds' );
 }
 
 /**
