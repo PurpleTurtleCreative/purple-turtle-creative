@@ -28,7 +28,6 @@ define(
 		'jquery-core',
 		'jquery-migrate',
 		'wp-embed',
-		'formidable',
 		'ptc-theme-script',
 		'ptc-completionist-landing-page-script',
 		'block-acf-ptc-block-mailing-list-subscribe',
@@ -40,7 +39,6 @@ define(
 	__NAMESPACE__ . '\ASYNC_SCRIPTS',
 	[
 		'mkaz-code-syntax-prism-js',
-		'cf-turnstile',
 	]
 );
 

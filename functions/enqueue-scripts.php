@@ -11,7 +11,7 @@ defined( 'ABSPATH' ) || die();
 
 add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\enqueue_scripts', 10 );
 add_action( 'wp_print_styles', __NAMESPACE__ . '\dequeue_unused_scripts', 100 );
-add_filter( 'script_loader_tag', __NAMESPACE__ . '\optimize_script_loading', 10, 3 );
+add_filter( 'print_scripts_array', __NAMESPACE__ . '\optimize_script_loading', \PHP_INT_MAX, 1 );
 
 /**
  * Enqueue scripts and styles.
@@ -94,33 +94,30 @@ function dequeue_unused_scripts() {
 /**
  * Optimize critical path latency for scripts.
  *
- * Scripts are only optimized on frontend screens that are controlled by the
- * theme. (ie. NOT wp-login.php)
+ * Scripts are only optimized on frontend screens that are
+ * controlled by the theme. (ie. NOT wp-login.php)
  *
- * @param string $tag The <script> tag for the enqueued script.
- * @param string $handle The script's registered handle.
- * @param string $src The script's source URL.
+ * @param string[] $handles The enqueued script handles.
  */
-function optimize_script_loading( $tag, $handle, $src ) {
+function optimize_script_loading( $handles = array() ) {
 
 	if ( is_admin() || current_user_can( 'edit_posts' ) ) {
-		return $tag;
+		return $handles;
 	}
 
 	if ( is_singular() ) {
 
-		if ( in_array( $handle, DEFER_SCRIPTS ) ) {
-			if ( false === stripos( $tag, 'defer' ) ) {
-				$tag = str_replace( '<script ', '<script defer ', $tag );
-			}
-		}
+		foreach ( $handles as &$handle ) {
 
-		if ( in_array( $handle, ASYNC_SCRIPTS ) ) {
-			if ( false === stripos( $tag, 'async' ) ) {
-				$tag = str_replace( ' src', ' async="async" src', $tag );
+			if ( in_array( $handle, DEFER_SCRIPTS, true ) ) {
+				wp_script_add_data( $handle, 'strategy', 'defer' );
+			}
+
+			if ( in_array( $handle, ASYNC_SCRIPTS, true ) ) {
+				wp_script_add_data( $handle, 'strategy', 'async' );
 			}
 		}
 	}
 
-	return $tag;
+	return $handles;
 }
