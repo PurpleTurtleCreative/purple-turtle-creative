@@ -31,7 +31,6 @@ define(
 		'ptc-theme-script',
 		'ptc-completionist-landing-page-script',
 		'block-acf-ptc-block-mailing-list-subscribe',
-		'cf-turnstile',
 	]
 );
 // Scripts with "async" load in the background and run when ready.
@@ -39,6 +38,7 @@ define(
 	__NAMESPACE__ . '\ASYNC_SCRIPTS',
 	[
 		'mkaz-code-syntax-prism-js',
+		'cf-turnstile',
 	]
 );
 

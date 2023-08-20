@@ -53,9 +53,9 @@ defined( 'ABSPATH' ) || die();
 				require_once THEME_PATH . '/classes/public/class-mailing-lists.php';
 				Mailing_Lists::render_subscription_form_block(
 					'completionist@purpleturtlecreative.com',
-					'Never Miss Exciting Updates',
-					'Join the <a href="' . esc_url( home_url( '/completionist/' ) ) . '">Completionist</a> mailing list to know when new features are released.',
-					'completionist-release-notes-end',
+					'Get the Latest Updates',
+					'Join the <a href="' . esc_url( home_url( '/completionist/' ) ) . '">Completionist</a> mailing list to know when exciting new features and critical updates are released to supercharge your productivity with&nbsp;Asana&nbsp;and&nbsp;WordPress!',
+					'completionist-blog-post-end',
 					'Subscribe'
 				);
 			}

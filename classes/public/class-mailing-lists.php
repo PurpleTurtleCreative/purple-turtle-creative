@@ -226,7 +226,7 @@ class Mailing_Lists {
 				echo wp_kses_post( wpautop( $body_text ) );
 			}
 			?>
-			<form method="POST" action="<?php echo esc_url( $form_action_url ); ?>">
+			<form method="POST" action="<?php echo esc_url( $form_action_url ); ?>" data-label="<?php echo esc_attr( $captcha_action ); ?>">
 				<div class="form-input-button-row">
 					<input type="email" name="email" placeholder="mail@example.com" required />
 					<button type="submit"><?php echo esc_html( $submit_label ); ?></button>
@@ -476,6 +476,7 @@ class Mailing_Lists {
 				// Check if already verified.
 				if ( 'verified' === $email_verification['status'] ) {
 					$status  = 400;
+					$code    = 'retry_already_verified';
 					$message = 'Hello, again! You previously confirmed your subscription to this mailing list. Please contact us if you wish to resubscribe.';
 				} else {
 
