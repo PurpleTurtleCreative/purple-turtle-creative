@@ -1,0 +1,64 @@
+/*!
+ * Block Type:  core/details
+ * Style Name:  default
+ * Style Label: Default
+ */
+
+@import "abstracts/abstracts";
+
+.wp-block-details {
+	border: 2px solid color(grey-lightest);
+	border-radius: rem-calc(10);
+	margin: rem-calc(15 0);
+	overflow: hidden;
+
+	&[open] {
+
+		> summary {
+			border-bottom: 2px solid color(grey-lightest);
+
+			&::before {
+				transform: rotate(90deg);
+			}
+		}
+	}
+
+	> summary {
+		position: relative;
+		padding: rem-calc(10 15 10 35);
+		margin: 0;
+		background: color(off-white);
+		list-style: none;
+		@include font(heading);
+
+		@include breakpoint(medium) {
+			padding: rem-calc(10 30 10 55);
+		}
+
+		&::before {
+			content: "";
+			display: block;
+			position: absolute;
+			left: rem-calc(15);
+			top: rem-calc(13);
+			width: rem-calc(10);
+			height: rem-calc(20);
+			background-repeat: no-repeat;
+			background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 256 512'%3E%3Cpath d='M246.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-128-128c-9.2-9.2-22.9-11.9-34.9-6.9s-19.8 16.6-19.8 29.6l0 256c0 12.9 7.8 24.6 19.8 29.6s25.7 2.2 34.9-6.9l128-128z' fill='rgb(8,8,43)' /%3E%3C/svg%3E");
+			transition: transform 150ms linear;
+
+			@include breakpoint(medium) {
+				top: rem-calc(15);
+				left: rem-calc(30);
+			}
+		}
+	}
+
+	> p {
+		margin: 1em rem-calc(15) !important;
+
+		@include breakpoint(medium) {
+			margin: 1em rem-calc(30) !important;
+		}
+	}
+}

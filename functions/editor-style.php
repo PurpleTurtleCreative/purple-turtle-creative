@@ -22,6 +22,12 @@ remove_action( 'wp_body_open', 'wp_global_styles_render_svg_filters' );
  */
 function register_block_customizations() {
 
+	// Register custom block types.
+
+	// foreach ( glob( THEME_PATH . '/blocks/*/*-block.json' ) as $file ) {
+	// 	register_block_type( $file );
+	// }
+
 	// Register block styles.
 
 	$block_style_headers = array(
@@ -36,14 +42,15 @@ function register_block_customizations() {
 		$metadata = get_file_data( $stylesheet, $block_style_headers );
 		if ( ! empty( $metadata ) ) {
 			// Register the block style.
-			register_block_style(
-				$metadata['Block Type'],
-				array(
-					'name'         => $metadata['Style Name'],
-					'label'        => $metadata['Style Label'],
-					'inline_style' => file_get_contents( $stylesheet ),
-				)
+			$style_properties = array(
+				'name'         => $metadata['Style Name'],
+				'label'        => $metadata['Style Label'],
+				'inline_style' => file_get_contents( $stylesheet ),
 			);
+			if ( 'default' === $metadata['Style Name'] ) {
+				$style_properties['is_default'] = true;
+			}
+			register_block_style( $metadata['Block Type'], $style_properties );
 		}
 	}
 }
