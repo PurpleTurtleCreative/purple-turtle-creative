@@ -1,0 +1,61 @@
+/*!
+ * Block Type:  core/gallery
+ * Style Name:  popover-alt-text
+ * Style Label: Popover Alt Text
+ */
+
+@import "abstracts/variables/colors";
+@import "abstracts/mixins/responsive";
+
+.wp-block-gallery.is-style-popover-alt-text {
+	--wp--style--gallery-gap-default: 1rem;
+	padding: 0.5rem 2rem;
+
+	figure.wp-block-image {
+		position: relative;
+
+		p.popover-alt-text {
+			display: none;
+
+			&::after {
+				content: "";
+				border-top: 7px solid color(black);
+				border-left: 10px solid transparent;
+				border-right: 10px solid transparent;
+				border-bottom: 10px solid transparent;
+				position: absolute;
+				bottom: 1px;
+				transform: translate(-50%,100%);
+				left: 50%;
+				width: 0;
+				height: 0;
+			}
+		}
+
+		&:hover {
+
+			p.popover-alt-text {
+				display: block;
+				position: absolute;
+				top: -10px;
+				left: 50%;
+				transform: translate(-50%,-100%);
+				text-align: center;
+				line-height: 1.3;
+				background: color(black);
+				color: white;
+				padding: 7px 10px;
+				margin: 0;
+				border-radius: 5px;
+				user-select: none;
+				pointer-events: none;
+				z-index: 1;
+
+				@include breakpoint(medium) {
+					white-space: nowrap;
+					max-width: 100vw;
+				}
+			}
+		}
+	}
+}

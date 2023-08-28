@@ -1,0 +1,17 @@
+/*!
+ * Block Type:  core/group
+ * Style Name:  fading-curve-top
+ * Style Label: Fading Curve Top
+ */
+
+@import "abstracts/variables/colors";
+@import "abstracts/mixins/responsive";
+
+.wp-block-group.is-style-fading-curve-top {
+	background-image: linear-gradient(color(off-white), rgba(255,255,255,0));
+	border-radius: 50%/4%;
+
+	@include breakpoint(medium) {
+		border-radius: 50%/15%;
+	}
+}
