@@ -31,6 +31,7 @@ define(
 		'ptc-theme-script',
 		'ptc-completionist-landing-page-script',
 		'block-acf-ptc-block-mailing-list-subscribe',
+		'ptc-block-core-details-view-script',
 	]
 );
 // Scripts with "async" load in the background and run when ready.

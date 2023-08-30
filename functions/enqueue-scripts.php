@@ -12,6 +12,30 @@ defined( 'ABSPATH' ) || die();
 add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\enqueue_scripts', 10 );
 add_action( 'wp_print_styles', __NAMESPACE__ . '\dequeue_unused_scripts', 100 );
 add_filter( 'print_scripts_array', __NAMESPACE__ . '\optimize_script_loading', \PHP_INT_MAX, 1 );
+add_filter( 'block_type_metadata', __NAMESPACE__ . '\enqueue_block_scripts' );
+
+function enqueue_block_scripts( $metadata ) {
+
+	if ( 'core/details' === $metadata['name'] ) {
+
+		if ( empty( $metadata['viewScript'] ) ) {
+			$metadata['viewScript'] = array();
+		} elseif ( ! is_array( $metadata['viewScript'] ) ) {
+			$metadata['viewScript'] = array( $metadata['viewScript'] );
+		}
+
+		wp_register_script(
+			'ptc-block-core-details-view-script',
+			SCRIPTS_URI . '/block-core-details-view-script.min.js',
+			[ 'ptc-theme-script' ],
+			THEME_VERSION,
+			true
+		);
+		$metadata['viewScript'][] = 'ptc-block-core-details-view-script';
+	}
+
+	return $metadata;
+};
 
 /**
  * Enqueue scripts and styles.

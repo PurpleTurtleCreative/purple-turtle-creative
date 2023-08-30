@@ -1,0 +1,7 @@
+/*!
+ * Block Type:  core/list
+ * Style Name:  clean
+ * Style Label: Clean
+ */ul.is-style-clean{margin:0;padding:0 0 0 20px;list-style-type:none}p+ul.is-style-clean{margin-top:-0.5em}ul.is-style-clean li{position:relative;margin:1em 0}ul.is-style-clean li::before{content:"";display:block;background:currentColor;height:6px;width:6px;border-radius:999px;position:absolute;left:-18px;top:calc(0.5em + 3px)}
+
+/*# sourceMappingURL=block-style_list-clean.css.map */
