@@ -1,0 +1,15 @@
+@keyframes ptc-up-down {
+  0%, 100% {
+    transform: translateY(0);
+    box-shadow: 0 rem-calc(15) rem-calc(20) rgba(color(primary-dark), 0.5);
+  }
+  50% {
+    transform: translateY(rem-calc(20));
+    box-shadow: 0 0 rem-calc(7) rgba(color(primary-dark), 1);
+  }
+}
+
+.animate-floating {
+	box-shadow: 0 rem-calc(15) rem-calc(20) rgba(color(primary-dark), 0.5);
+	animation: 7s ease-in-out infinite alternate-reverse ptc-up-down;
+}

@@ -30,9 +30,14 @@ get_header();
 			<div class="content-width-slim">
 
 				<div class="heading-info">
-					<h1>Completionist</h1>
-					<h2>Asana for WordPress</h2>
-					<p>Establish a complete project management workflow between your Asana workspace and WordPress dashboard.</p>
+					<div class="app-icon app-icon-asana">
+						<img class="animate-floating" src="<?php echo esc_url( IMAGES_URI . '/tool_icons_asana.jpg' ); ?>" alt="Asana" width="120" height="120" draggable="false" />
+					</div>
+					<div class="app-icon app-icon-wordpress">
+						<img class="animate-floating" src="<?php echo esc_url( IMAGES_URI . '/tool_icons_wordpress_grey.jpg' ); ?>" alt="WordPress" width="120" height="120" draggable="false" />
+					</div>
+					<h1>Enhance Your Asana + WordPress Workflow</h1>
+					<p><strong>Completionist</strong> is the leading WordPress plugin to connect your favorite task and content management systems.</p>
 				</div>
 
 				<div class="button-group center">
