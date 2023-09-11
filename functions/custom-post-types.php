@@ -102,7 +102,7 @@ function register_custom_post_types() {
 		[
 			'label' => 'Portfolio',
 			'labels' => $labels,
-			'description' => 'A few of my recent projects and related skills.',
+			'description' => '',
 			'public' => true,
 			'hierarchical' => false,
 			'exclude_from_search' => false,
