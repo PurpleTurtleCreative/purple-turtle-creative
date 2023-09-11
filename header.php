@@ -37,9 +37,9 @@ defined( 'ABSPATH' ) || die();
 		<?php endif; ?>
 	</script>
 
-	<link rel="preload" href="/wp-content/themes/purple-turtle-creative/assets/fonts/poppins_v15_700.woff2" as="font" type="font/woff2">
-	<link rel="preload" href="/wp-content/themes/purple-turtle-creative/assets/fonts/roboto_v20_300.woff2" as="font" type="font/woff2">
-	<link rel="preload" href="/wp-content/themes/purple-turtle-creative/assets/fonts/roboto_v20_500.woff2" as="font" type="font/woff2">
+	<link rel="preload" href="/wp-content/themes/purple-turtle-creative/assets/fonts/poppins_v15_700.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+	<link rel="preload" href="/wp-content/themes/purple-turtle-creative/assets/fonts/roboto_v20_300.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+	<link rel="preload" href="/wp-content/themes/purple-turtle-creative/assets/fonts/roboto_v20_500.woff2" as="font" type="font/woff2" crossorigin="anonymous">
 
 	<?php wp_head(); ?>
 </head>
