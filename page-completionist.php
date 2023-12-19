@@ -11,13 +11,14 @@ defined( 'ABSPATH' ) || die();
 
 require_once \PTC_Resources_Server\PLUGIN_PATH . 'src/public/servers/class-plugins-server.php';
 
-$free_download_url = '#';
-$free_download_tag = '{{Error}}';
+$free_download_url = 'https://downloads.wordpress.org/plugin/completionist.zip';
+$latest_tag = '{{Error}}';
 if ( class_exists( '\PTC_Resources_Server\Plugins\Server' ) ) {
 	$plugins_server = new \PTC_Resources_Server\Plugins\Server();
-	$free_download_url = $plugins_server->generate_free_download_url( 'completionist', 'latest' );
+	$plugins_server->generate_free_download_url( 'completionist', 'latest' );
 	if ( ! empty( $plugins_server->plugin_tag ) ) {
-		$free_download_tag = $plugins_server->plugin_tag;
+		$latest_tag = $plugins_server->plugin_tag;
+		$free_download_url = "https://downloads.wordpress.org/plugin/completionist.{$latest_tag}.zip";
 	}
 }
 
@@ -45,7 +46,7 @@ get_header();
 						<a class="icon-button has-primary-dark-background-color --is-icon-position-after ptc-completionist-free-download" href="<?php echo esc_url( $free_download_url ); ?>" target="_blank" rel="nofollow"><?php fa( 'download' ); ?>Download Now</a>
 						<span>
 							<a href="<?php the_permalink(); ?>plugin-info/#latest">
-								Current Release <strong>v<?php echo esc_html( $free_download_tag ); ?></strong>
+								Current Release <strong>v<?php echo esc_html( $latest_tag ); ?></strong>
 							</a>
 						</span>
 					</div>
@@ -68,15 +69,15 @@ get_header();
 		<footer class="wave-trim-top">
 			<div class="content-width-slim">
 
-				<h2 id="try-completionist">Ready to try?</h2>
-				<p>Download the Completionist WordPress plugin now to integrate your Asana tasks with your WordPress admin area.</p>
+				<h2 id="try-completionist">Ready to boost your productivity?</h2>
+				<p>Download the Completionist WordPress plugin now to integrate your Asana projects and tasks with your WordPress content.</p>
 
 				<div class="button-group center">
 					<div class="button">
 						<a class="icon-button has-primary-dark-background-color --is-icon-position-after ptc-completionist-free-download" href="<?php echo esc_url( $free_download_url ); ?>" target="_blank" rel="nofollow"><?php fa( 'download' ); ?>Download Now</a>
 						<span>
 							<a href="<?php the_permalink(); ?>plugin-info/#latest">
-								Current Release <strong>v<?php echo esc_html( $free_download_tag ); ?></strong>
+								Current Release <strong>v<?php echo esc_html( $latest_tag ); ?></strong>
 							</a>
 						</span>
 					</div>
