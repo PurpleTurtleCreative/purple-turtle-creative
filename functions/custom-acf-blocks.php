@@ -28,11 +28,11 @@ if ( class_exists( '\WP_Block_Editor_Context' ) ) {
  * @param string $editor_context The current editor context.
  */
 function filter_block_categories( $block_categories, $editor_context ) {
-	$block_categories[] = [
+	$block_categories[] = array(
 		'slug'  => THEME_BASENAME,
 		'title' => THEME_NAME,
 		'icon'  => null,
-	];
+	);
 	return $block_categories;
 }
 
@@ -42,44 +42,44 @@ function filter_block_categories( $block_categories, $editor_context ) {
 function register_acf_blocks() {
 	if ( function_exists( '\acf_register_block_type' ) ) {
 		\acf_register_block_type(
-			[
-				'name' => 'ptc_block_icon_buttons',
-				'title' => 'PTC Icon Buttons',
-				'description' => 'Displays buttons with an icon.',
-				'category' => THEME_BASENAME,
-				'icon' => 'button',
+			array(
+				'name'            => 'ptc_block_icon_buttons',
+				'title'           => 'PTC Icon Buttons',
+				'description'     => 'Displays buttons with an icon.',
+				'category'        => THEME_BASENAME,
+				'icon'            => 'button',
 				'render_template' => THEME_PATH . '/template-parts/acf-blocks/icon-buttons.php',
-				'post_types' => [ 'page' ],
+				'post_types'      => array( 'page' ),
 				// 'enqueue_style' => STYLES_URI . '/block_icon-buttons.css',
-				'supports' => [
-					'align' => true,
-					'align_text' => false,
+				'supports'        => array(
+					'align'         => true,
+					'align_text'    => false,
 					'align_content' => false,
-					'full_height' => false,
-					'multiple' => true,
-				],
-			]
+					'full_height'   => false,
+					'multiple'      => true,
+				),
+			)
 		);
 		\acf_register_block_type(
-			[
-				'name' => 'ptc_block_mailing_list_subscribe',
-				'title' => 'PTC Mailing List Subscribe',
-				'description' => 'Displays a mailing list subscribe form.',
-				'category' => THEME_BASENAME,
-				'icon' => 'email-alt',
+			array(
+				'name'            => 'ptc_block_mailing_list_subscribe',
+				'title'           => 'PTC Mailing List Subscribe',
+				'description'     => 'Displays a mailing list subscribe form.',
+				'category'        => THEME_BASENAME,
+				'icon'            => 'email-alt',
 				'render_template' => THEME_PATH . '/template-parts/acf-blocks/mailing-list-subscribe.php',
-				'post_types' => [ 'page', 'post' ],
-				'enqueue_style' => STYLES_URI . '/block_mailing-list-subscribe.css',
-				'enqueue_script' => SCRIPTS_URI . '/block_mailing-list-subscribe.min.js',
-				'supports' => [
-					'align' => false,
-					'align_text' => false,
+				'post_types'      => array( 'page', 'post' ),
+				'enqueue_style'   => STYLES_URI . '/block_mailing-list-subscribe.css',
+				'enqueue_script'  => SCRIPTS_URI . '/block_mailing-list-subscribe.min.js',
+				'supports'        => array(
+					'align'         => false,
+					'align_text'    => false,
 					'align_content' => false,
-					'full_height' => false,
-					'multiple' => true,
-				],
-				'mode' => 'edit',
-			]
+					'full_height'   => false,
+					'multiple'      => true,
+				),
+				'mode'            => 'edit',
+			)
 		);
 	}
 }
@@ -95,15 +95,15 @@ function register_acf_blocks() {
 function populate_icon_select_options( $field ) {
 
 	// Clear existing options.
-	$field['choices'] = [];
+	$field['choices'] = array();
 
 	// Find icons for each FontAwesome family.
-	$icon_families = [ 'brands', 'solid' ];
+	$icon_families = array( 'brands', 'solid' );
 	foreach ( $icon_families as $family ) {
-		$icon_files = glob( THEME_PATH . "/assets/icons/{$family}/*.svg" ) ?: [];
+		$icon_files = glob( THEME_PATH . "/assets/icons/{$family}/*.svg" ) ?: array();
 		if ( count( $icon_files ) > 0 ) {
 			foreach ( $icon_files as $icon_file ) {
-				$icon_name = basename( $icon_file, '.svg' );
+				$icon_name                                    = basename( $icon_file, '.svg' );
 				$field['choices'][ "{$family}/{$icon_name}" ] = ucwords( $family . ' - ' . str_replace( '-', ' ', $icon_name ) );
 			}
 		}

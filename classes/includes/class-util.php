@@ -53,7 +53,7 @@ class Util {
 	 * duration in the past.
 	 *
 	 * @param string $sql_timestamp The SQL DateTime string.
-	 * @param int $ttl_seconds The duration in seconds.
+	 * @param int    $ttl_seconds The duration in seconds.
 	 *
 	 * @return bool
 	 */

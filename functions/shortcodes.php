@@ -31,7 +31,7 @@ function enqueue_shortcode_scripts() {
 	wp_register_style(
 		'ptc-shortcode-bio-card',
 		STYLES_URI . '/shortcode_bio-card.css',
-		[],
+		array(),
 		THEME_VERSION,
 		'all'
 	);
@@ -49,9 +49,9 @@ function get_bio_card( $atts, $content = null, $shortcode_tag = '' ) {
 
 	// Set parameter defaults.
 	$atts = shortcode_atts(
-		[
+		array(
 			'user_id' => 0,
-		],
+		),
 		$atts,
 		$shortcode_tag
 	);
@@ -85,9 +85,9 @@ function get_work_status_badge( $atts, $content = null, $shortcode_tag = '' ) {
 
 	// Set parameter defaults.
 	$atts = shortcode_atts(
-		[
+		array(
 			'user_id' => 0,
-		],
+		),
 		$atts,
 		$shortcode_tag
 	);

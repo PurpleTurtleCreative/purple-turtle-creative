@@ -11,9 +11,9 @@ namespace PTC_Theme;
 
 defined( 'ABSPATH' ) || die();
 
-$end_date = get_field( 'ptc_project_end' ) ?: 'Present';
+$end_date       = get_field( 'ptc_project_end' ) ?: 'Present';
 $project_client = get_field( 'ptc_project_client' ) ?: get_field_object( 'ptc_project_client' )['default_value'];
-$project_url = get_field( 'ptc_project_url' );
+$project_url    = get_field( 'ptc_project_url' );
 ?>
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>

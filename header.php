@@ -65,10 +65,10 @@ defined( 'ABSPATH' ) || die();
 					<button class="menu-toggle" title="Menu"><?php fa( 'bars', 'solid' ); ?></button>
 					<?php
 					wp_nav_menu(
-						[
+						array(
 							'theme_location' => 'menu-header',
 							'menu_id'        => 'menu-header',
-						]
+						)
 					);
 					?>
 				</nav>

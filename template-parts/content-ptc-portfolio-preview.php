@@ -15,11 +15,11 @@ $end_date = get_field( 'ptc_project_end', get_the_ID() ) ?: '<span class="pill-b
 
 $project_client = get_field( 'ptc_project_client', get_the_ID() ) ?: get_field_object( 'ptc_project_client' )['default_value'];
 
-$skills = get_the_terms( get_post(), 'skill' );
+$skills                      = get_the_terms( get_post(), 'skill' );
 $skill_tag_list_items_string = '';
 if ( is_array( $skills ) ) {
 	$queried_taxonomy = $GLOBALS['wp_query']->get( 'taxonomy' );
-	$queried_term = $GLOBALS['wp_query']->get( 'term' );
+	$queried_term     = $GLOBALS['wp_query']->get( 'term' );
 	foreach ( $skills as &$skill ) {
 		$skill_tag_list_items_string .= sprintf(
 			'<li><a href="%1$s" class="%3$s">%2$s</a></li>',

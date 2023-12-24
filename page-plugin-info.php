@@ -16,7 +16,7 @@ $parent_slug = get_post_field( 'post_name', $parent_post );
 
 if ( $parent_slug && class_exists( '\PTC_Resources_Server\Plugins\Server' ) ) {
 	$plugins_server = new \PTC_Resources_Server\Plugins\Server();
-	$plugin_zip = $plugins_server->find_latest( $parent_slug );
+	$plugin_zip     = $plugins_server->find_latest( $parent_slug );
 	if ( $plugin_zip ) {
 		$plugin_info = $plugins_server->get_plugin_info_from_zip( $parent_slug, $plugin_zip );
 	} else {

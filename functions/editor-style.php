@@ -24,14 +24,14 @@ function register_block_customizations() {
 	// Register custom block types.
 
 	// foreach ( glob( THEME_PATH . '/blocks/*/*-block.json' ) as $file ) {
-	// 	register_block_type( $file );
+	// register_block_type( $file );
 	// }
 
 	// Register block styles.
 
 	$block_style_headers = array(
-		'Block Type' => 'Block Type',
-		'Style Name' => 'Style Name',
+		'Block Type'  => 'Block Type',
+		'Style Name'  => 'Style Name',
 		'Style Label' => 'Style Label',
 	);
 
@@ -59,7 +59,7 @@ function register_block_customizations() {
  */
 function enqueue_block_editor_assets() {
 
-	$editor_stylesheet = get_template_directory() . '/assets/styles/style-editor.css';
+	$editor_stylesheet     = get_template_directory() . '/assets/styles/style-editor.css';
 	$editor_stylesheet_uri = get_template_directory_uri() . '/assets/styles/style-editor.css';
 
 	if ( ! is_file( $editor_stylesheet ) ) {
@@ -70,7 +70,7 @@ function enqueue_block_editor_assets() {
 	wp_enqueue_style(
 		'ptc-gutenberg-css',
 		$editor_stylesheet_uri,
-		[],
+		array(),
 		'1.0'
 	);
 }
@@ -84,11 +84,11 @@ function enqueue_block_editor_assets() {
  * @param string[] $languages The array of prism languages.
  */
 function mkaz_code_syntax_language_list( $languages ) {
-	return [
+	return array(
 		'bash'       => 'Bash/Shell',
 		'css'        => 'CSS',
 		'javascript' => 'JavaScript',
 		'json'       => 'JSON',
 		'php'        => 'PHP',
-	];
+	);
 }

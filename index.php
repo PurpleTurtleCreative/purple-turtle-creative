@@ -26,7 +26,7 @@ get_header();
 
 				<?php
 				$before_page_title = '<h1 class="page-title">';
-				$after_page_title = '</h1>';
+				$after_page_title  = '</h1>';
 
 				if ( is_home() ) {
 					echo wp_kses_post( $before_page_title . '<span>' . single_post_title( '', false ) . '</span>' . $after_page_title );

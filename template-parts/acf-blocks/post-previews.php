@@ -10,15 +10,15 @@ namespace PTC_Theme;
 defined( 'ABSPATH' ) || die();
 
 // Get block data.
-$selected_post_type = get_field( 'ptc_post_previews_type' ) ?: 'post';
+$selected_post_type  = get_field( 'ptc_post_previews_type' ) ?: 'post';
 $display_limit_count = get_field( 'ptc_post_previews_limit' ) ?: 3;
 
 // Get post objects.
 $recent_posts_query = new WP_Query(
-	[
-		'post_type' => $selected_post_type,
+	array(
+		'post_type'      => $selected_post_type,
 		'posts_per_page' => $display_limit_count,
-	]
+	)
 );
 
 // Display post previews.

@@ -24,7 +24,7 @@ define( __NAMESPACE__ . '\SCRIPTS_URI', $theme_directory_uri . '/assets/scripts'
 // Scripts with "defer" always execute when the DOM is ready (but before DOMContentLoaded event).
 define(
 	__NAMESPACE__ . '\DEFER_SCRIPTS',
-	[
+	array(
 		'jquery-core',
 		'jquery-migrate',
 		'wp-embed',
@@ -32,15 +32,15 @@ define(
 		'ptc-completionist-landing-page-script',
 		'block-acf-ptc-block-mailing-list-subscribe',
 		'ptc-block-core-details-view-script',
-	]
+	)
 );
 // Scripts with "async" load in the background and run when ready.
 define(
 	__NAMESPACE__ . '\ASYNC_SCRIPTS',
-	[
+	array(
 		'mkaz-code-syntax-prism-js',
 		'cf-turnstile',
-	]
+	)
 );
 
 // Require all custom theme functions.

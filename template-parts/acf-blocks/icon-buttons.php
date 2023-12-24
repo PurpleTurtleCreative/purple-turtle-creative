@@ -11,7 +11,7 @@ defined( 'ABSPATH' ) || die();
 
 // Get block data.
 $icon_buttons_color = get_field( 'ptc_icon_buttons_color' ) ?: '';
-$icon_buttons = get_field( 'ptc_icon_buttons' ) ?: [];
+$icon_buttons       = get_field( 'ptc_icon_buttons' ) ?: array();
 
 // Display slides.
 if ( count( $icon_buttons ) > 0 ) :
@@ -26,7 +26,7 @@ if ( count( $icon_buttons ) > 0 ) :
 	<div class="<?php echo esc_attr( $class_list ); ?>">
 		<?php
 		foreach ( $icon_buttons as $button ) {
-			$icon = explode( '/', $button['icon'] );
+			$icon       = explode( '/', $button['icon'] );
 			$class_list = "icon-button {$icon_buttons_color} --is-icon-{$icon[0]}-{$icon[1]}";
 			if ( false === $button['icon_position_before'] ) {
 				$class_list .= ' --is-icon-position-after';

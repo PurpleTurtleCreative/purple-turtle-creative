@@ -12,12 +12,12 @@ defined( 'ABSPATH' ) || die();
 require_once \PTC_Resources_Server\PLUGIN_PATH . 'src/public/servers/class-plugins-server.php';
 
 $free_download_url = 'https://downloads.wordpress.org/plugin/completionist.zip';
-$latest_tag = '{{Error}}';
+$latest_tag        = '{{Error}}';
 if ( class_exists( '\PTC_Resources_Server\Plugins\Server' ) ) {
 	$plugins_server = new \PTC_Resources_Server\Plugins\Server();
 	$plugins_server->generate_free_download_url( 'completionist', 'latest' );
 	if ( ! empty( $plugins_server->plugin_tag ) ) {
-		$latest_tag = $plugins_server->plugin_tag;
+		$latest_tag        = $plugins_server->plugin_tag;
 		$free_download_url = "https://downloads.wordpress.org/plugin/completionist.{$latest_tag}.zip";
 	}
 }

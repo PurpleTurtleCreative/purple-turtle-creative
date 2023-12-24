@@ -17,7 +17,7 @@ add_action( 'acf/init', __NAMESPACE__ . '\register_post_type_custom_fields', 10 
  */
 function register_custom_post_types() {
 
-	$labels = [
+	$labels = array(
 		'name'                       => 'Skills',
 		'singular_name'              => 'Skill',
 		'search_items'               => 'Search Skills',
@@ -42,27 +42,27 @@ function register_custom_post_types() {
 		'back_to_items'              => '&larr; Go to Skills',
 		'item_link'                  => 'Skill Link',
 		'item_link_description'      => 'A link to a skill.',
-	];
+	);
 
 	register_taxonomy(
 		'skill',
-		[ 'ptc-portfolio' ],
-		[
-			'label' => 'Skills',
-			'labels' => $labels,
-			'description' => '',
-			'public' => true,
+		array( 'ptc-portfolio' ),
+		array(
+			'label'        => 'Skills',
+			'labels'       => $labels,
+			'description'  => '',
+			'public'       => true,
 			'hierarchical' => false,
 			'show_in_rest' => true, // Make available in Block Editor.
-			'sort' => false,
-			'rewrite' => [
-				'slug' => 'portfolio/skill', // Must be defined before post type with same slug as prefix. Otherwise, this taxonomy's archive page is 404 error.
+			'sort'         => false,
+			'rewrite'      => array(
+				'slug'       => 'portfolio/skill', // Must be defined before post type with same slug as prefix. Otherwise, this taxonomy's archive page is 404 error.
 				'with_front' => false,
-			],
-		]
+			),
+		)
 	);
 
-	$labels = [
+	$labels = array(
 		'name'                     => 'Portfolio',
 		'singular_name'            => 'Project',
 		'add_new'                  => 'Add New',
@@ -95,28 +95,28 @@ function register_custom_post_types() {
 		'item_updated'             => 'Project updated.',
 		'item_link'                => 'Project Link',
 		'item_link_description'    => 'A link to a project.',
-	];
+	);
 
 	register_post_type(
 		'ptc-portfolio',
-		[
-			'label' => 'Portfolio',
-			'labels' => $labels,
-			'description' => '',
-			'public' => true,
-			'hierarchical' => false,
+		array(
+			'label'               => 'Portfolio',
+			'labels'              => $labels,
+			'description'         => '',
+			'public'              => true,
+			'hierarchical'        => false,
 			'exclude_from_search' => false,
-			'show_in_rest' => true, // Make available in Block Editor.
-			'menu_position' => 21, /* Pages menu item is priority 20, see https://developer.wordpress.org/reference/functions/add_menu_page/#default-bottom-of-menu-structure */
-			'menu_icon' => 'dashicons-index-card',
-			'taxonomies' => [ 'skill' ],
-			'has_archive' => 'portfolio',
-			'rewrite' => [
-				'slug' => 'portfolio',
+			'show_in_rest'        => true, // Make available in Block Editor.
+			'menu_position'       => 21, /* Pages menu item is priority 20, see https://developer.wordpress.org/reference/functions/add_menu_page/#default-bottom-of-menu-structure */
+			'menu_icon'           => 'dashicons-index-card',
+			'taxonomies'          => array( 'skill' ),
+			'has_archive'         => 'portfolio',
+			'rewrite'             => array(
+				'slug'       => 'portfolio',
 				'with_front' => false,
-			],
-			'delete_with_user' => false,
-		]
+			),
+			'delete_with_user'    => false,
+		)
 	);
 }
 
@@ -127,80 +127,80 @@ function register_post_type_custom_fields() {
 	if ( function_exists( 'acf_add_local_field_group' ) ) :
 		acf_add_local_field_group(
 			array(
-				'key' => 'group_61da33691aa79',
-				'title' => 'Portfolio Project Metadata',
-				'fields' => array(
+				'key'                   => 'group_61da33691aa79',
+				'title'                 => 'Portfolio Project Metadata',
+				'fields'                => array(
 					array(
-						'key' => 'field_61da351a1adee',
-						'label' => 'Project End Date',
-						'name' => 'ptc_project_end',
-						'type' => 'date_picker',
-						'instructions' => 'When you stopped working on the project. (Leave blank if project is still ongoing.)',
-						'required' => 0,
+						'key'               => 'field_61da351a1adee',
+						'label'             => 'Project End Date',
+						'name'              => 'ptc_project_end',
+						'type'              => 'date_picker',
+						'instructions'      => 'When you stopped working on the project. (Leave blank if project is still ongoing.)',
+						'required'          => 0,
 						'conditional_logic' => 0,
-						'wrapper' => array(
+						'wrapper'           => array(
 							'width' => '50',
 							'class' => '',
-							'id' => '',
+							'id'    => '',
 						),
-						'display_format' => 'F j, Y',
-						'return_format' => 'F Y',
-						'first_day' => 1,
+						'display_format'    => 'F j, Y',
+						'return_format'     => 'F Y',
+						'first_day'         => 1,
 					),
 					array(
-						'key' => 'field_61da36171adf3',
-						'label' => 'Client',
-						'name' => 'ptc_project_client',
-						'type' => 'text',
-						'instructions' => 'The client who requested the project.',
-						'required' => 0,
+						'key'               => 'field_61da36171adf3',
+						'label'             => 'Client',
+						'name'              => 'ptc_project_client',
+						'type'              => 'text',
+						'instructions'      => 'The client who requested the project.',
+						'required'          => 0,
 						'conditional_logic' => 0,
-						'wrapper' => array(
+						'wrapper'           => array(
 							'width' => '',
 							'class' => '',
-							'id' => '',
+							'id'    => '',
 						),
-						'default_value' => 'Self (Personal Project)',
-						'placeholder' => 'Self (Personal Project)',
-						'prepend' => '',
-						'append' => '',
-						'maxlength' => '',
+						'default_value'     => 'Self (Personal Project)',
+						'placeholder'       => 'Self (Personal Project)',
+						'prepend'           => '',
+						'append'            => '',
+						'maxlength'         => '',
 					),
 					array(
-						'key' => 'field_61da36781adf2',
-						'label' => 'Project URL',
-						'name' => 'ptc_project_url',
-						'type' => 'url',
-						'instructions' => 'A link to the project.',
-						'required' => 0,
+						'key'               => 'field_61da36781adf2',
+						'label'             => 'Project URL',
+						'name'              => 'ptc_project_url',
+						'type'              => 'url',
+						'instructions'      => 'A link to the project.',
+						'required'          => 0,
 						'conditional_logic' => 0,
-						'wrapper' => array(
+						'wrapper'           => array(
 							'width' => '',
 							'class' => '',
-							'id' => '',
+							'id'    => '',
 						),
-						'default_value' => '',
-						'placeholder' => '',
+						'default_value'     => '',
+						'placeholder'       => '',
 					),
 				),
-				'location' => array(
+				'location'              => array(
 					array(
 						array(
-							'param' => 'post_type',
+							'param'    => 'post_type',
 							'operator' => '==',
-							'value' => 'ptc-portfolio',
+							'value'    => 'ptc-portfolio',
 						),
 					),
 				),
-				'menu_order' => 0,
-				'position' => 'acf_after_title',
-				'style' => 'default',
-				'label_placement' => 'top',
+				'menu_order'            => 0,
+				'position'              => 'acf_after_title',
+				'style'                 => 'default',
+				'label_placement'       => 'top',
 				'instruction_placement' => 'label',
-				'hide_on_screen' => '',
-				'active' => true,
-				'description' => '',
-				'show_in_rest' => 0,
+				'hide_on_screen'        => '',
+				'active'                => true,
+				'description'           => '',
+				'show_in_rest'          => 0,
 			)
 		);
 	endif;

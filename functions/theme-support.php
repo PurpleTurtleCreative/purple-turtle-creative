@@ -36,10 +36,10 @@ function configure_theme_support() {
 
 	// This theme uses wp_nav_menu() in one location.
 	register_nav_menus(
-		[
+		array(
 			'menu-header' => 'Primary',
 			'menu-footer' => 'Footer',
-		]
+		)
 	);
 
 	/*
@@ -48,7 +48,7 @@ function configure_theme_support() {
 	 */
 	add_theme_support(
 		'html5',
-		[
+		array(
 			'search-form',
 			'comment-form',
 			'comment-list',
@@ -56,7 +56,7 @@ function configure_theme_support() {
 			'caption',
 			'style',
 			'script',
-		]
+		)
 	);
 
 	/*
@@ -64,7 +64,7 @@ function configure_theme_support() {
 	 *
 	 * @link https://developer.wordpress.org/reference/functions/add_theme_support/#post-formats
 	 */
-	add_theme_support( 'post-formats', [ 'status' ] );
+	add_theme_support( 'post-formats', array( 'status' ) );
 
 	// Enable responsive embed styles.
 	add_theme_support( 'responsive-embeds' );
@@ -77,36 +77,36 @@ function configure_theme_support() {
  */
 function allow_svg_markup( $tags ) {
 
-	$tags['svg'] = [
-		'class' => [],
-		'aria-hidden' => [],
-		'aria-labelledby' => [],
-		'role' => [],
-		'style' => [],
-		'xmlns' => [],
-		'width' => [],
-		'height' => [],
-		'preserveAspectRatio' => [],
-		'viewbox' => [], // <= Must be lower case!
-	];
+	$tags['svg'] = array(
+		'class'               => array(),
+		'aria-hidden'         => array(),
+		'aria-labelledby'     => array(),
+		'role'                => array(),
+		'style'               => array(),
+		'xmlns'               => array(),
+		'width'               => array(),
+		'height'              => array(),
+		'preserveAspectRatio' => array(),
+		'viewbox'             => array(), // <= Must be lower case!
+	);
 
-	$tags['g'] = [
-		'fill' => [],
-		'style' => [],
-	];
+	$tags['g'] = array(
+		'fill'  => array(),
+		'style' => array(),
+	);
 
-	$tags['path'] = [
-		'd' => [],
-		'fill' => [],
-		'style' => [],
-	];
+	$tags['path'] = array(
+		'd'     => array(),
+		'fill'  => array(),
+		'style' => array(),
+	);
 
-	$tags['polygon'] = [
-		'd' => [],
-		'fill' => [],
-		'style' => [],
-		'points' => [],
-	];
+	$tags['polygon'] = array(
+		'd'      => array(),
+		'fill'   => array(),
+		'style'  => array(),
+		'points' => array(),
+	);
 
 	return $tags;
 }

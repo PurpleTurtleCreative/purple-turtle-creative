@@ -24,7 +24,7 @@ defined( 'ABSPATH' ) || die();
 				<ul class="entry-meta">
 					<li class="entry-date">
 						<?php
-						if ( is_page( [ 'privacy-policy', 'terms-conditions' ] ) ) {
+						if ( is_page( array( 'privacy-policy', 'terms-conditions' ) ) ) {
 							echo 'Modified <strong>' . esc_html( get_the_modified_date() ) . '</strong>';
 						} else {
 							the_published_or_modified_date();

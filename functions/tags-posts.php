@@ -12,12 +12,17 @@ defined( 'ABSPATH' ) || die();
 /**
  * Remove screen reader text H2 element in the_post_navigation() template.
  */
-add_filter( 'navigation_markup_template', function( $template, $class ) {
-	return '
+add_filter(
+	'navigation_markup_template',
+	function ( $template, $class ) {
+		return '
 	<nav class="post-navigation %1$s" role="navigation" aria-label="%4$s">
 		<div class="nav-links">%3$s</div>
 	</nav>';
-}, 10, 2 );
+	},
+	10,
+	2
+);
 
 /**
  * Outputs the published or modified date.
@@ -30,11 +35,11 @@ add_filter( 'navigation_markup_template', function( $template, $class ) {
  */
 function the_published_or_modified_date( string $format = '%1$s <strong>%2$s</strong>%3$s' ) {
 
-	$published_date = get_the_date();
-	$modified_date = get_the_modified_date();
+	$published_date          = get_the_date();
+	$modified_date           = get_the_modified_date();
 	[ $label, $date, $info ] = ( $modified_date !== $published_date ) ?
-		[ 'Published', $published_date, " <span class='fa-info-circle' title='Modified {$modified_date}'>" . get_fa( 'info-circle' ) . '</span>' ] :
-		[ 'Published', $published_date, '' ];
+		array( 'Published', $published_date, " <span class='fa-info-circle' title='Modified {$modified_date}'>" . get_fa( 'info-circle' ) . '</span>' ) :
+		array( 'Published', $published_date, '' );
 
 	echo wp_kses_post( sprintf( $format, $label, $date, $info ) );
 }
@@ -56,11 +61,11 @@ function all_categories( string $taxonomy = '', string $category_template = '<a 
 	}
 
 	$categories = get_categories(
-		[
-			'fields' => 'all',
+		array(
+			'fields'     => 'all',
 			'hide_empty' => true,
-			'taxonomy' => $taxonomy,
-		]
+			'taxonomy'   => $taxonomy,
+		)
 	);
 
 	if ( ! $categories || ! is_array( $categories ) ) {
@@ -91,8 +96,8 @@ function all_categories( string $taxonomy = '', string $category_template = '<a 
 	 * Otherwise, there is no 'active category' to bother testing against.
 	 */
 	if ( is_tax() ) {
-		$queried_taxonomy = $GLOBALS['wp_query']->get('taxonomy');
-		$queried_term = $GLOBALS['wp_query']->get('term');
+		$queried_taxonomy = $GLOBALS['wp_query']->get( 'taxonomy' );
+		$queried_term     = $GLOBALS['wp_query']->get( 'term' );
 		foreach ( $categories as $c ) {
 			$category_links .= sprintf(
 				$category_template,
@@ -122,8 +127,8 @@ function all_categories( string $taxonomy = '', string $category_template = '<a 
 /**
  * Outputs the network sites.
  *
- * @param bool $include_current_site Optional. If the current site should
- * be included. Default false.
+ * @param bool   $include_current_site Optional. If the current site should
+ *   be included. Default false.
  *
  * @param string $format Optional. The format for each site. Translators:
  * * %1$s - site url
@@ -141,12 +146,12 @@ function the_sites( bool $include_current_site = false, string $format = '<a hre
 		return;
 	}
 
-	$site_args = [
-		'fields' => '',
-		'public' => 1,
+	$site_args = array(
+		'fields'  => '',
+		'public'  => 1,
 		'orderby' => 'path',
-		'order' => 'ASC',
-	];
+		'order'   => 'ASC',
+	);
 
 	if ( false === $include_current_site ) {
 		$site_args['site__not_in'] = \get_current_site()->id;
@@ -172,14 +177,13 @@ function the_sites( bool $include_current_site = false, string $format = '<a hre
 	}
 
 	echo wp_kses_post( $sites_html );
-
 }
 
 /**
  * Outputs the recent posts.
  *
- * @param int $numberposts Optional. The number of most recent posts to display.
- * Default 3.
+ * @param int    $numberposts Optional. The number of most recent posts to display.
+ *    Default 3.
  *
  * @param string $format Optional. Template to format each post.
  * Translators:
@@ -190,11 +194,11 @@ function the_sites( bool $include_current_site = false, string $format = '<a hre
 function the_recent_posts( int $numberposts = 3, string $format = '<p class="recent-post"><a href="%1$s" class="recent-post_link">%2$s</a> <span class="recent-post_date">%3$s</span></p>' ) {
 
 	$recent_posts = wp_get_recent_posts(
-		[
+		array(
 			'numberposts' => $numberposts,
 			'post_status' => 'publish',
-			'post_type' => 'post',
-		],
+			'post_type'   => 'post',
+		),
 		OBJECT
 	);
 
@@ -217,7 +221,6 @@ function the_recent_posts( int $numberposts = 3, string $format = '<p class="rec
 	}
 
 	echo wp_kses_post( $recent_posts_html );
-
 }
 
 /**
@@ -230,11 +233,11 @@ function get_the_primary_category() {
 	$primary_category = false;
 
 	$post_id = get_the_ID();
-	$term = 'category';
+	$term    = 'category';
 
 	if ( class_exists( '\WPSEO_Primary_Term' ) ) {
 		$wpseo_primary_term = new \WPSEO_Primary_Term( $term, $post_id );
-		$primary_term = get_term( $wpseo_primary_term->get_primary_term() );
+		$primary_term       = get_term( $wpseo_primary_term->get_primary_term() );
 
 		if ( ! is_wp_error( $primary_term ) && $primary_term ) {
 			$primary_category = $primary_term;
@@ -280,7 +283,6 @@ function the_primary_category( string $before = '<p class="entry-primary-categor
 			echo wp_kses_post( $before . $primary_category->name . $after );
 		}
 	}
-
 }
 
 /**
@@ -309,7 +311,6 @@ function the_short_description( string $before = '<p class="entry-metadesc">', s
 	}
 
 	echo wp_kses_post( $before . $the_short_description . $after );
-
 }
 
 /**
@@ -322,10 +323,10 @@ function the_short_description( string $before = '<p class="entry-metadesc">', s
  * If type string, get_page_by_path() will be used to retrieve by slug. If type
  * int, \WP_Post, or null, then get_post() will be used.
  *
- * @param string[] $post_types Optional. Array of expected content type for
- * query filtering and validation. Default 'page'.
+ * @param string[]                $post_types Optional. Array of expected content type for
+ *                query filtering and validation. Default 'page'.
  */
-function a_link_to( $post_identity, array $post_types = [ 'page' ] ) {
+function a_link_to( $post_identity, array $post_types = array( 'page' ) ) {
 
 	$p = null;
 
@@ -354,5 +355,4 @@ function a_link_to( $post_identity, array $post_types = [ 'page' ] ) {
 		esc_url( get_permalink( $p ) ),
 		esc_html( get_the_title( $p ) )
 	);
-
 }

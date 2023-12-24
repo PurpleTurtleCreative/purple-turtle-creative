@@ -41,8 +41,8 @@ function set_current_template( $template ) {
 }
 
 function remember_current_theme_template( $template ) {
-  $GLOBALS['current_theme_template'] = basename( $template );
-  return $template;
+	$GLOBALS['current_theme_template'] = basename( $template );
+	return $template;
 }
 
 /**
@@ -70,7 +70,7 @@ function set_body_class( $classes ) {
 function customize_wp_query( $query ) {
 	if ( $query->is_main_query() && $query->is_search ) {
 		// Search should only return blog posts.
-		$query->set( 'post_type', [ 'post' ] );
+		$query->set( 'post_type', array( 'post' ) );
 	}
 	if ( $query->is_main_query() && $query->is_post_type_archive( 'ptc-portfolio' ) ) {
 		// Sort portfolio posts by project start date.
@@ -109,7 +109,7 @@ function set_excerpt_suffix( $more_string ) {
  * Enqueues login screen styles.
  */
 function enqueue_login_scripts() {
-	wp_enqueue_style( 'ptc-theme_login', STYLES_URI . '/login.css', [], THEME_VERSION );
+	wp_enqueue_style( 'ptc-theme_login', STYLES_URI . '/login.css', array(), THEME_VERSION );
 }
 
 /**

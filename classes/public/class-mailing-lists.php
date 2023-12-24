@@ -310,38 +310,38 @@ class Mailing_Lists {
 			'/mailing-lists/subscribe',
 			array(
 				array(
-					'methods' => 'POST',
-					'callback' => __CLASS__ . '::handle_post_subscribe',
+					'methods'             => 'POST',
+					'callback'            => __CLASS__ . '::handle_post_subscribe',
 					'permission_callback' => '__return_true',
-					'args' => array(
-						'email' => array(
-							'type' => 'string',
-							'required' => true,
+					'args'                => array(
+						'email'                 => array(
+							'type'              => 'string',
+							'required'          => true,
 							// WordPress discloses these functions may be
 							// inaccurate, but I'd rather be safer and mayyybe
 							// miss a few subscribers than permit bad data.
 							'sanitize_callback' => 'sanitize_email',
 							'validate_callback' => 'is_email',
 						),
-						'list_id' => array(
-							'type' => 'string',
-							'required' => true,
+						'list_id'               => array(
+							'type'              => 'string',
+							'required'          => true,
 							'sanitize_callback' => 'sanitize_text_field',
-							'validate_callback' => function( $value, $request, $param ) {
+							'validate_callback' => function ( $value, $request, $param ) {
 								return in_array( $value, static::MAILING_LIST_IDS, true );
 							},
 						),
-						'cf-turnstile-action' => array(
-							'type' => 'string',
-							'required' => true,
+						'cf-turnstile-action'   => array(
+							'type'              => 'string',
+							'required'          => true,
 							'sanitize_callback' => 'sanitize_text_field',
 						),
 						'cf-turnstile-response' => array(
-							'type' => 'string',
-							'required' => true,
+							'type'              => 'string',
+							'required'          => true,
 							// Hopefully this doesn't invalidate successful tokens.
 							'sanitize_callback' => 'sanitize_text_field',
-							'validate_callback' => function( $value, $request, $param ) {
+							'validate_callback' => function ( $value, $request, $param ) {
 								return Captcha::verify(
 									$request['cf-turnstile-action'],
 									$request['cf-turnstile-response']
@@ -509,9 +509,9 @@ class Mailing_Lists {
 						switch ( $res ) {
 
 							case 0:
-								$status  = 200;
-								$code    = 'retry_subscribe';
-								$message = 'Hello, again! Sorry that the last verification request didn\'t work out. Please check your inbox or spam folder again now to confirm your subscription.';
+								$status        = 200;
+								$code          = 'retry_subscribe';
+								$message       = 'Hello, again! Sorry that the last verification request didn\'t work out. Please check your inbox or spam folder again now to confirm your subscription.';
 								$sent_requests = 1;
 								$update_status = 'pending';
 								break;
@@ -600,14 +600,14 @@ class Mailing_Lists {
 		global $wpdb;
 		return $wpdb->get_row(
 			$wpdb->prepare(
-				"
+				'
 				SELECT *
 				FROM %i
 				WHERE email = %s
 				  AND mailing_list = %s
 				LIMIT 1
 				FOR UPDATE;
-				",
+				',
 				static::DATABASE_EMAIL_VERIFICATION_TABLE,
 				$email,
 				$mailing_list
