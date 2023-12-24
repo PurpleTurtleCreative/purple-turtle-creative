@@ -138,8 +138,7 @@
 			"minHeight": false
 		},
 		"layout": {
-			"contentSize": "64rem",
-			"wideSize": "64rem"
+			"contentSize": "64rem"
 		},
 		"shadow": {
 			"presets": []

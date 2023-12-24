@@ -11,7 +11,6 @@ defined( 'ABSPATH' ) || die();
 
 add_filter( 'admin_email_check_interval', '\__return_false' );// Don't ask about admin email.
 add_action( 'after_setup_theme', __NAMESPACE__ . '\configure_theme_support', 0, 1 );
-add_action( 'after_setup_theme', __NAMESPACE__ . '\define_content_width', 0 );
 add_filter( 'wp_kses_allowed_html', __NAMESPACE__ . '\allow_svg_markup', 10, 1 );
 add_filter( 'safe_style_css', __NAMESPACE__ . '\allow_svg_styles', 10, 1 );
 add_filter( 'acf/settings/save_json', __NAMESPACE__ . '\acf_json_save_point' );
@@ -69,19 +68,6 @@ function configure_theme_support() {
 
 	// Enable responsive embed styles.
 	add_theme_support( 'responsive-embeds' );
-}
-
-/**
- * Set the content width in pixels, based on the theme's design and stylesheet.
- *
- * Priority 0 to make it available to lower priority callbacks.
- *
- * @see https://codex.wordpress.org/Content_Width
- *
- * @global int $content_width
- */
-function define_content_width() {
-	$GLOBALS['content_width'] = 1024;
 }
 
 /**
