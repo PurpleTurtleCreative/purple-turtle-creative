@@ -17,8 +17,10 @@ node_modules
 package-lock.json
 package.json
 phpcs.xml
+assets/scripts/*.map
 assets/scripts/js/*
 assets/scripts/js
+assets/styles/*.map
 assets/styles/scss/*
 assets/styles/scss
 terser.json
