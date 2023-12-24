@@ -1,20 +1,24 @@
 /*
 Theme Name: Purple Turtle Creative
 Theme URI: https://purpleturtlecreative.com/
-Author: Michelle Blanchette
+Author: Purple Turtle Creative
 Author URI: https://purpleturtlecreative.com/
-Description: Custom theme for Michelle Blanchette's website, Purple Turtle Creative. Requires the ACF plugin.
-Version: 2023.09.01
+Description: Custom theme for Purple Turtle Creative's website. Requires the ACF plugin.
+Version: 2023.12.24
 Tested up to: 6.3
 Requires at least: 6.3
 Requires PHP: 7.4
 License: GNU General Public License v2 or later
 Text Domain: purple-turtle-creative
-Tags: gutenberg
-
-This theme, like WordPress, is licensed under the GPL.
-Use it to make something cool, have fun, and share what you've learned.
-
-Normalizing styles have been helped along thanks to
-Nicolas Gallagher and Jonathan Neal https://necolas.github.io/normalize.css/
+Tags: gutenberg, block-theme, full-site-editing
 */
+
+html,
+body,
+p,
+a,
+div,
+code,
+span {
+	text-rendering: optimizeLegibility !important;
+}

@@ -1,6 +1,6 @@
 // Global.
 @import "abstracts/abstracts";
-@import "generic/normalize";
+// @import "generic/normalize";
 @import "generic/box-sizing";
 @import "generic/layout";
 @import "base/base";
@@ -11,11 +11,11 @@
 
 // Gutenberg styles.
 
-@each $slug, $color in $colors {
-	.has-#{$slug}-background-color {
-		background-color: $color !important;
-	}
-	.has-#{$slug}-color {
-		color: $color !important;
-	}
-}
+// @each $slug, $color in $colors {
+// 	.has-#{$slug}-background-color {
+// 		background-color: $color !important;
+// 	}
+// 	.has-#{$slug}-color {
+// 		color: $color !important;
+// 	}
+// }
