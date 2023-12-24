@@ -1,11 +1,15 @@
 .content-width {
-	max-width: rem-calc(1024);
+	max-width: var(--wp--style--global--content-size);
 	width: 100%;
-	margin: 0 auto;
-	padding: rem-calc(10);
+	margin-left: auto;
+	margin-right: auto;
+
+	&:not(.wp-block-group) {
+		padding: rem-calc(10);
+	}
 
 	&-slim {
 		@extend .content-width;
-		max-width: rem-calc(720);
+		max-width: rem-calc(720) !important;
 	}
 }

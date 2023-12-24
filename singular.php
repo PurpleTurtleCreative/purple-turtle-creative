@@ -28,7 +28,7 @@ get_header();
 			}
 
 			if ( ! is_page( [ 'privacy-policy', 'terms-conditions' ] ) ) {
-				echo '<div class="content-width">';
+				echo '<div class="content-width" style="margin-top: var(--wp--preset--spacing--40);margin-bottom: var(--wp--preset--spacing--40);">';
 				echo do_shortcode( '[ptc-bio-card]' );
 				echo '</div>';
 			}

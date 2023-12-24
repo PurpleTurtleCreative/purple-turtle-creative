@@ -79,6 +79,7 @@
 
 				@include breakpoint(medium) {
 					display: flex;
+					gap: rem-calc(15);
 				}
 
 				li {

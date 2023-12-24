@@ -23,12 +23,12 @@ input[type="submit"] {
 
 .button-group {
 	display: flex;
+	flex-wrap: wrap;
+	gap: rem-calc(15);
 	margin: rem-calc(45 0 20);
 	max-width: 100%;
-	flex-wrap: wrap;
 
 	&.left {
-		margin-left: rem-calc(-7);
 		justify-content: flex-start;
 		text-align: left;
 	}
@@ -37,14 +37,12 @@ input[type="submit"] {
 		text-align: center;
 	}
 	&.right {
-		margin-right: rem-calc(-7);
 		justify-content: flex-end;
 		text-align: right;
 	}
 }
 
 .button {
-	margin: rem-calc(7);
 
 	&__link,
 	> a {
