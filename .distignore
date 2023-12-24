@@ -17,9 +17,8 @@ node_modules
 package-lock.json
 package.json
 phpcs.xml
+assets/scripts/js/*
+assets/scripts/js
 assets/styles/scss/*
 assets/styles/scss
-src/components/*
-src/components
-src/*.js
-src/*.jsx
+terser.json
