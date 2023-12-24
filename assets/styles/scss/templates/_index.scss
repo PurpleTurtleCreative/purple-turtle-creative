@@ -34,7 +34,7 @@ body.archive {
 
 			.search-form {
 				@extend .form-input-button-row-dark;
-				margin-top: rem-calc(30);
+				margin: rem-calc(30) auto rem-calc(10);
 			}
 
 			.archive-description {

@@ -59,6 +59,7 @@ fieldset {
 	}
 
 	&-dark {
+		@extend .form-input-button-row;
 
 		input:not([type="submit"]) {
 			border-color: color(primary-dark);
@@ -72,7 +73,6 @@ fieldset {
 }
 
 .search-form {
-	@extend .form-input-button-row;
 	max-width: rem-calc(500);
 	margin: 0 auto;
 
@@ -81,6 +81,7 @@ fieldset {
 
 		.search-field {
 			width: 100%;
+			height: 100%;
 		}
 	}
 }
