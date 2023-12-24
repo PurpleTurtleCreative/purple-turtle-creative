@@ -43,25 +43,6 @@ function register_acf_blocks() {
 	if ( function_exists( '\acf_register_block_type' ) ) {
 		\acf_register_block_type(
 			[
-				'name' => 'ptc_block_accordion',
-				'title' => 'PTC Accordion',
-				'description' => 'A list of headings and associated text.',
-				'category' => THEME_BASENAME,
-				'icon' => 'editor-ul',
-				'render_template' => THEME_PATH . '/template-parts/acf-blocks/accordion.php',
-				'post_types' => [ 'page' ],
-				'enqueue_style' => STYLES_URI . '/block_accordion.css',
-				'supports' => [
-					'align' => false,
-					'align_text' => false,
-					'align_content' => false,
-					'full_height' => false,
-					'multiple' => true,
-				],
-			]
-		);
-		\acf_register_block_type(
-			[
 				'name' => 'ptc_block_icon_buttons',
 				'title' => 'PTC Icon Buttons',
 				'description' => 'Displays buttons with an icon.',
