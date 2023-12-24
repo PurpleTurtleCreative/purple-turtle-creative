@@ -1,0 +1,124 @@
+@use "sass:math";
+
+.post-navigation {
+	z-index: 10;
+
+	.nav-links {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		flex-wrap: wrap;
+
+		> * {
+			display: block;
+			width: 100%;
+			margin: .3em 0;
+
+			@include breakpoint( medium ) {
+				width: calc( 50% - .5em ); // for space-between margin
+			}
+
+			a {
+				cursor: pointer;
+				display: flex;
+				align-items: stretch;
+				border-radius: rem-calc(10);
+				text-decoration: none;
+				background: color(true-white);
+				box-shadow: 0 #{spacing(gutter-half)} #{spacing(gutter-half)} color(grey-lightest);
+				overflow: hidden; // ensure border-radius clips children
+				transition: all 100ms ease-out;
+
+				&:hover,
+				&:focus,
+				&:active {
+					transform: translateY( #{math.div(spacing(gutter), 4)} );
+					box-shadow: 0 #{math.div(spacing(gutter), 8)} #{math.div(spacing(gutter), 8)} color(grey-lightest);
+
+					.nav-icon {
+						color: color(true-white);
+						background: color(primary);
+					}
+				}
+
+				.nav-label {
+					flex: 1;
+					margin: rem-calc(10);
+					line-height: 1.5;
+
+					.nav-subtitle {
+						display: inline-block;
+						color: color(black);
+						margin-bottom: 0.2em;
+					}
+				}
+
+				.nav-icon {
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					padding: rem-calc(0 10);
+					text-align: center;
+					color: color(primary);
+					font-size: 1.5em;
+					line-height: 1.3em;
+				}
+			}
+		}
+
+		.nav-previous {
+			text-align: left;
+
+			.nav-icon {
+				border-right: 1px solid color(grey-lightest);
+			}
+		}
+
+		.nav-next {
+			text-align: right;
+			margin-left: auto; // justify right when no nav-previous
+
+			.nav-icon {
+				border-left: 1px solid color(grey-lightest);
+			}
+
+			@include breakpoint-down( medium ) {
+				text-align: left;
+
+				a {
+					flex-direction: row-reverse;
+
+					.nav-icon {
+						border-left: none;
+						border-right: 1px solid color(grey-lightest);
+					}
+				}
+			}
+		}
+	}
+}
+
+nav.pagination {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-wrap: wrap;
+	gap: #{spacing(gutter-half)};
+	margin: spacing(gutter) auto !important;
+
+	.page-numbers {
+		@extend .button__link;
+
+		&.next,
+		&.prev {
+			display: flex;
+			align-items: center;
+			gap: #{spacing(gutter-half)};
+			margin: #{spacing(gutter-half)};
+
+			svg {
+				font-size: 1.3em;
+			}
+		}
+	}
+}

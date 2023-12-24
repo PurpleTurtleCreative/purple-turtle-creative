@@ -1,5 +1,6 @@
 /node_modules
 /vendor
+*.css
 *.css.map
 *.js.map
 .DS_Store

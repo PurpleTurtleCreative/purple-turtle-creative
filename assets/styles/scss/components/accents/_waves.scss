@@ -1,0 +1,84 @@
+@use "sass:math";
+
+$wave_trim_height: 50*2.5;
+$wave_trim_width: 90*2.5;
+
+.wave-trim {
+	// base64 encoded: wave-transparent.svg
+	background-image: url("data:image/svg+xml,%3Csvg class='ptc-wave' xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='none' viewBox='0 0 283.9 229.42'%3E%3Cpath d='M0,97.09,283.9,97V201.19C265,200.74,251,206.74,236,213.74c-90,42-151.34-13.85-235.95-12.6Z' style='fill:%233c56f5;opacity:0.1'/%3E%3Cpath d='M0,46.09,283.9,46V150.19C265,149.74,251,155.74,236,162.74c-90,42-151.34-13.85-235.95-12.6Z' style='fill:%233c56f5;opacity:0.2'/%3E%3Cpath d='M0,.09,283.9,0V104.19C265,103.74,251,109.74,236,116.74c-90,42-151.34-13.85-235.95-12.6Z' style='fill:%233c56f5'/%3E%3C/svg%3E");
+	height: rem-calc($wave_trim_height);
+	background-position: left bottom;
+	background-size: rem-calc($wave_trim_width $wave_trim_height);
+	background-repeat: repeat-x;
+	position: relative;
+	top: rem-calc(-20);
+	left: 0;
+	right: 0;
+	z-index: 1;
+
+	&-bottom {
+		position: relative;
+		background-color: color(primary);
+		color: color(off-white);
+		margin-bottom: rem-calc($wave_trim_height);
+
+		&:after {
+			@extend .wave-trim;
+			content: '';
+			display: block;
+			position: absolute;
+			width: 100%;
+			top: calc(100% - 2px);//prevent white line.
+		}
+	}
+
+	&-top {
+		position: relative;
+		background-color: color(primary);
+		color: color(off-white);
+		margin-top: rem-calc($wave_trim_height);
+		padding-bottom: math.div(rem-calc($wave_trim_height), 2.5);
+
+		&:before {
+			@extend .wave-trim;
+			content: '';
+			display: block;
+			position: absolute;
+			width: 100%;
+			top: rem-calc(-$wave_trim_height);
+			transform: scaleY(-1) scaleX(-1);
+		}
+	}
+}
+
+.wave-bg-third {
+	position: absolute;
+	z-index: -100;
+	top: -2px;
+	width: 100%;
+
+	&:before {
+		content: '';
+		display: block;
+		height: 55vh;
+		background-color: color(primary);
+
+		@include breakpoint(medium) {
+			height: 55vh;
+		}
+
+		@include breakpoint(xlarge) {
+			height: 45vh;
+		}
+	}
+
+	.wave-trim {
+		height: rem-calc(200);
+		background-position: left bottom;
+		background-size: rem-calc(250 200);
+		background-repeat: repeat-x;
+		position: relative;
+		top: -2px;//prevent white line.
+		z-index: 0;
+	}
+}

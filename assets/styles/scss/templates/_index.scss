@@ -1,0 +1,86 @@
+body.file-index-php,
+body.file-404-php,
+body.archive {
+	background-color: color(off-white);
+
+	.no-results,
+	.not-found {
+		text-align: center;
+
+		strong {
+			@include font(heading);
+			font-size: 1.3em;
+		}
+	}
+
+	main.site-main {
+		margin-bottom: rem-calc(120);
+
+		.page-header {
+			padding: rem-calc(15 0);
+			color: color(off-white);
+			text-align: center;
+			margin-bottom: rem-calc($wave_trim_height*1.5);
+
+			.page-title {
+				margin-top: 0;
+				margin-bottom: 0;
+				color: color(primary-light);
+
+				span {
+					color: color(off-white);
+				}
+			}
+
+			.search-form {
+				@extend .form-input-button-row-dark;
+				margin-top: rem-calc(30);
+			}
+
+			.archive-description {
+				@extend .content-width-slim;
+
+				p {
+					margin-bottom: 0;
+				}
+
+				+ .all-categories {
+					margin-top: 1em;
+				}
+			}
+
+			.all-categories {
+				margin-top: rem-calc(30);
+
+				a {
+					display: inline-block;
+					white-space: nowrap;
+					margin: .2em;
+				}
+			}
+		}
+
+		@import "../components/content/posts-loop";
+	}
+}
+
+/****************************/
+/* SPECIFIC TEMPLATE TWEAKS */
+/****************************/
+
+body.post-type-archive-ptc-portfolio,
+body.archive.tax-skill {
+	main.site-main {
+		.posts-loop {
+			article.ptc-portfolio {
+				flex-basis: 100%;
+				width: 100%;
+
+				h2.entry-title {
+					@extend .h2;
+					margin: spacing(gutter-half) 0 0;
+				}
+			}
+		}
+	}
+}

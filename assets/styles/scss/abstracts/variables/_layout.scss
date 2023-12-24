@@ -1,0 +1,59 @@
+// Variables
+
+$spacings: (
+	// generic
+	small: rem-calc(5),
+	medium: rem-calc(7),
+	large: rem-calc(10),
+	// particular
+	gutter: rem-calc(20),
+	gutter-half: rem-calc(10)
+);
+
+@function spacing($key) {
+
+	@if map-has-key($spacings, $key) {
+
+		@return map-get($spacings, $key);
+	}
+
+	@warn "Unknown `#{$key}` in $spacings.";
+	@return null;
+}
+
+// Placeholder classes
+
+%parent-col-2 {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: stretch;
+	justify-content: space-between;
+}
+
+%child-col-2 {
+	flex-basis: 100%;
+	width: 100%;// legacy support
+	margin: spacing(gutter-half) 0;
+	padding: spacing(gutter);
+
+	@include breakpoint(medium) {
+		flex-basis: calc( 50% - spacing(gutter-half) );
+		width: calc( 50% - spacing(gutter-half) );// legacy support
+		padding: spacing(gutter) 0;
+	}
+}
+
+%child-col-third {
+	flex-basis: 100%;
+	width: 100%;// legacy support
+	margin: spacing(gutter-half) 0;
+	padding: spacing(gutter);
+
+	@include breakpoint(medium) {
+		flex-grow: 1;// for when columns wrap on small screens.
+		flex-basis: calc( 33.33% - #{spacing(gutter)} );
+		width: calc( 33.33% - #{spacing(gutter)} );// legacy support
+		margin: spacing(gutter-half);
+		padding: spacing(gutter) 0;
+	}
+}

@@ -1,0 +1,80 @@
+@use "sass:math";
+
+$rem-base: 16px;
+
+$fonts: (
+	heading: ('Poppins', sans-serif),
+	body: ('Roboto', sans-serif),
+	code: ('Courier Prime', monospace)
+);
+
+$font-weights: (
+	heading: 700,
+	body: 300,
+	body-bold: 500,
+	code: 400,
+	code-bold: 700,
+);
+
+// Font family getter
+
+@function font-family($key) {
+
+	@if map-has-key($fonts, $key) {
+		@return map-get($fonts, $key);
+	}
+
+	@warn "Unknown `#{$key}` in $fonts.";
+	@return null;
+}
+
+// Font weight getter
+
+@function font-weight($key) {
+
+	@if map-has-key($font-weights, $key) {
+		@return map-get($font-weights, $key);
+	}
+
+	@warn "Unknown `#{$key}` in $fonts.";
+	@return null;
+}
+
+// Full font style
+
+@mixin font($font-key, $weight-key: $font-key) {
+	font-family: font-family($font-key);
+	font-weight: font-weight($weight-key);
+}
+
+// Foundations rem-calc functions
+
+@function strip-unit($num) {
+	@return math.div($num, ($num * 0 + 1));
+}
+
+@function convert-to-rem($value, $base-value: $rem-base) {
+	$value: math.div(strip-unit($value), strip-unit($base-value)) * 1rem;
+
+	@if ($value == 0rem) {
+		$value: 0; // Turn 0rem into 0
+	}
+
+	@return $value;
+}
+
+@function rem-calc($values, $base-value: $rem-base) {
+	$max: length($values);
+
+	@if $max == 1 {
+		@return convert-to-rem(nth($values, 1), $base-value);
+	}
+
+	$remValues: ();
+
+	@for $i from 1 through $max {
+		$remValues: append($remValues, convert-to-rem(nth($values, $i), $base-value));
+	}
+
+	@return $remValues;
+}
