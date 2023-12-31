@@ -34,15 +34,16 @@ get_header();
 					echo wp_kses_post( $before_page_title . 'Search Results for:<br /><span>' . get_search_query() . '</span>' . $after_page_title );
 				} elseif ( is_post_type_archive( 'ptc-portfolio' ) ) {
 					echo wp_kses_post( $before_page_title . '<span>' . post_type_archive_title( '', false ) . '</span>' . $after_page_title );
-					the_archive_description( '<div class="archive-description">', '</div>' );
 				} elseif ( is_404() ) {
 					echo wp_kses_post( $before_page_title . 'Error <span>Not Found</span>' . $after_page_title );
 				} else {
 					the_archive_title( $before_page_title, $after_page_title );
-					the_archive_description( '<div class="archive-description">', '</div>' );
 				}
 
-				if ( ! is_post_type_archive( 'ptc-portfolio' ) ) {
+				if (
+					! is_post_type_archive( 'ptc-portfolio' ) &&
+					! is_tax( 'skill' )
+				) {
 					get_search_form();
 				}
 				?>
@@ -77,10 +78,12 @@ get_header();
 
 			<nav class="pagination content-width">
 				<?php
-				echo paginate_links(
-					array(
-						'prev_text' => get_fa( 'angle-left' ) . ' Back',
-						'next_text' => 'Next ' . get_fa( 'angle-right' ),
+				echo wp_kses_post(
+					paginate_links(
+						array(
+							'prev_text' => get_fa( 'angle-left' ) . ' Back',
+							'next_text' => 'Next ' . get_fa( 'angle-right' ),
+						)
 					)
 				);
 				?>
