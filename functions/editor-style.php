@@ -21,12 +21,6 @@ remove_action( 'wp_body_open', 'wp_global_styles_render_svg_filters' );
  */
 function register_block_customizations() {
 
-	// Register custom block types.
-
-	// foreach ( glob( THEME_PATH . '/blocks/*/*-block.json' ) as $file ) {
-	// register_block_type( $file );
-	// }
-
 	// Register block styles.
 
 	$block_style_headers = array(
