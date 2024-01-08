@@ -35,7 +35,7 @@ get_header();
 			<div class="content-width-slim">
 
 				<div class="plugin-info">
-					<h1><?php echo esc_html( ucfirst( str_replace( '-', ' ', $parent_slug ) ) ); ?></h1>
+					<h1><?php echo esc_html( ucwords( str_replace( '-', ' ', $parent_slug ) ) ); ?></h1>
 					<p class="plugin-info__description">
 						<?php echo esc_html( $plugin_info->description ); ?>
 					</p>
