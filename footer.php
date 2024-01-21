@@ -63,35 +63,37 @@ require_once THEME_PATH . '/classes/public/class-html-routes.php';
 				</div>
 
 				<div class="referrals">
-					<p><small>Claim discounts and benefits by using our referral links:</small></p>
-					<a class="referral-badge digitalocean" href="https://m.do.co/c/379a11ccae2a" target="_blank" rel="sponsored nofollow">
-						<?php fa( 'digital-ocean', 'brands' ); ?>
-						<p>
-							<small>Hosting with</small>
-							DigitalOcean
-						</p>
-					</a>
-					<a class="referral-badge wp-rocket" href="https://wp-rocket.me/?ref=058407d8" target="_blank" rel="sponsored nofollow">
-						<?php svg( 'wp-rocket-logo.svg' ); ?>
-						<p>
-							<small>Performance via</small>
-							WP Rocket
-						</p>
-					</a>
-					<a class="referral-badge dropbox" href="https://www.dropbox.com/referrals/AAC1FnrY_5WdLC4PUqUPV3HZy5IKCmD1w5o?src=global9" target="_blank" rel="sponsored nofollow">
-						<?php fa( 'dropbox', 'brands' ); ?>
-						<p>
-							<small>Storage with</small>
-							Dropbox
-						</p>
-					</a>
-					<a class="referral-badge codeable" href="https://www.codeable.io/?ref=VET12" target="_blank" rel="sponsored nofollow">
-						<?php svg( 'codeable-logo.svg' ); ?>
-						<p>
-							<small>Support by</small>
-							Codeable
-						</p>
-					</a>
+					<p><small>Claim&nbsp;discounts&nbsp;and&nbsp;benefits by using&nbsp;our&nbsp;referral&nbsp;links:</small></p>
+					<div class="button-group center">
+						<a class="referral-badge digitalocean" href="https://m.do.co/c/379a11ccae2a" target="_blank" rel="sponsored nofollow">
+							<?php fa( 'digital-ocean', 'brands' ); ?>
+							<p>
+								<small>Hosting with</small>
+								DigitalOcean
+							</p>
+						</a>
+						<a class="referral-badge wp-rocket" href="https://wp-rocket.me/?ref=058407d8" target="_blank" rel="sponsored nofollow">
+							<?php svg( 'wp-rocket-logo.svg' ); ?>
+							<p>
+								<small>Performance via</small>
+								WP Rocket
+							</p>
+						</a>
+						<a class="referral-badge dropbox" href="https://www.dropbox.com/referrals/AAC1FnrY_5WdLC4PUqUPV3HZy5IKCmD1w5o?src=global9" target="_blank" rel="sponsored nofollow">
+							<?php fa( 'dropbox', 'brands' ); ?>
+							<p>
+								<small>Storage with</small>
+								Dropbox
+							</p>
+						</a>
+						<a class="referral-badge codeable" href="https://www.codeable.io/?ref=VET12" target="_blank" rel="sponsored nofollow">
+							<?php svg( 'codeable-logo.svg' ); ?>
+							<p>
+								<small>Support by</small>
+								Codeable
+							</p>
+						</a>
+					</div>
 				</div>
 			</div>
 		</div><!-- .footer-main -->
