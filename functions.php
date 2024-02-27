@@ -53,6 +53,7 @@ foreach ( glob( THEME_PATH . '/classes/public/class-*.php' ) as $file ) {
 	require_once $file;
 }
 
+Billing::register();
 Captcha::register();
 HTML_Routes::register();
 Mailing_Lists::register();

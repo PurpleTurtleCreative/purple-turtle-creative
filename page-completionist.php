@@ -9,7 +9,9 @@ namespace PTC_Theme;
 
 defined( 'ABSPATH' ) || die();
 
+require_once THEME_PATH . '/classes/public/class-html-routes.php';
 require_once \PTC_Resources_Server\PLUGIN_PATH . 'src/public/servers/class-plugins-server.php';
+require_once \PTC_Resources_Server\PLUGIN_PATH . 'src/includes/class-billing.php';
 
 $free_download_url = 'https://downloads.wordpress.org/plugin/completionist.zip';
 $latest_tag        = '{{Error}}';
@@ -58,6 +60,28 @@ get_header();
 
 			</div>
 		</header>
+
+		<div class="ptc-resources-server-pricing-table">
+			<?php
+			$plugin_metadata = $plugins_server->get_metadata( 'completionist-pro' );
+			foreach ( $plugin_metadata['checkout_plans'] as $plan ) {
+				$plan['cancel_url'] = get_permalink();
+				$plan['success_url'] = add_query_arg(
+					'session_id',
+					'{CHECKOUT_SESSION_ID}',
+					HTML_Routes::get_url( '/billing/thank-you' )
+				);
+				$checkout_session = \PTC_Resources_Server\Billing::create_subscription_checkout_session( $plan );
+				printf(
+					'<a href="%s">Buy %d Sites at %s</a><pre>%s</pre>',
+					esc_url( $checkout_session['url'] ),
+					esc_html( $plan['line_items'][0]['quantity'] ),
+					esc_html( '$' . number_format( $checkout_session['amount_total'] / 100, 2 ) ),
+					esc_html( print_r( $checkout_session, true ) )
+				);
+			}
+			?>
+		</div>
 
 		<?php
 		while ( have_posts() ) :
