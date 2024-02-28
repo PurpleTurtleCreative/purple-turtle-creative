@@ -23,6 +23,7 @@ if ( ! empty( $_GET['session_id'] ) ) {
 }
 
 // Record GA4 event.
+// See https://developers.google.com/analytics/devguides/collection/protocol/ga4/reference/events#purchase
 // Event_Tracker::record_ga4_event(
 // 	'email_verify',
 // 	array(
