@@ -57,3 +57,24 @@ Billing::register();
 Captcha::register();
 HTML_Routes::register();
 Mailing_Lists::register();
+
+
+///// TEMPORARY DRAFTING - BETA FEATURES ///////////////
+
+add_filter(
+	'authenticate',
+	function ( $user ) {
+		// Only allow administrator users to attempt login.
+		// User records are only for programmatic usage.
+
+		if ( is_a( $user, '\WP_User' ) ) {
+			if ( ! in_array( 'administrator', (array) $user->roles ) ) {
+				$user = new \WP_Error( 401, "Login not permitted." );
+			}
+		}
+
+		return $user;
+	},
+	\PHP_INT_MAX,
+	1
+);
