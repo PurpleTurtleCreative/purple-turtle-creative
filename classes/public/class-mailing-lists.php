@@ -139,6 +139,7 @@ class Mailing_Lists {
 		'completionist@purpleturtlecreative.com' => 'RN3epj3Y8VmA9iKj',
 		'stage@purpleturtlecreative.com'         => 'rV2rtR8ch8Kh6Dgg',
 		'dev@sandboxe9304e53e5994067aa8ce9e5897e4536.mailgun.org' => 'GtujGDN2bj23QsU8',
+		'customers@sandboxe9304e53e5994067aa8ce9e5897e4536.mailgun.org' => 'a2tBf2KrKnxBF66s',
 	);
 
 	/**
@@ -819,7 +820,6 @@ class Mailing_Lists {
 					'v:subscriber_email'       => $email,
 					'v:email_verification_url' => $email_verification_url,
 					'o:tracking'               => 'yes',
-					'o:tag'                    => 'email-verification',
 					'o:tag'                    => 'confirm-subscription',
 				),
 			)
