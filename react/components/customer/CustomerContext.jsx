@@ -16,15 +16,64 @@ export function CustomerContextProvider({ children }) {
 	// Form input controls.
 	const [ emailInput, setEmailInput ] = useState('');
 	const [ passwordInput, setPasswordInput ] = useState('');
+	// State signals.
+	const [ processingStatus, setProcessingStatus ] = useState('idle'); // idle, loading.
 
 	useEffect(() => {
 		// Persist state when updates occur.
 		sessionStorage.setItem('ptcCustomer', authToken);
 	}, [ authToken ]);
 
-	const context = {
+	const authenticate = async ( action ) => {
+		if ( 'idle' === processingStatus ) {
+			setProcessingStatus('loading');
+			return await window.fetch(
+				/* api endpoint url */,
+				{
+	        method: 'POST',
+	        headers: {
+	          'Content-Type': 'application/json',
+	        },
+	        body: JSON.stringify({
+	        	action,
+	          email: context.emailInput,
+	          password: context.passwordInput,
+	        }),
+	      })
+				.then(res => {
 
-		authToken,
+					if ( ! res.ok ) {
+						throw 'Signin failed: ' + res.statusText;
+					}
+
+					body = await res.json();
+					setAuthToken(body.data.authToken);
+
+					return body;
+				})
+				.catch(err => {
+					return {
+						status: 'error',
+						code: 500,
+						message: err,
+						data: null,
+					};
+				})
+				.finally(() => {
+					setProcessingStatus('idle');
+				});
+		} else {
+			return {
+	      status: 'error',
+	      code: 400,
+	      message: 'Already processing another request.',
+	      data: null,
+	    };
+		}
+	};
+
+	// Public context.
+	const context = {
 
 		emailInput,
 		setEmailInput,
@@ -32,38 +81,16 @@ export function CustomerContextProvider({ children }) {
 		passwordInput,
 		setPasswordInput,
 
-		isSignedIn: () => {
-			return ( !! context.authToken );
+		isLoggedIn: () => {
+			return ( !! authToken );
 		},
 
-		signin: async () => {
-			// use context.emailInput and context.passwordInput.
-			return await window.fetch()
-				.then(res => res.json())
-				.then(res => {
-					// request JWT auth token from server.
-					// on success, set auth token to authenticate future requests.
-					setAuthToken(res.data.authToken);
-					return true;
-				})
-				.catch(err => {
-					return false;
-				});
+		login: async () => {
+			return await authenticate('login');
 		},
 
 		signup: async () => {
-			// use context.emailInput and context.passwordInput.
-			return await window.fetch()
-				.then(res => res.json())
-				.then(res => {
-					// request JWT auth token from server.
-					// on success, set auth token to authenticate future requests.
-					setAuthToken(res.data.authToken);
-					return true;
-				})
-				.catch(err => {
-					return false;
-				});
+			return await authenticate('signup');
 		},
 
 		logout: () => {
@@ -83,6 +110,7 @@ export function CustomerContextProvider({ children }) {
 		},
 
 		fetchCustomerData: async () => {
+			// requires authToken.
 			return await window.fetch()
 				.then(res => res.json())
 				.then(res => {
@@ -94,12 +122,12 @@ export function CustomerContextProvider({ children }) {
 		},
 
 		goToCheckout: ( productId, planId ) => {
-			// check if signed in.
+			// requires authToken.
 			// redirect to checkout session URL.
 		},
 
 		goToBillingPortal: () => {
-			// check if signed in.
+			// requires authToken.
 			// redirect to customer billing portal URL.
 		}
 	};

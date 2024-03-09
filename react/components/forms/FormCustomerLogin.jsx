@@ -4,23 +4,48 @@
  * Logs in an existing customer.
  */
 
-import { useEffect, useState } from '@wordpress/element';
+import { CustomerContext } from '../customer/CustomerContext.jsx';
 
-export default function FormCustomerLogin({ formData, setFormData }) {
-	const [ status, setStatus ] = useState('idle');
+import FormInputCustomerEmail from './FormInputCustomerEmail.jsx';
+import FormInputCustomerPassword from './FormInputCustomerPassword.jsx';
 
-	useEffect(() => {
+import { useContext } from '@wordpress/element';
 
-		// do something...
+export default function FormCustomerLogin() {
+	const { isLoggedIn, login, processingStatus } = useContext(CustomerContext);
+	const [ error, setError ] = useState('');
 
-		return () => {
-			// cleanup something...
-		};
-	}, []);
+	const handleSubmit = async (event) => {
+		event.preventDefault();
+		setError('');
+		login().then(res => {
+			if ( 'success' !== res?.status ) {
+				setError(res.message);
+			}
+		});
+	};
+
+	let innerContent = null;
+	if ( isLoggedIn() ) {
+		innerContent = <p>You are already logged in.</p>;
+	} else {
+		if ( 'loading' === processingStatus ) {
+			innerContent = <p>Loading...</p>;
+		} else {
+			innerContent = (
+				<form onSubmit={handleSubmit}>
+					<FormInputCustomerEmail />
+					<FormInputCustomerPassword />
+					<button type="submit">Log In</button>
+				</form>
+			);
+		}
+	}
 
 	return (
 		<div className="ptc-FormCustomerLogin">
-			{/* ... content goes here ... */}
+			{ error && <p>{error}</p> }
+			{innerContent}
 		</div>
 	);
 }
