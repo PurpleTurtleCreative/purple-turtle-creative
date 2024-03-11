@@ -8,8 +8,9 @@ import { CustomerContext } from '../customer/CustomerContext.jsx';
 
 import FormInputCustomerEmail from './FormInputCustomerEmail.jsx';
 import FormInputCustomerPassword from './FormInputCustomerPassword.jsx';
+import FormStepVerificationCode from './FormStepVerificationCode.jsx';
 
-import { useContext } from '@wordpress/element';
+import { useContext, useState } from '@wordpress/element';
 
 export default function FormCustomerCreateAccount( onSuccess ) {
 	const {
@@ -37,7 +38,6 @@ export default function FormCustomerCreateAccount( onSuccess ) {
 
 	const handleEmailVerificationSuccess = (res) => {
 		setError('');
-		processSignup();
 	};
 
 	const processSignup = async () => {

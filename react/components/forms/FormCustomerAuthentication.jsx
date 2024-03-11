@@ -4,6 +4,8 @@
  * Authenticates a customer session.
  */
 
+import FormCustomerCreateAccount from './FormCustomerCreateAccount.jsx';
+
 import { useEffect, useState } from '@wordpress/element';
 
 export default function FormCustomerAuthentication({ onSuccess }) {
@@ -14,6 +16,8 @@ export default function FormCustomerAuthentication({ onSuccess }) {
 	return (
 		<div className="ptc-FormCustomerAuthentication">
 			<h2>Hello, cruel world!</h2>
+			<p>Test the account creation process below...</p>
+			<FormCustomerCreateAccount />
 		</div>
 	);
 }

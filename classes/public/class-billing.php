@@ -74,9 +74,11 @@ class Billing {
 						'password'              => array(
 							'type'              => 'string',
 							'required'          => true,
-							'sanitize_callback' => 'sanitize_text_field',
 							'validate_callback' => function ( $value ) {
-								return in_array( $value, static::MAILING_LIST_IDS, true );
+								// DO NOT sanitize a password and change its value.
+								// The user then won't know what their password is,
+								// so just validate its cleanliness instead.
+								return ( sanitize_text_field( $value ) === (string) $value );
 							},
 						),
 						'nonce'                 => array(
@@ -126,9 +128,9 @@ class Billing {
 	) : \WP_REST_Response {
 
 		$res = array(
-			'status'  => 'success',
-			'code'    => 200,
-			'message' => 'Successfully authenticated customer - JUST A TEST!',
+			'status'  => 'error',
+			'code'    => 403,
+			'message' => 'TESTING - Email verification required.',
 			'data'    => null,
 		);
 

@@ -5,10 +5,12 @@
  * the user's response.
  */
 
-import { useState } from '@wordpress/element';
+import FormInputCodePuncher from './FormInputCodePuncher.jsx';
+
+import { useEffect, useRef, useState } from '@wordpress/element';
 
 export default function FormStepVerificationCode({ email, codeLength, onSuccess }) {
-	const [ codeDigits, setCodeDigits ] = useState(Array.from({ codeLength }, () => ''));
+	const [ codeDigits, setCodeDigits ] = useState(Array.from({ length: codeLength }, () => ''));
 	const [ status, setStatus ] = useState('idle');
 	const [ error, setError ] = useState('');
 	const formRef = useRef();
@@ -31,18 +33,21 @@ export default function FormStepVerificationCode({ email, codeLength, onSuccess 
 		if ( 'loading' !== status ) {
 			setStatus('loading');
 			await window.fetch(
-				/* api endpoint url */,
+				`${window.ptcTheme.api.v1}/mailing-lists/subscribe`,
 				{
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json',
+						'X-WP-Nonce': window.ptcTheme.api.auth_nonce,
 					},
 					body: JSON.stringify({
-						email,
-						verification_code: verificationCodeString,
+						email: email,
+						verification_code: codeDigits.join(''),
+						list_id: 'a2tBf2KrKnxBF66s', // Hard-coded. Sorry, Mom.
+						nonce: window.ptcTheme.api.nonce,
 					}),
 				})
-				.then(res => {
+				.then(async (res) => {
 					body = await res.json();
 					if ( res.ok && 'success' === body?.status ) {
 						onSuccess(body);

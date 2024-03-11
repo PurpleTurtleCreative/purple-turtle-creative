@@ -24,6 +24,7 @@ export default function FormInputCodePuncher({ slots, onChange }) {
 		if ( 'Backspace' === event.key && index > 0 ) {
 			const updatedSlots = [ ...slots ];
 			updatedSlots[index - 1] = ''; // Clear the previous slot.
+			onChange(updatedSlots);
 			inputRefs[index - 1].current.focus(); // Focus previous slot.
 		}
 	};
@@ -34,20 +35,22 @@ export default function FormInputCodePuncher({ slots, onChange }) {
 				<legend>Verification Code</legend>
 				<div className="code-puncher">
 					{
-						slots.map((digit, index) => (
-							<input
-								key={index}
-								ref={inputRefs[index]}
-								name={`code_punch_digits[${index}]`}
-								type="text"
-								inputMode="numeric"
-								maxLength="1"
-								value={digit}
-								onChange={(e) => handleInputChange(index, e.target.value)}
-								onKeyDown={(e) => handleKeyDown(index, e)}
-								aria-label={`Digit ${index + 1}`}
-							/>
-						))
+						slots.map((digit, index) => {
+							return (
+								<input
+									key={index}
+									ref={inputRefs[index]}
+									name={`code_punch_digits[${index}]`}
+									type="text"
+									inputMode="numeric"
+									maxLength="1"
+									value={digit}
+									onChange={(e) => handleInputChange(index, e.target.value)}
+									onKeyDown={(e) => handleKeyDown(index, e)}
+									aria-label={`Digit ${index + 1}`}
+								/>
+							)
+						})
 					}
 				</div>
 			</fieldset>

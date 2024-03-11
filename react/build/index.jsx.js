@@ -48,40 +48,34 @@ function CustomerContextProvider({
     data: null
   };
   const authenticate = async action => {
-    if ('loading' !== processingStatus) {
-      setProcessingStatus('loading');
-      return await window.fetch(`${window.ptcTheme.api.v1}/customer/authenticate`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-WP-Nonce': window.ptcTheme.api.auth_nonce
-        },
-        body: JSON.stringify({
-          action,
-          email: context.emailInput,
-          password: context.passwordInput,
-          nonce: window.ptcTheme.api.nonce
-        })
-      }).then(async res => {
-        if (!res.ok) {
-          throw `Failed to log in. Error: ${res.statusText}`;
-        }
-        const body = await res.json();
+    return await window.fetch(`${window.ptcTheme.api.v1}/customer/authenticate`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-WP-Nonce': window.ptcTheme.api.auth_nonce
+      },
+      body: JSON.stringify({
+        action,
+        email: context.emailInput,
+        password: context.passwordInput,
+        nonce: window.ptcTheme.api.nonce
+      })
+    }).then(async res => {
+      const body = await res.json();
+      if (res.ok && body?.data?.authToken) {
         setAuthToken(body.data.authToken);
-        return body;
-      }).catch(err => {
-        return {
-          status: 'error',
-          code: 500,
-          message: err,
-          data: null
-        };
-      }).finally(() => {
-        setProcessingStatus('idle');
-      });
-    } else {
-      return resErrorAlreadyProcessing;
-    }
+      }
+      return body;
+    }).catch(err => {
+      return {
+        status: 'error',
+        code: 500,
+        message: err,
+        data: null
+      };
+    }).finally(() => {
+      setProcessingStatus('idle');
+    });
   };
 
   // Public context.
@@ -94,10 +88,20 @@ function CustomerContextProvider({
       return !!authToken;
     },
     login: async () => {
-      return await authenticate('login');
+      if ('loading' !== processingStatus) {
+        setProcessingStatus('loading');
+        return await authenticate('login');
+      } else {
+        return resErrorAlreadyProcessing;
+      }
     },
     signup: async () => {
-      return await authenticate('signup');
+      if ('loading' !== processingStatus) {
+        setProcessingStatus('loading');
+        return await authenticate('signup');
+      } else {
+        return resErrorAlreadyProcessing;
+      }
     },
     logout: () => {
       setAuthToken(''); // reset state.
@@ -181,8 +185,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _FormCustomerCreateAccount_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FormCustomerCreateAccount.jsx */ "./react/components/forms/FormCustomerCreateAccount.jsx");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_2__);
 
 /**
  * FormCustomerAuthentication component
@@ -191,16 +196,407 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 
+
 function FormCustomerAuthentication({
   onSuccess
 }) {
-  const [status, setStatus] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useState)('idle');
+  const [status, setStatus] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useState)('idle');
 
   // @todo - Make tabbed component to elegantly switch between login and signup forms.
 
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "ptc-FormCustomerAuthentication"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", null, "Hello, cruel world!"));
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", null, "Hello, cruel world!"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "Test the account creation process below..."), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_FormCustomerCreateAccount_jsx__WEBPACK_IMPORTED_MODULE_1__["default"], null));
+}
+
+/***/ }),
+
+/***/ "./react/components/forms/FormCustomerCreateAccount.jsx":
+/*!**************************************************************!*\
+  !*** ./react/components/forms/FormCustomerCreateAccount.jsx ***!
+  \**************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ FormCustomerCreateAccount)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _customer_CustomerContext_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../customer/CustomerContext.jsx */ "./react/components/customer/CustomerContext.jsx");
+/* harmony import */ var _FormInputCustomerEmail_jsx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./FormInputCustomerEmail.jsx */ "./react/components/forms/FormInputCustomerEmail.jsx");
+/* harmony import */ var _FormInputCustomerPassword_jsx__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./FormInputCustomerPassword.jsx */ "./react/components/forms/FormInputCustomerPassword.jsx");
+/* harmony import */ var _FormStepVerificationCode_jsx__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./FormStepVerificationCode.jsx */ "./react/components/forms/FormStepVerificationCode.jsx");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_5__);
+
+/**
+ * FormCustomerCreateAccount component
+ *
+ * Creates a new customer account.
+ */
+
+
+
+
+
+
+function FormCustomerCreateAccount(onSuccess) {
+  const {
+    emailInput,
+    isLoggedIn,
+    passwordInput,
+    processingStatus,
+    signup
+  } = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_5__.useContext)(_customer_CustomerContext_jsx__WEBPACK_IMPORTED_MODULE_1__.CustomerContext);
+  const [error, setError] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_5__.useState)('');
+  const [confirmPasswordInput, setConfirmPasswordInput] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_5__.useState)('');
+  const handleSubmit = async event => {
+    event.preventDefault();
+    if (confirmPasswordInput !== passwordInput) {
+      setError('password_mismatch');
+      return;
+    } else {
+      setError('');
+    }
+    processSignup();
+  };
+  const handleEmailVerificationSuccess = res => {
+    setError('');
+  };
+  const processSignup = async () => {
+    signup().then(res => {
+      if ('success' === res?.status) {
+        onSuccess(res);
+        setError('');
+      } else {
+        if (403 === res?.code) {
+          // Signup could not be authorized due to missing
+          // email verification. Show email verification step.
+          setError('unverified_email');
+        } else if (res?.message) {
+          setError(res.message);
+        } else {
+          setError('Failed to create new account. Please try again.');
+        }
+      }
+    });
+  };
+  let errorText = error;
+  if ('password_mismatch' === error) {
+    errorText = 'Passwords do not match. Please ensure your password was entered correctly into both fields and try again.';
+  } else if ('unverified_email' === error) {
+    errorText = '';
+  }
+  let innerContent = null;
+  if (isLoggedIn()) {
+    innerContent = (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "You are already logged in.");
+  } else if ('loading' === processingStatus) {
+    innerContent = (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "Loading...");
+  } else if ('unverified_email' === error) {
+    innerContent = (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_FormStepVerificationCode_jsx__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      email: emailInput,
+      codeLength: 6,
+      onSuccess: handleEmailVerificationSuccess
+    });
+  } else {
+    let passwordExtraClassNames = '';
+    if ('password_mismatch' === error) {
+      passwordExtraClassNames += ' input-error';
+    }
+    innerContent = (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("form", {
+      onSubmit: handleSubmit
+    }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_FormInputCustomerEmail_jsx__WEBPACK_IMPORTED_MODULE_2__["default"], null), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_FormInputCustomerPassword_jsx__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      extraClassNames: passwordExtraClassNames
+    }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+      className: "customer-confirm-password" + passwordExtraClassNames
+    }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
+      htmlFor: "customer-confirm-password"
+    }, "Confirm Password"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
+      type: "password",
+      id: "customer-confirm-password",
+      name: "confirm_password",
+      value: confirmPasswordInput,
+      onChange: event => {
+        setConfirmPasswordInput(event.target.value);
+      },
+      required: true
+    })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
+      type: "submit"
+    }, "Create Account"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("small", null, "By submitting this form, you agree to our ", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
+      href: "https://purpleturtlecreative.com/privacy-policy/"
+    }, "Privacy Policy"), " and to receiving important email messages from Purple Turtle Creative about your purchases. A verification email will be sent to confirm your account creation.")));
+  }
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "ptc-FormCustomerCreateAccount"
+  }, errorText && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, errorText), innerContent);
+}
+
+/***/ }),
+
+/***/ "./react/components/forms/FormInputCodePuncher.jsx":
+/*!*********************************************************!*\
+  !*** ./react/components/forms/FormInputCodePuncher.jsx ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ FormInputCodePuncher)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_1__);
+
+/**
+ * FormInputCodePuncher component
+ *
+ * Controlled input to collect an array of digits.
+ */
+
+
+function FormInputCodePuncher({
+  slots,
+  onChange
+}) {
+  const inputRefs = Array.from({
+    length: slots.length
+  }, () => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_1__.useRef)());
+  const handleInputChange = (index, value) => {
+    if (1 === value.length && /^\d$/.test(value)) {
+      const updatedSlots = [...slots];
+      updatedSlots[index] = value;
+      onChange(updatedSlots);
+      if (index < slots.length - 1) {
+        inputRefs[index + 1].current.focus(); // Focus next slot.
+      }
+    }
+  };
+  const handleKeyDown = (index, event) => {
+    if ('Backspace' === event.key && index > 0) {
+      const updatedSlots = [...slots];
+      updatedSlots[index - 1] = ''; // Clear the previous slot.
+      onChange(updatedSlots);
+      inputRefs[index - 1].current.focus(); // Focus previous slot.
+    }
+  };
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "ptc-FormInputCodePuncher"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("fieldset", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("legend", null, "Verification Code"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "code-puncher"
+  }, slots.map((digit, index) => {
+    return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
+      key: index,
+      ref: inputRefs[index],
+      name: `code_punch_digits[${index}]`,
+      type: "text",
+      inputMode: "numeric",
+      maxLength: "1",
+      value: digit,
+      onChange: e => handleInputChange(index, e.target.value),
+      onKeyDown: e => handleKeyDown(index, e),
+      "aria-label": `Digit ${index + 1}`
+    });
+  }))));
+}
+
+/***/ }),
+
+/***/ "./react/components/forms/FormInputCustomerEmail.jsx":
+/*!***********************************************************!*\
+  !*** ./react/components/forms/FormInputCustomerEmail.jsx ***!
+  \***********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ FormInputCustomerEmail)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _customer_CustomerContext_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../customer/CustomerContext.jsx */ "./react/components/customer/CustomerContext.jsx");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_2__);
+
+/**
+ * FormInputCustomerEmail component
+ *
+ * Controlled input to collect a customer's email address.
+ */
+
+
+
+function FormInputCustomerEmail() {
+  const {
+    emailInput,
+    setEmailInput
+  } = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useContext)(_customer_CustomerContext_jsx__WEBPACK_IMPORTED_MODULE_1__.CustomerContext);
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "ptc-FormInputCustomerEmail"
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
+    htmlFor: "customer-email"
+  }, "Email"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
+    type: "email",
+    id: "customer-email",
+    name: "email",
+    value: emailInput,
+    onChange: event => {
+      setEmailInput(event.target.value);
+    },
+    required: true
+  }));
+}
+
+/***/ }),
+
+/***/ "./react/components/forms/FormInputCustomerPassword.jsx":
+/*!**************************************************************!*\
+  !*** ./react/components/forms/FormInputCustomerPassword.jsx ***!
+  \**************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ FormInputCustomerPassword)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _customer_CustomerContext_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../customer/CustomerContext.jsx */ "./react/components/customer/CustomerContext.jsx");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_2__);
+
+/**
+ * FormInputCustomerPassword component
+ *
+ * Controlled input to collect a customer's password.
+ */
+
+
+
+function FormInputCustomerPassword({
+  extraClassNames = ''
+}) {
+  const {
+    passwordInput,
+    setPasswordInput
+  } = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useContext)(_customer_CustomerContext_jsx__WEBPACK_IMPORTED_MODULE_1__.CustomerContext);
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "ptc-FormInputCustomerPassword" + extraClassNames
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("label", {
+    htmlFor: "customer-password"
+  }, "Password"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
+    type: "password",
+    id: "customer-password",
+    name: "password",
+    value: passwordInput,
+    onChange: event => {
+      setPasswordInput(event.target.value);
+    },
+    required: true
+  }));
+}
+
+/***/ }),
+
+/***/ "./react/components/forms/FormStepVerificationCode.jsx":
+/*!*************************************************************!*\
+  !*** ./react/components/forms/FormStepVerificationCode.jsx ***!
+  \*************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ FormStepVerificationCode)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _FormInputCodePuncher_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./FormInputCodePuncher.jsx */ "./react/components/forms/FormInputCodePuncher.jsx");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_2__);
+
+/**
+ * FormStepVerificationCode component
+ *
+ * Sends a verification code to a recipient's email and validates
+ * the user's response.
+ */
+
+
+
+function FormStepVerificationCode({
+  email,
+  codeLength,
+  onSuccess
+}) {
+  const [codeDigits, setCodeDigits] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useState)(Array.from({
+    length: codeLength
+  }, () => ''));
+  const [status, setStatus] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useState)('idle');
+  const [error, setError] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useState)('');
+  const formRef = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useRef)();
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
+    if (codeLength === codeDigits.join('').length) {
+      // Automatically submit when all digits are entered.
+      formRef.current.submit();
+    }
+  }, [codeDigits]);
+  const handleSubmit = async event => {
+    event.preventDefault();
+    // Check verification code length.
+    const verificationCodeString = codeDigits.join('');
+    if (verificationCodeString.length !== codeLength) {
+      setError(`Please enter the ${codeLength}-digit verification code.`);
+    }
+    // Check the verification code against the server.
+    if ('loading' !== status) {
+      setStatus('loading');
+      await window.fetch(`${window.ptcTheme.api.v1}/mailing-lists/subscribe`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-WP-Nonce': window.ptcTheme.api.auth_nonce
+        },
+        body: JSON.stringify({
+          email: email,
+          verification_code: codeDigits.join(''),
+          list_id: 'a2tBf2KrKnxBF66s',
+          // Hard-coded. Sorry, Mom.
+          nonce: window.ptcTheme.api.nonce
+        })
+      }).then(async res => {
+        body = await res.json();
+        if (res.ok && 'success' === body?.status) {
+          onSuccess(body);
+        } else if (body?.message) {
+          setError(err.message);
+        } else {
+          setError('Failed to verify email. Please try again.');
+        }
+      }).catch(err => {
+        setError(err.message);
+      }).finally(() => {
+        setStatus('idle');
+      });
+    }
+  };
+  let innerContent = null;
+  if ('loading' === status) {
+    innerContent = (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "Loading...");
+  } else {
+    innerContent = (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("form", {
+      ref: formRef,
+      onSubmit: handleSubmit
+    }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "Confirm your email address"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, `To continue, please enter the ${length}-digit verification code sent to your ${email} email.`), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_FormInputCodePuncher_jsx__WEBPACK_IMPORTED_MODULE_1__["default"], {
+      slots: codeDigits,
+      onChange: setCodeDigits
+    }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
+      type: "submit"
+    }, "Continue"));
+  }
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "ptc-FormStepVerificationCode"
+  }, error && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, error), innerContent);
 }
 
 /***/ }),

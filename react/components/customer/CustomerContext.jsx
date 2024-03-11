@@ -32,48 +32,42 @@ export function CustomerContextProvider({ children }) {
 	};
 
 	const authenticate = async ( action ) => {
-		if ( 'loading' !== processingStatus ) {
-			setProcessingStatus('loading');
-			return await window.fetch(
-				`${window.ptcTheme.api.v1}/customer/authenticate`,
-				{
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json',
-						'X-WP-Nonce': window.ptcTheme.api.auth_nonce,
-					},
-					body: JSON.stringify({
-						action,
-						email: context.emailInput,
-						password: context.passwordInput,
-						nonce: window.ptcTheme.api.nonce,
-					}),
-				})
-				.then(async (res) => {
+		return await window.fetch(
+			`${window.ptcTheme.api.v1}/customer/authenticate`,
+			{
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					'X-WP-Nonce': window.ptcTheme.api.auth_nonce,
+				},
+				body: JSON.stringify({
+					action,
+					email: context.emailInput,
+					password: context.passwordInput,
+					nonce: window.ptcTheme.api.nonce,
+				}),
+			})
+			.then(async (res) => {
 
-					if ( ! res.ok ) {
-						throw `Failed to log in. Error: ${res.statusText}`;
-					}
+				const body = await res.json();
 
-					const body = await res.json();
+				if ( res.ok && body?.data?.authToken ) {
 					setAuthToken(body.data.authToken);
+				}
 
-					return body;
-				})
-				.catch(err => {
-					return {
-						status: 'error',
-						code: 500,
-						message: err,
-						data: null,
-					};
-				})
-				.finally(() => {
-					setProcessingStatus('idle');
-				});
-		} else {
-			return resErrorAlreadyProcessing;
-		}
+				return body;
+			})
+			.catch(err => {
+				return {
+					status: 'error',
+					code: 500,
+					message: err,
+					data: null,
+				};
+			})
+			.finally(() => {
+				setProcessingStatus('idle');
+			});
 	};
 
 	// Public context.
@@ -90,11 +84,21 @@ export function CustomerContextProvider({ children }) {
 		},
 
 		login: async () => {
-			return await authenticate('login');
+			if ( 'loading' !== processingStatus ) {
+				setProcessingStatus('loading');
+				return await authenticate('login');
+			} else {
+				return resErrorAlreadyProcessing;
+			}
 		},
 
 		signup: async () => {
-			return await authenticate('signup');
+			if ( 'loading' !== processingStatus ) {
+				setProcessingStatus('loading');
+				return await authenticate('signup');
+			} else {
+				return resErrorAlreadyProcessing;
+			}
 		},
 
 		logout: () => {
