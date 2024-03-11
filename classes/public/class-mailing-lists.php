@@ -605,7 +605,7 @@ class Mailing_Lists {
 				SELECT *
 				FROM %i
 				WHERE email = %s
-				  AND mailing_list = %s
+					AND mailing_list = %s
 				LIMIT 1
 				FOR UPDATE;
 				',
@@ -677,7 +677,7 @@ class Mailing_Lists {
 				FROM {$wpdb->options} o1
 				JOIN {$wpdb->options} o2
 				WHERE o1.option_name = %s
-				  AND o2.option_name = %s
+					AND o2.option_name = %s
 				FOR UPDATE;
 				",
 				static::API_REQUESTS_TRACKER_COUNT_OPTION,
@@ -762,6 +762,19 @@ class Mailing_Lists {
 		string $mailing_list
 	) {
 		return wp_hash( $email . $mailing_list );
+	}
+
+	private static function get_email_verification_code(
+		string $email,
+		string $mailing_list,
+		int $tick
+	) : string {
+		// Use crc32 to generate an integer from the provided data.
+		$hash = abs( crc32( $email . $mailing_list . $tick . wp_salt() ) );
+		$code = substr( $hash, -3 ) . substr( $hash, 0, 3 );
+		// Pad to ensure 6-digit length.
+		$code = str_pad( $code, 6, '2', \STR_PAD_BOTH );
+		return $code;
 	}
 
 	/**

@@ -5,23 +5,80 @@
  * the user's response.
  */
 
-import { useEffect, useState } from '@wordpress/element';
+import { useState } from '@wordpress/element';
 
-export default function FormStepVerificationCode({ formData, setFormData }) {
+export default function FormStepVerificationCode({ email, codeLength, onSuccess }) {
+	const [ codeDigits, setCodeDigits ] = useState(Array.from({ codeLength }, () => ''));
 	const [ status, setStatus ] = useState('idle');
+	const [ error, setError ] = useState('');
+	const formRef = useRef();
 
 	useEffect(() => {
+		if ( codeLength === codeDigits.join('').length ) {
+			// Automatically submit when all digits are entered.
+			formRef.current.submit();
+		}
+	}, [codeDigits]);
 
-		// do something...
+	const handleSubmit = async (event) => {
+		event.preventDefault();
+		// Check verification code length.
+		const verificationCodeString = codeDigits.join('');
+		if ( verificationCodeString.length !== codeLength ) {
+			setError(`Please enter the ${codeLength}-digit verification code.`);
+		}
+		// Check the verification code against the server.
+		if ( 'loading' !== status ) {
+			setStatus('loading');
+			await window.fetch(
+				/* api endpoint url */,
+				{
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify({
+						email,
+						verification_code: verificationCodeString,
+					}),
+				})
+				.then(res => {
+					body = await res.json();
+					if ( res.ok && 'success' === body?.status ) {
+						onSuccess(body);
+					} else if ( body?.message ) {
+						setError(err.message);
+					} else {
+						setError('Failed to verify email. Please try again.');
+					}
+				})
+				.catch(err => {
+					setError(err.message);
+				})
+				.finally(() => {
+					setStatus('idle');
+				});
+		}
+	};
 
-		return () => {
-			// cleanup something...
-		};
-	}, []);
+	let innerContent = null;
+	if ( 'loading' === status ) {
+		innerContent = <p>Loading...</p>;
+	} else {
+		innerContent = (
+			<form ref={formRef} onSubmit={handleSubmit}>
+				<p>Confirm your email address</p>
+				<p>{`To continue, please enter the ${length}-digit verification code sent to your ${email} email.`}</p>
+				<FormInputCodePuncher slots={codeDigits} onChange={setCodeDigits} />
+				<button type="submit">Continue</button>
+			</form>
+		);
+	}
 
 	return (
 		<div className="ptc-FormStepVerificationCode">
-			{/* ... content goes here ... */}
+			{ error && <p>{error}</p> }
+			{innerContent}
 		</div>
 	);
 }

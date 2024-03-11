@@ -4,7 +4,7 @@
  * Manages customer authentication and state data.
  */
 
-import { createContext, useState } from '@wordpress/element';
+import { createContext, useEffect, useState } from '@wordpress/element';
 
 export const CustomerContext = createContext(false);
 
@@ -24,29 +24,38 @@ export function CustomerContextProvider({ children }) {
 		sessionStorage.setItem('ptcCustomer', authToken);
 	}, [ authToken ]);
 
+	const resErrorAlreadyProcessing = {
+		status: 'error',
+		code: 400,
+		message: 'Already processing another request.',
+		data: null,
+	};
+
 	const authenticate = async ( action ) => {
-		if ( 'idle' === processingStatus ) {
+		if ( 'loading' !== processingStatus ) {
 			setProcessingStatus('loading');
 			return await window.fetch(
-				/* api endpoint url */,
+				`${window.ptcTheme.api.v1}/customer/authenticate`,
 				{
-	        method: 'POST',
-	        headers: {
-	          'Content-Type': 'application/json',
-	        },
-	        body: JSON.stringify({
-	        	action,
-	          email: context.emailInput,
-	          password: context.passwordInput,
-	        }),
-	      })
-				.then(res => {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+						'X-WP-Nonce': window.ptcTheme.api.auth_nonce,
+					},
+					body: JSON.stringify({
+						action,
+						email: context.emailInput,
+						password: context.passwordInput,
+						nonce: window.ptcTheme.api.nonce,
+					}),
+				})
+				.then(async (res) => {
 
 					if ( ! res.ok ) {
-						throw 'Signin failed: ' + res.statusText;
+						throw `Failed to log in. Error: ${res.statusText}`;
 					}
 
-					body = await res.json();
+					const body = await res.json();
 					setAuthToken(body.data.authToken);
 
 					return body;
@@ -63,12 +72,7 @@ export function CustomerContextProvider({ children }) {
 					setProcessingStatus('idle');
 				});
 		} else {
-			return {
-	      status: 'error',
-	      code: 400,
-	      message: 'Already processing another request.',
-	      data: null,
-	    };
+			return resErrorAlreadyProcessing;
 		}
 	};
 
@@ -95,6 +99,48 @@ export function CustomerContextProvider({ children }) {
 
 		logout: () => {
 			setAuthToken(''); // reset state.
+		},
+
+		verifyEmail: async () => {
+			if ( 'loading' !== processingStatus ) {
+				setProcessingStatus('loading');
+				return await window.fetch(
+					`${window.ptcTheme.api.v1}/mailing-lists/subscribe`,
+					{
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json',
+							'X-WP-Nonce': window.ptcTheme.api.auth_nonce,
+						},
+						body: JSON.stringify({
+							email: context.emailInput,
+							list_id: 'a2tBf2KrKnxBF66s', // Hard-coded. Sorry, Mom.
+							nonce: window.ptcTheme.api.nonce,
+						}),
+					})
+					.then(async (res) => {
+
+						if ( ! res.ok ) {
+							throw `Failed to verify email. Error: ${res.statusText}`;
+						}
+
+						const body = await res.json();
+						return body;
+					})
+					.catch(err => {
+						return {
+							status: 'error',
+							code: 500,
+							message: err,
+							data: null,
+						};
+					})
+					.finally(() => {
+						setProcessingStatus('idle');
+					});
+			} else {
+				return resErrorAlreadyProcessing;
+			}
 		},
 
 		resetPassword: async () => {

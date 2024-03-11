@@ -6,21 +6,14 @@
 
 import { useEffect, useState } from '@wordpress/element';
 
-export default function FormCustomerAuthentication({ formData, setFormData }) {
+export default function FormCustomerAuthentication({ onSuccess }) {
 	const [ status, setStatus ] = useState('idle');
 
-	useEffect(() => {
-
-		// do something...
-
-		return () => {
-			// cleanup something...
-		};
-	}, []);
+	// @todo - Make tabbed component to elegantly switch between login and signup forms.
 
 	return (
 		<div className="ptc-FormCustomerAuthentication">
-			{/* ... content goes here ... */}
+			<h2>Hello, cruel world!</h2>
 		</div>
 	);
 }

@@ -67,6 +67,18 @@ function enqueue_scripts() {
 				THEME_VERSION,
 				true
 			);
+			$asset_file = require_once THEME_PATH . '/react/build/index.jsx.asset.php';
+			wp_enqueue_script(
+				'ptc-completionist-customer-components',
+				REACT_BUILD_URI . '/index.jsx.js',
+				$asset_file['dependencies'],
+				$asset_file['version'],
+				true
+			);
+			enqueue_frontend_namespace_var(
+				'ptc-completionist-customer-components',
+				'before'
+			);
 			break;
 
 		case 'page-plugin-info.php':

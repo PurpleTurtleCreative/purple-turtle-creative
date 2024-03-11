@@ -5,7 +5,8 @@
     "terser-folder": "^2.0.0"
   },
   "scripts": {
-    "build": "npm run styles && npm run scripts",
+    "build": "wp-scripts build react/index.jsx --output-path=react/build && npm run styles && npm run scripts",
+    "start": "wp-scripts start react/index.jsx --output-path=react/build",
     "styles": "sass --style=compressed assets/styles/scss:assets/styles",
     "watch:styles": "sass --style=expanded --watch assets/styles/scss:assets/styles",
     "scripts": "terser-folder assets/scripts/js/ --each --output=assets/scripts/ --config-file=./terser.json"

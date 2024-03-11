@@ -99,6 +99,8 @@ get_header();
 			?>
 		</div>
 
+		<div id="ptc-react-customer-authentication">Mounting...</div>
+
 		<div class="customer-creation-form">
 			<?php
 			Mailing_Lists::render_subscription_form(
