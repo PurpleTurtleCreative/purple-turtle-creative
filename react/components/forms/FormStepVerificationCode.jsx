@@ -18,7 +18,7 @@ export default function FormStepVerificationCode({ email, codeLength, onSuccess 
 	useEffect(() => {
 		if ( codeLength === codeDigits.join('').length ) {
 			// Automatically submit when all digits are entered.
-			formRef.current.submit();
+			formRef.current.requestSubmit();
 		}
 	}, [codeDigits]);
 
@@ -48,16 +48,18 @@ export default function FormStepVerificationCode({ email, codeLength, onSuccess 
 					}),
 				})
 				.then(async (res) => {
-					body = await res.json();
+					const body = await res.json();
 					if ( res.ok && 'success' === body?.status ) {
 						onSuccess(body);
 					} else if ( body?.message ) {
-						setError(err.message);
+						window.console.error(body.message);
+						setError(body.message);
 					} else {
 						setError('Failed to verify email. Please try again.');
 					}
 				})
 				.catch(err => {
+					window.console.error(err);
 					setError(err.message);
 				})
 				.finally(() => {

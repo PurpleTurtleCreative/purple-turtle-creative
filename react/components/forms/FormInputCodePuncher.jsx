@@ -23,9 +23,14 @@ export default function FormInputCodePuncher({ slots, onChange }) {
 	const handleKeyDown = (index, event) => {
 		if ( 'Backspace' === event.key && index > 0 ) {
 			const updatedSlots = [ ...slots ];
-			updatedSlots[index - 1] = ''; // Clear the previous slot.
+			let slotToClearIndex = index - 1;
+			if ( inputRefs[index].current.value ) {
+				// Clear current slot instead if it has a value.
+				slotToClearIndex = index;
+			}
+			updatedSlots[ slotToClearIndex ] = '';
 			onChange(updatedSlots);
-			inputRefs[index - 1].current.focus(); // Focus previous slot.
+			inputRefs[ slotToClearIndex ].current.focus(); // Focus previous slot.
 		}
 	};
 

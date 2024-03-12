@@ -37,6 +37,7 @@ export default function FormCustomerCreateAccount( onSuccess ) {
 	};
 
 	const handleEmailVerificationSuccess = (res) => {
+		window.console.trace(res);
 		setError('');
 	};
 

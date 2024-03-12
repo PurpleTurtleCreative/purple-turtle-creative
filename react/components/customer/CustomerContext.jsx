@@ -32,46 +32,53 @@ export function CustomerContextProvider({ children }) {
 	};
 
 	const authenticate = async ( action ) => {
-		return await window.fetch(
-			`${window.ptcTheme.api.v1}/customer/authenticate`,
-			{
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-					'X-WP-Nonce': window.ptcTheme.api.auth_nonce,
-				},
-				body: JSON.stringify({
-					action,
-					email: context.emailInput,
-					password: context.passwordInput,
-					nonce: window.ptcTheme.api.nonce,
-				}),
-			})
-			.then(async (res) => {
+		if ( 'loading' !== processingStatus ) {
+			setProcessingStatus('loading');
+			return await window.fetch(
+				`${window.ptcTheme.api.v1}/customer/authenticate`,
+				{
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+						'X-WP-Nonce': window.ptcTheme.api.auth_nonce,
+					},
+					body: JSON.stringify({
+						action,
+						email: context.emailInput,
+						password: context.passwordInput,
+						nonce: window.ptcTheme.api.nonce,
+					}),
+				})
+				.then(async (res) => {
 
-				const body = await res.json();
+					const body = await res.json();
 
-				if ( res.ok && body?.data?.authToken ) {
-					setAuthToken(body.data.authToken);
-				}
+					if ( res.ok && body?.data?.authToken ) {
+						setAuthToken(body.data.authToken);
+					}
 
-				return body;
-			})
-			.catch(err => {
-				return {
-					status: 'error',
-					code: 500,
-					message: err,
-					data: null,
-				};
-			})
-			.finally(() => {
-				setProcessingStatus('idle');
-			});
+					return body;
+				})
+				.catch(err => {
+					return {
+						status: 'error',
+						code: 500,
+						message: err,
+						data: null,
+					};
+				})
+				.finally(() => {
+					setProcessingStatus('idle');
+				});
+			} else {
+				return resErrorAlreadyProcessing;
+			}
 	};
 
 	// Public context.
 	const context = {
+
+		processingStatus,
 
 		emailInput,
 		setEmailInput,
@@ -84,21 +91,11 @@ export function CustomerContextProvider({ children }) {
 		},
 
 		login: async () => {
-			if ( 'loading' !== processingStatus ) {
-				setProcessingStatus('loading');
-				return await authenticate('login');
-			} else {
-				return resErrorAlreadyProcessing;
-			}
+			return await authenticate('login');
 		},
 
 		signup: async () => {
-			if ( 'loading' !== processingStatus ) {
-				setProcessingStatus('loading');
-				return await authenticate('signup');
-			} else {
-				return resErrorAlreadyProcessing;
-			}
+			return await authenticate('signup');
 		},
 
 		logout: () => {

@@ -48,38 +48,44 @@ function CustomerContextProvider({
     data: null
   };
   const authenticate = async action => {
-    return await window.fetch(`${window.ptcTheme.api.v1}/customer/authenticate`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-WP-Nonce': window.ptcTheme.api.auth_nonce
-      },
-      body: JSON.stringify({
-        action,
-        email: context.emailInput,
-        password: context.passwordInput,
-        nonce: window.ptcTheme.api.nonce
-      })
-    }).then(async res => {
-      const body = await res.json();
-      if (res.ok && body?.data?.authToken) {
-        setAuthToken(body.data.authToken);
-      }
-      return body;
-    }).catch(err => {
-      return {
-        status: 'error',
-        code: 500,
-        message: err,
-        data: null
-      };
-    }).finally(() => {
-      setProcessingStatus('idle');
-    });
+    if ('loading' !== processingStatus) {
+      setProcessingStatus('loading');
+      return await window.fetch(`${window.ptcTheme.api.v1}/customer/authenticate`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-WP-Nonce': window.ptcTheme.api.auth_nonce
+        },
+        body: JSON.stringify({
+          action,
+          email: context.emailInput,
+          password: context.passwordInput,
+          nonce: window.ptcTheme.api.nonce
+        })
+      }).then(async res => {
+        const body = await res.json();
+        if (res.ok && body?.data?.authToken) {
+          setAuthToken(body.data.authToken);
+        }
+        return body;
+      }).catch(err => {
+        return {
+          status: 'error',
+          code: 500,
+          message: err,
+          data: null
+        };
+      }).finally(() => {
+        setProcessingStatus('idle');
+      });
+    } else {
+      return resErrorAlreadyProcessing;
+    }
   };
 
   // Public context.
   const context = {
+    processingStatus,
     emailInput,
     setEmailInput,
     passwordInput,
@@ -88,20 +94,10 @@ function CustomerContextProvider({
       return !!authToken;
     },
     login: async () => {
-      if ('loading' !== processingStatus) {
-        setProcessingStatus('loading');
-        return await authenticate('login');
-      } else {
-        return resErrorAlreadyProcessing;
-      }
+      return await authenticate('login');
     },
     signup: async () => {
-      if ('loading' !== processingStatus) {
-        setProcessingStatus('loading');
-        return await authenticate('signup');
-      } else {
-        return resErrorAlreadyProcessing;
-      }
+      return await authenticate('signup');
     },
     logout: () => {
       setAuthToken(''); // reset state.
@@ -262,6 +258,7 @@ function FormCustomerCreateAccount(onSuccess) {
     processSignup();
   };
   const handleEmailVerificationSuccess = res => {
+    window.console.trace(res);
     setError('');
   };
   const processSignup = async () => {
@@ -376,9 +373,14 @@ function FormInputCodePuncher({
   const handleKeyDown = (index, event) => {
     if ('Backspace' === event.key && index > 0) {
       const updatedSlots = [...slots];
-      updatedSlots[index - 1] = ''; // Clear the previous slot.
+      let slotToClearIndex = index - 1;
+      if (inputRefs[index].current.value) {
+        // Clear current slot instead if it has a value.
+        slotToClearIndex = index;
+      }
+      updatedSlots[slotToClearIndex] = '';
       onChange(updatedSlots);
-      inputRefs[index - 1].current.focus(); // Focus previous slot.
+      inputRefs[slotToClearIndex].current.focus(); // Focus previous slot.
     }
   };
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
@@ -538,7 +540,7 @@ function FormStepVerificationCode({
   (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
     if (codeLength === codeDigits.join('').length) {
       // Automatically submit when all digits are entered.
-      formRef.current.submit();
+      formRef.current.requestSubmit();
     }
   }, [codeDigits]);
   const handleSubmit = async event => {
@@ -565,15 +567,17 @@ function FormStepVerificationCode({
           nonce: window.ptcTheme.api.nonce
         })
       }).then(async res => {
-        body = await res.json();
+        const body = await res.json();
         if (res.ok && 'success' === body?.status) {
           onSuccess(body);
         } else if (body?.message) {
-          setError(err.message);
+          window.console.error(body.message);
+          setError(body.message);
         } else {
           setError('Failed to verify email. Please try again.');
         }
       }).catch(err => {
+        window.console.error(err);
         setError(err.message);
       }).finally(() => {
         setStatus('idle');
