@@ -101,18 +101,6 @@ get_header();
 
 		<div id="ptc-react-customer-authentication">Mounting...</div>
 
-		<div class="customer-creation-form">
-			<?php
-			Mailing_Lists::render_subscription_form(
-				'customers@sandboxe9304e53e5994067aa8ce9e5897e4536.mailgun.org',
-				'Create or Log In to Your Account',
-				'Please create an account or sign in to manage your software licenses and billing information.',
-				'customer-login',
-				'Create Account'
-			);
-			?>
-		</div>
-
 		<?php
 		while ( have_posts() ) :
 			the_post();

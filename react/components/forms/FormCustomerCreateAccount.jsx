@@ -8,6 +8,7 @@ import { CustomerContext } from '../customer/CustomerContext.jsx';
 
 import FormInputCustomerEmail from './FormInputCustomerEmail.jsx';
 import FormInputCustomerPassword from './FormInputCustomerPassword.jsx';
+import FormInputCaptcha from './FormInputCaptcha.jsx';
 import FormStepVerificationCode from './FormStepVerificationCode.jsx';
 
 import { useContext, useState } from '@wordpress/element';
@@ -22,6 +23,12 @@ export default function FormCustomerCreateAccount( onSuccess ) {
 	} = useContext(CustomerContext);
 	const [ error, setError ] = useState('');
 	const [ confirmPasswordInput, setConfirmPasswordInput ] = useState('');
+	const [ captchaResponse, setCaptchaResponse ] = useState('');
+
+	const handleTurnstileResponse = (token) => {
+		window.console.log(token);
+		setCaptchaResponse(token);
+	}
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
@@ -104,7 +111,10 @@ export default function FormCustomerCreateAccount( onSuccess ) {
 						required
 					/>
 				</div>
-				{/* @todo ADD CLOUDFLARE TURNSTILE: https://developers.cloudflare.com/turnstile/get-started/client-side-rendering/#explicitly-render-the-turnstile-widget */}
+				<FormInputCaptcha
+					action="ptc-customer-create-account"
+					onTurnstileReponse={handleTurnstileResponse}
+				/>
 				<button type="submit">Create Account</button>
 				<p><small>By submitting this form, you agree to our <a href="https://purpleturtlecreative.com/privacy-policy/">Privacy Policy</a> and to receiving important email messages from Purple Turtle Creative about your purchases. A verification email will be sent to confirm your account creation.</small></p>
 			</form>

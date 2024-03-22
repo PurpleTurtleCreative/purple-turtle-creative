@@ -15,8 +15,8 @@ export default function FormCustomerAuthentication({ onSuccess }) {
 
 	return (
 		<div className="ptc-FormCustomerAuthentication">
-			<h2>Hello, cruel world!</h2>
-			<p>Test the account creation process below...</p>
+			<h2>Create or Log In to Your Account</h2>
+			<p>Please create an account or sign in to manage your software licenses and billing information.</p>
 			<FormCustomerCreateAccount />
 		</div>
 	);

@@ -202,7 +202,7 @@ function FormCustomerAuthentication({
 
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "ptc-FormCustomerAuthentication"
-  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", null, "Hello, cruel world!"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "Test the account creation process below..."), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_FormCustomerCreateAccount_jsx__WEBPACK_IMPORTED_MODULE_1__["default"], null));
+  }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", null, "Create or Log In to Your Account"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "Please create an account or sign in to manage your software licenses and billing information."), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_FormCustomerCreateAccount_jsx__WEBPACK_IMPORTED_MODULE_1__["default"], null));
 }
 
 /***/ }),
@@ -222,15 +222,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _customer_CustomerContext_jsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../customer/CustomerContext.jsx */ "./react/components/customer/CustomerContext.jsx");
 /* harmony import */ var _FormInputCustomerEmail_jsx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./FormInputCustomerEmail.jsx */ "./react/components/forms/FormInputCustomerEmail.jsx");
 /* harmony import */ var _FormInputCustomerPassword_jsx__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./FormInputCustomerPassword.jsx */ "./react/components/forms/FormInputCustomerPassword.jsx");
-/* harmony import */ var _FormStepVerificationCode_jsx__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./FormStepVerificationCode.jsx */ "./react/components/forms/FormStepVerificationCode.jsx");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
-/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _FormInputCaptcha_jsx__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./FormInputCaptcha.jsx */ "./react/components/forms/FormInputCaptcha.jsx");
+/* harmony import */ var _FormStepVerificationCode_jsx__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./FormStepVerificationCode.jsx */ "./react/components/forms/FormStepVerificationCode.jsx");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_6__);
 
 /**
  * FormCustomerCreateAccount component
  *
  * Creates a new customer account.
  */
+
 
 
 
@@ -244,9 +246,14 @@ function FormCustomerCreateAccount(onSuccess) {
     passwordInput,
     processingStatus,
     signup
-  } = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_5__.useContext)(_customer_CustomerContext_jsx__WEBPACK_IMPORTED_MODULE_1__.CustomerContext);
-  const [error, setError] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_5__.useState)('');
-  const [confirmPasswordInput, setConfirmPasswordInput] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_5__.useState)('');
+  } = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_6__.useContext)(_customer_CustomerContext_jsx__WEBPACK_IMPORTED_MODULE_1__.CustomerContext);
+  const [error, setError] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_6__.useState)('');
+  const [confirmPasswordInput, setConfirmPasswordInput] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_6__.useState)('');
+  const [captchaResponse, setCaptchaResponse] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_6__.useState)('');
+  const handleTurnstileResponse = token => {
+    window.console.log(token);
+    setCaptchaResponse(token);
+  };
   const handleSubmit = async event => {
     event.preventDefault();
     if (confirmPasswordInput !== passwordInput) {
@@ -291,7 +298,7 @@ function FormCustomerCreateAccount(onSuccess) {
   } else if ('loading' === processingStatus) {
     innerContent = (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "Loading...");
   } else if ('unverified_email' === error) {
-    innerContent = (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_FormStepVerificationCode_jsx__WEBPACK_IMPORTED_MODULE_4__["default"], {
+    innerContent = (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_FormStepVerificationCode_jsx__WEBPACK_IMPORTED_MODULE_5__["default"], {
       email: emailInput,
       codeLength: 6,
       onSuccess: handleEmailVerificationSuccess
@@ -318,7 +325,10 @@ function FormCustomerCreateAccount(onSuccess) {
         setConfirmPasswordInput(event.target.value);
       },
       required: true
-    })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
+    })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_FormInputCaptcha_jsx__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      action: "ptc-customer-create-account",
+      onTurnstileReponse: handleTurnstileResponse
+    }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
       type: "submit"
     }, "Create Account"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("small", null, "By submitting this form, you agree to our ", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
       href: "https://purpleturtlecreative.com/privacy-policy/"
@@ -327,6 +337,63 @@ function FormCustomerCreateAccount(onSuccess) {
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "ptc-FormCustomerCreateAccount"
   }, errorText && (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, errorText), innerContent);
+}
+
+/***/ }),
+
+/***/ "./react/components/forms/FormInputCaptcha.jsx":
+/*!*****************************************************!*\
+  !*** ./react/components/forms/FormInputCaptcha.jsx ***!
+  \*****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ FormInputCaptcha)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+
+/**
+ * FormInputCaptcha component
+ *
+ * Form input to render a captcha.
+ *
+ * @link https://developers.cloudflare.com/turnstile/get-started/client-side-rendering/#explicitly-render-the-turnstile-widget
+ */
+
+function FormInputCaptcha({
+  action,
+  onTurnstileReponse
+}) {
+  // @todo - Use turnstile.render() to manage state.
+
+  let innerContent = null;
+  if (!window?.turnstile) {
+    window.console.error('Failed to render FormInputCaptcha without Cloudflare Turnstile script enqueued.');
+  } else if (!window?.ptcTheme?.cf_turnstile?.site_key) {
+    window.console.error('Failed to render FormInputCaptcha without configured Cloudflare Turnstile site key.');
+  } else if (!action) {
+    window.console.error('Failed to render FormInputCaptcha without specified action.');
+  } else {
+    innerContent = (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("input", {
+      type: "hidden",
+      name: "cf-turnstile-action",
+      value: action
+    }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+      class: "cf-turnstile",
+      "data-language": "en-us",
+      "data-theme": "light",
+      "data-size": "normal",
+      "data-appearance": "always",
+      "data-sitekey": window.ptcTheme.cf_turnstile.site_key,
+      "data-action": action,
+      "data-callback": onTurnstileReponse
+    }));
+  }
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: "ptc-FormInputCaptcha"
+  }, innerContent);
 }
 
 /***/ }),

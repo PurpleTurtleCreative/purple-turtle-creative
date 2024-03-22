@@ -95,12 +95,12 @@ class Billing {
 						),
 						'cf-turnstile-action'   => array(
 							'type'              => 'string',
-							'required'          => false, // @TODO - USE CLOUDFLARE TURNSTILE VERIFICATION IN PRODUCTION.
+							'required'          => true,
 							'sanitize_callback' => 'sanitize_text_field',
 						),
 						'cf-turnstile-response' => array(
 							'type'              => 'string',
-							'required'          => false, // @TODO - USE CLOUDFLARE TURNSTILE VERIFICATION IN PRODUCTION.
+							'required'          => true,
 							// Hopefully this doesn't invalidate successful tokens.
 							'sanitize_callback' => 'sanitize_text_field',
 							'validate_callback' => function ( $value, $request ) {
@@ -144,7 +144,7 @@ class Billing {
 
 		// @todo - Return static::create_customer_jwt( $customer ) in res.data on success.
 
-		sleep( 5 ); // @TODO - JUST QUICK TESTING FOR FRONTEND.
+		sleep( 2 ); // @TODO - JUST QUICK TESTING FOR FRONTEND.
 
 		return new \WP_REST_Response( $res, $res['code'] );
 	}
