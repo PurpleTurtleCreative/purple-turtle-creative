@@ -31,7 +31,7 @@ export function CustomerContextProvider({ children }) {
 		data: null,
 	};
 
-	const authenticate = async ( action ) => {
+	const authenticate = async ( action, params = {} ) => {
 		if ( 'loading' !== processingStatus ) {
 			setProcessingStatus('loading');
 			return await window.fetch(
@@ -47,6 +47,7 @@ export function CustomerContextProvider({ children }) {
 						email: context.emailInput,
 						password: context.passwordInput,
 						nonce: window.ptcTheme.api.nonce,
+						...params,
 					}),
 				})
 				.then(async (res) => {
@@ -90,12 +91,12 @@ export function CustomerContextProvider({ children }) {
 			return ( !! authToken );
 		},
 
-		login: async () => {
-			return await authenticate('login');
+		login: async ( params = {} ) => {
+			return await authenticate('login', params);
 		},
 
-		signup: async () => {
-			return await authenticate('signup');
+		signup: async ( params = {} ) => {
+			return await authenticate('signup', params);
 		},
 
 		logout: () => {

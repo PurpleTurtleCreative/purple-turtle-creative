@@ -19,6 +19,10 @@ require_once THEME_PATH . '/classes/public/class-html-routes.php';
  */
 class Billing {
 
+	private const HTTP_REQUEST_TIMEOUT = 10;
+
+	private const CUSTOMERS_MAILING_LIST = 'customers@sandboxe9304e53e5994067aa8ce9e5897e4536.mailgun.org';
+
 	private const THANK_YOU_PAGE_ROUTE = '/billing/thank-you';
 
 	/**
@@ -129,22 +133,71 @@ class Billing {
 
 		$res = array(
 			'status'  => 'error',
-			'code'    => 403,
-			'message' => 'TESTING - Email verification required.',
+			'code'    => 500,
+			'message' => 'An unknown error occurred.',
 			'data'    => null,
 		);
 
-		// @todo - Retrieve customer by email from Stripe.
+		try {
 
-		// @todo - Check request.action to create or login customer.
+			// Check if customer has verified email.
+			if (
+				true !== Mailing_Lists::is_email_verified(
+					$request['email'],
+					static::CUSTOMERS_MAILING_LIST
+				)
+			) {
+				// ALL CUSTOMERS MUST VERIFY PROOF OF EMAIL ADDRESS
+				// OWNERSHIP BEFORE CREATING OR ACCESSING THEIR ACCOUNT.
+				throw new \Exception( 'Email verification required.', 403 );
+			}
 
-		// @todo - Handle create new customer. Email must have been verified, otherwise return 403 Unauthorized response.
+			// Retrieve customer by email from Stripe.
+			$customer = static::get_customer_by_email( $request['email'] );
 
-		// @todo - Handle log in existing customer by confirming hashed password value from Stripe customer.meta.ptc_password value.
+			// Check customer account authentication action.
+			if ( 'signup' === $request['action'] ) {
 
-		// @todo - Return static::create_customer_jwt( $customer ) in res.data on success.
+				// Ensure customer doesn't already exist.
+				if ( ! empty( $customer ) ) {
+					throw new \Exception( 'Customer account already exists.', 409 );
+				}
 
-		sleep( 2 ); // @TODO - JUST QUICK TESTING FOR FRONTEND.
+				// Create new customer.
+				$customer = static::create_customer(
+					array(
+						'email' => '',
+						'metadata' => array(
+							'referrer' => $request->get_header( 'Referer' ),
+							'ptc_password' => wp_hash_password( $request['password'] ),
+						),
+					)
+				);
+			} elseif ( 'login' === $request['action'] ) {
+
+				// Check existing customer's password.
+				if (
+					true !== wp_check_password(
+						$request['password'],
+						$customer['metadata']['ptc_password']
+					)
+				) {
+					throw new \Exception( 'Incorrect password.', 401 );
+				}
+			} else {
+				throw new \Exception( 'Unrecognized requested action.', 400 );
+			}
+
+			// @todo - Return static::create_customer_jwt( $customer ) in res.data on success.
+
+		} catch ( \Exception $err ) {
+			$res = array(
+				'status'  => 'error',
+				'code'    => $err->getCode(),
+				'message' => $err->getMessage(),
+				'data'    => null,
+			);
+		}
 
 		return new \WP_REST_Response( $res, $res['code'] );
 	}
@@ -188,5 +241,188 @@ class Billing {
 		}
 
 		return $plugin_metadata;
+	}
+
+	/**
+	 * Gets a customer by email.
+	 *
+	 * @param string $email The customer's email to search by.
+	 *
+	 * @return array The customer. Empty if none found.
+	 */
+	private static function get_customer_by_email( string $email ) : array {
+
+		if ( empty( $email ) ) {
+			trigger_error( 'Refused to search for customer by empty email value.', \E_USER_ERROR );
+			return array();
+		}
+
+		$customers = static::get_customers( "email:'{$email}'", 1 );
+		if ( empty( $customers[0] ) ) {
+			return array();
+		}
+
+		return $customers[0];
+	}
+
+	/**
+	 * Gets matching customers.
+	 *
+	 * @link https://docs.stripe.com/api/customers/search
+	 * @link https://docs.stripe.com/search#query-fields-for-customers
+	 *
+	 * @param string $query The search query.
+	 *
+	 * @return array The matching customers. Empty if none found.
+	 */
+	private static function get_customers( string $query, int $limit = 1 ) : array {
+
+		// Validate required parameters.
+
+		if ( empty( $query ) ) {
+			trigger_error( 'Failed to get customers with no [query] specified.', \E_USER_ERROR );
+			return array();
+		}
+
+		if ( $limit < 1 || $limit > 100 ) {
+			trigger_error( 'Failed to get customers with invalid [limit] value. Must be between 1 and 100.', \E_USER_ERROR );
+		}
+
+		// Prepare request args.
+		$args = array(
+			'query' => $query,
+			'limit' => $limit,
+			// 'expand' => array(
+			// 	'invoice',
+			// 	'subscription.plan.product',
+			// ),
+		);
+
+		// Perform the request.
+		$response = wp_remote_request(
+			'https://api.stripe.com/v1/customers/search?' . http_build_query( $args ),
+			array(
+				'timeout' => static::HTTP_REQUEST_TIMEOUT,
+				'method'  => 'GET',
+				'headers' => array(
+					'Content-Type'  => 'application/x-www-form-urlencoded',
+					'Authorization' => 'Basic ' . base64_encode( \PTC_STRIPE_API_SECRET . ':' ),
+				),
+			)
+		);
+
+		// Process the response.
+
+		if ( is_wp_error( $response ) ) {
+
+			$error_message = $response->get_error_message();
+			$error_code    = $response->get_error_code();
+
+			trigger_error(
+				wp_kses_post( "Failed request to Stripe API: {$error_code} - {$error_message}" ),
+				\E_USER_NOTICE
+			);
+
+			return array();
+		}
+
+		$status_code = (int) wp_remote_retrieve_response_code( $response );
+
+		$body             = wp_remote_retrieve_body( $response );
+		$decoded_response = json_decode( $body, true );
+
+		if (
+			200 !== $status_code ||
+			! isset( $decoded_response['data'] ) ||
+			! is_array( $decoded_response['data'] )
+		) {
+
+			trigger_error(
+				wp_kses_post( "Stripe API {$status_code} response: " . print_r( $decoded_response, true ) ),
+				\E_USER_NOTICE
+			);
+
+			return array();
+		}
+
+		// Successfully retrieved the customers.
+		return $decoded_response['data'];
+	}
+
+	/**
+	 * Creates a new customer.
+	 *
+	 * @link https://docs.stripe.com/api/customers/create
+	 *
+	 * @param array $args The request arguments.
+	 *
+	 * @return array The new customer. Empty on failure.
+	 */
+	private static function create_customer( array $args ) : array {
+
+		// Validate parameters.
+		if (
+			empty( $args['email'] ) ||
+			empty( $args['metadata']['ptc_password'] )
+		) {
+			trigger_error( 'Refused to create customer with missing required parameter(s) [email] or [metadata][ptc_password].', \E_USER_ERROR );
+			return array();
+		}
+
+		// Recommended parameters.
+		if ( empty( $args['metadata']['referrer'] ) ) {
+			trigger_error( 'Creating customer without recommended [metadata][referrer] value.', \E_USER_WARNING );
+		}
+
+		// Perform the request.
+		$response = wp_remote_request(
+			'https://api.stripe.com/v1/customers',
+			array(
+				'timeout' => static::HTTP_REQUEST_TIMEOUT,
+				'method'  => 'POST',
+				'headers' => array(
+					'Content-Type'  => 'application/x-www-form-urlencoded',
+					'Authorization' => 'Basic ' . base64_encode( \PTC_STRIPE_API_SECRET . ':' ),
+				),
+				'body'    => http_build_query( $args ),
+			)
+		);
+
+		// Process the response.
+
+		if ( is_wp_error( $response ) ) {
+
+			$error_message = $response->get_error_message();
+			$error_code    = $response->get_error_code();
+
+			trigger_error(
+				wp_kses_post( "Failed request to Stripe API: {$error_code} - {$error_message}" ),
+				\E_USER_NOTICE
+			);
+
+			return array();
+		}
+
+		$status_code = (int) wp_remote_retrieve_response_code( $response );
+
+		$body             = wp_remote_retrieve_body( $response );
+		$decoded_response = json_decode( $body, true );
+
+		if (
+			200 !== $status_code ||
+			empty( $decoded_response['id'] ) ||
+			empty( $decoded_response['email'] )
+		) {
+
+			trigger_error(
+				wp_kses_post( "Stripe API {$status_code} response: " . print_r( $decoded_response, true ) ),
+				\E_USER_NOTICE
+			);
+
+			return array();
+		}
+
+		// Successfully created new Checkout Session instance.
+		return $decoded_response;
 	}
 }

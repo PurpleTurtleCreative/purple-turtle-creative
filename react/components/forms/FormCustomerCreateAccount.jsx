@@ -23,12 +23,6 @@ export default function FormCustomerCreateAccount( onSuccess ) {
 	} = useContext(CustomerContext);
 	const [ error, setError ] = useState('');
 	const [ confirmPasswordInput, setConfirmPasswordInput ] = useState('');
-	const [ captchaResponse, setCaptchaResponse ] = useState('');
-
-	const handleTurnstileResponse = (token) => {
-		window.console.log(token);
-		setCaptchaResponse(token);
-	}
 
 	const handleSubmit = async (event) => {
 		event.preventDefault();
@@ -40,16 +34,12 @@ export default function FormCustomerCreateAccount( onSuccess ) {
 			setError('');
 		}
 
-		processSignup();
-	};
+		const formData = new FormData(event.target);
 
-	const handleEmailVerificationSuccess = (res) => {
-		window.console.trace(res);
-		setError('');
-	};
-
-	const processSignup = async () => {
-		signup().then(res => {
+		signup({
+			"cf-turnstile-action": formData.get('cf-turnstile-action'),
+			"cf-turnstile-response": formData.get('cf-turnstile-response'),
+		}).then(res => {
 			if ( 'success' === res?.status ) {
 				onSuccess(res);
 				setError('');
@@ -65,6 +55,11 @@ export default function FormCustomerCreateAccount( onSuccess ) {
 				}
 			}
 		});
+	};
+
+	const handleEmailVerificationSuccess = (res) => {
+		window.console.trace(res);
+		setError('');
 	};
 
 	let errorText = error;
@@ -111,10 +106,7 @@ export default function FormCustomerCreateAccount( onSuccess ) {
 						required
 					/>
 				</div>
-				<FormInputCaptcha
-					action="ptc-customer-create-account"
-					onTurnstileReponse={handleTurnstileResponse}
-				/>
+				<FormInputCaptcha action="ptc-customer-create-account" />
 				<button type="submit">Create Account</button>
 				<p><small>By submitting this form, you agree to our <a href="https://purpleturtlecreative.com/privacy-policy/">Privacy Policy</a> and to receiving important email messages from Purple Turtle Creative about your purchases. A verification email will be sent to confirm your account creation.</small></p>
 			</form>

@@ -47,7 +47,7 @@ function CustomerContextProvider({
     message: 'Already processing another request.',
     data: null
   };
-  const authenticate = async action => {
+  const authenticate = async (action, params = {}) => {
     if ('loading' !== processingStatus) {
       setProcessingStatus('loading');
       return await window.fetch(`${window.ptcTheme.api.v1}/customer/authenticate`, {
@@ -60,7 +60,8 @@ function CustomerContextProvider({
           action,
           email: context.emailInput,
           password: context.passwordInput,
-          nonce: window.ptcTheme.api.nonce
+          nonce: window.ptcTheme.api.nonce,
+          ...params
         })
       }).then(async res => {
         const body = await res.json();
@@ -93,11 +94,11 @@ function CustomerContextProvider({
     isLoggedIn: () => {
       return !!authToken;
     },
-    login: async () => {
-      return await authenticate('login');
+    login: async (params = {}) => {
+      return await authenticate('login', params);
     },
-    signup: async () => {
-      return await authenticate('signup');
+    signup: async (params = {}) => {
+      return await authenticate('signup', params);
     },
     logout: () => {
       setAuthToken(''); // reset state.
@@ -249,11 +250,6 @@ function FormCustomerCreateAccount(onSuccess) {
   } = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_6__.useContext)(_customer_CustomerContext_jsx__WEBPACK_IMPORTED_MODULE_1__.CustomerContext);
   const [error, setError] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_6__.useState)('');
   const [confirmPasswordInput, setConfirmPasswordInput] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_6__.useState)('');
-  const [captchaResponse, setCaptchaResponse] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_6__.useState)('');
-  const handleTurnstileResponse = token => {
-    window.console.log(token);
-    setCaptchaResponse(token);
-  };
   const handleSubmit = async event => {
     event.preventDefault();
     if (confirmPasswordInput !== passwordInput) {
@@ -262,14 +258,11 @@ function FormCustomerCreateAccount(onSuccess) {
     } else {
       setError('');
     }
-    processSignup();
-  };
-  const handleEmailVerificationSuccess = res => {
-    window.console.trace(res);
-    setError('');
-  };
-  const processSignup = async () => {
-    signup().then(res => {
+    const formData = new FormData(event.target);
+    signup({
+      "cf-turnstile-action": formData.get('cf-turnstile-action'),
+      "cf-turnstile-response": formData.get('cf-turnstile-response')
+    }).then(res => {
       if ('success' === res?.status) {
         onSuccess(res);
         setError('');
@@ -285,6 +278,10 @@ function FormCustomerCreateAccount(onSuccess) {
         }
       }
     });
+  };
+  const handleEmailVerificationSuccess = res => {
+    window.console.trace(res);
+    setError('');
   };
   let errorText = error;
   if ('password_mismatch' === error) {
@@ -326,8 +323,7 @@ function FormCustomerCreateAccount(onSuccess) {
       },
       required: true
     })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_FormInputCaptcha_jsx__WEBPACK_IMPORTED_MODULE_4__["default"], {
-      action: "ptc-customer-create-account",
-      onTurnstileReponse: handleTurnstileResponse
+      action: "ptc-customer-create-account"
     }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {
       type: "submit"
     }, "Create Account"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("small", null, "By submitting this form, you agree to our ", (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("a", {
@@ -363,15 +359,10 @@ __webpack_require__.r(__webpack_exports__);
  */
 
 function FormInputCaptcha({
-  action,
-  onTurnstileReponse
+  action
 }) {
-  // @todo - Use turnstile.render() to manage state.
-
   let innerContent = null;
-  if (!window?.turnstile) {
-    window.console.error('Failed to render FormInputCaptcha without Cloudflare Turnstile script enqueued.');
-  } else if (!window?.ptcTheme?.cf_turnstile?.site_key) {
+  if (!window?.ptcTheme?.cf_turnstile?.site_key) {
     window.console.error('Failed to render FormInputCaptcha without configured Cloudflare Turnstile site key.');
   } else if (!action) {
     window.console.error('Failed to render FormInputCaptcha without specified action.');
@@ -387,8 +378,7 @@ function FormInputCaptcha({
       "data-size": "normal",
       "data-appearance": "always",
       "data-sitekey": window.ptcTheme.cf_turnstile.site_key,
-      "data-action": action,
-      "data-callback": onTurnstileReponse
+      "data-action": action
     }));
   }
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {

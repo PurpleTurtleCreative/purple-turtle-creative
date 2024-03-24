@@ -586,6 +586,31 @@ class Mailing_Lists {
 		);
 	}
 
+	public static function is_email_verified(
+		string $email,
+		string $mailing_list
+	) : bool {
+
+		global $wpdb;
+
+		$maybe_status = $wpdb->get_var(
+			$wpdb->prepare(
+				'
+				SELECT status
+				FROM %i
+				WHERE email = %s
+					AND mailing_list = %s
+				LIMIT 1;
+				',
+				static::DATABASE_EMAIL_VERIFICATION_TABLE,
+				$email,
+				$mailing_list
+			)
+		);
+
+		return ( 'verified' === $maybe_status );
+	}
+
 	/**
 	 * Gets the email verification record.
 	 *
