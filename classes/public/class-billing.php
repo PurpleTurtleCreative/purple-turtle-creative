@@ -153,6 +153,9 @@ class Billing {
 			) {
 				// ALL CUSTOMERS MUST VERIFY PROOF OF EMAIL ADDRESS
 				// OWNERSHIP BEFORE CREATING OR ACCESSING THEIR ACCOUNT.
+
+				// @todo - Send email verification code.
+
 				throw new \Exception( 'Email verification required.', 403 );
 			}
 

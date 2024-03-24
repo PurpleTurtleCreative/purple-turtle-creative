@@ -9,27 +9,14 @@ import FormInputCodePuncher from './FormInputCodePuncher.jsx';
 
 import { useEffect, useRef, useState } from '@wordpress/element';
 
-export default function FormStepVerificationCode({ email, codeLength, onSuccess }) {
-	const [ codeDigits, setCodeDigits ] = useState(Array.from({ length: codeLength }, () => ''));
+export default function FormStepVerificationCode({ email, list_id, onSuccess }) {
+	const [ codeDigits, setCodeDigits ] = useState(Array.from({ length: 6 }, () => ''));
 	const [ status, setStatus ] = useState('idle');
 	const [ error, setError ] = useState('');
 	const formRef = useRef();
 
-	useEffect(() => {
-		if ( codeLength === codeDigits.join('').length ) {
-			// Automatically submit when all digits are entered.
-			formRef.current.requestSubmit();
-		}
-	}, [codeDigits]);
-
-	const handleSubmit = async (event) => {
-		event.preventDefault();
-		// Check verification code length.
-		const verificationCodeString = codeDigits.join('');
-		if ( verificationCodeString.length !== codeLength ) {
-			setError(`Please enter the ${codeLength}-digit verification code.`);
-		}
-		// Check the verification code against the server.
+	useEffect(async () => {
+		// Attempt to send a verification code to the user.
 		if ( 'loading' !== status ) {
 			setStatus('loading');
 			await window.fetch(
@@ -41,9 +28,9 @@ export default function FormStepVerificationCode({ email, codeLength, onSuccess 
 						'X-WP-Nonce': window.ptcTheme.api.auth_nonce,
 					},
 					body: JSON.stringify({
-						email: email,
-						verification_code: codeDigits.join(''),
-						list_id: 'a2tBf2KrKnxBF66s', // Hard-coded. Sorry, Mom.
+						email,
+						list_id,
+						verification_type: 'code',
 						nonce: window.ptcTheme.api.nonce,
 					}),
 				})
@@ -52,7 +39,59 @@ export default function FormStepVerificationCode({ email, codeLength, onSuccess 
 					if ( res.ok && 'success' === body?.status ) {
 						onSuccess(body);
 					} else if ( body?.message ) {
-						window.console.error(body.message);
+						setError(body.message);
+					} else {
+						setError('Failed to verify email. Please try again.');
+					}
+				})
+				.catch(err => {
+					window.console.error(err);
+					setError(err.message);
+				})
+				.finally(() => {
+					setStatus('idle');
+				});
+		}
+	}, []);
+
+	useEffect(() => {
+		if ( 6 === codeDigits.join('').length ) {
+			// Automatically submit when all digits are entered.
+			formRef.current.requestSubmit();
+		}
+	}, [codeDigits]);
+
+	const handleSubmit = async (event) => {
+		event.preventDefault();
+		// Check verification code length.
+		const verificationCodeString = codeDigits.join('');
+		if ( 6 !== verificationCodeString.length ) {
+			setError('Please enter the 6-digit verification code.');
+			return false;
+		}
+		// Check the verification code against the server.
+		if ( 'loading' !== status ) {
+			setStatus('loading');
+			await window.fetch(
+				`${window.ptcTheme.api.v1}/mailing-lists/verify`,
+				{
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+						'X-WP-Nonce': window.ptcTheme.api.auth_nonce,
+					},
+					body: JSON.stringify({
+						email,
+						list_id,
+						verification_code: verificationCodeString,
+						nonce: window.ptcTheme.api.nonce,
+					}),
+				})
+				.then(async (res) => {
+					const body = await res.json();
+					if ( res.ok && 'success' === body?.status ) {
+						onSuccess(body);
+					} else if ( body?.message ) {
 						setError(body.message);
 					} else {
 						setError('Failed to verify email. Please try again.');
@@ -75,7 +114,7 @@ export default function FormStepVerificationCode({ email, codeLength, onSuccess 
 		innerContent = (
 			<form ref={formRef} onSubmit={handleSubmit}>
 				<p>Confirm your email address</p>
-				<p>{`To continue, please enter the ${length}-digit verification code sent to your ${email} email.`}</p>
+				<p>{`To continue, please enter the 6-digit verification code sent to your ${email} email.`}</p>
 				<FormInputCodePuncher slots={codeDigits} onChange={setCodeDigits} />
 				<button type="submit">Continue</button>
 			</form>

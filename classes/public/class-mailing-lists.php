@@ -332,14 +332,22 @@ class Mailing_Lists {
 								return in_array( $value, static::MAILING_LIST_IDS, true );
 							},
 						),
+						'verification_type'     => array(
+							'type'              => 'string',
+							'required'          => false,
+							'sanitize_callback' => 'sanitize_text_field',
+							'validate_callback' => function ( $value, $request, $param ) {
+								return in_array( $value, array( 'link', 'code' ), true );
+							},
+						),
 						'cf-turnstile-action'   => array(
 							'type'              => 'string',
-							'required'          => true,
+							'required'          => false, // @todo - ADD TO REACT FormStepVerificationCode SUBMISSIONS !!
 							'sanitize_callback' => 'sanitize_text_field',
 						),
 						'cf-turnstile-response' => array(
 							'type'              => 'string',
-							'required'          => true,
+							'required'          => false, // @todo - ADD TO REACT FormStepVerificationCode SUBMISSIONS !!
 							// Hopefully this doesn't invalidate successful tokens.
 							'sanitize_callback' => 'sanitize_text_field',
 							'validate_callback' => function ( $value, $request, $param ) {
@@ -368,8 +376,9 @@ class Mailing_Lists {
 		global $wpdb;
 
 		// Gather variables from request.
-		$email        = $request['email'];
-		$mailing_list = static::get_mailing_list_by_id( $request['list_id'] );
+		$email             = $request['email'];
+		$mailing_list      = static::get_mailing_list_by_id( $request['list_id'] );
+		$verification_type = $request['verification_type'] ?? 'link';
 
 		// Default response that should always be overridden.
 		$status  = 500;
@@ -400,11 +409,20 @@ class Mailing_Lists {
 			if ( null === $email_verification ) {
 				// New subscriber request.
 
-				// Send verification email template with link.
-				$res = static::send_email_verification_request(
-					$email,
-					$mailing_list
-				);
+				if ( 'code' === $verification_type ) {
+					// Send verification email template with code.
+					$res = static::send_email_verification_request(
+						$email,
+						$mailing_list,
+						0
+					);
+				} else {
+					// Send verification email template with link.
+					$res = static::send_email_verification_request(
+						$email,
+						$mailing_list
+					);
+				}
 
 				// Check response code.
 				switch ( $res ) {
@@ -500,11 +518,20 @@ class Mailing_Lists {
 						}
 					} else {
 
-						// Send verification email template with link.
-						$res = static::send_email_verification_request(
-							$email_verification['email'],
-							$email_verification['mailing_list']
-						);
+						if ( 'code' === $verification_type ) {
+							// Send verification email template with code.
+							$res = static::send_email_verification_request(
+								$email_verification['email'],
+								$email_verification['mailing_list'],
+								$email_verification['request_count'] ?? 0
+							);
+						} else {
+							// Send verification email template with link.
+							$res = static::send_email_verification_request(
+								$email_verification['email'],
+								$email_verification['mailing_list']
+							);
+						}
 
 						// Check response code.
 						switch ( $res ) {
@@ -586,6 +613,15 @@ class Mailing_Lists {
 		);
 	}
 
+	/**
+	 * Checks if an email address has been verified for the
+	 * specified mailing list.
+	 *
+	 * @param string $email The email address.
+	 * @param string $mailing_list The mailing list.
+	 *
+	 * @return bool If the email has been verified.
+	 */
 	public static function is_email_verified(
 		string $email,
 		string $mailing_list
@@ -789,6 +825,15 @@ class Mailing_Lists {
 		return wp_hash( $email . $mailing_list );
 	}
 
+	/**
+	 * Gets a 6-digit numeric email verification code.
+	 *
+	 * @param string $email The subscriber's email address.
+	 * @param string $mailing_list The desired mailing list.
+	 * @param int    $tick A tick value to ID the generated code.
+	 *
+	 * @return string The 6-digit code.
+	 */
 	private static function get_email_verification_code(
 		string $email,
 		string $mailing_list,
@@ -805,16 +850,29 @@ class Mailing_Lists {
 	/**
 	 * Sends an email verification request to confirm a subscriber.
 	 *
+	 * If a $tick value is provided, then a 6-digit verification
+	 * code will be sent to the user. The user must then provide
+	 * the 6-digit code manually. This is used in UX flows where
+	 * the user must provide a verification code before proceeding.
+	 *
+	 * If a $tick value is NOT provided, the a verification link
+	 * will be sent to the user. The user must then click the link
+	 * to verify their email. This is used in UX flows where
+	 * immediate verification from the user is not required.
+	 *
 	 * @link https://documentation.mailgun.com/en/latest/api-sending.html#sending
 	 *
 	 * @param string $email The subscriber's email address.
 	 * @param string $mailing_list The desired mailing list.
+	 * @param int    $tick Optional. The verification code tick
+	 * value. Default -1 to use verification token link instead.
 	 *
 	 * @return int The error code or 0 on success.
 	 */
 	private static function send_email_verification_request(
 		string $email,
-		string $mailing_list
+		string $mailing_list,
+		int $tick = -1
 	) : int {
 
 		// Check API request balance, return error code.
@@ -823,45 +881,86 @@ class Mailing_Lists {
 			return static::ERROR_LIMIT_EXCEEDED;
 		}
 
-		// Prepare email verification link.
-		$email_verification_url = add_query_arg(
-			array(
-				'subscriber' => $email,
-				'list_id'    => static::MAILING_LIST_IDS[ $mailing_list ],
-				'token'      => static::get_email_verification_token(
-					$email,
-					$mailing_list
-				),
-			),
-			HTML_Routes::get_url( '/mailing-lists/email-verification' )
-		);
+		// Prepare to send verification email.
+		$response = null;
 
-		// Send confirmation email.
-		$response = wp_remote_post(
-			sprintf(
-				'https://api.mailgun.net/v3/%s/messages',
-				\PTC_MAILGUN_DOMAIN
-			),
-			array(
-				'headers' => array(
-					'Authorization' => 'Basic ' . base64_encode( 'api:' . \PTC_MAILGUN_API_KEY ), // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode
+		if ( $tick > -1 ) {
+
+			// Prepare email verification code.
+			$email_verification_code = static::get_email_verification_code(
+				$email,
+				$mailing_list,
+				$tick
+			);
+
+			// Send verification request email.
+			$response = wp_remote_post(
+				sprintf(
+					'https://api.mailgun.net/v3/%s/messages',
+					\PTC_MAILGUN_DOMAIN
 				),
-				'body'    => array(
-					'from'                     => sprintf(
-						'Purple Turtle Creative <noreply@%s>',
-						\PTC_MAILGUN_DOMAIN
+				array(
+					'headers' => array(
+						'Authorization' => 'Basic ' . base64_encode( 'api:' . \PTC_MAILGUN_API_KEY ), // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode
 					),
-					'to'                       => $email,
-					'subject'                  => 'Please confirm your subscription',
-					'template'                 => 'email verification',
-					't:version'                => 'initial',
-					'v:subscriber_email'       => $email,
-					'v:email_verification_url' => $email_verification_url,
-					'o:tracking'               => 'yes',
-					'o:tag'                    => 'confirm-subscription',
+					'body'    => array(
+						'from'                => sprintf(
+							'Purple Turtle Creative <noreply@%s>',
+							\PTC_MAILGUN_DOMAIN
+						),
+						'to'                  => $email,
+						'subject'             => 'Please confirm your email',
+						'template'            => 'email verification',
+						't:version'           => 'verification-code',
+						'v:subscriber_email'  => $email,
+						'v:verification_code' => $email_verification_code,
+						'o:tracking'          => 'yes',
+						'o:tag'               => 'verify-email',
+					),
+				)
+			);
+		} else {
+
+			// Prepare email verification link.
+			$email_verification_url = add_query_arg(
+				array(
+					'subscriber' => $email,
+					'list_id'    => static::MAILING_LIST_IDS[ $mailing_list ],
+					'token'      => static::get_email_verification_token(
+						$email,
+						$mailing_list
+					),
 				),
-			)
-		);
+				HTML_Routes::get_url( '/mailing-lists/email-verification' )
+			);
+
+			// Send verification request email.
+			$response = wp_remote_post(
+				sprintf(
+					'https://api.mailgun.net/v3/%s/messages',
+					\PTC_MAILGUN_DOMAIN
+				),
+				array(
+					'headers' => array(
+						'Authorization' => 'Basic ' . base64_encode( 'api:' . \PTC_MAILGUN_API_KEY ), // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode
+					),
+					'body'    => array(
+						'from'                     => sprintf(
+							'Purple Turtle Creative <noreply@%s>',
+							\PTC_MAILGUN_DOMAIN
+						),
+						'to'                       => $email,
+						'subject'                  => 'Please confirm your subscription',
+						'template'                 => 'email verification',
+						't:version'                => 'initial',
+						'v:subscriber_email'       => $email,
+						'v:email_verification_url' => $email_verification_url,
+						'o:tracking'               => 'yes',
+						'o:tag'                    => 'confirm-subscription',
+					),
+				)
+			);
+		}
 
 		// @TODO - Log GA4 event.
 

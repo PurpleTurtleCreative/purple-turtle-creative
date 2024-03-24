@@ -78,7 +78,7 @@ export default function FormCustomerCreateAccount( onSuccess ) {
 		innerContent = (
 			<FormStepVerificationCode
 				email={emailInput}
-				codeLength={6}
+				list_id="a2tBf2KrKnxBF66s" // @todo - This shouldn't be hard-coded and should instead be exposed as a frontend variable originating from a const in the Billing class.
 				onSuccess={handleEmailVerificationSuccess}
 			/>
 		);

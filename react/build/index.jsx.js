@@ -297,7 +297,8 @@ function FormCustomerCreateAccount(onSuccess) {
   } else if ('unverified_email' === error) {
     innerContent = (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_FormStepVerificationCode_jsx__WEBPACK_IMPORTED_MODULE_5__["default"], {
       email: emailInput,
-      codeLength: 6,
+      list_id: "a2tBf2KrKnxBF66s" // @todo - This shouldn't be hard-coded and should instead be exposed as a frontend variable originating from a const in the Billing class.
+      ,
       onSuccess: handleEmailVerificationSuccess
     });
   } else {
@@ -428,6 +429,7 @@ function FormInputCodePuncher({
     }
   };
   const handleKeyDown = (index, event) => {
+    // @todo - Handle pasting verification code.
     if ('Backspace' === event.key && index > 0) {
       const updatedSlots = [...slots];
       let slotToClearIndex = index - 1;
@@ -585,29 +587,17 @@ __webpack_require__.r(__webpack_exports__);
 
 function FormStepVerificationCode({
   email,
-  codeLength,
+  list_id,
   onSuccess
 }) {
   const [codeDigits, setCodeDigits] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useState)(Array.from({
-    length: codeLength
+    length: 6
   }, () => ''));
   const [status, setStatus] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useState)('idle');
   const [error, setError] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useState)('');
   const formRef = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useRef)();
-  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
-    if (codeLength === codeDigits.join('').length) {
-      // Automatically submit when all digits are entered.
-      formRef.current.requestSubmit();
-    }
-  }, [codeDigits]);
-  const handleSubmit = async event => {
-    event.preventDefault();
-    // Check verification code length.
-    const verificationCodeString = codeDigits.join('');
-    if (verificationCodeString.length !== codeLength) {
-      setError(`Please enter the ${codeLength}-digit verification code.`);
-    }
-    // Check the verification code against the server.
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useEffect)(async () => {
+    // Attempt to send a verification code to the user.
     if ('loading' !== status) {
       setStatus('loading');
       await window.fetch(`${window.ptcTheme.api.v1}/mailing-lists/subscribe`, {
@@ -617,10 +607,9 @@ function FormStepVerificationCode({
           'X-WP-Nonce': window.ptcTheme.api.auth_nonce
         },
         body: JSON.stringify({
-          email: email,
-          verification_code: codeDigits.join(''),
-          list_id: 'a2tBf2KrKnxBF66s',
-          // Hard-coded. Sorry, Mom.
+          email,
+          list_id,
+          verification_type: 'code',
           nonce: window.ptcTheme.api.nonce
         })
       }).then(async res => {
@@ -628,7 +617,52 @@ function FormStepVerificationCode({
         if (res.ok && 'success' === body?.status) {
           onSuccess(body);
         } else if (body?.message) {
-          window.console.error(body.message);
+          setError(body.message);
+        } else {
+          setError('Failed to verify email. Please try again.');
+        }
+      }).catch(err => {
+        window.console.error(err);
+        setError(err.message);
+      }).finally(() => {
+        setStatus('idle');
+      });
+    }
+  }, []);
+  (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useEffect)(() => {
+    if (6 === codeDigits.join('').length) {
+      // Automatically submit when all digits are entered.
+      formRef.current.requestSubmit();
+    }
+  }, [codeDigits]);
+  const handleSubmit = async event => {
+    event.preventDefault();
+    // Check verification code length.
+    const verificationCodeString = codeDigits.join('');
+    if (6 !== verificationCodeString.length) {
+      setError('Please enter the 6-digit verification code.');
+      return false;
+    }
+    // Check the verification code against the server.
+    if ('loading' !== status) {
+      setStatus('loading');
+      await window.fetch(`${window.ptcTheme.api.v1}/mailing-lists/verify`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-WP-Nonce': window.ptcTheme.api.auth_nonce
+        },
+        body: JSON.stringify({
+          email,
+          list_id,
+          verification_code: verificationCodeString,
+          nonce: window.ptcTheme.api.nonce
+        })
+      }).then(async res => {
+        const body = await res.json();
+        if (res.ok && 'success' === body?.status) {
+          onSuccess(body);
+        } else if (body?.message) {
           setError(body.message);
         } else {
           setError('Failed to verify email. Please try again.');
@@ -648,7 +682,7 @@ function FormStepVerificationCode({
     innerContent = (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("form", {
       ref: formRef,
       onSubmit: handleSubmit
-    }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "Confirm your email address"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, `To continue, please enter the ${length}-digit verification code sent to your ${email} email.`), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_FormInputCodePuncher_jsx__WEBPACK_IMPORTED_MODULE_1__["default"], {
+    }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, "Confirm your email address"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, `To continue, please enter the 6-digit verification code sent to your ${email} email.`), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_FormInputCodePuncher_jsx__WEBPACK_IMPORTED_MODULE_1__["default"], {
       slots: codeDigits,
       onChange: setCodeDigits
     }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("button", {

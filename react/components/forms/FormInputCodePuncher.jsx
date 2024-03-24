@@ -21,6 +21,7 @@ export default function FormInputCodePuncher({ slots, onChange }) {
 	};
 
 	const handleKeyDown = (index, event) => {
+		// @todo - Handle pasting verification code.
 		if ( 'Backspace' === event.key && index > 0 ) {
 			const updatedSlots = [ ...slots ];
 			let slotToClearIndex = index - 1;
