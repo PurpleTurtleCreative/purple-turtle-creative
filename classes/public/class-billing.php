@@ -21,6 +21,8 @@ class Billing {
 
 	private const HTTP_REQUEST_TIMEOUT = 10;
 
+	private const CUSTOMER_AUTH_TTL = \DAY_IN_SECONDS;
+
 	private const CUSTOMERS_MAILING_LIST = 'customers@sandboxe9304e53e5994067aa8ce9e5897e4536.mailgun.org';
 
 	private const THANK_YOU_PAGE_ROUTE = '/billing/thank-you';
@@ -126,6 +128,8 @@ class Billing {
 	 * @param \WP_REST_Request $request The request.
 	 *
 	 * @return \WP_REST_Response The response.
+	 *
+	 * @throws \Exception Caught for flow control.
 	 */
 	public static function handle_post_customer_authenticate(
 		\WP_REST_Request $request
@@ -166,9 +170,9 @@ class Billing {
 				// Create new customer.
 				$customer = static::create_customer(
 					array(
-						'email' => '',
+						'email'    => '',
 						'metadata' => array(
-							'referrer' => $request->get_header( 'Referer' ),
+							'referrer'     => $request->get_header( 'Referer' ),
 							'ptc_password' => wp_hash_password( $request['password'] ),
 						),
 					)
@@ -188,8 +192,21 @@ class Billing {
 				throw new \Exception( 'Unrecognized requested action.', 400 );
 			}
 
-			// @todo - Return static::create_customer_jwt( $customer ) in res.data on success.
+			// Create JWT to represent customer's authenticated session.
+			$customer_auth_token = static::create_customer_jwt( $customer );
+			if ( empty( $customer_auth_token ) ) {
+				throw new \Exception( 'Failed to authenticate customer session.', 500 );
+			}
 
+			// Success!
+			$res = array(
+				'status'  => 'success',
+				'code'    => 200,
+				'message' => 'Successfully authenticated customer session!',
+				'data'    => array(
+					'authToken' => $customer_auth_token,
+				),
+			);
 		} catch ( \Exception $err ) {
 			$res = array(
 				'status'  => 'error',
@@ -202,8 +219,152 @@ class Billing {
 		return new \WP_REST_Response( $res, $res['code'] );
 	}
 
-	private static function create_customer_jwt( array $customer ) : string {}
-	public static function is_customer_jwt_valid( string $jwt ) : bool {}
+	/**
+	 * Generates a JWT for a given customer.
+	 *
+	 * @link https://datatracker.ietf.org/doc/html/rfc7519
+	 *
+	 * @param array $customer The customer data. 'id' and 'email'
+	 * fields are required.
+	 *
+	 * @return string The JWT on success. Empty string on error.
+	 */
+	private static function create_customer_jwt( array $customer ) : string {
+
+		if (
+			empty( $customer['id'] ) ||
+			empty( $customer['email'] )
+		) {
+			trigger_error( 'Cannot authenticate session for customer missing [id] and [email] values.', \E_USER_ERROR );
+			return '';
+		}
+
+		$now = time();
+
+		// Header.
+
+		$header = wp_json_encode(
+			array(
+				'typ' => 'JWT',
+				'alg' => 'HS256',
+				'iss' => home_url(),
+				'sub' => $customer['id'],
+				'exp' => $now + static::CUSTOMER_AUTH_TTL,
+				'iat' => $now,
+			)
+		);
+
+		if ( empty( $header ) ) {
+			trigger_error( 'Failed to encode customer JWT header data.', \E_USER_ERROR );
+			return '';
+		}
+
+		$header_base64 = base64_encode( $header );
+
+		// Payload.
+
+		$payload = wp_json_encode(
+			array(
+				'customer_id' => $customer['id'],
+				'customer_email' => $customer['email'],
+				// @todo - Include hashed password fragment to invalidate
+				// existing JWTs if customer resets their password.
+				// Would need to be stored in a transient to compare
+				// against future client token validation, which would
+				// also need to be deleted when user updates their password.
+			)
+		);
+
+		if ( empty( $payload ) ) {
+			trigger_error( 'Failed to encode customer JWT payload data.', \E_USER_ERROR );
+			return '';
+		}
+
+		$payload_base64 = base64_encode( $payload );
+
+		// Signature.
+
+		$signature = hash_hmac(
+			'sha256',
+			"{$header_base64}.{$payload_base64}",
+			wp_salt()
+		);
+
+		return "{$header_base64}.{$payload_base64}.{$signature}";
+	}
+
+	/**
+	 * Gets the payload from a customer's JWT, if valid.
+	 *
+	 * @param string $jwt The customer's JWT.
+	 *
+	 * @return array|null The decoded JWT payload. Null if the JWT
+	 * is invalid.
+	 */
+	private static function get_customer_jwt_payload( string $jwt ) : ?array {
+
+		// Get the parts of the JWT.
+
+		$jwt_parts = explode( '.', $jwt );
+
+		if ( 3 !== count( $jwt_parts ) ) {
+			trigger_error( 'Customer JWT does not have exactly 3 parts.', \E_USER_NOTICE );
+			return null;
+		}
+
+		// Check the signature.
+
+		$signature = hash_hmac(
+			'sha256',
+			"{$jwt_parts[0]}.{$jwt_parts[1]}",
+			wp_salt()
+		);
+
+		if ( base64_encode( $signature ) !== $jwt_parts[2] ) {
+			trigger_error( 'Customer JWT has invalid signature.', \E_USER_NOTICE );
+			return null;
+		}
+
+		// Validate header information.
+
+		$header = json_decode( base64_decode( $jwt_parts[0] ), true );
+
+		if (
+			empty( $header['iss'] ) ||
+			$header['iss'] !== home_url()
+		) {
+			trigger_error( 'Customer JWT does not have expected [iss] issuer value.', \E_USER_NOTICE );
+			return null;
+		}
+
+		if (
+			empty( $header['exp'] ) ||
+			time() >= $header['exp']
+		) {
+			trigger_error( 'Customer JWT has expired.', \E_USER_NOTICE );
+			return null;
+		}
+
+		if ( empty( $header['sub'] ) ) {
+			trigger_error( 'Customer JWT has no subject.', \E_USER_NOTICE );
+			return null;
+		}
+
+		// Validate payload information.
+
+		$payload = json_decode( base64_decode( $jwt_parts[1] ), true );
+
+		if (
+			empty( $payload['customer_id'] ) ||
+			$header['sub'] !== $payload['customer_id']
+		) {
+			trigger_error( 'Customer JWT subject does not match payload contents.', \E_USER_NOTICE );
+			return null;
+		}
+
+		// Success!
+		return $payload;
+	}
 
 	/**
 	 * Adds billing pages to plugin checkout plan metadata.
