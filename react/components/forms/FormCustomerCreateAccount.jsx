@@ -78,7 +78,7 @@ export default function FormCustomerCreateAccount( onSuccess ) {
 		innerContent = (
 			<FormStepVerificationCode
 				email={emailInput}
-				list_id="a2tBf2KrKnxBF66s" // @todo - This shouldn't be hard-coded and should instead be exposed as a frontend variable originating from a const in the Billing class.
+				list_id={window.ptcTheme.billing.customers_list_id}
 				onSuccess={handleEmailVerificationSuccess}
 			/>
 		);

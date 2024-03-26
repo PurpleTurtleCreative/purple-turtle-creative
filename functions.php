@@ -72,11 +72,14 @@ function enqueue_frontend_namespace_var( $handle, $before_or_after ) {
 	}
 
 	$frontend_data = array(
-		'api' => array(
+		'api'     => array(
 			'auth_nonce' => wp_create_nonce( 'wp_rest' ),
 			'nonce'      => wp_create_nonce( THEME_BASENAME ),
 			'url'        => rest_url(),
 			'v1'         => rest_url( REST_API_NAMESPACE_V1 ),
+		),
+		'billing' => array(
+			'customers_list_id' => Mailing_Lists::MAILING_LIST_IDS[ Billing::CUSTOMERS_MAILING_LIST ],
 		),
 	);
 
@@ -104,8 +107,8 @@ add_filter(
 		// User records are only for programmatic usage.
 
 		if ( is_a( $user, '\WP_User' ) ) {
-			if ( ! in_array( 'administrator', (array) $user->roles ) ) {
-				$user = new \WP_Error( 401, "Login not permitted." );
+			if ( ! in_array( 'administrator', (array) $user->roles, true ) ) {
+				$user = new \WP_Error( 401, 'Login not permitted.' );
 			}
 		}
 

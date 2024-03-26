@@ -26,8 +26,8 @@
 	<!-- Exclude the Node Modules directory. -->
 	<exclude-pattern>/node_modules/*</exclude-pattern>
 
-	<!-- Exclude build files. -->
-	<exclude-pattern>/build/*</exclude-pattern>
+	<!-- Exclude JSX build files. -->
+	<exclude-pattern>/react/*</exclude-pattern>
 
 	<!-- Strip the filepaths down to the relevant bit. -->
 	<arg name="basepath" value="."/>
@@ -88,7 +88,7 @@
 	the wiki:
 	https://github.com/WordPress/WordPress-Coding-Standards/wiki/Customizable-sniff-properties
 	-->
-	<config name="minimum_wp_version" value="5.0.0"/>
+	<config name="minimum_wp_version" value="6.3.0"/>
 
 	<!-- <rule ref="WordPress.WP.I18n">
 		<properties>

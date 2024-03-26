@@ -31,7 +31,7 @@ export default function FormStepVerificationCode({ email, list_id, onSuccess }) 
 						email,
 						list_id,
 						verification_type: 'code',
-						nonce: window.ptcTheme.api.nonce,
+						// @todo - add captcha action and response... but the user just did do a captcha so not sure how to carry that through or what... definitely want to keep the endpoint secured, though!
 					}),
 				})
 				.then(async (res) => {
@@ -84,7 +84,6 @@ export default function FormStepVerificationCode({ email, list_id, onSuccess }) 
 						email,
 						list_id,
 						verification_code: verificationCodeString,
-						nonce: window.ptcTheme.api.nonce,
 					}),
 				})
 				.then(async (res) => {

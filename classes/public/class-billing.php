@@ -12,10 +12,9 @@ defined( 'ABSPATH' ) || die();
 require_once THEME_PATH . '/classes/public/class-html-routes.php';
 
 /**
- * Static class for managing client-side and server-side
- * bot challenges (aka captchas) for trustworthy form handling.
+ * Static class for managing customers and billing.
  *
- * @link https://developers.cloudflare.com/turnstile/get-started/
+ * @link https://docs.stripe.com/api
  */
 class Billing {
 
@@ -23,7 +22,7 @@ class Billing {
 
 	private const CUSTOMER_AUTH_TTL = \DAY_IN_SECONDS;
 
-	private const CUSTOMERS_MAILING_LIST = 'customers@sandboxe9304e53e5994067aa8ce9e5897e4536.mailgun.org';
+	public const CUSTOMERS_MAILING_LIST = 'customers@sandboxe9304e53e5994067aa8ce9e5897e4536.mailgun.org';
 
 	private const THANK_YOU_PAGE_ROUTE = '/billing/thank-you';
 
@@ -153,9 +152,6 @@ class Billing {
 			) {
 				// ALL CUSTOMERS MUST VERIFY PROOF OF EMAIL ADDRESS
 				// OWNERSHIP BEFORE CREATING OR ACCESSING THEIR ACCOUNT.
-
-				// @todo - Send email verification code.
-
 				throw new \Exception( 'Email verification required.', 403 );
 			}
 

@@ -306,6 +306,7 @@ class Mailing_Lists {
 	 * Registers REST API route endpoints.
 	 */
 	public static function register_rest_routes() {
+
 		register_rest_route(
 			REST_API_NAMESPACE_V1,
 			'/mailing-lists/subscribe',
@@ -356,6 +357,42 @@ class Mailing_Lists {
 									$request['cf-turnstile-response']
 								);
 							},
+						),
+					),
+				),
+			)
+		);
+
+		register_rest_route(
+			REST_API_NAMESPACE_V1,
+			'/mailing-lists/verify',
+			array(
+				array(
+					'methods'             => 'POST',
+					'callback'            => __CLASS__ . '::handle_post_verify',
+					'permission_callback' => '__return_true',
+					'args'                => array(
+						'email'             => array(
+							'type'              => 'string',
+							'required'          => true,
+							// WordPress discloses these functions may be
+							// inaccurate, but I'd rather be safer and mayyybe
+							// miss a few subscribers than permit bad data.
+							'sanitize_callback' => 'sanitize_email',
+							'validate_callback' => 'is_email',
+						),
+						'list_id'           => array(
+							'type'              => 'string',
+							'required'          => true,
+							'sanitize_callback' => 'sanitize_text_field',
+							'validate_callback' => function ( $value, $request, $param ) {
+								return in_array( $value, static::MAILING_LIST_IDS, true );
+							},
+						),
+						'verification_code' => array(
+							'type'              => 'string',
+							'required'          => true,
+							'sanitize_callback' => 'sanitize_text_field',
 						),
 					),
 				),
@@ -518,6 +555,15 @@ class Mailing_Lists {
 						}
 					} else {
 
+						// @todo - These already record the increased
+						// request count, so I don't know why I'm then
+						// explicitly setting the request count to 1 after
+						// this code runs. This code is more accurate with
+						// the request counts because it's self-contained
+						// and knows exactly how many API requests it
+						// used in its own processing. I think I just need
+						// to NOT update the request count along with the
+						// other data in the following code... right?
 						if ( 'code' === $verification_type ) {
 							// Send verification email template with code.
 							$res = static::send_email_verification_request(
@@ -614,6 +660,42 @@ class Mailing_Lists {
 	}
 
 	/**
+	 * Handles a request to verify subscription to a mailing list.
+	 *
+	 * @param \WP_REST_Request $request The request.
+	 *
+	 * @return \WP_REST_Response The response.
+	 */
+	public static function handle_post_verify(
+		\WP_REST_Request $request
+	) : \WP_REST_Response {
+
+		$res = array(
+			'status'  => 'error',
+			'code'    => 400,
+			'message' => 'Email verification failed. Please check your email inbox or spam folder and try again.',
+			'data'    => null,
+		);
+
+		if (
+			true === static::process_email_verification(
+				$request['email'],
+				$request['list_id'],
+				$request['verification_code']
+			)
+		) {
+			$res = array(
+				'status'  => 'success',
+				'code'    => 200,
+				'message' => 'Your email has been verified. Thank you!',
+				'data'    => null,
+			);
+		}
+
+		return new \WP_REST_Response( $res, $res['code'] );
+	}
+
+	/**
 	 * Checks if an email address has been verified for the
 	 * specified mailing list.
 	 *
@@ -645,6 +727,40 @@ class Mailing_Lists {
 		);
 
 		return ( 'verified' === $maybe_status );
+	}
+
+	/**
+	 * Gets the current request count for an email address's
+	 * subscription request for a particular mailing list.
+	 *
+	 * @param string $email The email address.
+	 * @param string $mailing_list The mailing list.
+	 *
+	 * @return int The request count. Default 0 on error.
+	 */
+	public static function get_request_count(
+		string $email,
+		string $mailing_list
+	) : int {
+
+		global $wpdb;
+
+		$maybe_request_count = $wpdb->get_var(
+			$wpdb->prepare(
+				'
+				SELECT request_count
+				FROM %i
+				WHERE email = %s
+					AND mailing_list = %s
+				LIMIT 1;
+				',
+				static::DATABASE_EMAIL_VERIFICATION_TABLE,
+				$email,
+				$mailing_list
+			)
+		);
+
+		return intval( $maybe_request_count ?? 0 );
 	}
 
 	/**
@@ -1002,14 +1118,27 @@ class Mailing_Lists {
 			return false;
 		}
 
-		// Confirm the token.
-		if (
-			static::get_email_verification_token(
-				$email,
-				$mailing_list
-			) !== $token
-		) {
-			return false;
+		if ( 6 === strlen( $token ) && is_numeric( $token ) ) {
+			// Confirm the verification code.
+			if (
+				static::get_email_verification_code(
+					$email,
+					$mailing_list,
+					static::get_request_count( $email, $mailing_list ) - 1
+				) !== $token
+			) {
+				return false;
+			}
+		} else {
+			// Confirm the token.
+			if (
+				static::get_email_verification_token(
+					$email,
+					$mailing_list
+				) !== $token
+			) {
+				return false;
+			}
 		}
 
 		// Check the record exists and lock for update.
