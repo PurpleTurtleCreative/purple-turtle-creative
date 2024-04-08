@@ -169,7 +169,7 @@ class Billing {
 				// Create new customer.
 				$customer = static::create_customer(
 					array(
-						'email'    => '',
+						'email'    => $request['email'],
 						'metadata' => array(
 							'referrer'     => $request->get_header( 'Referer' ),
 							'ptc_password' => wp_hash_password( $request['password'] ),

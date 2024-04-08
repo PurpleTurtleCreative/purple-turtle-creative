@@ -338,7 +338,7 @@ class Mailing_Lists {
 							'required'          => false,
 							'sanitize_callback' => 'sanitize_text_field',
 							'validate_callback' => function ( $value, $request, $param ) {
-								return in_array( $value, array( 'link', 'code' ), true );
+								return in_array( $value, array( 'token', 'code' ), true );
 							},
 						),
 						'cf-turnstile-action'   => array(
@@ -415,7 +415,7 @@ class Mailing_Lists {
 		// Gather variables from request.
 		$email             = $request['email'];
 		$mailing_list      = static::get_mailing_list_by_id( $request['list_id'] );
-		$verification_type = $request['verification_type'] ?? 'link';
+		$verification_type = $request['verification_type'] ?? 'token';
 
 		// Default response that should always be overridden.
 		$status  = 500;
@@ -446,20 +446,12 @@ class Mailing_Lists {
 			if ( null === $email_verification ) {
 				// New subscriber request.
 
-				if ( 'code' === $verification_type ) {
-					// Send verification email template with code.
-					$res = static::send_email_verification_request(
-						$email,
-						$mailing_list,
-						0
-					);
-				} else {
-					// Send verification email template with link.
-					$res = static::send_email_verification_request(
-						$email,
-						$mailing_list
-					);
-				}
+				// Send email verification request to user.
+				$res = static::send_email_verification_request(
+					$email,
+					$mailing_list,
+					$verification_type
+				);
 
 				// Check response code.
 				switch ( $res ) {
@@ -526,7 +518,6 @@ class Mailing_Lists {
 			) {
 				// Existing subscriber request.
 
-				$sent_requests = 0;
 				$update_status = $email_verification['status'];
 
 				// Check if already verified.
@@ -555,29 +546,12 @@ class Mailing_Lists {
 						}
 					} else {
 
-						// @todo - These already record the increased
-						// request count, so I don't know why I'm then
-						// explicitly setting the request count to 1 after
-						// this code runs. This code is more accurate with
-						// the request counts because it's self-contained
-						// and knows exactly how many API requests it
-						// used in its own processing. I think I just need
-						// to NOT update the request count along with the
-						// other data in the following code... right?
-						if ( 'code' === $verification_type ) {
-							// Send verification email template with code.
-							$res = static::send_email_verification_request(
-								$email_verification['email'],
-								$email_verification['mailing_list'],
-								$email_verification['request_count'] ?? 0
-							);
-						} else {
-							// Send verification email template with link.
-							$res = static::send_email_verification_request(
-								$email_verification['email'],
-								$email_verification['mailing_list']
-							);
-						}
+						// Send verification email template with code.
+						$res = static::send_email_verification_request(
+							$email_verification['email'],
+							$email_verification['mailing_list'],
+							$verification_type
+						);
 
 						// Check response code.
 						switch ( $res ) {
@@ -586,7 +560,6 @@ class Mailing_Lists {
 								$status        = 200;
 								$code          = 'retry_subscribe';
 								$message       = 'Hello, again! Sorry that the last verification request didn\'t work out. Please check your inbox or spam folder again now to confirm your subscription.';
-								$sent_requests = 1;
 								$update_status = 'pending';
 								break;
 
@@ -609,7 +582,6 @@ class Mailing_Lists {
 						static::DATABASE_EMAIL_VERIFICATION_TABLE,
 						array(
 							'status'        => $update_status,
-							'request_count' => $email_verification['request_count'] + $sent_requests,
 							'last_seen'     => $now_sql,
 						),
 						array(
@@ -619,7 +591,6 @@ class Mailing_Lists {
 						),
 						array(
 							'%s', // status.
-							'%d', // request_count.
 							'%s', // last_seen.
 						),
 						array(
@@ -650,6 +621,10 @@ class Mailing_Lists {
 		);
 
 		// Format response.
+		// @todo - Update to standard format of [code,status,message,data]
+		// and ensure all code which uses this endpoint is updated
+		// to support this breaking change. Particularly, email subscribe
+		// forms on the frontend.
 		return new \WP_REST_Response(
 			array(
 				'status'  => $status,
@@ -942,24 +917,26 @@ class Mailing_Lists {
 	}
 
 	/**
-	 * Gets a 6-digit numeric email verification code.
+	 * Gets a random 6-digit numeric email verification code.
 	 *
 	 * @param string $email The subscriber's email address.
 	 * @param string $mailing_list The desired mailing list.
-	 * @param int    $tick A tick value to ID the generated code.
 	 *
 	 * @return string The 6-digit code.
 	 */
 	private static function get_email_verification_code(
 		string $email,
-		string $mailing_list,
-		int $tick
+		string $mailing_list
 	) : string {
-		// Use crc32 to generate an integer from the provided data.
-		$hash = abs( crc32( $email . $mailing_list . $tick . wp_salt() ) );
-		$code = substr( $hash, -3 ) . substr( $hash, 0, 3 );
-		// Pad to ensure 6-digit length.
-		$code = str_pad( $code, 6, '2', \STR_PAD_BOTH );
+
+		$transient_key = "ptc_email_verification_code_{$email}_{$mailing_list}";
+
+		$code = (string) get_transient( $transient_key );
+		if ( empty( $code ) || 6 !== strlen( $code ) ) {
+			$code = (string) rand(100000, 999999);
+			set_transient( $transient_key, $code, 15 * \MINUTE_IN_SECONDS );
+		}
+
 		return $code;
 	}
 
@@ -988,7 +965,7 @@ class Mailing_Lists {
 	private static function send_email_verification_request(
 		string $email,
 		string $mailing_list,
-		int $tick = -1
+		string $verification_type = 'token'
 	) : int {
 
 		// Check API request balance, return error code.
@@ -1000,13 +977,12 @@ class Mailing_Lists {
 		// Prepare to send verification email.
 		$response = null;
 
-		if ( $tick > -1 ) {
+		if ( 'code' === $verification_type ) {
 
 			// Prepare email verification code.
 			$email_verification_code = static::get_email_verification_code(
 				$email,
-				$mailing_list,
-				$tick
+				$mailing_list
 			);
 
 			// Send verification request email.
@@ -1017,7 +993,7 @@ class Mailing_Lists {
 				),
 				array(
 					'headers' => array(
-						'Authorization' => 'Basic ' . base64_encode( 'api:' . \PTC_MAILGUN_API_KEY ), // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode
+						'Authorization' => 'Basic ' . base64_encode( 'api:' . \PTC_MAILGUN_API_KEY ),
 					),
 					'body'    => array(
 						'from'                => sprintf(
@@ -1058,7 +1034,7 @@ class Mailing_Lists {
 				),
 				array(
 					'headers' => array(
-						'Authorization' => 'Basic ' . base64_encode( 'api:' . \PTC_MAILGUN_API_KEY ), // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode
+						'Authorization' => 'Basic ' . base64_encode( 'api:' . \PTC_MAILGUN_API_KEY ),
 					),
 					'body'    => array(
 						'from'                     => sprintf(
@@ -1123,8 +1099,7 @@ class Mailing_Lists {
 			if (
 				static::get_email_verification_code(
 					$email,
-					$mailing_list,
-					static::get_request_count( $email, $mailing_list ) - 1
+					$mailing_list
 				) !== $token
 			) {
 				return false;
@@ -1165,7 +1140,7 @@ class Mailing_Lists {
 			),
 			array(
 				'headers' => array(
-					'Authorization' => 'Basic ' . base64_encode( 'api:' . \PTC_MAILGUN_API_KEY ), // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode
+					'Authorization' => 'Basic ' . base64_encode( 'api:' . \PTC_MAILGUN_API_KEY ),
 				),
 				'body'    => array(
 					'address'    => $email_verification['email'],
