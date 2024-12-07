@@ -56,3 +56,4 @@ foreach ( glob( THEME_PATH . '/classes/public/class-*.php' ) as $file ) {
 Captcha::register();
 HTML_Routes::register();
 Mailing_Lists::register();
+Woocommerce::register();
