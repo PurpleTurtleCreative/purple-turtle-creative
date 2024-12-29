@@ -74,6 +74,7 @@ function enqueue_scripts() {
 			break;
 
 		case 'email-verification.php':
+		case 'manual-download.php':
 			$theme_stylesheet = '/template_html-route-endpoint.css';
 			break;
 

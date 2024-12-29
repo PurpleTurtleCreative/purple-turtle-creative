@@ -1,5 +1,40 @@
 body {
 
+	&.file-manual-download-php {
+
+		.ptc-manual-download-form {
+			@extend .banner;
+			padding: 3em;
+
+			form {
+				display: flex;
+				flex-direction: column;
+				justify-content: space-between;
+				gap: 2em;
+
+				label {
+					display: flex;
+					flex-direction: column;
+
+					span {
+						color: color(black);
+					}
+				}
+
+				.form-row-captcha-submit {
+					display: flex;
+					flex-direction: row;
+					flex-wrap: wrap;
+					gap: 1em;
+
+					[type="submit"] {
+						flex: 1;
+					}
+				}
+			}
+		}
+	}
+
 	#primary {
 
 		> * {

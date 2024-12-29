@@ -13,7 +13,8 @@ input[type="time"],
 input[type="datetime"],
 input[type="datetime-local"],
 input[type="color"],
-textarea {
+textarea,
+select {
 	background: color(off-white);
 	border: 1px solid color(grey-lightest);
 	border-radius: rem-calc(5);
@@ -26,7 +27,7 @@ textarea {
 }
 
 select {
-	border: 1px solid color(grey-lightest);
+	height: 2.5em;
 }
 
 textarea {
@@ -129,5 +130,32 @@ fieldset {
 		border: rem-calc(7) solid color(grey-lightest);
 		border-top: rem-calc(7) solid color(primary);
 		animation: ptc-loader-spin 1.5s linear infinite;
+	}
+}
+
+.cf-turnstile {
+	flex: 0 0 300px;
+	display: flex;
+	min-width: 300px;
+	min-height: 65px;
+	margin: 0;
+	line-height: 0;
+	outline: 1px solid color(grey-lightest);
+	outline-offset: -1px;
+	border-radius: 7px;
+	border-radius: rem-calc(7);
+	overflow: hidden;
+
+	&:empty {
+		align-items: center;
+		justify-content: center;
+		background-color: color(grey-lightest);
+
+		&::before {
+			content: "Loading CAPTCHA widget...";
+			font-size: 0.8rem;
+			font-style: italic;
+			color: color(grey);
+		}
 	}
 }

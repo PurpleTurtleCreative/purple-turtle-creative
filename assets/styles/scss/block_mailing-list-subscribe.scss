@@ -41,32 +41,5 @@
 				white-space: nowrap;
 			}
 		}
-
-		.cf-turnstile {
-			flex: 0 0 300px;
-			display: flex;
-			min-width: 300px;
-			min-height: 65px;
-			margin: 0;
-			line-height: 0;
-			outline: 1px solid color(grey-lightest);
-			outline-offset: -1px;
-			border-radius: 7px;
-			border-radius: rem-calc(7);
-			overflow: hidden;
-
-			&:empty {
-				align-items: center;
-				justify-content: center;
-				background-color: color(grey-lightest);
-
-				&::before {
-					content: "Loading CAPTCHA widget...";
-					font-size: 0.8rem;
-					font-style: italic;
-					color: color(grey);
-				}
-			}
-		}
 	}
 }
