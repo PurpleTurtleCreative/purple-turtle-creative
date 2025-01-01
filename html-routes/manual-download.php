@@ -24,7 +24,7 @@ $event_params = array(
 );
 
 if ( $email && $license_key ) {
-	$event_params['user_id'] = wp_hash( "{$email}_{$license_key}" );
+	$event_params['user_id'] = wp_hash( $license_key );
 }
 
 // Record GA4 event.

@@ -200,7 +200,7 @@ class Manual_Downloads {
 			array(
 				'event_category'     => 'manual_download',
 				'event_label'        => $resource_path,
-				'user_id'            => wp_hash( "{$email}_{$license_key}" ),
+				'user_id'            => wp_hash( $license_key ),
 				'http_response_code' => $res['code'],
 			)
 		);
