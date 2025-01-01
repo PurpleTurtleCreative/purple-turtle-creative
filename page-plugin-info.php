@@ -63,7 +63,7 @@ get_header();
 						</li>
 						<li>
 							<h3>Released:</h3>
-							<p title="<?php echo esc_attr( $plugin_info->last_updated ); ?>">
+							<p>
 								<?php
 								$last_updated_date = date_create_from_format( 'Y-m-d H:i:s', $plugin_info->last_updated );
 								echo esc_html( human_time_diff( date_timestamp_get( $last_updated_date ) ) . ' ago' );
