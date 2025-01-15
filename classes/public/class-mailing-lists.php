@@ -820,7 +820,6 @@ class Mailing_Lists {
 					'v:email_verification_url' => $email_verification_url,
 					'o:tracking-clicks'        => 'no', // HTTPS errors occur and are no longer supported for Flex plan.
 					'o:tracking-opens'         => 'yes',
-					'o:tag'                    => 'email-verification',
 					'o:tag'                    => 'confirm-subscription',
 				),
 			)
