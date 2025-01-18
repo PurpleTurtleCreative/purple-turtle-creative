@@ -55,7 +55,7 @@ require_once THEME_PATH . '/classes/public/class-html-routes.php';
 
 					<section class="col-links">
 						<h2 class="h6">Plugins</h2>
-						<a style="cursor:pointer;">Completionist<br /><small style="color:#e4e6fd;font-weight:300;">&#9584; Asana for WordPress</small></a>
+						<a style="cursor:pointer;" href="<?php echo esc_url( site_url( '/completionist/' ) ); ?>">Completionist<br /><small style="color:#e4e6fd;font-weight:300;">&#9584; Asana for WordPress</small></a>
 						<h2 class="h6">Contact</h2>
 						<a href="mailto:michelle@purpleturtlecreative.com">Michelle Blanchette</a>
 					</section>
