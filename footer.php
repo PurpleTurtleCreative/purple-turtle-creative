@@ -55,8 +55,7 @@ require_once THEME_PATH . '/classes/public/class-html-routes.php';
 
 					<section class="col-links">
 						<h2 class="h6">Plugins</h2>
-						<a href="<?php echo esc_url( site_url( '/completionist/' ) ); ?>">Completionist</a>
-						<a href="<?php echo esc_url( 'https://wordpress.org/plugins/grouped-content/' ); ?>" target="_blank">Grouped Content</a>
+						<a style="cursor:pointer;">Completionist<br /><small style="color:#e4e6fd;font-weight:300;">&#9584; Asana for WordPress</small></a>
 						<h2 class="h6">Contact</h2>
 						<a href="mailto:michelle@purpleturtlecreative.com">Michelle Blanchette</a>
 					</section>
@@ -84,13 +83,6 @@ require_once THEME_PATH . '/classes/public/class-html-routes.php';
 							<p>
 								<small>Storage with</small>
 								Dropbox
-							</p>
-						</a>
-						<a class="referral-badge codeable" href="https://www.codeable.io/?ref=VET12" target="_blank" rel="sponsored nofollow">
-							<?php svg( 'codeable-logo.svg' ); ?>
-							<p>
-								<small>Support by</small>
-								Codeable
 							</p>
 						</a>
 					</div>
