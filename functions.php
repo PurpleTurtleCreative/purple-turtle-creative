@@ -57,3 +57,13 @@ Captcha::register();
 HTML_Routes::register();
 Mailing_Lists::register();
 Manual_Downloads::register();
+
+// WP Rocket - https://docs.wp-rocket.me/article/1835-automatic-lazy-rendering
+add_filter(
+	'rocket_lrc_exclusions',
+	function ( $exclusions ) {
+		$exclusions[] = 'class="wave-trim-bottom"';
+		$exclusions[] = 'class="wave-trim-top"';
+		return $exclusions;
+	}
+);
