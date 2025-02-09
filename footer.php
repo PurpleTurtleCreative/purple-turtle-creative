@@ -33,7 +33,7 @@ require_once THEME_PATH . '/classes/public/class-html-routes.php';
 						</div>
 						<div class="site-description">
 							<p><?php echo get_bloginfo( 'description' ); ?></p>
-							<p class="llc-notice"><small>Purple&nbsp;Turtle&nbsp;Creative,&nbsp;LLC is a limited liability company registered&nbsp;with&nbsp;New&nbsp;York&nbsp;State.</small></p>
+							<p class="has-color has-primary-light-color"><small>Purple&nbsp;Turtle&nbsp;Creative,&nbsp;LLC is a limited liability company registered&nbsp;with&nbsp;New&nbsp;York&nbsp;State.</small></p>
 						</div>
 						<div class="button-group left">
 							<a class="referral-badge linkedin" href="https://www.linkedin.com/company/purple-turtle-creative" target="_blank">
@@ -87,9 +87,13 @@ require_once THEME_PATH . '/classes/public/class-html-routes.php';
 						</a>
 					</div>
 				</div>
+
+				<div class="has-color has-primary-light-color has-text-align-center">
+					<p style="margin:0;"><small>Purple&nbsp;Turtle&nbsp;Creative,&nbsp;LLC is not affiliated with, endorsed by, or in any way associated with any third-party brands or trademarks mentioned on this website. All trademarks, service marks, and brand names are the property of their respective owners.</small></p>
+				</div>
 			</div>
 		</div><!-- .footer-main -->
-	<?php endif; // is not html endpoint. ?>
+		<?php endif; // is not html endpoint. ?>
 
 		<div class="site-info">
 			<div class="content-width">
