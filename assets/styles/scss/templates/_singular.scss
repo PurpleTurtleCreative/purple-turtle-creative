@@ -5,7 +5,6 @@ $header_wave_trim_distance: 20vh;
 // -------------------------
 
 body.file-singular-php {
-	background-color: color(off-white);
 
 	main.site-main {
 		margin-bottom: rem-calc(120);
@@ -86,7 +85,7 @@ body.file-singular-php {
 					z-index: 10;
 					background-color: color(true-white);
 					border-radius: rem-calc(10);
-					border: 2px solid color(grey-lightest);
+					border: 2px solid transparent;
 					padding: rem-calc(10 15 15);
 
 					@include breakpoint(small) {
@@ -97,6 +96,11 @@ body.file-singular-php {
 						padding: rem-calc(45 60);
 					}
 				}
+			}
+
+			.article-footer {
+				position: relative;
+				z-index: 10;
 			}
 		}
 	}

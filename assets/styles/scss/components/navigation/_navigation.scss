@@ -8,14 +8,14 @@
 		align-items: center;
 		justify-content: space-between;
 		flex-wrap: wrap;
+		gap: rem-calc(20);
 
 		> * {
 			display: block;
 			width: 100%;
-			margin: .3em 0;
 
 			@include breakpoint( medium ) {
-				width: calc( 50% - .5em ); // for space-between margin
+				flex: 1;
 			}
 
 			a {
@@ -25,15 +25,13 @@
 				border-radius: rem-calc(10);
 				text-decoration: none;
 				background: color(true-white);
-				box-shadow: 0 #{spacing(gutter-half)} #{spacing(gutter-half)} color(grey-lightest);
+				border: 2px solid color(grey-lightest);
 				overflow: hidden; // ensure border-radius clips children
-				transition: all 100ms ease-out;
 
 				&:hover,
 				&:focus,
 				&:active {
-					transform: translateY( #{math.div(spacing(gutter), 4)} );
-					box-shadow: 0 #{math.div(spacing(gutter), 8)} #{math.div(spacing(gutter), 8)} color(grey-lightest);
+					border-color: color(primary);
 
 					.nav-icon {
 						color: color(true-white);
@@ -68,30 +66,17 @@
 
 		.nav-previous {
 			text-align: left;
-
-			.nav-icon {
-				border-right: 1px solid color(grey-lightest);
-			}
 		}
 
 		.nav-next {
 			text-align: right;
 			margin-left: auto; // justify right when no nav-previous
 
-			.nav-icon {
-				border-left: 1px solid color(grey-lightest);
-			}
-
 			@include breakpoint-down( medium ) {
 				text-align: left;
 
 				a {
 					flex-direction: row-reverse;
-
-					.nav-icon {
-						border-left: none;
-						border-right: 1px solid color(grey-lightest);
-					}
 				}
 			}
 		}

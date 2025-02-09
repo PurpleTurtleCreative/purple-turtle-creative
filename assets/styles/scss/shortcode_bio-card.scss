@@ -4,23 +4,32 @@
 	background: color(true-white);
 	border: 2px solid color(grey-lightest);
 	border-radius: rem-calc(10);
-	padding: rem-calc(30 15);
 	text-align: center;
+	padding: rem-calc(30 15);
+
+	@include breakpoint(small) {
+		padding: rem-calc(30);
+	}
 
 	@include breakpoint(medium) {
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: center;
 		text-align: left;
-		padding: rem-calc(40 30);
+		padding: rem-calc(45 60);
 	}
 
 	.user-avatar {
-		margin-right: rem-calc(30);
-		text-align: inherit;
+		margin-right: 0;
+
+		@include breakpoint(medium) {
+			margin-right: rem-calc(30);
+		}
 
 		img {
+			display: inline;
 			border-radius: 999px;
+			box-shadow: none;
 		}
 	}
 

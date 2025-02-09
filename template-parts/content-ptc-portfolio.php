@@ -58,4 +58,6 @@ $project_url    = get_field( 'ptc_project_url' );
 		</div><!-- .entry-content -->
 	</div>
 
+	<?php get_template_part( 'template-parts/article', 'footer' ); ?>
+
 </article><!-- #post-<?php the_ID(); ?> -->
