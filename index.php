@@ -32,30 +32,19 @@ get_header();
 					echo wp_kses_post( $before_page_title . '<span>' . single_post_title( '', false ) . '</span>' . $after_page_title );
 				} elseif ( is_search() ) {
 					echo wp_kses_post( $before_page_title . 'Search Results for:<br /><span>' . get_search_query() . '</span>' . $after_page_title );
-				} elseif ( is_post_type_archive( 'ptc-portfolio' ) ) {
-					echo wp_kses_post( $before_page_title . '<span>' . post_type_archive_title( '', false ) . '</span>' . $after_page_title );
 				} elseif ( is_404() ) {
 					echo wp_kses_post( $before_page_title . 'Error <span>Not Found</span>' . $after_page_title );
 				} else {
 					the_archive_title( $before_page_title, $after_page_title );
 				}
 
-				if (
-					! is_post_type_archive( 'ptc-portfolio' ) &&
-					! is_tax( 'skill' )
-				) {
-					get_search_form();
-				}
+				get_search_form();
 				?>
 
 				<div class="all-categories">
 					<?php
-					if ( is_post_type_archive( 'ptc-portfolio' ) ) {
-						all_categories( 'skill' );
-					} else {
-						// Note the taxonomy is blank for regular post archive.
-						all_categories( $GLOBALS['wp_query']->get( 'taxonomy' ) );
-					}
+					// Note the taxonomy is blank for regular post archive.
+					all_categories( $GLOBALS['wp_query']->get( 'taxonomy' ) );
 					?>
 				</div>
 
