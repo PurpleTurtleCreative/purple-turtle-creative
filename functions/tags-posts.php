@@ -73,23 +73,13 @@ function all_categories( string $taxonomy = '', string $category_template = '<a 
 	}
 
 	/* Start with All Posts link */
-	if ( 'skill' === $taxonomy ) {
-		$category_links = sprintf(
-			$category_template,
-			get_post_type_archive_link( 'ptc-portfolio' ),
-			'All Projects',
-			wp_count_posts( 'ptc-portfolio' )->publish,
-			( is_post_type_archive( 'ptc-portfolio' ) ) ? 'active' : ''
-		);
-	} else {
-		$category_links = sprintf(
-			$category_template,
-			get_post_type_archive_link( 'post' ),
-			'All Posts',
-			wp_count_posts( 'post' )->publish,
-			( is_home() ) ? 'active' : ''
-		);
-	}
+	$category_links = sprintf(
+		$category_template,
+		get_post_type_archive_link( 'post' ),
+		'All Posts',
+		wp_count_posts( 'post' )->publish,
+		( is_home() ) ? 'active' : ''
+	);
 
 	/*
 	 * Apply an active class only when viewing a category archive.

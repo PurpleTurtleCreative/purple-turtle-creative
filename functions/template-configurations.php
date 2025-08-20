@@ -72,13 +72,6 @@ function customize_wp_query( $query ) {
 		// Search should only return blog posts.
 		$query->set( 'post_type', array( 'post' ) );
 	}
-	if ( $query->is_main_query() && $query->is_post_type_archive( 'ptc-portfolio' ) ) {
-		// Sort portfolio posts by project start date.
-		$query->set( 'order', 'DESC' );
-		$query->set( 'orderby', 'meta_value_num' );
-		// ACF date field value is stored like 20220728 (YYYYMMDD).
-		$query->set( 'meta_key', 'ptc_project_end' );
-	}
 }
 
 /**
