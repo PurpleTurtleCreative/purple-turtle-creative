@@ -38,7 +38,6 @@ define(
 define(
 	'PTC_Theme\ASYNC_SCRIPTS',
 	array(
-		'mkaz-code-syntax-prism-js',
 		'cf-turnstile',
 	)
 );
