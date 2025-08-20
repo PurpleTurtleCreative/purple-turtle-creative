@@ -21,7 +21,7 @@ samp {
 		padding: 1em 1.5em .8em;
 	}
 
-	&[class*="language-"] {
+	&[data-shcb-language-slug] {
 		overflow: hidden;
 		padding: 0;
 	}
@@ -46,13 +46,13 @@ var {
 	word-break: break-word;
 	hyphens: none;
 
-	&[class*="language-"] {
+	&.hljs[lang] {
 		@include font(code);
 		display: block;
-		padding: 1em 1em .8em !important;
+		padding: 1em 1em !important;
 
 		@include breakpoint(medium) {
-			padding: 1em 1.5em .8em !important;
+			padding: 1em 1.5em !important;
 		}
 	}
 
@@ -73,28 +73,27 @@ pre.wp-block-code code {
 	overflow-x: auto;
 }
 
-/* PLUGIN: Code Syntax Block */
+/* PLUGIN: Syntax Highlighting Code Block */
 
-pre[class*="language-"] {
+.wp-block-code[data-shcb-language-slug] {
 	position: relative;
 
-	&[class*="language-"]:before {
-		@include font(body, body-bold);
-		content: 'code';
-		text-transform: uppercase;
-		display: block;
-		text-align: right;
-		color: color(off-white);
-		position: absolute;
-		right: .4rem;
-		top: .2rem;
-		font-size: .7em;
-		letter-spacing: .1em;
-	}
+	code.hljs[lang] {
+		margin: 0;
 
-	@each $lang in (bash, css, javascript, json, php) {
-		&.language-#{$lang}:before {
-			content: '#{$lang}';
+		&::before {
+			@include font(body, body-bold);
+			content: attr(lang);
+			text-transform: uppercase;
+			display: block;
+			text-align: right;
+			color: color(off-white);
+			position: absolute;
+			right: .4rem;
+			top: .2rem;
+			font-size: .7em;
+			letter-spacing: .1em;
+			line-height: 1.5em;
 		}
 	}
 }

@@ -110,9 +110,8 @@ function dequeue_unused_scripts() {
 	}
 
 	if ( 'singular.php' !== $current_template ) {
-		wp_dequeue_style( 'mkaz-code-syntax-prism-css' );
-		wp_dequeue_style( 'mkaz-code-syntax-css' );
-		wp_dequeue_script( 'mkaz-code-syntax-prism-js' );
+		wp_dequeue_style( 'syntax-highlighting-code-block-theme' );
+		wp_dequeue_style( 'syntax-highlighting-code-block' );
 	}
 }
 

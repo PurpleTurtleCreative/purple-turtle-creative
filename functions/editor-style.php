@@ -11,7 +11,17 @@ defined( 'ABSPATH' ) || die();
 
 add_action( 'init', __NAMESPACE__ . '\register_block_customizations', 10 );
 add_action( 'enqueue_block_editor_assets', __NAMESPACE__ . '\enqueue_block_editor_assets', 999 );
-add_filter( 'mkaz_code_syntax_language_list', __NAMESPACE__ . '\mkaz_code_syntax_language_list', 999, 1 );
+add_filter( 'syntax_highlighting_code_block_auto_detect_languages', __NAMESPACE__ . '\syntax_highlighting_code_block_auto_detect_languages', 999, 1 );
+
+/**
+ * @link https://github.com/westonruter/syntax-highlighting-code-block/wiki/Advanced-Usage
+ */
+add_filter(
+	'syntax_highlighting_code_block_style',
+	function() {
+		return 'night-owl';
+	}
+);
 
 // Remove SVG definitions for duotones.
 remove_action( 'wp_body_open', 'wp_global_styles_render_svg_filters' );
@@ -72,17 +82,16 @@ function enqueue_block_editor_assets() {
 /**
  * Only allow supported code languages to be used.
  *
- * @see wp-content/plugins/code-syntax-block/prism-languages.php
- * @see wp-content/themes/purple-turtle-creative/assets/styles/sass/base/elements/_code.scss
+ * @link https://github.com/westonruter/syntax-highlighting-code-block/blob/61c9a16b5c854a63636262d3eed624e677e64f40/language-names.php
  *
  * @param string[] $languages The array of prism languages.
  */
-function mkaz_code_syntax_language_list( $languages ) {
+function syntax_highlighting_code_block_auto_detect_languages( $languages ) {
 	return array(
-		'bash'       => 'Bash/Shell',
-		'css'        => 'CSS',
-		'javascript' => 'JavaScript',
-		'json'       => 'JSON',
-		'php'        => 'PHP',
+		'bash',
+		'css',
+		'javascript',
+		'json',
+		'php',
 	);
 }
