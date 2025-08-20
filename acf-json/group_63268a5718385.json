@@ -16,8 +16,7 @@
                 "id": ""
             },
             "choices": {
-                "post": "Blog Posts",
-                "ptc-portfolio": "Portfolio Projects"
+                "post": "Blog Posts"
             },
             "default_value": false,
             "allow_null": 0,

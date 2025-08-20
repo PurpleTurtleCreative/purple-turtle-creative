@@ -63,24 +63,3 @@ body.archive {
 		@import "../components/content/posts-loop";
 	}
 }
-
-/****************************/
-/* SPECIFIC TEMPLATE TWEAKS */
-/****************************/
-
-body.post-type-archive-ptc-portfolio,
-body.archive.tax-skill {
-	main.site-main {
-		.posts-loop {
-			article.ptc-portfolio {
-				flex-basis: 100%;
-				width: 100%;
-
-				h2.entry-title {
-					@extend .h2;
-					margin: spacing(gutter-half) 0 0;
-				}
-			}
-		}
-	}
-}

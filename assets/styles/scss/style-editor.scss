@@ -9,8 +9,7 @@ body {
 	}
 
 	/* Editor main column width */
-	&.post-type-post,
-	&.post-type-ptc-portfolio {
+	&.post-type-post {
 
 		.wp-block {
 			max-width: 51.025rem; // to match (most) actual line breaks
