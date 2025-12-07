@@ -97,44 +97,10 @@
 					}
 				}
 			}
-
-			.referrals {
-				flex: 1;
-				flex-basis: 100%;
-				width: 100%;
-				margin: 0 auto 1em;
-
-				@include breakpoint(medium) {
-					margin: 1em auto;
-				}
-
-				> p {
-					width: 100%;
-					text-align: center;
-					padding: 0.3em 1em;
-					margin: 0;
-				}
-
-				.button-group {
-					margin: rem-calc(10 0);
-				}
-			}
 		}
 	}//.footer-main
 
 	.referral-badge {
-
-		&.wp-rocket {
-			svg {
-				width: 2em;
-			}
-		}
-
-		&.codeable {
-			svg {
-				width: 1.5em;
-			}
-		}
 
 		&:hover,
 		&:focus,
