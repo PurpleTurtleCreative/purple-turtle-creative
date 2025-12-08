@@ -33,7 +33,6 @@ require_once THEME_PATH . '/classes/public/class-html-routes.php';
 						</div>
 						<div class="site-description">
 							<p><?php echo get_bloginfo( 'description' ); ?></p>
-							<p class="has-color has-primary-light-color"><small>Purple&nbsp;Turtle&nbsp;Creative,&nbsp;LLC is a limited liability company registered&nbsp;with&nbsp;New&nbsp;York&nbsp;State.</small></p>
 						</div>
 						<div class="button-group left">
 							<a class="referral-badge linkedin" href="https://www.linkedin.com/company/purple-turtle-creative" target="_blank">
@@ -59,7 +58,6 @@ require_once THEME_PATH . '/classes/public/class-html-routes.php';
 						<h2 class="h6">Recent</h2>
 						<?php the_recent_posts(); ?>
 					</section>
-
 					<section class="col-links">
 						<h2 class="h6">Plugins</h2>
 						<a style="cursor:pointer;" href="<?php echo esc_url( site_url( '/completionist/' ) ); ?>">Completionist<br /><small style="color:#e4e6fd;font-weight:300;">&#9584; Asana for WordPress</small></a>
@@ -67,10 +65,6 @@ require_once THEME_PATH . '/classes/public/class-html-routes.php';
 						<h2 class="h6">Contact</h2>
 						<a href="mailto:michelle@purpleturtlecreative.com">Michelle Blanchette</a>
 					</section>
-				</div>
-
-				<div class="has-color has-primary-light-color has-text-align-center">
-					<p><small>Purple&nbsp;Turtle&nbsp;Creative,&nbsp;LLC is not affiliated with, endorsed by, or in any way associated with any third-party brands or trademarks mentioned on this website. All trademarks, service marks, and brand names are the property of their respective owners.</small></p>
 				</div>
 			</div>
 		</div><!-- .footer-main -->
