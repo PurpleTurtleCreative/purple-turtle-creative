@@ -1,4 +1,5 @@
-a {
+a,
+a:is(:not(.wp-element-button)) {
 	color: color(primary);
 	font-weight: font-weight(body-bold);
 	text-decoration: none;

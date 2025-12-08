@@ -9,7 +9,7 @@ namespace PTC_Theme;
 
 defined( 'ABSPATH' ) || die();
 
-add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\enqueue_scripts', 10 );
+add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\enqueue_scripts', \PHP_INT_MAX );
 add_action( 'wp_print_styles', __NAMESPACE__ . '\dequeue_unused_scripts', 100 );
 add_filter( 'print_scripts_array', __NAMESPACE__ . '\optimize_script_loading', \PHP_INT_MAX, 1 );
 add_filter( 'block_type_metadata', __NAMESPACE__ . '\enqueue_block_scripts' );

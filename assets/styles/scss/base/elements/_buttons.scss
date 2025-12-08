@@ -133,7 +133,8 @@ input[type="submit"] {
 	}
 }
 
-a.badge {
+a.badge,
+a:is(:not(.wp-element-button)).badge {
 	color: color(true-white);
 	text-decoration: none;
 
@@ -146,6 +147,8 @@ a.badge {
 	}
 
 	&-dark {
+		color: color(true-white);
+		text-decoration: none;
 
 		&:hover,
 		&:focus,

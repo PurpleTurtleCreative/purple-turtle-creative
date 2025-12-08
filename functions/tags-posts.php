@@ -97,6 +97,17 @@ function all_categories( string $taxonomy = '', string $category_template = '<a 
 				( $queried_taxonomy === $c->taxonomy && $queried_term === $c->slug ) ? 'active' : ''
 			);
 		}
+	} elseif ( is_category() ) {
+		$current_category = get_queried_object();
+		foreach ( $categories as $c ) {
+			$category_links .= sprintf(
+				$category_template,
+				get_category_link( $c ),
+				$c->name,
+				$c->count,
+				( isset( $current_category->term_id ) && $current_category->term_id === $c->term_id ) ? 'active' : ''
+			);
+		}
 	} else {
 		foreach ( $categories as $c ) {
 			$category_links .= sprintf(

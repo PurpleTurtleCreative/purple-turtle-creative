@@ -1,4 +1,5 @@
-.referral-badge {
+.referral-badge,
+a:is(:not(.wp-element-button)).referral-badge {
 	@extend .button__link;
 	display: flex;
 	align-items: center;
@@ -26,7 +27,8 @@
 	}
 }
 
-.pill-badge {
+.pill-badge,
+a:is(:not(.wp-element-button)).pill-badge {
 	@extend .badge;
 	color: color(black);
 	background-color: color(grey-lightest);
